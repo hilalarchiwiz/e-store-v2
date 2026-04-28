@@ -120,8 +120,8 @@ export default function QuickViewModal({
               key={i}
               onClick={() => setActiveIdx(i)}
               className={`relative shrink-0 size-[80px] md:size-[90px] rounded-xl overflow-hidden border-2 transition-colors ${activeIdx === i
-                  ? "border-primary"
-                  : "border-transparent hover:border-gray-300"
+                ? "border-primary"
+                : "border-transparent hover:border-gray-300"
                 }`}
             >
               {!imgErrors[i] ? (
@@ -183,8 +183,8 @@ export default function QuickViewModal({
                 <span
                   key={i}
                   className={`material-symbols-outlined text-[16px] ${i < product.rating
-                      ? "text-yellow-400 fill-1"
-                      : "text-gray-300"
+                    ? "text-yellow-400 fill-1"
+                    : "text-gray-300"
                     }`}
                 >
                   star
@@ -286,8 +286,8 @@ export default function QuickViewModal({
             <button
               onClick={onToggleWishlist}
               className={`w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors ${isInWishlist
-                  ? "bg-red-500 text-white hover:bg-red-600"
-                  : "bg-[#1a2744] dark:bg-[#2a3a2f] text-white hover:bg-[#243060] dark:hover:bg-[#3a4a3f]"
+                ? "bg-red-500 text-white hover:bg-red-600"
+                : "bg-[#1a2744] dark:bg-[#2a3a2f] text-white hover:bg-[#243060] dark:hover:bg-[#3a4a3f]"
                 }`}
             >
               <span
@@ -301,7 +301,7 @@ export default function QuickViewModal({
 
           {/* View full details link */}
           <Link
-            href={`/v2/product/${product.id}`}
+            href={`/product/${product.id}`}
             onClick={onClose}
             className="text-center text-sm text-primary font-semibold hover:underline mt-1"
           >

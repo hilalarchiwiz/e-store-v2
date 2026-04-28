@@ -56,7 +56,7 @@ export default async function AboutPageV2() {
       </section>
 
       <div className="max-w-300 mx-auto w-full px-6 -mt-8 relative z-20 mb-10">
-        <Breadcrumbs items={[{ label: 'Home', href: '/v2' }, { label: 'About Us' }]} />
+        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About Us' }]} />
       </div>
 
       {/* 2. Who We Are */}

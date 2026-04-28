@@ -21,7 +21,7 @@ const FAQPage = async () => {
     <main className="flex-1 max-w-[1200px] mx-auto w-full px-6 py-10 md:py-20 flex flex-col gap-10">
       <Breadcrumbs
         items={[
-          { label: 'Home', href: '/v2' },
+          { label: 'Home', href: '/' },
           { label: 'Frequently Asked Questions' }
         ]}
       />

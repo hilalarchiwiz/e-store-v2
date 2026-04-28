@@ -24,8 +24,8 @@ export async function addToWishlist(productId: number) {
       });
     }
 
-    revalidatePath('/v2/wishlist');
-    revalidatePath('/v2/shop');
+    revalidatePath('//wishlist');
+    revalidatePath('//shop');
     return { success: true };
   } catch (error) {
     console.error("Error adding to wishlist:", error);
@@ -38,7 +38,7 @@ export async function removeFromWishlist(wishlistId: number) {
     await prisma.wishlist.delete({
       where: { id: wishlistId },
     });
-    revalidatePath('/v2/wishlist');
+    revalidatePath('//wishlist');
     return { success: true };
   } catch (error) {
     console.error("Error removing from wishlist:", error);
@@ -52,8 +52,8 @@ export async function removeFromWishlistByProductId(productId: number) {
     await prisma.wishlist.deleteMany({
       where: { productId, anonymousId },
     });
-    revalidatePath('/v2/wishlist');
-    revalidatePath('/v2/shop');
+    revalidatePath('//wishlist');
+    revalidatePath('//shop');
     return { success: true };
   } catch (error) {
     console.error("Error removing from wishlist:", error);
@@ -79,7 +79,7 @@ export async function getWishlist() {
 }
 
 export async function getWishlistProductIds() {
-   try {
+  try {
     const anonymousId = await getOrCreateAnonymousId();
     const items = await prisma.wishlist.findMany({
       where: { anonymousId },
