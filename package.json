@@ -45,6 +45,7 @@
     "lucide-react": "^0.561.0",
     "next": "16.0.10",
     "nextjs-toploader": "^3.9.17",
+    "nodemailer": "^8.0.7",
     "postcss": "^8.5.6",
     "prisma": "^7.2.0",
     "react": "19.2.1",
@@ -65,6 +66,7 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^20.19.27",
+    "@types/nodemailer": "^8.0.0",
     "@types/pg": "^8.16.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
