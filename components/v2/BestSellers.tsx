@@ -73,7 +73,7 @@ const BestSellers: React.FC<BestSellersProps> = ({ products = [] }) => {
             return (
               <Link
                 key={product.id}
-                href={`/v2/product/${product.id}`}
+                href={`/product/${product.id}`}
                 className="bg-white dark:bg-[#2a3a2f] rounded-2xl group relative shadow-sm hover:shadow-xl transition-all duration-300 block overflow-hidden"
               >
                 {/* Image */}

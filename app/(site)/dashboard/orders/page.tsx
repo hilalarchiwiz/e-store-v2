@@ -117,7 +117,7 @@ export default function OrdersPage() {
                     <td className="px-8 py-6 text-primary">Rs.{Number(order.total).toFixed(2)}</td>
                     <td className="px-8 py-6 text-right">
                       <Link
-                        href={`/v2/dashboard/orders/${order.orderNumber}`}
+                        href={`/dashboard/orders/${order.orderNumber}`}
                         className="inline-flex items-center gap-1.5 text-xs font-black text-[#648770] hover:text-primary transition-colors bg-[#f1f4f2] dark:bg-white/5 hover:bg-primary/10 px-3 py-2 rounded-xl"
                       >
                         <span className="material-symbols-outlined text-base">visibility</span>

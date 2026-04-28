@@ -134,7 +134,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
 
     params.set("page", "1");
 
-    router.push(`/v2/shop?${params.toString()}`);
+    router.push(`/shop?${params.toString()}`);
   };
 
   const handleCategoryChange = (id: number) => {

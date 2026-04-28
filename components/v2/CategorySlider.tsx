@@ -19,23 +19,23 @@ function CategoryCard({ cat }: { cat: Category }) {
 
   return (
     <Link
-      href={`/v2/shop?category=${encodeURIComponent(cat.name)}`}
+      href={`/shop?category=${encodeURIComponent(cat.name)}`}
       className="flex flex-col items-center w-36 lg:w-48 shrink-0 group gap-4 cursor-pointer"
     >
       <div className="relative w-36 h-36 lg:w-48 lg:h-48 rounded-full bg-[#1b211d] dark:bg-[#1a201c] border border-gray-200 dark:border-white/5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)] dark:shadow-none group-hover:bg-gray-100 dark:group-hover:bg-[#252d28] group-hover:scale-[1.03] transition-all duration-300 flex items-center justify-center overflow-hidden">
         {/* Image */}
         {!imgError && (
           <div className="absolute inset-0 p-4">
-             <div className="relative w-full h-full rounded-full overflow-hidden">
-                 <Image
-                  src={cat.image}
-                  alt={cat.name}
-                  fill
-                  sizes="(max-width: 1024px) 144px, 192px"
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  onError={() => setImgError(true)}
-                />
-             </div>
+            <div className="relative w-full h-full rounded-full overflow-hidden">
+              <Image
+                src={cat.image}
+                alt={cat.name}
+                fill
+                sizes="(max-width: 1024px) 144px, 192px"
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
+                onError={() => setImgError(true)}
+              />
+            </div>
           </div>
         )}
 
@@ -82,7 +82,7 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ categories = [] }) => {
           </h2>
           <div className="w-12 h-0.75 bg-primary rounded-full mt-3" />
         </div>
-        
+
         {/* Navigation Buttons */}
         <div className="hidden sm:flex gap-2">
           <button

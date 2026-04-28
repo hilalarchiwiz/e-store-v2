@@ -192,7 +192,7 @@ export default function Cart() {
                         </div>
                         <div>
                           <Link
-                            href={`/v2/product/${item.product.id}`}
+                            href={`/product/${item.product.id}`}
                             className="text-base font-black text-[#121714] dark:text-white hover:text-primary transition-colors leading-snug line-clamp-2"
                           >
                             {item.product.title}

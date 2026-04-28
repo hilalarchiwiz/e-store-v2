@@ -142,7 +142,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     return (
       <>
         <Link
-          href={`/v2/product/${id}`}
+          href={`/product/${id}`}
           className="group bg-white dark:bg-[#1a251d] rounded-2xl border border-[#dce5df] dark:border-[#2a3a30] overflow-hidden flex flex-row shadow-sm hover:shadow-xl transition-all duration-300"
         >
           {/* Image */}
@@ -245,7 +245,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <>
       <Link
-        href={`/v2/product/${id}`}
+        href={`/product/${id}`}
         className="group bg-white dark:bg-[#1a251d] rounded-2xl border border-[#dce5df] dark:border-[#2a3a30] overflow-hidden flex flex-col shadow-sm hover:shadow-xl transition-all duration-300"
       >
         <div className="relative h-64 overflow-hidden bg-[#f1f4f2] dark:bg-[#2a3a2f]">

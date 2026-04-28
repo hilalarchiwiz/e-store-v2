@@ -143,7 +143,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product, relatedProduct
           {/* Category badge */}
           {product.category && (
             <Link
-              href={`/v2/shop?category=${product.category.id ?? ""}`}
+              href={`/shop?category=${product.category.id ?? ""}`}
               className="inline-flex w-fit items-center gap-1.5 bg-primary/10 text-primary text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full hover:bg-primary/20 transition-colors"
             >
               <span className="material-symbols-outlined text-[14px]">category</span>

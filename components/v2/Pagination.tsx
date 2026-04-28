@@ -18,7 +18,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
     if (page < 1 || page > totalPages || page === currentPage) return;
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", page.toString());
-    router.push(`/v2/shop?${params.toString()}`);
+    router.push(`/shop?${params.toString()}`);
   };
 
   const getPageNumbers = (): (number | "...")[] => {
@@ -62,11 +62,10 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
           <button
             key={page}
             onClick={() => goToPage(page as number)}
-            className={`${btnBase} ${
-              page === currentPage
-                ? "bg-primary text-white shadow-lg shadow-primary/30"
-                : "border border-[#dce5df] dark:border-[#2a3a30] text-[#111713] dark:text-white hover:bg-primary/5 hover:border-primary"
-            }`}
+            className={`${btnBase} ${page === currentPage
+              ? "bg-primary text-white shadow-lg shadow-primary/30"
+              : "border border-[#dce5df] dark:border-[#2a3a30] text-[#111713] dark:text-white hover:bg-primary/5 hover:border-primary"
+              }`}
           >
             {page}
           </button>

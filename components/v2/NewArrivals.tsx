@@ -71,7 +71,7 @@ const NewArrivals: React.FC<NewArrivalsProps> = ({ products = [] }) => {
             {products.slice(0, 6).map((product, idx) => (
               <Link
                 key={product.id}
-                href={`/v2/product/${product.id}`}
+                href={`/product/${product.id}`}
                 className="bg-white dark:bg-[#2a3a2f] p-4 rounded-2xl group relative shadow-sm hover:shadow-xl transition-all duration-300 block"
               >
                 {/* Image container */}

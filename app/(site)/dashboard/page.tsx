@@ -154,7 +154,7 @@ export default function DashboardPage() {
                     <tr key={order.id} className="hover:bg-primary/5 transition-colors group">
                       <td className="px-8 py-6 text-[#121714] dark:text-white font-black">
                         <Link
-                          href={`/v2/dashboard/orders/${order.orderNumber}`}
+                          href={`/dashboard/orders/${order.orderNumber}`}
                           className="hover:text-primary transition-colors"
                         >
                           {order.orderNumber}

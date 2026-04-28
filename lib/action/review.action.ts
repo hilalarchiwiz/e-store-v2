@@ -25,7 +25,7 @@ export async function createReview(data: CreateReviewData) {
       }
     });
 
-    revalidatePath(`/v2/product/${data.productId}`);
+    revalidatePath(`/product/${data.productId}`);
     return { success: true, review };
   } catch (error) {
     console.error("Error creating review:", error);

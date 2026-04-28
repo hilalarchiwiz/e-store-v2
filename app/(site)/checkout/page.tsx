@@ -194,7 +194,7 @@ export default function CheckoutPage() {
       if (result.success) {
         dispatch(removeAllItemsFromCart());
         toast.success("Order placed successfully!");
-        router.push(`/v2/order-confirmation/${result.orderNumber}`);
+        router.push(`/order-confirmation/${result.orderNumber}`);
       } else {
         toast.error(result.error ?? "Failed to place order");
       }

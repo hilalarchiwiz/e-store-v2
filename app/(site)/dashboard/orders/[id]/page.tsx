@@ -176,7 +176,7 @@ export default function OrderDetailsPage() {
                   </div>
                   <div className="flex-1">
                     <Link
-                      href={`/v2/product/${item.product.id}`}
+                      href={`/product/${item.product.id}`}
                       className="text-base font-black text-[#121714] dark:text-white group-hover:text-primary transition-colors"
                     >
                       {item.product.title}

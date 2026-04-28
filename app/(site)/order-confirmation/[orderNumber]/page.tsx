@@ -83,7 +83,7 @@ export default async function OrderConfirmationPage({
                   </div>
                   <div className="flex-1 min-w-0">
                     <Link
-                      href={`/v2/product/${item.product.id}`}
+                      href={`/product/${item.product.id}`}
                       className="font-black text-sm text-[#121714] dark:text-white hover:text-primary transition-colors line-clamp-2"
                     >
                       {item.product.title}

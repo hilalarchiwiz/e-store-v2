@@ -131,7 +131,7 @@ const WishlistPage = () => {
               >
                 {/* Image */}
                 <Link
-                  href={`/v2/product/${product.id}`}
+                  href={`/product/${product.id}`}
                   className="size-28 rounded-xl overflow-hidden flex-shrink-0 bg-[#f1f4f2] dark:bg-[#2a3a2f]"
                 >
                   <Image
@@ -147,15 +147,15 @@ const WishlistPage = () => {
                 <div className="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-4 w-full">
                   <div className="flex flex-col gap-1.5">
                     <Link
-                      href={`/v2/product/${product.id}`}
+                      href={`/product/${product.id}`}
                       className="text-lg font-black text-[#121714] dark:text-white hover:text-primary transition-colors leading-snug"
                     >
                       {product.title}
                     </Link>
                     <span
                       className={`self-start text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded ${inStock
-                          ? "bg-green-100 text-green-600"
-                          : "bg-red-100 text-red-600"
+                        ? "bg-green-100 text-green-600"
+                        : "bg-red-100 text-red-600"
                         }`}
                     >
                       {inStock ? "In Stock" : "Out of Stock"}

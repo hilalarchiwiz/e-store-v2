@@ -101,7 +101,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
               <li><Link className="hover:text-primary transition-colors" href="/recently-viewed">Recently Viewed</Link></li>
               {pages && pages.map((page: any) => (
                 <li key={page.id}>
-                  <Link className="hover:text-primary transition-colors" href={`/v2/${page.slug}`}>
+                  <Link className="hover:text-primary transition-colors" href={`/${page.slug}`}>
                     {page.title}
                   </Link>
                 </li>
