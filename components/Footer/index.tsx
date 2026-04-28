@@ -216,7 +216,7 @@ const Footer = async ({ footer_setting }) => {
                 </Link>
               </li>
               <li>
-                <Link className="ease-out duration-200 hover:text-blue" href="/signin">
+                <Link className="ease-out duration-200 hover:text-blue" href="/register">
                   Login / Register
                 </Link>
               </li>

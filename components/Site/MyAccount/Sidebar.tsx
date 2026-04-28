@@ -37,7 +37,7 @@ const Sidebar = () => {
         setIsLoggingOut(false); // Close modal only if there is an error
       } else {
         dispatch(logoutUser());
-        router.push("/signin");
+        router.push("/register");
       }
     } catch (err) {
       toast.error("An unexpected error occurred");
@@ -71,11 +71,10 @@ const Sidebar = () => {
           <div className="flex flex-wrap xl:flex-nowrap xl:flex-col gap-4">
             <Link
               href={"/my-account"}
-              className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-blue hover:text-white ${
-                pathname === "/my-account"
+              className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-blue hover:text-white ${pathname === "/my-account"
                   ? "text-white bg-blue"
                   : "text-dark-2 bg-gray-1"
-              }`}
+                }`}
             >
               <svg
                 className="fill-current"
@@ -114,11 +113,10 @@ const Sidebar = () => {
             </Link>
             <Link
               href={"/my-account/orders"}
-              className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-blue hover:text-white ${
-                pathname === "/my-account/orders"
+              className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-blue hover:text-white ${pathname === "/my-account/orders"
                   ? "text-white bg-blue"
                   : "text-dark-2 bg-gray-1"
-              }`}
+                }`}
             >
               <svg
                 className="fill-current"
@@ -151,11 +149,10 @@ const Sidebar = () => {
             </Link>
             <Link
               href={"/my-account/addresses"}
-              className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-blue hover:text-white ${
-                pathname === "/my-account/addresses"
+              className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-blue hover:text-white ${pathname === "/my-account/addresses"
                   ? "text-white bg-blue"
                   : "text-dark-2 bg-gray-1"
-              }`}
+                }`}
             >
               <svg
                 className="fill-current"
@@ -215,11 +212,10 @@ const Sidebar = () => {
             <button
               onClick={handleSignOut}
               disabled={isLoggingOut}
-              className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-blue hover:text-white ${
-                pathname === "/my-account/logout"
+              className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-blue hover:text-white ${pathname === "/my-account/logout"
                   ? "text-white bg-blue"
                   : "text-dark-2 bg-gray-1"
-              }`}
+                }`}
             >
               <svg
                 className="fill-current"

@@ -234,7 +234,7 @@ const Header = ({ user, categories, setting, footer_setting }) => {
                       </div>
                     </Link>
                   ) : (
-                    <Link href="/signin" className="flex items-center gap-2.5">
+                    <Link href="/register" className="flex items-center gap-2.5">
                       <svg
                         width="24"
                         height="24"

@@ -15,7 +15,7 @@ const SignOut = () => {
             toast.error(error.message || 'error message')
         } else {
             dispatch(logoutUser())
-            router.push("/signin")
+            router.push("/register")
         }
     }
     return (

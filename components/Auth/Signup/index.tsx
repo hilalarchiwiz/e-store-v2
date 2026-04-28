@@ -73,7 +73,7 @@ const Signup = () => {
         setServerError(res.error.message || "An error occurred during signup.");
         setLoading(false);
       } else {
-        router.push("/signin");
+        router.push("/register");
       }
     } catch (err) {
       setServerError("A network error occurred. Please try again.");
@@ -160,7 +160,7 @@ const Signup = () => {
 
                 <p className="text-center mt-6 text-dark-4">
                   Already have an account?
-                  <Link href="/signin" className="text-dark font-medium ease-out duration-200 hover:text-blue pl-2">
+                  <Link href="/register" className="text-dark font-medium ease-out duration-200 hover:text-blue pl-2">
                     Sign in Now
                   </Link>
                 </p>

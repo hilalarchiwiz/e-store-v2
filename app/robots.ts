@@ -11,7 +11,7 @@ export default function robots(): MetadataRoute.Robots {
                 '/admin/',
                 '/cart',
                 '/checkout',
-                '/signin',
+                '/register',
                 '/signup',
                 '/order-confirmation/',
                 '/wishlist',

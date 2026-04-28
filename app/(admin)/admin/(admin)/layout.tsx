@@ -35,7 +35,7 @@ export default async function AdminLayout({ children }) {
             redirect('/')
         }
     } else {
-        redirect('/signin')
+        redirect('/register')
     }
     const user = await prisma.user.findUnique({
         where: { id: session?.user.id },

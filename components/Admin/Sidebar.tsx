@@ -83,7 +83,7 @@ export default function Sidebar({ permissions }) {
                 setIsLoggingOut(false); // Close modal only if there is an error
             } else {
                 dispatch(logoutUser());
-                router.push("/signin");
+                router.push("/register");
             }
         } catch (err) {
             toast.error("An unexpected error occurred");

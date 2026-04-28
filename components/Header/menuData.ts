@@ -59,7 +59,7 @@ export const menuData: Menu[] = [
   //       id: 67,
   //       title: "Sign in",
   //       newTab: false,
-  //       path: "/signin",
+  //       path: "/register",
   //     },
   //     {
   //       id: 68,
