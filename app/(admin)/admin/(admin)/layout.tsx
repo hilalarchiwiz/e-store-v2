@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
     };
 }
 
-export default async function AdminLayout({ children }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
     const session = await generateSession();
     const role = session?.user?.roleName;
     if (session && session.user) {

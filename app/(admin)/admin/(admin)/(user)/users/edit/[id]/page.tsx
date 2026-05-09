@@ -38,7 +38,7 @@ export default async function UpdateUserPage({ params }: { params: { id: string 
                         <select name='roleName' defaultValue={user?.roleName || ''} className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-emerald-500 transition-colors">
                             <option value="">Select Role</option>
                             {
-                                roles && roles.map(role => {
+                                roles && roles.map((role: any) => {
                                     return (
                                         <option key={role.id} value={role.name}>{role.name}</option>
                                     )

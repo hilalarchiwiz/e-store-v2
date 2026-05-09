@@ -43,7 +43,12 @@ const RegisterForm = () => {
     const confirmPassword = formData.get("confirmPassword") as string;
 
     // Validate
-    const result = registerSchema.safeParse({ name, email, password, confirmPassword });
+    const result = registerSchema.safeParse({
+      name,
+      email,
+      password,
+      confirmPassword,
+    });
 
     if (!result.success) {
       const fieldErrors: { [key: string]: string } = {};
@@ -87,7 +92,7 @@ const RegisterForm = () => {
     try {
       await signIn.social({
         provider: "google",
-        callbackURL: "/v2/dashboard",
+        callbackURL: "/dashboard",
       });
     } catch (err) {
       toast.error("Google login failed");

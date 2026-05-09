@@ -1,12 +1,6 @@
 import "../css/style.css";
 import { Metadata } from "next";
-import { Manrope } from "next/font/google";
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-manrope",
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
-});
+// Manrope font is now loaded via Google Fonts link in head for build stability
 
 export const metadata: Metadata = {
   title: "Ecomare v2 | Sustainable Eco-Conscious Shopping",
@@ -23,19 +17,27 @@ import NavigationProgress from "@/components/v2/NavigationProgress";
 import { getSiteSettings } from "@/lib/action/settings.action";
 import CartInitializer from "@/components/v2/CartInitializer";
 
-export default async function V2Layout({ children }: { children: React.ReactNode }) {
+export default async function V2Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const settings = await getSiteSettings();
 
   return (
     <html
       lang="en"
-      className={`${manrope.variable}`}
+      className="font-manrope"
       suppressHydrationWarning={true}
     >
       <head>
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+          rel="stylesheet"
         />
       </head>
       <body className="font-display">
@@ -46,7 +48,7 @@ export default async function V2Layout({ children }: { children: React.ReactNode
           <div className="flex flex-col min-h-screen">
             <div className="flex-1">
               <div className="bg-background-light dark:bg-background-dark min-h-screen text-[#121714] dark:text-white font-display transition-colors duration-300">
-                <TopBar generalSetting={settings.generalSetting} />
+                {/* <TopBar generalSetting={settings.generalSetting} /> */}
                 <Header logo={settings.logo} />
                 {children}
                 <Footer

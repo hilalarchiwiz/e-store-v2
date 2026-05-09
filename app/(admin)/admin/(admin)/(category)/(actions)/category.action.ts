@@ -5,7 +5,7 @@ import { withPermission } from "@/lib/action-utils"
 import { uploadImage } from '@/lib/action/FileUpload'
 import { PAGE_SIZE } from '@/lib/constant'
 import prisma from '@/lib/prisma'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 // 1. Get All Categories
@@ -55,8 +55,8 @@ export async function createCategory(prevData: any, formData: FormData) {
         if (!validatedFields.success) {
             const errors = validatedFields.error.flatten().fieldErrors;
             // Get first error only
-            const firstErrorField = Object.keys(errors)[0];
-            const firstErrorMessage = errors[firstErrorField][0];
+            const firstErrorField = Object.keys(errors)[0] as keyof typeof errors;
+            const firstErrorMessage = firstErrorField ? errors[firstErrorField]?.[0] : "Validation failed";
 
             return {
                 success: false,
@@ -101,6 +101,7 @@ export async function createCategory(prevData: any, formData: FormData) {
 
         revalidatePath('/admin/category');
         revalidatePath('/');
+        (revalidateTag as any)('categories');
         return { success: true, message: "Category created successfully" };
     });
 
@@ -144,8 +145,8 @@ export async function updateCategory(categoryId: number | undefined, prevData: a
         if (!validatedFields.success) {
             const errors = validatedFields.error.flatten().fieldErrors;
             // Get first error only
-            const firstErrorField = Object.keys(errors)[0];
-            const firstErrorMessage = errors[firstErrorField][0];
+            const firstErrorField = Object.keys(errors)[0] as keyof typeof errors;
+            const firstErrorMessage = firstErrorField ? errors[firstErrorField]?.[0] : "Validation failed";
             return {
                 success: false,
                 errors,
@@ -200,6 +201,7 @@ export async function updateCategory(categoryId: number | undefined, prevData: a
 
         revalidatePath('/admin/category');
         revalidatePath('/');
+        (revalidateTag as any)('categories');
         return { success: true, message: "Category updated successfully" };
     });
 }
@@ -220,6 +222,7 @@ export async function deleteCategory(categoryId: string) {
 
         revalidatePath('/admin/category');
         revalidatePath('/');
+        (revalidateTag as any)('categories');
         return { success: true, message: "Category deleted successfully" };
     });
 }

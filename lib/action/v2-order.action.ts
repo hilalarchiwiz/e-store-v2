@@ -181,9 +181,9 @@ export async function placeOrder(input: PlaceOrderInput) {
       return newOrder;
     });
 
-    revalidatePath("/v2/cart");
-    revalidatePath("/v2/checkout");
-    revalidatePath("/v2/dashboard/orders");
+    revalidatePath("/cart");
+    revalidatePath("/checkout");
+    revalidatePath("/dashboard/orders");
 
     return { success: true, orderId: order.id, orderNumber: order.orderNumber };
   } catch (error: any) {

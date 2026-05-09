@@ -49,8 +49,8 @@ export async function createBrand(prevData: any, formData: FormData) {
         if (!validatedFields.success) {
             const errors = validatedFields.error.flatten().fieldErrors;
             // Get first error only
-            const firstErrorField = Object.keys(errors)[0];
-            const firstErrorMessage = errors[firstErrorField][0];
+            const firstErrorField = Object.keys(errors)[0] as keyof typeof errors;
+            const firstErrorMessage = firstErrorField ? errors[firstErrorField]?.[0] : "Validation failed";
 
             return {
                 success: false,
@@ -107,8 +107,8 @@ export async function updateBrand(id: number | undefined, prevData: any, formDat
         if (!validatedFields.success) {
             const errors = validatedFields.error.flatten().fieldErrors;
             // Get first error only
-            const firstErrorField = Object.keys(errors)[0];
-            const firstErrorMessage = errors[firstErrorField][0];
+            const firstErrorField = Object.keys(errors)[0] as keyof typeof errors;
+            const firstErrorMessage = firstErrorField ? errors[firstErrorField]?.[0] : "Validation failed";
             return {
                 success: false,
                 errors,

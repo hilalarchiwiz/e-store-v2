@@ -57,7 +57,7 @@ export async function createAddress(data: AddressData) {
       data: { ...data, isDefault, userId: user.id },
     });
 
-    revalidatePath("/v2/dashboard/addresses");
+    revalidatePath("/dashboard/addresses");
     return { success: true };
   } catch (error) {
     return { success: false, error: (error as Error).message };
@@ -83,7 +83,7 @@ export async function updateAddress(id: string, data: AddressData) {
 
     await prisma.address.update({ where: { id }, data });
 
-    revalidatePath("/v2/dashboard/addresses");
+    revalidatePath("/dashboard/addresses");
     return { success: true };
   } catch (error) {
     return { success: false, error: (error as Error).message };
@@ -115,7 +115,7 @@ export async function deleteAddress(id: string) {
       }
     }
 
-    revalidatePath("/v2/dashboard/addresses");
+    revalidatePath("/dashboard/addresses");
     return { success: true };
   } catch (error) {
     return { success: false, error: (error as Error).message };
@@ -137,7 +137,7 @@ export async function setDefaultAddress(id: string) {
     });
     await prisma.address.update({ where: { id }, data: { isDefault: true } });
 
-    revalidatePath("/v2/dashboard/addresses");
+    revalidatePath("/dashboard/addresses");
     return { success: true };
   } catch (error) {
     return { success: false, error: (error as Error).message };

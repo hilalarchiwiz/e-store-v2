@@ -22,7 +22,11 @@ export default async function V2HomePage() {
     where: { status: "active" },
     include: {
       _count: {
-        select: { products: true },
+        select: { 
+          products: {
+            where: { status: "active" }
+          } 
+        },
       },
     },
   });
@@ -77,6 +81,10 @@ export default async function V2HomePage() {
     orderBy: { orderItems: { _count: "desc" } },
     take: 12,
   });
+
+  console.log("DEBUG: NEW ARRIVALS COUNT:", newArrivalsData.length);
+  console.log("DEBUG: BEST SELLERS COUNT:", bestSellersData.length);
+  console.log("DEBUG: SAMPLE BEST SELLER:", bestSellersData[0] ? { title: bestSellersData[0].title, status: bestSellersData[0].status } : "NONE");
 
   const bestSellers = bestSellersData.map((product) => {
     const discountPercent =

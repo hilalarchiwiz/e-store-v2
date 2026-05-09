@@ -1,5 +1,5 @@
 'use server'
-import { revalidatePath } from "next/cache"
+import { revalidatePath, unstable_cache } from "next/cache"
 import { PAGE_SIZE } from "../constant"
 import generateSession from "../generate-session"
 import prisma from "../prisma"
@@ -20,150 +20,158 @@ interface BillingAddressInput {
     email: string;
 }
 
-export async function getSliders() {
-    try {
-        const sliders = await prisma.slider.findMany({
-            orderBy: {
-                createdAt: 'desc'
-            }
-        })
+export const getSliders = unstable_cache(
+    async () => {
+        try {
+            const sliders = await prisma.slider.findMany({
+                orderBy: {
+                    createdAt: 'desc'
+                }
+            })
 
-        if (sliders.length === 0) {
-            return {
-                success: true,
-                message: 'No sliders found.',
-                sliders: []
-            }
-        }
-
-        return {
-            success: true,
-            message: 'sliders fetched successfully',
-            sliders: sliders,
-        }
-
-    } catch (err) {
-        // 3. Improve error handling by checking if the error is a recognized type
-        const error = err as Error | { message: string }
-
-        console.error('Error fetching sliders:', error) // Log the error for debugging
-
-        return {
-            success: false,
-            message: error.message || 'An unknown error occurred while fetching categories.',
-        }
-    }
-}
-
-export async function getCategories({ searchParams = {} } = {}) {
-    try {
-        const { brand, search } = searchParams;
-
-        // Build the base where clause (excluding current category selection)
-        const baseWhere: any = {};
-        if (brand) baseWhere.brandId = Number(brand);
-        if (search) {
-            baseWhere.OR = [
-                { title: { contains: search, mode: 'insensitive' } },
-                { description: { contains: search, mode: 'insensitive' } }
-            ];
-        }
-
-        const categories = await prisma.category.findMany({
-            include: {
-                _count: {
-                    select: {
-                        products: {
-                            where: {
-                                ...baseWhere,
-                                status: 'active'
-                            }
-
-                        }
-                    }
+            if (sliders.length === 0) {
+                return {
+                    success: true,
+                    message: 'No sliders found.',
+                    sliders: []
                 }
             }
-        });
 
-        if (categories.length === 0) {
             return {
                 success: true,
-                message: 'No categories found.',
-                categories: []
+                message: 'sliders fetched successfully',
+                sliders: sliders,
+            }
+
+        } catch (err) {
+            const error = err as Error | { message: string }
+            console.error('Error fetching sliders:', error)
+            return {
+                success: false,
+                message: error.message || 'An unknown error occurred while fetching categories.',
             }
         }
+    },
+    ['sliders'],
+    { tags: ['sliders'] }
+);
 
-        return {
-            success: true,
-            message: 'categories fetched successfully',
-            categories: categories,
-        }
+export async function getCategories({ searchParams = {} }: { searchParams?: any } = {}) {
+    const fetchCategories = unstable_cache(
+        async (params: any) => {
+            try {
+                const { brand, search } = params;
+                const baseWhere: any = {};
+                if (brand) baseWhere.brandId = Number(brand);
+                if (search) {
+                    baseWhere.OR = [
+                        { title: { contains: search, mode: 'insensitive' } },
+                        { description: { contains: search, mode: 'insensitive' } }
+                    ];
+                }
 
-    } catch (err) {
-        // 3. Improve error handling by checking if the error is a recognized type
-        const error = err as Error | { message: string }
-
-        console.error('Error fetching categories:', error) // Log the error for debugging
-
-        return {
-            success: false,
-            message: error.message || 'An unknown error occurred while fetching categories.',
-        }
-    }
-}
-
-export async function getBrands({ searchParams = {} } = {}) {
-    try {
-        const { category, minPrice, maxPrice, search } = searchParams;
-
-        const baseWhere: any = {};
-        if (category) baseWhere.categoryId = Number(category);
-        if (search) {
-            baseWhere.OR = [
-                { title: { contains: search, mode: 'insensitive' } },
-                { description: { contains: search, mode: 'insensitive' } }
-            ];
-        }
-        const brands = await prisma.brand.findMany({
-            include: {
-                _count: {
-                    select: {
-                        products: {
-                            where: {
-                                ...baseWhere,
-                                status: 'active' // Add this
+                const categories = await prisma.category.findMany({
+                    include: {
+                        _count: {
+                            select: {
+                                products: {
+                                    where: {
+                                        ...baseWhere,
+                                        status: 'active'
+                                    }
+                                }
                             }
                         }
                     }
+                });
+
+                if (categories.length === 0) {
+                    return {
+                        success: true,
+                        message: 'No categories found.',
+                        categories: []
+                    }
+                }
+
+                return {
+                    success: true,
+                    message: 'categories fetched successfully',
+                    categories: categories,
+                }
+
+            } catch (err) {
+                const error = err as Error | { message: string }
+                console.error('Error fetching categories:', error)
+                return {
+                    success: false,
+                    message: error.message || 'An unknown error occurred while fetching categories.',
                 }
             }
-        });
+        },
+        ['categories'],
+        { tags: ['categories'] }
+    );
 
-        if (brands.length === 0) {
-            return {
-                success: true,
-                message: 'No brands found.',
-                brands: []
+    return fetchCategories(searchParams);
+}
+
+export async function getBrands({ searchParams = {} }: { searchParams?: any } = {}) {
+    const fetchBrands = unstable_cache(
+        async (params: any) => {
+            try {
+                const { category, search } = params;
+
+                const baseWhere: any = {};
+                if (category) baseWhere.categoryId = Number(category);
+                if (search) {
+                    baseWhere.OR = [
+                        { title: { contains: search, mode: 'insensitive' } },
+                        { description: { contains: search, mode: 'insensitive' } }
+                    ];
+                }
+                const brands = await prisma.brand.findMany({
+                    include: {
+                        _count: {
+                            select: {
+                                products: {
+                                    where: {
+                                        ...baseWhere,
+                                        status: 'active'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                if (brands.length === 0) {
+                    return {
+                        success: true,
+                        message: 'No brands found.',
+                        brands: []
+                    }
+                }
+
+                return {
+                    success: true,
+                    message: 'brands fetched successfully',
+                    brands: brands,
+                }
+
+            } catch (err) {
+                const error = err as Error | { message: string }
+                console.error('Error fetching brands:', error)
+                return {
+                    success: false,
+                    message: error.message || 'An unknown error occurred while fetching categories.',
+                }
             }
-        }
+        },
+        ['brands'],
+        { tags: ['brands'] }
+    );
 
-        return {
-            success: true,
-            message: 'brands fetched successfully',
-            brands: brands,
-        }
-
-    } catch (err) {
-        // 3. Improve error handling by checking if the error is a recognized type
-        const error = err as Error | { message: string }
-
-        console.error('Error fetching brands:', error) // Log the error for debugging
-
-        return {
-            success: false,
-            message: error.message || 'An unknown error occurred while fetching categories.',
-        }
-    }
+    return fetchBrands(searchParams);
 }
 
 export async function getProductById(id: number) {
@@ -280,119 +288,122 @@ export async function getProducts({
         stock?: boolean;
     }
 }) {
-    try {
-        const { category, brand, minPrice, maxPrice, sort, page = "1", search, stock } = searchParams;
-        const session = await generateSession();
-        const userId = session?.user.id;
-        const anonymousId = await getOrCreateAnonymousId();
-        const currentPage = Math.max(Number(page), 1);
-        const skip = (currentPage - 1) * PAGE_SIZE;
+    const fetchProducts = unstable_cache(
+        async (catId: number | undefined, params: any) => {
+            try {
+                const { category, brand, minPrice, maxPrice, sort, page = "1", search, stock } = params;
+                const session = await generateSession();
+                const userId = session?.user.id;
+                const anonymousId = await getOrCreateAnonymousId();
+                const currentPage = Math.max(Number(page), 1);
+                const skip = (currentPage - 1) * PAGE_SIZE;
 
-        // 1. Build the filter object
-        const where: any = {
-            status: 'active' // Add this line - filter only active products
-        };
-        if (categoryId) {
-            where.categoryId = categoryId;
-        } else if (category) {
-            where.categoryId = Number(category);
-        }
-        if (stock == true) {
-            where.quantity = { gt: 0 };
-        }
-
-        if (search) {
-            where.OR = [
-                ...(where.OR || []),
-                { title: { contains: search, mode: 'insensitive' } },
-                { description: { contains: search, mode: 'insensitive' } }
-            ];
-        }
-        if (brand) {
-            where.brandId = Number(brand);
-        }
-
-        // Price Logic
-        if (minPrice || maxPrice) {
-            const min = minPrice ? Number(minPrice) : 0;
-            const max = maxPrice ? Number(maxPrice) : 9999999;
-
-            where.OR = [
-                { discountedPrice: { gte: min, lte: max } },
-                {
-                    AND: [
-                        { OR: [{ discountedPrice: null }, { discountedPrice: 0 }] },
-                        { price: { gte: min, lte: max } }
-                    ]
+                const where: any = {
+                    status: 'active'
+                };
+                if (catId) {
+                    where.categoryId = catId;
+                } else if (category) {
+                    where.categoryId = Number(category);
                 }
-            ];
-        }
+                if (stock == true) {
+                    where.quantity = { gt: 0 };
+                }
 
-        // 2. Build the Sort object
-        let orderBy: any = { createdAt: "desc" }; // Default
-        switch (sort) {
-            case "price-asc": orderBy = { price: "asc" }; break;
-            case "price-desc": orderBy = { price: "desc" }; break;
-            case "a-z": orderBy = { title: "asc" }; break;
-            case "z-a": orderBy = { title: "desc" }; break;
-            case "oldest": orderBy = { createdAt: "asc" }; break;
-        }
+                if (search) {
+                    where.OR = [
+                        ...(where.OR || []),
+                        { title: { contains: search, mode: 'insensitive' } },
+                        { description: { contains: search, mode: 'insensitive' } }
+                    ];
+                }
+                if (brand) {
+                    where.brandId = Number(brand);
+                }
 
-        // 3. Execute Query
-        const [products, totalCount] = await Promise.all([
-            prisma.product.findMany({
-                where,
-                orderBy,
-                include: {
-                    category: true,
-                    brand: true,
-                    reviews: {
-                        select: {
-                            id: true,
-                            comment: true,
-                            rating: true,
-                            name: true,
-                            email: true,
+                if (minPrice || maxPrice) {
+                    const min = minPrice ? Number(minPrice) : 0;
+                    const max = maxPrice ? Number(maxPrice) : 9999999;
+
+                    where.OR = [
+                        { discountedPrice: { gte: min, lte: max } },
+                        {
+                            AND: [
+                                { OR: [{ discountedPrice: null }, { discountedPrice: 0 }] },
+                                { price: { gte: min, lte: max } }
+                            ]
                         }
-                    },
-                    wishlists: {
-                        where: {
-                            OR: [
-                                { userId: userId || undefined },
-                                { anonymousId: anonymousId || undefined }
-                            ].filter(condition => Object.values(condition)[0] !== undefined)
+                    ];
+                }
+
+                let orderBy: any = { createdAt: "desc" };
+                switch (sort) {
+                    case "price-asc": orderBy = { price: "asc" }; break;
+                    case "price-desc": orderBy = { price: "desc" }; break;
+                    case "a-z": orderBy = { title: "asc" }; break;
+                    case "z-a": orderBy = { title: "desc" }; break;
+                    case "oldest": orderBy = { createdAt: "asc" }; break;
+                }
+
+                const [products, totalCount] = await Promise.all([
+                    prisma.product.findMany({
+                        where,
+                        orderBy,
+                        include: {
+                            category: true,
+                            brand: true,
+                            reviews: {
+                                select: {
+                                    id: true,
+                                    comment: true,
+                                    rating: true,
+                                    name: true,
+                                    email: true,
+                                }
+                            },
+                            wishlists: {
+                                where: {
+                                    OR: [
+                                        { userId: userId || undefined },
+                                        { anonymousId: anonymousId || undefined }
+                                    ].filter(condition => Object.values(condition)[0] !== undefined)
+                                },
+                                select: {
+                                    id: true,
+                                    userId: true,
+                                    anonymousId: true,
+                                }
+                            }
                         },
-                        select: {
-                            id: true,
-                            userId: true,
-                            anonymousId: true,
-                        }
-                    }
-                },
-                take: PAGE_SIZE,
-                skip: skip
-            }),
-            prisma.product.count({ where })
-        ]);
+                        take: PAGE_SIZE,
+                        skip: skip
+                    }),
+                    prisma.product.count({ where })
+                ]);
 
+                const productsWithStatus = products.map(product => ({
+                    ...product,
+                    isInWishlist: product.wishlists.length > 0
+                }));
 
-        const productsWithStatus = products.map(product => ({
-            ...product,
-            isInWishlist: product.wishlists.length > 0
-        }));
+                return {
+                    success: true,
+                    products: productsWithStatus || [],
+                    totalCount: totalCount || 0,
+                    showingCount: products.length || 0,
+                    totalPages: Math.ceil(totalCount / PAGE_SIZE),
+                    currentPage,
+                };
+            } catch (err) {
+                console.error('Error fetching products:', err);
+                return { success: false, products: [], totalCount: 0, totalPages: 0, currentPage: 1 };
+            }
+        },
+        ['products'],
+        { tags: ['products'] }
+    );
 
-        return {
-            success: true,
-            products: productsWithStatus || [],
-            totalCount: totalCount || 0,
-            showingCount: products.length || 0,
-            totalPages: Math.ceil(totalCount / PAGE_SIZE),
-            currentPage,
-        };
-    } catch (err) {
-        console.error('Error fetching products:', err);
-        return { success: false, products: [], totalCount: 0, totalPages: 0, currentPage: 1 };
-    }
+    return fetchProducts(categoryId, searchParams);
 }
 
 export async function getPriceRange() {

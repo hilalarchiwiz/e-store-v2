@@ -3,7 +3,7 @@ import '../../../../css/style.css'
 import '../../../../css/euclid-circular-a-font.css'
 import generateSession from '@/lib/generate-session';
 import { redirect } from 'next/navigation';
-export default async function AdminLayout({ children }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
     const session = await generateSession();
     const role = session?.user?.role;
     if (session && role === "admin") {

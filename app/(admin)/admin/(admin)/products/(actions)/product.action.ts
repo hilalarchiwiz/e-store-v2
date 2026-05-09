@@ -3,9 +3,10 @@
 import { deleteMultipleImages } from "@/lib/action/FileUpload";
 import { PAGE_SIZE } from "@/lib/constant";
 import prisma from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { withPermission } from "@/lib/action-utils";
 import { ProductSchema } from "../validations/product";
+import { ProductStatus } from "@prisma/client";
 
 // --- Types & Helpers ---
 
@@ -20,7 +21,7 @@ interface ProductUpdateData {
     quantity: number;
     categoryId: number;
     subCategoryId?: number | null;
-    status: string;
+    status: ProductStatus;
     images: string[];
     specifications: { [key: string]: string };
     additionalInfo: string;
@@ -64,7 +65,7 @@ function extractAndValidateProductData(formData: FormData): ProductUpdateData {
         categoryId: parseInt(categoryIdString),
         subCategoryId: subCategoryIdString ? parseInt(subCategoryIdString) : null,
         quantity: Number(quantity),
-        status: status || 'active',
+        status: (status as ProductStatus) || ProductStatus.active,
         images: imageUrls,
         specifications,
         additionalInfo,
@@ -186,8 +187,8 @@ export async function createProduct(prevData: any, formData: FormData) {
         const productId = formData.get('productId');
         if (!validatedFields.success) {
             const errors = validatedFields.error.flatten().fieldErrors;
-            const firstErrorField = Object.keys(errors)[0];
-            const firstErrorMessage = errors[firstErrorField][0];
+            const firstErrorField = Object.keys(errors)[0] as keyof typeof errors;
+            const firstErrorMessage = firstErrorField ? errors[firstErrorField]?.[0] : "Validation failed";
             return {
                 success: false,
                 errors,
@@ -214,6 +215,9 @@ export async function createProduct(prevData: any, formData: FormData) {
         revalidatePath('/admin/products');
         revalidatePath('/shop');
         revalidatePath('/');
+        (revalidateTag as any)('products');
+        (revalidateTag as any)('categories');
+        (revalidateTag as any)('brands');
         return { success: true, id: product.id };
     });
 }
@@ -225,8 +229,8 @@ export async function updateProduct(productId: number | undefined, prevData: any
         const validatedFields = ProductSchema.safeParse(getRawData(formData));
         if (!validatedFields.success) {
             const errors = validatedFields.error.flatten().fieldErrors;
-            const firstErrorField = Object.keys(errors)[0];
-            const firstErrorMessage = errors[firstErrorField][0];
+            const firstErrorField = Object.keys(errors)[0] as keyof typeof errors;
+            const firstErrorMessage = firstErrorField ? errors[firstErrorField]?.[0] : "Validation failed";
             return {
                 success: false,
                 errors,
@@ -257,6 +261,9 @@ export async function updateProduct(productId: number | undefined, prevData: any
         revalidatePath('/admin/products');
         revalidatePath(`/shop-details/${oldProduct?.id}`);
         revalidatePath('/');
+        (revalidateTag as any)('products');
+        (revalidateTag as any)('categories');
+        (revalidateTag as any)('brands');
         return { success: true, message: "Product updated successfully." };
     });
 }
@@ -276,6 +283,9 @@ export async function deleteProduct(productId: string) {
 
         revalidatePath('/admin/products');
         revalidatePath('/');
+        (revalidateTag as any)('products');
+        (revalidateTag as any)('categories');
+        (revalidateTag as any)('brands');
         return { success: true, message: 'Product deleted successfully.' };
     });
 }

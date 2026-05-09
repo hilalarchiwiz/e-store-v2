@@ -119,7 +119,7 @@ export async function getWhatWeDoById(id: string) {
         });
         return {
             success: true,
-            whatwedo
+            whatwedo:whatwedo
         };
     } catch (err) {
         console.error('Error fetching brand by ID:', err);

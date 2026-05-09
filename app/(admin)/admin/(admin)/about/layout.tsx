@@ -1,7 +1,7 @@
 import Card from "@/components/Admin/Common/Card";
 import AboutSidebar from "@/components/Admin/Setting/AboutSidebar";
 
-export default async function AdminAboutLayout({ children }) {
+export default async function AdminAboutLayout({ children }: { children: React.ReactNode }) {
     return (
         <Card>
             <div className="md:flex block gap-6 p-6">

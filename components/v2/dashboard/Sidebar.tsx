@@ -7,11 +7,11 @@ import { useSession, signOut } from "@/lib/auth-client";
 import LogoutModal from "./LogoutModal";
 
 const menuItems = [
-  { label: "Dashboard", icon: "grid_view", href: "/v2/dashboard" },
-  { label: "My Orders", icon: "shopping_bag", href: "/v2/dashboard/orders" },
-  { label: "Addresses", icon: "location_on", href: "/v2/dashboard/addresses" },
-  { label: "Account Details", icon: "person", href: "/v2/dashboard/profile" },
-  { label: "Security", icon: "security", href: "/v2/dashboard/security" },
+  { label: "Dashboard", icon: "grid_view", href: "/dashboard" },
+  { label: "My Orders", icon: "shopping_bag", href: "/dashboard/orders" },
+  { label: "Addresses", icon: "location_on", href: "/dashboard/addresses" },
+  { label: "Account Details", icon: "person", href: "/dashboard/profile" },
+  { label: "Security", icon: "security", href: "/dashboard/security" },
 ];
 
 const DashboardSidebar = () => {
@@ -46,16 +46,26 @@ const DashboardSidebar = () => {
           <div className="flex items-center gap-4">
             <div className="size-16 rounded-2xl overflow-hidden border-2 border-primary/20 shrink-0">
               {avatar ? (
-                <img src={avatar} alt={name} className="w-full h-full object-cover" />
+                <img
+                  src={avatar}
+                  alt={name}
+                  className="w-full h-full object-cover"
+                />
               ) : (
                 <div className="w-full h-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-primary font-black text-lg">{initials}</span>
+                  <span className="text-primary font-black text-lg">
+                    {initials}
+                  </span>
                 </div>
               )}
             </div>
             <div className="min-w-0">
-              <h3 className="font-black text-[#121714] dark:text-white truncate">{name}</h3>
-              <p className="text-xs text-gray-400 font-medium truncate">{email}</p>
+              <h3 className="font-black text-[#121714] dark:text-white truncate">
+                {name}
+              </h3>
+              <p className="text-xs text-gray-400 font-medium truncate">
+                {email}
+              </p>
             </div>
           </div>
         </div>
@@ -69,12 +79,15 @@ const DashboardSidebar = () => {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className={`flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold ${isActive
+                    className={`flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold ${
+                      isActive
                         ? "bg-primary text-white shadow-lg shadow-primary/20"
                         : "text-[#648770] hover:bg-primary/5 hover:text-primary"
-                      }`}
+                    }`}
                   >
-                    <span className="material-symbols-outlined">{item.icon}</span>
+                    <span className="material-symbols-outlined">
+                      {item.icon}
+                    </span>
                     <span className="text-sm">{item.label}</span>
                   </Link>
                 </li>
@@ -95,7 +108,9 @@ const DashboardSidebar = () => {
             ) : (
               <span className="material-symbols-outlined">logout</span>
             )}
-            <span className="text-sm">{loggingOut ? "Logging out..." : "Logout"}</span>
+            <span className="text-sm">
+              {loggingOut ? "Logging out..." : "Logout"}
+            </span>
           </button>
         </div>
       </div>

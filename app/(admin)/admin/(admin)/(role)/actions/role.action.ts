@@ -59,8 +59,8 @@ export async function createRole(prevData: any, formData: FormData) {
         if (!validatedFields.success) {
             const errors = validatedFields.error.flatten().fieldErrors;
             // Get first error only
-            const firstErrorField = Object.keys(errors)[0];
-            const firstErrorMessage = errors[firstErrorField][0];
+            const firstErrorField = Object.keys(errors)[0] as keyof typeof errors;
+            const firstErrorMessage = firstErrorField ? errors[firstErrorField]?.[0] : "Validation failed";
 
             return {
                 success: false,
@@ -120,8 +120,8 @@ export async function updateRole(id: number | undefined, prevData: any, formData
         if (!validatedFields.success) {
             const errors = validatedFields.error.flatten().fieldErrors;
             // Get first error only
-            const firstErrorField = Object.keys(errors)[0];
-            const firstErrorMessage = errors[firstErrorField][0];
+            const firstErrorField = Object.keys(errors)[0] as keyof typeof errors;
+            const firstErrorMessage = firstErrorField ? errors[firstErrorField]?.[0] : "Validation failed";
 
             return {
                 success: false,

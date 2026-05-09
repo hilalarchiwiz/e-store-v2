@@ -1,6 +1,7 @@
 generator client {
-  provider   = "prisma-client-js"
-  engineType = "library"
+  provider        = "prisma-client-js"
+  engineType      = "library"
+  previewFeatures = ["fullTextSearchPostgres"]
 }
 
 datasource db {
@@ -67,7 +68,7 @@ model Product {
   quantity        Int              @default(1)
   discountedPrice Float?
   additionalInfo  String?          @db.Text
-  status          String           @default("active") // Consider using an Enum for status: @default(Active)
+  status          ProductStatus    @default(active)
   brandId         Int?
   categoryId      Int?
   subCategoryId   Int?
@@ -85,6 +86,16 @@ model Product {
   carts      Cart[]
   reviews    Review[]
   orderItems OrderItem[]
+
+  @@index([categoryId])
+  @@index([brandId])
+  @@index([status])
+}
+
+enum ProductStatus {
+  active
+  inactive
+  draft
 }
 
 model Slider {
@@ -315,6 +326,7 @@ model Order {
   @@index([userId])
   @@index([orderNumber])
   @@index([status])
+  @@index([paymentStatus])
   @@index([createdAt])
 }
 
@@ -399,7 +411,7 @@ model Faq {
 model Page {
   id        Int      @id @default(autoincrement())
   title     String
-  slug      String
+  slug      String   @unique
   content   String   @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -443,7 +455,7 @@ model Team {
 model Blog {
   id          Int      @id @default(autoincrement())
   title       String
-  slug        String
+  slug        String   @unique
   description String
   content     String   @db.Text
   image       String
@@ -451,6 +463,8 @@ model Blog {
   views       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([createdAt])
 }
 
 model Contact {

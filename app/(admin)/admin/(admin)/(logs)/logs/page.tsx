@@ -42,7 +42,7 @@ export default async function RolePage({
             accessor: (log: any) => {
                 const userName = log.user?.name || "System";
                 const userEmail = log.user?.email || "N/A";
-                const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                const initials = userName.split(' ').map((n: string) => n[0]).join('').toUpperCase().substring(0, 2);
                 return (
                     <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">

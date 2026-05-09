@@ -11,7 +11,7 @@ const FALLBACK_SLIDES: HeroSlide[] = [
     description:
       "Upgrade your home with planet-friendly essentials — curated for quality, sustainability, and effortless style.",
     img: "/images/hero/hero-bg.png",
-    link: "/v2/shop",
+    link: "/shop",
   },
 ];
 
@@ -34,7 +34,7 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
         setIsAnimating(false);
       }, 400);
     },
-    [isAnimating]
+    [isAnimating],
   );
 
   const next = useCallback(() => {
@@ -76,17 +76,20 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
 
   const slide = data[current];
 
-  const translateClass =
-    isAnimating
-      ? direction === "right"
-        ? "-translate-x-4 opacity-0"
-        : "translate-x-4 opacity-0"
-      : "translate-x-0 opacity-100";
+  const translateClass = isAnimating
+    ? direction === "right"
+      ? "-translate-x-4 opacity-0"
+      : "translate-x-4 opacity-0"
+    : "translate-x-0 opacity-100";
 
   return (
     <section
       className="relative w-full overflow-hidden rounded-2xl mx-auto mt-4 mb-2 shadow-2xl bg-[#0a1a0f]"
-      style={{ backgroundImage: `url('${slide.img}')`, backgroundSize: "cover", backgroundPosition: "center" }}
+      style={{
+        backgroundImage: `url('${slide.img}')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
       {/* Dark gradient overlays */}
       <div className="absolute inset-0 z-0 bg-linear-to-r from-black/80 via-black/50 to-black/10" />
@@ -113,7 +116,7 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
               <span key={i} className="text-primary">
                 {part}
               </span>
-            )
+            ),
           )}
         </h1>
 
@@ -164,10 +167,11 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
                 key={i}
                 onClick={() => handleDot(i)}
                 aria-label={`Go to slide ${i + 1}`}
-                className={`transition-all duration-300 rounded-full ${i === current
+                className={`transition-all duration-300 rounded-full ${
+                  i === current
                     ? "w-8 h-2.5 bg-primary"
                     : "w-2.5 h-2.5 bg-white/40 hover:bg-white/70"
-                  }`}
+                }`}
               />
             ))}
           </div>
@@ -182,14 +186,18 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
             aria-label="Previous slide"
             className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-white hover:bg-primary hover:border-primary transition-all shadow-lg"
           >
-            <span className="material-symbols-outlined text-xl">chevron_left</span>
+            <span className="material-symbols-outlined text-xl">
+              chevron_left
+            </span>
           </button>
           <button
             onClick={handleNext}
             aria-label="Next slide"
             className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-white hover:bg-primary hover:border-primary transition-all shadow-lg"
           >
-            <span className="material-symbols-outlined text-xl">chevron_right</span>
+            <span className="material-symbols-outlined text-xl">
+              chevron_right
+            </span>
           </button>
         </>
       )}

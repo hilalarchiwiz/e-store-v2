@@ -25,16 +25,16 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
 
   const categoryIds = resolvedSearchParams.category
     ? resolvedSearchParams.category
-      .split(",")
-      .map(Number)
-      .filter((n) => !isNaN(n))
+        .split(",")
+        .map(Number)
+        .filter((n) => !isNaN(n))
     : [];
 
   const brandIds = resolvedSearchParams.brand
     ? resolvedSearchParams.brand
-      .split(",")
-      .map(Number)
-      .filter((n) => !isNaN(n))
+        .split(",")
+        .map(Number)
+        .filter((n) => !isNaN(n))
     : [];
 
   const sort = resolvedSearchParams.sort || "newest";
@@ -77,11 +77,23 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
       }),
       prisma.category.findMany({
         where: { status: "active" },
-        include: { _count: { select: { products: true } } },
+        include: {
+          _count: {
+            select: {
+              products: { where: { status: "active" } },
+            },
+          },
+        },
       }),
       prisma.brand.findMany({
         where: { status: "active" },
-        include: { _count: { select: { products: true } } },
+        include: {
+          _count: {
+            select: {
+              products: { where: { status: "active" } },
+            },
+          },
+        },
       }),
       prisma.product.aggregate({
         where: { status: "active" },
@@ -107,11 +119,11 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
     const avgRating =
       product.reviews.length > 0
         ? product.reviews.reduce((acc, r) => acc + r.rating, 0) /
-        product.reviews.length
+          product.reviews.length
         : 0;
     const isNew =
       (Date.now() - new Date(product.createdAt).getTime()) /
-      (1000 * 3600 * 24) <
+        (1000 * 3600 * 24) <
       7;
 
     let badge: { text: string; variant: "primary" | "secondary" } | undefined;
@@ -152,7 +164,7 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
       <Breadcrumbs
         items={[
           { label: "Home", href: "/v2" },
-          { label: "Shop", href: "/v2/shop" },
+          { label: "Shop", href: "/shop" },
           { label: search ? `Search: "${search}"` : "All Products" },
         ]}
       />

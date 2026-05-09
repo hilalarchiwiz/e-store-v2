@@ -185,7 +185,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
     setSelectedBrands([]);
     setPriceRange([minPrice, maxPrice]);
     setSort("newest");
-    router.push("/v2/shop");
+    router.push("/shop");
   };
 
   return (

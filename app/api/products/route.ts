@@ -18,8 +18,11 @@ export async function GET(req: NextRequest) {
             title: { contains: q, mode: "insensitive" },
         },
         select: {
+            id: true,
             title: true,
             images: true,
+            price: true,
+            discountedPrice: true,
         },
     });
 

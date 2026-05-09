@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
   experimental: {
     authInterrupts: true,
     serverActions: {
-      bodySizeLimit: '20000mb'
+      bodySizeLimit: '10mb'
     }
   },
   images: {
@@ -22,7 +22,8 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: '**'
+        hostname: 'fonts.googleapis.com',
+        pathname: '/**',
       },
       {
         protocol: 'https',
