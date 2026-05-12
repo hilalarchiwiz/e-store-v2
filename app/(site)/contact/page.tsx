@@ -9,7 +9,7 @@ export default async function ContactPage() {
   return (
     <main className="flex-1 max-w-300 mx-auto w-full px-6 py-10 md:py-16 flex flex-col gap-10">
       <Breadcrumbs
-        items={[{ label: "Home", href: "/v2" }, { label: "Contact Us" }]}
+        items={[{ label: "Home", href: "/" }, { label: "Contact Us" }]}
       />
 
       <div className="text-center max-w-2xl mx-auto mb-4">
@@ -17,8 +17,8 @@ export default async function ContactPage() {
           Get in Touch
         </h1>
         <p className="text-gray-500 dark:text-gray-400">
-          Have questions about our sustainable products? We&apos;re here to
-          help you grow your green journey.
+          Have questions about our sustainable products? We&apos;re here to help
+          you grow your green journey.
         </p>
       </div>
 

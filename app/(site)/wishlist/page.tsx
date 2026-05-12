@@ -68,7 +68,7 @@ const WishlistPage = () => {
   return (
     <main className="max-w-[1200px] mx-auto w-full px-6 py-10 md:py-16 flex flex-col gap-10">
       <Breadcrumbs
-        items={[{ label: "Home", href: "/v2" }, { label: "My Wishlist" }]}
+        items={[{ label: "Home", href: "/" }, { label: "My Wishlist" }]}
       />
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#dce5df] dark:border-[#2a3a30]">

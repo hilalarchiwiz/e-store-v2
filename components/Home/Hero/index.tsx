@@ -3,9 +3,8 @@ import HeroCarousel from "./HeroCarousel";
 import HeroFeature from "./HeroFeature";
 import Image from "next/image";
 import Link from "next/link";
-export const revalidate = 1
+export const revalidate = 1;
 const Hero = async () => {
-
   const { sliders } = await getSliders();
   const { products } = await getRandomProducts();
   return (
@@ -29,52 +28,55 @@ const Hero = async () => {
 
           <div className="xl:max-w-[393px] w-full">
             <div className="flex flex-col sm:flex-row xl:flex-col gap-5">
-              {products && products.map(product => (
-                <div key={product.id} className="w-full relative rounded-[10px] bg-white p-4 sm:p-7.5">
-                  <div className="flex items-center justify-between gap-14">
-                    <div>
-                      <h2 className="max-w-[153px] font-semibold text-dark text-xl mb-17">
-                        <Link
-                          href={`/shop-details/${product.id}`}
-                          className="line-clamp-3 hover:text-blue transition-colors"
-                        >
-                          {product.title}
-                        </Link>
-                      </h2>
-
+              {products &&
+                products.map((product) => (
+                  <div
+                    key={product.id}
+                    className="w-full relative rounded-[10px] bg-white p-4 sm:p-7.5"
+                  >
+                    <div className="flex items-center justify-between gap-14">
                       <div>
+                        <h2 className="max-w-[153px] font-semibold text-dark text-xl mb-17">
+                          <Link
+                            href={`/product/${product.id}`}
+                            className="line-clamp-3 hover:text-blue transition-colors"
+                          >
+                            {product.title}
+                          </Link>
+                        </h2>
 
-                        <span className="flex items-center gap-3">
-                          <span className="font-medium text-md text-heading-5 text-red">
-                            Rs. {
-                              product.discountedPrice
-                                ? product.price - ((product.discountedPrice / 100) * product.price)
-                                : product.price
-                            }
-                          </span>
-                          {
-                            product.discountedPrice ? (
+                        <div>
+                          <span className="flex items-center gap-3">
+                            <span className="font-medium text-md text-heading-5 text-red">
+                              Rs.{" "}
+                              {product.discountedPrice
+                                ? product.price -
+                                  (product.discountedPrice / 100) *
+                                    product.price
+                                : product.price}
+                            </span>
+                            {product.discountedPrice ? (
                               <span className="font-medium text-md text-dark-4 line-through">
                                 Rs.{product.price}
                               </span>
-                            ) : ('')
-                          }
+                            ) : (
+                              ""
+                            )}
+                          </span>
+                        </div>
+                      </div>
 
-                        </span>
+                      <div>
+                        <Image
+                          src={product.images[0]}
+                          alt="mobile image"
+                          width={123}
+                          height={161}
+                        />
                       </div>
                     </div>
-
-                    <div>
-                      <Image
-                        src={product.images[0]}
-                        alt="mobile image"
-                        width={123}
-                        height={161}
-                      />
-                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </div>

@@ -8,7 +8,10 @@ import { useDispatch } from "react-redux";
 import Image from "next/image";
 import { CheckCircle, Star, StarIcon, XCircle } from "lucide-react";
 import { discountPrice } from "@/lib/helper";
-import { addOrUpdateCartItem, addProductToWishlist } from "@/lib/action/home.action";
+import {
+  addOrUpdateCartItem,
+  addProductToWishlist,
+} from "@/lib/action/home.action";
 import toast from "react-hot-toast";
 import { addItemToWishlist } from "@/redux/features/wishlist-slice";
 
@@ -18,9 +21,11 @@ const QuickViewModal = () => {
   const dispatch = useDispatch<AppDispatch>();
   const product = useAppSelector((state) => state.quickViewReducer.value);
   const [activePreview, setActivePreview] = useState(0);
-  const user = useAppSelector(state => state.userReducer.info)
-  const wishlistItems = useAppSelector((state) => state.wishlistReducer.items)
-  const isInWishlist = wishlistItems.some((wishItem: any) => wishItem.id === product.id);
+  const user = useAppSelector((state) => state.userReducer.info);
+  const wishlistItems = useAppSelector((state) => state.wishlistReducer.items);
+  const isInWishlist = wishlistItems.some(
+    (wishItem: any) => wishItem.id === product.id,
+  );
 
   // add to cart
   const handleAddToCart = async () => {
@@ -34,7 +39,7 @@ const QuickViewModal = () => {
           images: product.images,
           id: product.id,
           quantity: quantity,
-        })
+        }),
       );
       toast.success(result.message);
     } else {
@@ -54,12 +59,11 @@ const QuickViewModal = () => {
           price: product.price,
           images: product.images,
           quantity: product.quantity,
-          id: product.id
-        })
+          id: product.id,
+        }),
       );
       toast.success(result.message);
-    }
-    else {
+    } else {
       toast.error(result.message);
     }
     closeModal();
@@ -86,12 +90,14 @@ const QuickViewModal = () => {
 
   const reviews = product.reviews ? product.reviews : [];
   const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
-  const averageRating = reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
+  const averageRating =
+    reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
   const fontUrl = `https://fonts.googleapis.com/css2?family=${product.titleFont?.replace(/\s+/g, "+")}&display=swap`;
   return (
     <div
-      className={`${isModalOpen ? "z-99999" : "hidden"
-        } fixed top-0 left-0 overflow-y-auto no-scrollbar w-full h-screen sm:py-20 xl:py-25 2xl:py-[230px] bg-dark/70 sm:px-8 px-4 py-5`}
+      className={`${
+        isModalOpen ? "z-99999" : "hidden"
+      } fixed top-0 left-0 overflow-y-auto no-scrollbar w-full h-screen sm:py-20 xl:py-25 2xl:py-[230px] bg-dark/70 sm:px-8 px-4 py-5`}
     >
       <link rel="stylesheet" href={fontUrl} />
       <div className="flex items-center justify-center ">
@@ -126,8 +132,9 @@ const QuickViewModal = () => {
                     <button
                       onClick={() => setActivePreview(key)}
                       key={key}
-                      className={`flex items-center justify-center w-20 h-20 overflow-hidden rounded-lg bg-gray-1 ease-out duration-200 hover:border-2 hover:border-blue ${activePreview === key && "border-2 border-blue"
-                        }`}
+                      className={`flex items-center justify-center w-20 h-20 overflow-hidden rounded-lg bg-gray-1 ease-out duration-200 hover:border-2 hover:border-blue ${
+                        activePreview === key && "border-2 border-blue"
+                      }`}
                     >
                       <Image
                         src={img || ""}
@@ -142,7 +149,6 @@ const QuickViewModal = () => {
 
                 <div className="relative z-1 overflow-hidden flex items-center justify-center w-full sm:min-h-[508px] bg-gray-1 rounded-lg border border-gray-3">
                   <div>
-
                     {product?.images?.[activePreview] && (
                       <Image
                         src={product.images[activePreview]}
@@ -157,13 +163,16 @@ const QuickViewModal = () => {
             </div>
 
             <div className="max-w-[445px] w-full">
-              {
-                product.discountedPrice ? (<span className="inline-block text-custom-xs font-medium text-white py-1 px-3 bg-green mb-6.5">
+              {product.discountedPrice ? (
+                <span className="inline-block text-custom-xs font-medium text-white py-1 px-3 bg-green mb-6.5">
                   SALE {product.discountedPrice}% OFF
-                </span>) : null
-              }
+                </span>
+              ) : null}
 
-              <h3 className="font-semibold text-xl xl:text-heading-5 text-dark mb-4" style={{ fontFamily: product?.titleFont }}>
+              <h3
+                className="font-semibold text-xl xl:text-heading-5 text-dark mb-4"
+                style={{ fontFamily: product?.titleFont }}
+              >
                 {product.title}
               </h3>
 
@@ -171,18 +180,27 @@ const QuickViewModal = () => {
                 <div className="flex items-center gap-1.5">
                   {/* <!-- stars --> */}
                   <div className="flex items-center gap-1">
-                    {[1, 2, 3, 4, 5].map((star, index) => (
+                    {[1, 2, 3, 4, 5].map((star, index) =>
                       star <= averageRating ? (
-                        <Star key={index} className="text-yellow fill-yellow size-4" />
+                        <Star
+                          key={index}
+                          className="text-yellow fill-yellow size-4"
+                        />
                       ) : (
                         <StarIcon key={index} className="size-4" />
-                      )
-                    ))}
+                      ),
+                    )}
                   </div>
 
                   <span>
-                    <span className="font-medium text-dark"> {averageRating} Rating </span>
-                    <span className="text-dark-2"> ({product.reviews?.length} reviews) </span>
+                    <span className="font-medium text-dark">
+                      {" "}
+                      {averageRating} Rating{" "}
+                    </span>
+                    <span className="text-dark-2">
+                      {" "}
+                      ({product.reviews?.length} reviews){" "}
+                    </span>
                   </span>
                 </div>
 
@@ -190,20 +208,22 @@ const QuickViewModal = () => {
                   {product.quantity > 0 ? (
                     <>
                       <CheckCircle className="w-5 h-5 text-emerald-600" />
-                      <span className="text-emerald-600 font-semibold text-sm">In Stock</span>
+                      <span className="text-emerald-600 font-semibold text-sm">
+                        In Stock
+                      </span>
                     </>
                   ) : (
                     <>
                       <XCircle className="w-5 h-5 text-red-600" />
-                      <span className="text-red-600 font-semibold text-sm">Out of Stock</span>
+                      <span className="text-red-600 font-semibold text-sm">
+                        Out of Stock
+                      </span>
                     </>
                   )}
                 </div>
               </div>
 
-              <p>
-                {product.description}
-              </p>
+              <p>{product.description}</p>
 
               <div className="flex flex-wrap justify-between gap-5 mt-6 mb-7.5">
                 <div>
@@ -213,16 +233,17 @@ const QuickViewModal = () => {
 
                   <span className="flex items-center gap-2">
                     <span className="font-semibold text-dark text-xl xl:text-heading-4">
-                      Rs. {discountPrice({
+                      Rs.{" "}
+                      {discountPrice({
                         price: product.price,
-                        discount: product.discountedPrice
+                        discount: product.discountedPrice,
                       })}
                     </span>
-                    {
-                      product.discountedPrice ? (<span className="font-medium text-dark-4 text-lg xl:text-2xl line-through">
+                    {product.discountedPrice ? (
+                      <span className="font-medium text-dark-4 text-lg xl:text-2xl line-through">
                         Rs. {product.price}
-                      </span>) : null
-                    }
+                      </span>
+                    ) : null}
                   </span>
                 </div>
 
@@ -304,7 +325,7 @@ const QuickViewModal = () => {
                 </button>
 
                 <a
-                  href={`https://wa.me/923379727476?text=${encodeURIComponent(`Hi, I'm interested in this product:\n*${product.title}*\nPrice: Rs. ${discountPrice({ price: product.price, discount: product.discountedPrice })}\nLink: ${typeof window !== "undefined" ? `${window.location.origin}/shop-details/${product.id}` : ""}`)}`}
+                  href={`https://wa.me/923379727476?text=${encodeURIComponent(`Hi, I'm interested in this product:\n*${product.title}*\nPrice: Rs. ${discountPrice({ price: product.price, discount: product.discountedPrice })}\nLink: ${typeof window !== "undefined" ? `${window.location.origin}/product/${product.id}` : ""}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 font-medium py-3 px-6 rounded-md ease-out duration-200 bg-green-500 text-white hover:bg-green-600"
@@ -319,10 +340,11 @@ const QuickViewModal = () => {
                 <button
                   onClick={() => handleItemToWishList()}
                   className={`inline-flex items-center gap-2 font-medium py-3 px-6 rounded-md ease-out duration-200
-    ${isInWishlist
-                      ? "bg-red-500 text-white" // Style when in wishlist
-                      : "bg-dark text-white hover:bg-opacity-95" // Style when NOT in wishlist
-                    }`}
+    ${
+      isInWishlist
+        ? "bg-red-500 text-white" // Style when in wishlist
+        : "bg-dark text-white hover:bg-opacity-95" // Style when NOT in wishlist
+    }`}
                 >
                   <svg
                     className="fill-current"
@@ -332,9 +354,7 @@ const QuickViewModal = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     {isInWishlist ? (
-                      <path
-                        d="M10 17.7084C10.5754 17.7084 11.1051 17.4879 11.5693 17.2166C12.0337 16.9453 12.492 16.5864 12.9188 16.2499C13.1385 16.0767 13.3695 15.8989 13.6077 15.7155C14.6582 14.9067 15.8476 13.9908 16.8194 12.8966C18.0329 11.5301 18.9584 9.83557 18.9584 7.6143C18.9584 5.35424 17.6794 3.39415 15.8327 2.55002C14.0842 1.75077 11.9267 1.99192 10 3.71573C8.07331 1.99192 5.91582 1.75077 4.16732 2.55002C2.32061 3.39415 1.04169 5.35424 1.04169 7.6143C1.04169 9.83557 1.9671 11.5301 3.18062 12.8966C4.15241 13.9908 5.34187 14.9067 6.39237 15.7155C6.63051 15.8989 6.8615 16.0767 7.0812 16.2499C7.50807 16.5864 7.96631 16.9453 8.43071 17.2166C8.8949 17.4879 9.42469 17.7084 10 17.7084Z"
-                      />
+                      <path d="M10 17.7084C10.5754 17.7084 11.1051 17.4879 11.5693 17.2166C12.0337 16.9453 12.492 16.5864 12.9188 16.2499C13.1385 16.0767 13.3695 15.8989 13.6077 15.7155C14.6582 14.9067 15.8476 13.9908 16.8194 12.8966C18.0329 11.5301 18.9584 9.83557 18.9584 7.6143C18.9584 5.35424 17.6794 3.39415 15.8327 2.55002C14.0842 1.75077 11.9267 1.99192 10 3.71573C8.07331 1.99192 5.91582 1.75077 4.16732 2.55002C2.32061 3.39415 1.04169 5.35424 1.04169 7.6143C1.04169 9.83557 1.9671 11.5301 3.18062 12.8966C4.15241 13.9908 5.34187 14.9067 6.39237 15.7155C6.63051 15.8989 6.8615 16.0767 7.0812 16.2499C7.50807 16.5864 7.96631 16.9453 8.43071 17.2166C8.8949 17.4879 9.42469 17.7084 10 17.7084Z" />
                     ) : (
                       <path
                         fillRule="evenodd"

@@ -259,7 +259,7 @@ export async function updateProduct(productId: number | undefined, prevData: any
         }
 
         revalidatePath('/admin/products');
-        revalidatePath(`/shop-details/${oldProduct?.id}`);
+        revalidatePath(`/product/${oldProduct?.id}`);
         revalidatePath('/');
         (revalidateTag as any)('products');
         (revalidateTag as any)('categories');

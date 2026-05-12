@@ -82,7 +82,10 @@ const SingleItem = ({ item }) => {
     reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
   const fontUrl = `https://fonts.googleapis.com/css2?family=${item.titleFont?.replace(/\s+/g, "+")}&display=swap`;
   return (
-    <Link href={`/shop-details/${item.id}`} className="block group border border-gray-200 rounded-lg transition-all duration-300 hover:border-blue hover:shadow-xl cursor-pointer">
+    <Link
+      href={`/product/${item.id}`}
+      className="block group border border-gray-200 rounded-lg transition-all duration-300 hover:border-blue hover:shadow-xl cursor-pointer"
+    >
       <link rel="stylesheet" href={fontUrl} />
       <div className="relative overflow-hidden rounded-t-lg bg-gradient-to-b from-gray-50 to-white min-h-[403px]">
         <div className="text-center px-4 py-7.5">

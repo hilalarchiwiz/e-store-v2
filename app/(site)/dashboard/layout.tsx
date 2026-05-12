@@ -18,7 +18,7 @@ export default async function DashboardLayout({
   return (
     <div className="max-w-[1200px] mx-auto w-full px-6 py-10 md:py-16 flex flex-col gap-10">
       <Breadcrumbs
-        items={[{ label: "Home", href: "/v2" }, { label: "My Dashboard" }]}
+        items={[{ label: "Home", href: "/" }, { label: "My Dashboard" }]}
       />
 
       <div className="flex flex-col lg:flex-row gap-10 items-start">

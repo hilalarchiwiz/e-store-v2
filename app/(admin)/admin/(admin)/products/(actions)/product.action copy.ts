@@ -256,7 +256,7 @@ import { Product } from '@/types/product';
 //     revalidatePath('/admin/products');
 //     revalidatePath('/');
 //     revalidatePath('/shop')
-//     revalidatePath('/shop-details/' + product.id);
+//     revalidatePath('/product/' + product.id);
 //     redirect('/admin/products');
 //     return {
 //         success: true,
@@ -544,7 +544,7 @@ export async function updateProduct(productId: number | undefined, prevData: any
         }
 
         revalidatePath('/admin/products');
-        revalidatePath(`/shop-details/${oldProduct?.slug}`);
+        revalidatePath(`/product/${oldProduct?.slug}`);
         revalidatePath('/');
         return { success: true, message: "Product updated successfully." };
     });

@@ -10,28 +10,33 @@ import Link from "next/link";
 import Image from "next/image";
 import { Star, StarIcon } from "lucide-react";
 import toast from "react-hot-toast";
-import { addOrUpdateCartItem, addProductToWishlist } from "@/lib/action/home.action";
+import {
+  addOrUpdateCartItem,
+  addProductToWishlist,
+} from "@/lib/action/home.action";
 import { discountPrice } from "@/lib/helper";
 
 const SingleListItem = ({ item }) => {
   const { openModal } = useModalContext();
   const dispatch = useDispatch<AppDispatch>();
 
-  const user = useAppSelector(state => state.userReducer.info);
+  const user = useAppSelector((state) => state.userReducer.info);
 
   // update the QuickView state
   const handleQuickViewUpdate = () => {
-    dispatch(updateQuickView({
-      title: item.title,
-      description: item.description,
-      discountedPrice: item.discountedPrice,
-      price: item.price,
-      quantity: item.quantity,
-      images: item.images,
-      img: '',
-      id: item.id,
-      reviews: item.reviews
-    }));
+    dispatch(
+      updateQuickView({
+        title: item.title,
+        description: item.description,
+        discountedPrice: item.discountedPrice,
+        price: item.price,
+        quantity: item.quantity,
+        images: item.images,
+        img: "",
+        id: item.id,
+        reviews: item.reviews,
+      }),
+    );
   };
 
   // add to cart
@@ -46,14 +51,13 @@ const SingleListItem = ({ item }) => {
           images: item.images,
           id: item.id,
           quantity: 1,
-        })
+        }),
       );
       toast.success(result.message);
     } else {
       toast.error(result.message);
     }
   };
-
 
   const handleItemToWishList = async () => {
     const result = await addProductToWishlist(item.id, user?.id);
@@ -66,27 +70,36 @@ const SingleListItem = ({ item }) => {
           price: item.price,
           images: item.images,
           quantity: item.quantity,
-          id: item.id
-        })
+          id: item.id,
+        }),
       );
       toast.success(result.message);
-    }
-    else {
+    } else {
       toast.error(result.message);
     }
   };
 
   const reviews = item.reviews ? item.reviews : []; // This is the array from your data
   const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
-  const averageRating = reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
+  const averageRating =
+    reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
   const fontUrl = `https://fonts.googleapis.com/css2?family=${item.titleFont?.replace(/\s+/g, "+")}&display=swap`;
 
   return (
-    <Link href={`/shop-details/${item.id}`} className="block group rounded-lg bg-white shadow-1 cursor-pointer">
+    <Link
+      href={`/product/${item.id}`}
+      className="block group rounded-lg bg-white shadow-1 cursor-pointer"
+    >
       <link rel="stylesheet" href={fontUrl} />
       <div className="flex">
         <div className="shadow-list relative overflow-hidden flex items-center justify-center max-w-[270px] w-full sm:min-h-[270px] p-4">
-          <Image unoptimized src={item.images[0]} alt="" width={250} height={250} />
+          <Image
+            unoptimized
+            src={item.images[0]}
+            alt=""
+            width={250}
+            height={250}
+          />
 
           <div className="absolute left-0 bottom-0 translate-y-full w-full flex items-center justify-center gap-2.5 pb-5 ease-linear duration-200 group-hover:translate-y-0">
             <button
@@ -162,26 +175,32 @@ const SingleListItem = ({ item }) => {
             </h3>
 
             <span className="flex items-center gap-2 font-medium text-lg">
-              <span className="text-dark">Rs. {discountPrice({ price: item.price, discount: item.discountedPrice })}</span>
-              {
-                item.discountedPrice ? <span className="text-dark-4 line-through">Rs. {item.price}</span> : null
-              }
+              <span className="text-dark">
+                Rs.{" "}
+                {discountPrice({
+                  price: item.price,
+                  discount: item.discountedPrice,
+                })}
+              </span>
+              {item.discountedPrice ? (
+                <span className="text-dark-4 line-through">
+                  Rs. {item.price}
+                </span>
+              ) : null}
             </span>
           </div>
 
           <div className="flex items-center gap-2.5 mb-2">
             <div className="flex items-center gap-1">
-              {[1, 2, 3, 4, 5].map((star) => (
+              {[1, 2, 3, 4, 5].map((star) =>
                 star <= averageRating ? (
                   <Star key={star} className="text-yellow fill-yellow size-4" />
                 ) : (
                   <StarIcon key={star} className="size-4" />
-                )
-              ))}
+                ),
+              )}
             </div>
-            <p className="text-[14px]">
-              {averageRating.toFixed(1)}
-            </p>
+            <p className="text-[14px]">{averageRating.toFixed(1)}</p>
           </div>
         </div>
       </div>

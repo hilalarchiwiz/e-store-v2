@@ -178,7 +178,7 @@ const SingleGridItem = ({ item }) => {
 
     //   <h3 className="font-medium text-dark ease-out duration-200 hover:text-blue mb-1.5">
     //     <Link
-    //       href={`/shop-details/${item.id}`}
+    //       href={`/product/${item.id}`}
     //       className="line-clamp-2 hover:text-blue transition-colors"
     //       style={{ fontFamily: item.titleFont }}
     //     >
@@ -196,7 +196,10 @@ const SingleGridItem = ({ item }) => {
     //   </span>
     // </div>
 
-    <Link href={`/shop-details/${item.id}`} className="block group border border-gray-200 rounded-xl py-4 transition-all duration-300 hover:border-blue hover:shadow-2xl bg-white cursor-pointer">
+    <Link
+      href={`/product/${item.id}`}
+      className="block group border border-gray-200 rounded-xl py-4 transition-all duration-300 hover:border-blue hover:shadow-2xl bg-white cursor-pointer"
+    >
       <link rel="stylesheet" href={fontUrl} />
       <div className="relative overflow-hidden flex items-center justify-center rounded-lg bg-gradient-to-br from-gray-50 to-white shadow-sm min-h-[270px] mb-4 p-4">
         <Image

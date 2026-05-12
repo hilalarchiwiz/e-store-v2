@@ -23,19 +23,37 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
   const PAGE_SIZE = 12;
   const skip = (currentPage - 1) * PAGE_SIZE;
 
-  const categoryIds = resolvedSearchParams.category
-    ? resolvedSearchParams.category
-        .split(",")
-        .map(Number)
-        .filter((n) => !isNaN(n))
-    : [];
+  const categoryParam = resolvedSearchParams.category;
+  let categoryIds: number[] = [];
+  if (categoryParam) {
+    const parts = categoryParam.split(",");
+    const numeric = parts.map(Number).filter((n) => !isNaN(n));
+    const strings = parts.filter((p) => isNaN(Number(p)));
+    categoryIds = [...numeric];
+    if (strings.length > 0) {
+      const found = await prisma.category.findMany({
+        where: { OR: strings.map(s => ({ title: { equals: s, mode: 'insensitive' } })) },
+        select: { id: true }
+      });
+      categoryIds.push(...found.map(f => f.id));
+    }
+  }
 
-  const brandIds = resolvedSearchParams.brand
-    ? resolvedSearchParams.brand
-        .split(",")
-        .map(Number)
-        .filter((n) => !isNaN(n))
-    : [];
+  const brandParam = resolvedSearchParams.brand;
+  let brandIds: number[] = [];
+  if (brandParam) {
+    const parts = brandParam.split(",");
+    const numeric = parts.map(Number).filter((n) => !isNaN(n));
+    const strings = parts.filter((p) => isNaN(Number(p)));
+    brandIds = [...numeric];
+    if (strings.length > 0) {
+      const found = await prisma.brand.findMany({
+        where: { OR: strings.map(s => ({ title: { equals: s, mode: 'insensitive' } })) },
+        select: { id: true }
+      });
+      brandIds.push(...found.map(f => f.id));
+    }
+  }
 
   const sort = resolvedSearchParams.sort || "newest";
   const search = resolvedSearchParams.search?.trim() || "";
@@ -163,7 +181,7 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
     <main className="flex-1 max-w-300 mx-auto w-full  py-6 md:py-10 flex flex-col gap-8">
       <Breadcrumbs
         items={[
-          { label: "Home", href: "/v2" },
+          { label: "Home", href: "/" },
           { label: "Shop", href: "/shop" },
           { label: search ? `Search: "${search}"` : "All Products" },
         ]}

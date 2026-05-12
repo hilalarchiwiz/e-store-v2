@@ -40,8 +40,8 @@ export default function Cart() {
             discountedPrice: item.product.discountedPrice ?? item.product.price,
             quantity: item.quantity,
             images: item.product.images,
-          }))
-        )
+          })),
+        ),
       );
     });
   }, [dispatch]);
@@ -52,20 +52,29 @@ export default function Cart() {
       if (newQty < 1) return;
       setUpdatingId(item.id);
       setItems((prev) =>
-        prev.map((i) => (i.id === item.id ? { ...i, quantity: newQty } : i))
+        prev.map((i) => (i.id === item.id ? { ...i, quantity: newQty } : i)),
       );
-      dispatch(updateCartItemQuantity({ id: item.product.id, quantity: newQty }));
+      dispatch(
+        updateCartItemQuantity({ id: item.product.id, quantity: newQty }),
+      );
       const result = await updateCartQuantity(item.id, newQty);
       if (!result.success) {
         setItems((prev) =>
-          prev.map((i) => (i.id === item.id ? { ...i, quantity: item.quantity } : i))
+          prev.map((i) =>
+            i.id === item.id ? { ...i, quantity: item.quantity } : i,
+          ),
         );
-        dispatch(updateCartItemQuantity({ id: item.product.id, quantity: item.quantity }));
+        dispatch(
+          updateCartItemQuantity({
+            id: item.product.id,
+            quantity: item.quantity,
+          }),
+        );
         toast.error(result.error ?? "Failed to update quantity");
       }
       setUpdatingId(null);
     },
-    [dispatch]
+    [dispatch],
   );
 
   const removeItem = useCallback(
@@ -82,30 +91,32 @@ export default function Cart() {
       }
       setUpdatingId(null);
     },
-    [dispatch]
+    [dispatch],
   );
 
   const subtotal = items.reduce((sum, item) => {
-    const price = item.product.discountedPrice && item.product.discountedPrice > 0
-      ? item.product.price - (item.product.price * item.product.discountedPrice) / 100
-      : item.product.price;
+    const price =
+      item.product.discountedPrice && item.product.discountedPrice > 0
+        ? item.product.price -
+          (item.product.price * item.product.discountedPrice) / 100
+        : item.product.price;
     return sum + price * item.quantity;
   }, 0);
-  const shipping = subtotal > 5000 ? 0 : 250; // Free shipping over PKR 5,000
-  const tax = subtotal * 0.02;
-  const total = subtotal + shipping + tax;
+  const total = subtotal;
 
   return (
     <main className="flex-1 max-w-[1200px] mx-auto w-full px-6 py-10 md:py-16 flex flex-col gap-10">
       <Breadcrumbs
-        items={[{ label: "Home", href: "/v2" }, { label: "Shopping Cart" }]}
+        items={[{ label: "Home", href: "/" }, { label: "Shopping Cart" }]}
       />
 
       {/* Title */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#dce5df] dark:border-[#2a3a30]">
         <div className="flex items-center gap-4">
           <div className="size-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-            <span className="material-symbols-outlined text-3xl">shopping_cart</span>
+            <span className="material-symbols-outlined text-3xl">
+              shopping_cart
+            </span>
           </div>
           <div>
             <p className="text-primary text-xs font-bold uppercase tracking-widest mb-0.5">
@@ -118,7 +129,9 @@ export default function Cart() {
         </div>
         {!loading && items.length > 0 && (
           <span className="self-start sm:self-auto inline-flex items-center gap-1.5 bg-primary/10 text-primary text-sm font-bold px-4 py-2 rounded-full">
-            <span className="material-symbols-outlined text-base">inventory_2</span>
+            <span className="material-symbols-outlined text-base">
+              inventory_2
+            </span>
             {items.length} {items.length === 1 ? "item" : "items"}
           </span>
         )}
@@ -136,7 +149,9 @@ export default function Cart() {
       ) : items.length === 0 ? (
         <div className="py-24 flex flex-col items-center text-center bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl">
           <div className="size-32 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-8">
-            <span className="material-symbols-outlined text-6xl">shopping_basket</span>
+            <span className="material-symbols-outlined text-6xl">
+              shopping_basket
+            </span>
           </div>
           <h2 className="text-2xl font-bold text-[#121714] dark:text-white mb-2">
             Your basket is empty
@@ -164,9 +179,13 @@ export default function Cart() {
 
               <div className="divide-y divide-gray-100 dark:divide-white/5">
                 {items.map((item) => {
-                  const price = item.product.discountedPrice && item.product.discountedPrice > 0
-                    ? item.product.price - (item.product.price * item.product.discountedPrice) / 100
-                    : item.product.price;
+                  const price =
+                    item.product.discountedPrice &&
+                    item.product.discountedPrice > 0
+                      ? item.product.price -
+                        (item.product.price * item.product.discountedPrice) /
+                          100
+                      : item.product.price;
                   const isUpdating = updatingId === item.id;
 
                   return (
@@ -178,7 +197,10 @@ export default function Cart() {
                       <div className="md:col-span-6 flex items-center gap-5">
                         <div className="size-24 rounded-2xl overflow-hidden bg-[#f1f4f2] dark:bg-[#2a3a2f] shrink-0 relative">
                           <Image
-                            src={item.product.images[0] || "/images/placeholder-product.jpg"}
+                            src={
+                              item.product.images[0] ||
+                              "/images/placeholder-product.jpg"
+                            }
                             alt={item.product.title}
                             fill
                             className="object-contain p-2 transition-transform duration-500 group-hover:scale-110"
@@ -187,7 +209,9 @@ export default function Cart() {
                             onClick={() => removeItem(item)}
                             className="absolute inset-0 bg-red-500/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                           >
-                            <span className="material-symbols-outlined">delete</span>
+                            <span className="material-symbols-outlined">
+                              delete
+                            </span>
                           </button>
                         </div>
                         <div>
@@ -208,28 +232,35 @@ export default function Cart() {
 
                       {/* Unit Price */}
                       <div className="md:col-span-2 text-center">
-                        <span className="md:hidden text-xs font-bold text-gray-400 block mb-1">Price</span>
+                        <span className="md:hidden text-xs font-bold text-gray-400 block mb-1">
+                          Price
+                        </span>
                         <p className="font-extrabold text-[#121714] dark:text-white">
                           PKR {Number(price).toLocaleString()}
                         </p>
-                        {item.product.discountedPrice && item.product.discountedPrice < item.product.price && (
-                          <p className="text-xs text-gray-400 line-through">
-                            PKR {Number(item.product.price).toLocaleString()}
-                          </p>
-                        )}
+                        {item.product.discountedPrice &&
+                          item.product.discountedPrice < item.product.price && (
+                            <p className="text-xs text-gray-400 line-through">
+                              PKR {Number(item.product.price).toLocaleString()}
+                            </p>
+                          )}
                       </div>
 
                       {/* Quantity */}
                       <div className="md:col-span-2 flex justify-center">
                         <div className="flex flex-col items-center">
-                          <span className="md:hidden text-xs font-bold text-gray-400 mb-2">Qty</span>
+                          <span className="md:hidden text-xs font-bold text-gray-400 mb-2">
+                            Qty
+                          </span>
                           <div className="flex items-center bg-[#f1f4f2] dark:bg-white/5 rounded-xl border border-gray-100 dark:border-white/10 px-2 py-1">
                             <button
                               onClick={() => updateQuantity(item, -1)}
                               disabled={item.quantity <= 1}
                               className="size-8 flex items-center justify-center text-[#648770] hover:text-primary hover:bg-primary/10 rounded-lg transition-all disabled:opacity-30"
                             >
-                              <span className="material-symbols-outlined text-base">remove</span>
+                              <span className="material-symbols-outlined text-base">
+                                remove
+                              </span>
                             </button>
                             <span className="w-10 text-center font-black text-[#121714] dark:text-white text-sm">
                               {item.quantity}
@@ -237,10 +268,16 @@ export default function Cart() {
                             <button
                               onClick={() => updateQuantity(item, 1)}
                               disabled={item.quantity >= item.product.quantity}
-                              title={item.quantity >= item.product.quantity ? `Max stock: ${item.product.quantity}` : undefined}
+                              title={
+                                item.quantity >= item.product.quantity
+                                  ? `Max stock: ${item.product.quantity}`
+                                  : undefined
+                              }
                               className="size-8 flex items-center justify-center text-[#648770] hover:text-primary hover:bg-primary/10 rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                             >
-                              <span className="material-symbols-outlined text-base">add</span>
+                              <span className="material-symbols-outlined text-base">
+                                add
+                              </span>
                             </button>
                           </div>
                         </div>
@@ -248,7 +285,9 @@ export default function Cart() {
 
                       {/* Line Total */}
                       <div className="md:col-span-2 text-right">
-                        <span className="md:hidden text-xs font-bold text-gray-400 block mb-1">Total</span>
+                        <span className="md:hidden text-xs font-bold text-gray-400 block mb-1">
+                          Total
+                        </span>
                         <p className="text-xl font-black text-primary">
                           PKR {(price * item.quantity).toLocaleString()}
                         </p>
@@ -282,27 +321,21 @@ export default function Cart() {
               <div className="space-y-4 mb-8">
                 <div className="flex justify-between items-center text-sm font-bold">
                   <span className="text-gray-500">Subtotal</span>
-                  <span className="text-[#121714] dark:text-white">PKR {subtotal.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between items-center text-sm font-bold">
-                  <span className="text-gray-500">Eco-Friendly Shipping</span>
-                  <span className={shipping === 0 ? "text-green-500" : "text-[#121714] dark:text-white"}>
-                    {shipping === 0 ? "FREE" : `PKR ${shipping.toLocaleString()}`}
+                  <span className="text-[#121714] dark:text-white">
+                    PKR {subtotal.toLocaleString()}
                   </span>
                 </div>
-                {shipping > 0 && (
-                  <p className="text-[10px] text-gray-400">Free shipping on orders over PKR 5,000</p>
-                )}
-                <div className="flex justify-between items-center text-sm font-bold">
-                  <span className="text-gray-500">Eco-Tax (2%)</span>
-                  <span className="text-[#121714] dark:text-white">PKR {tax.toLocaleString()}</span>
-                </div>
+                <p className="text-[10px] text-gray-400">Free shipping</p>
               </div>
 
               <div className="border-t border-gray-100 dark:border-white/5 pt-6 mb-8">
                 <div className="flex justify-between items-center">
-                  <span className="text-lg font-bold text-[#121714] dark:text-white">Total Amount</span>
-                  <span className="text-3xl font-black text-primary">PKR {total.toLocaleString()}</span>
+                  <span className="text-lg font-bold text-[#121714] dark:text-white">
+                    Total Amount
+                  </span>
+                  <span className="text-3xl font-black text-primary">
+                    PKR {total.toLocaleString()}
+                  </span>
                 </div>
               </div>
 
@@ -313,9 +346,12 @@ export default function Cart() {
               </Link>
 
               <div className="mt-6 flex items-center gap-3 p-4 bg-green-50 dark:bg-primary/5 rounded-2xl">
-                <span className="material-symbols-outlined text-green-600 shrink-0">eco</span>
+                <span className="material-symbols-outlined text-green-600 shrink-0">
+                  eco
+                </span>
                 <p className="text-[10px] font-bold text-green-700 dark:text-green-500 leading-tight">
-                  This order will plant 2 trees through our partnership with One Tree Planted.
+                  This order will plant 2 trees through our partnership with One
+                  Tree Planted.
                 </p>
               </div>
             </div>

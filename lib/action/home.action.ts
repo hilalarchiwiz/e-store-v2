@@ -908,7 +908,7 @@ export async function submitReview(prevState: any, formData: FormData) {
             },
         });
 
-        revalidatePath(`/shop-details/${productId}`);
+        revalidatePath(`/product/${productId}`);
         return { success: true, message: "Review add successfully" };
     } catch (error) {
         const err = error as Error;

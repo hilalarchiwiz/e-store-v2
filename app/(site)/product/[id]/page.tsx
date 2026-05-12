@@ -47,7 +47,7 @@ export default async function ProductPage({ params }: PageProps) {
     <main className="max-w-[1440px] mx-auto w-full px-6 py-6 md:py-10 flex flex-col gap-8">
       <Breadcrumbs
         items={[
-          { label: "Home", href: "/v2" },
+          { label: "Home", href: "/" },
           { label: "Shop", href: "/shop" },
           {
             label: product.category?.title || "Uncategorized",
