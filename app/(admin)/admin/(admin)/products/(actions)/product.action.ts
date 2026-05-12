@@ -388,3 +388,19 @@ export async function saveProductDraft(productId: number | null, formData: FormD
         }
     });
 }
+
+export async function updateProductPrice(productId: number, price: number, discountedPrice: number | null) {
+    return await withPermission('product_update', async () => {
+        await prisma.product.update({
+            where: { id: productId },
+            data: {
+                price,
+                discountedPrice,
+            }
+        });
+
+        revalidatePath('/admin/products');
+        (revalidateTag as any)('products');
+        return { success: true, message: "Price updated successfully." };
+    });
+}
