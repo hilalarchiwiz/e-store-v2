@@ -13,6 +13,7 @@ import { removeWishlistId } from "@/redux/features/wishlist-slice";
 import { addItemToCart } from "@/redux/features/cart-slice";
 import { addToCart } from "@/lib/action/cart.action";
 import { toast } from "react-hot-toast";
+import { discountPrice } from "@/lib/helper";
 
 type WishlistItem = Awaited<ReturnType<typeof getWishlist>>[number];
 
@@ -122,55 +123,68 @@ const WishlistPage = () => {
           {items.map((item) => {
             const product = item.product;
             const inStock = product.quantity > 0;
-            const displayPrice = product.discountedPrice ?? product.price;
+            const finalPrice = product.discountedPrice && product.discountedPrice > 0
+              ? discountPrice({ price: product.price, discount: product.discountedPrice })
+              : product.price;
 
             return (
               <div
                 key={item.id}
-                className="group bg-white dark:bg-[#1a251d] border border-[#dce5df] dark:border-[#2a3a30] rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-6 shadow-sm hover:shadow-md transition-all"
+                className="group bg-white dark:bg-[#1a251d] border border-[#dce5df] dark:border-[#2a3a30] rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300"
               >
                 {/* Image */}
                 <Link
                   href={`/product/${product.id}`}
-                  className="size-28 rounded-xl overflow-hidden flex-shrink-0 bg-[#f1f4f2] dark:bg-[#2a3a2f]"
+                  className="size-32 rounded-2xl overflow-hidden flex-shrink-0 bg-[#f1f4f2] dark:bg-[#2a3a2f] relative"
                 >
                   <Image
                     src={product.images[0] || "/images/placeholder-product.jpg"}
                     alt={product.title}
-                    width={112}
-                    height={112}
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    fill
+                    className="w-full h-full object-contain p-2 group-hover:scale-110 transition-transform duration-500"
                   />
+                  {product.discountedPrice && product.discountedPrice > 0 && (
+                    <div className="absolute top-2 left-2 bg-primary text-white text-[10px] font-black px-2 py-1 rounded-lg shadow-lg">
+                      -{product.discountedPrice}%
+                    </div>
+                  )}
                 </Link>
 
                 {/* Info + actions */}
-                <div className="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-4 w-full">
-                  <div className="flex flex-col gap-1.5">
+                <div className="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-6 w-full">
+                  <div className="flex flex-col gap-2">
                     <Link
                       href={`/product/${product.id}`}
-                      className="text-lg font-black text-[#121714] dark:text-white hover:text-primary transition-colors leading-snug"
+                      className="text-xl font-black text-[#121714] dark:text-white hover:text-primary transition-colors leading-tight"
                     >
                       {product.title}
                     </Link>
-                    <span
-                      className={`self-start text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded ${inStock
-                        ? "bg-green-100 text-green-600"
-                        : "bg-red-100 text-red-600"
-                        }`}
-                    >
-                      {inStock ? "In Stock" : "Out of Stock"}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${inStock
+                          ? "bg-emerald-100 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400"
+                          : "bg-red-100 text-red-600 dark:bg-red-500/10 dark:text-red-400"
+                          }`}
+                      >
+                        {inStock ? "In Stock" : "Out of Stock"}
+                      </span>
+                      {product.category && (
+                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-100 dark:bg-white/5 px-2.5 py-1 rounded-full">
+                          {product.category.title}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-6 sm:gap-8">
+                  <div className="flex items-center justify-between sm:justify-end gap-8 w-full sm:w-auto">
                     {/* Price */}
-                    <div className="text-right">
-                      <p className="text-xl font-black text-[#121714] dark:text-white">
-                        ${Number(displayPrice).toFixed(2)}
+                    <div className="text-left sm:text-right">
+                      <p className="text-2xl font-black text-primary">
+                        Rs. {Number(finalPrice).toLocaleString()}
                       </p>
-                      {product.discountedPrice && product.discountedPrice < product.price && (
-                        <p className="text-xs text-gray-400 line-through">
-                          ${Number(product.price).toFixed(2)}
+                      {product.discountedPrice && product.discountedPrice > 0 && (
+                        <p className="text-sm text-gray-400 line-through font-bold">
+                          Rs. {Number(product.price).toLocaleString()}
                         </p>
                       )}
                     </div>
@@ -180,18 +194,19 @@ const WishlistPage = () => {
                       <Button
                         variant="primary"
                         disabled={!inStock}
-                        icon="add_shopping_cart"
-                        className="!p-3 !px-5 text-sm"
+                        icon="shopping_basket"
+                        className="!px-6 !py-3 font-bold"
                         onClick={() => handleAddToCart(item)}
                       >
-                        Add
+                        Add to Cart
                       </Button>
                       <button
                         disabled={removingId === product.id}
                         onClick={() => handleRemove(product.id)}
-                        className="size-11 border border-red-100 dark:border-red-900/30 text-red-500 rounded-xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all active:scale-95 disabled:opacity-50"
+                        className="size-12 bg-red-50 text-red-500 dark:bg-red-500/10 dark:text-red-400 rounded-xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all active:scale-95 disabled:opacity-50 border border-red-100 dark:border-red-500/20 shadow-sm"
+                        title="Remove from Wishlist"
                       >
-                        <span className="material-symbols-outlined text-xl">
+                        <span className="material-symbols-outlined text-2xl">
                           delete
                         </span>
                       </button>

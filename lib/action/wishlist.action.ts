@@ -67,7 +67,9 @@ export async function getWishlist() {
     const items = await prisma.wishlist.findMany({
       where: { anonymousId },
       include: {
-        product: true,
+        product: {
+          include: { category: true }
+        },
       },
       orderBy: { createdAt: 'desc' },
     });
