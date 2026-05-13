@@ -34,11 +34,11 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
       <div className="flex justify-between items-end mb-12">
         <div>
           <h2 className="text-4xl font-bold tracking-tight mb-4">
-            Our Happy Earthlings
+            Satisfied Professionals
           </h2>
           <p className="text-[#121714]/60 dark:text-white/60">
-            Real stories from real customers who switched to a greener
-            lifestyle.
+            Real feedback from tech enthusiasts and professionals who upgraded
+            their workflow with our high-performance gear.
           </p>
         </div>
         <div className="flex gap-2">
@@ -80,7 +80,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
                     style={{ backgroundImage: `url(${avatarUrl})` }}
                   />
                   <div>
-                    <h4 className="font-bold">{review.name ?? "Anonymous"}</h4>
+                    <h3 className="font-bold">{review.name ?? "Anonymous"}</h3>
                     <p
                       className={`text-xs ${isHighlight ? "opacity-70" : "text-[#121714]/60 dark:text-white/60"}`}
                     >

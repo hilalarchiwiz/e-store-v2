@@ -8,8 +8,16 @@ import { getFaqs } from '@/lib/action/home.action';
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Frequently Asked Questions | Ecomare Help Center',
-  description: 'Find answers to common questions about Ecomare orders, shipping, and sustainable practices.',
+  title: 'Frequently Asked Questions | Qaam.pk Help Center',
+  description: 'Find answers to common questions about Qaam.pk orders, technical support, shipping, and product warranties.',
+  openGraph: {
+    title: 'Qaam.pk FAQ | We Have the Answers',
+    description: 'Get help with your Qaam.pk orders and learn more about our high-performance computing products.',
+    url: 'https://qaam.pk/faq',
+    siteName: 'Qaam.pk',
+    images: [{ url: '/images/og-image.png' }],
+    type: 'website',
+  },
 };
 
 const FAQPage = async () => {
@@ -33,7 +41,7 @@ const FAQPage = async () => {
         </div>
         <h1 className="text-4xl md:text-6xl font-black text-[#121714] dark:text-white mb-6">Common Questions</h1>
         <p className="text-lg text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
-          Everything you need to know about our products, billing, and how we're working together for a greener future.
+          Everything you need to know about our tech products, billing, and how we deliver high-performance computing to your doorstep.
         </p>
       </div>
 
@@ -52,7 +60,7 @@ const FAQPage = async () => {
           </div>
           <h2 className="text-3xl md:text-4xl font-black italic">Still have questions?</h2>
           <p className="text-white/60 font-medium">
-            Can't find the answer you're looking for? Please reach out to our friendly green experts.
+            Can't find the answer you're looking for? Please reach out to our technical support team.
           </p>
           <div className="pt-4">
             <Button variant="primary" icon="mail">
@@ -66,8 +74,8 @@ const FAQPage = async () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
         {[
           { title: "Ordering", icon: "shopping_basket", desc: "Track, change, or cancel your orders effortlessly." },
-          { title: "Shipping", icon: "local_shipping", desc: "Learn about our carbon-neutral delivery methods." },
-          { title: "Sustainability", icon: "eco", desc: "Deep dive into our material sourcing and plant care." }
+          { title: "Shipping", icon: "local_shipping", desc: "Learn about our fast and reliable delivery methods." },
+          { title: "Technical Support", icon: "settings", desc: "Deep dive into product specifications and setup guides." }
         ].map((cat, i) => (
           <div key={i} className="p-8 rounded-[2rem] bg-white dark:bg-[#1a251d] border border-primary/5 shadow-xl hover:shadow-2xl transition-all group">
             <div className="size-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-500">

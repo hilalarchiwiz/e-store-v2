@@ -34,9 +34,9 @@ const Subscribe = () => {
           style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #25a752 1px, transparent 0)', backgroundSize: '40px 40px' }}
         />
         <div className="relative z-10 max-w-2xl w-full">
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-6">Join the Eco-Revolution</h2>
+          <h2 className="text-3xl md:text-5xl font-black text-white mb-6">Stay Ahead of the Tech Curve</h2>
           <p className="text-white/70 mb-10 text-lg">
-            Receive sustainability tips, exclusive offers, and early access to new collections directly in your inbox.
+            Receive tech updates, exclusive offers, and early access to new laptop collections directly in your inbox.
           </p>
 
           {subscribed ? (
@@ -75,7 +75,7 @@ const Subscribe = () => {
             </form>
           )}
 
-          <p className="text-[10px] text-white/40 mt-6 uppercase tracking-widest font-bold">No spam. Only green vibes.</p>
+          <p className="text-[10px] text-white/40 mt-6 uppercase tracking-widest font-bold">No spam. Only high-performance tech.</p>
         </div>
       </div>
     </section>

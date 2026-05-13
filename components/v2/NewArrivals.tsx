@@ -163,9 +163,9 @@ const NewArrivals: React.FC<NewArrivalsProps> = ({ products = [] }) => {
                       )}
                     </div>
                   )}
-                  <h4 className="font-bold text-[#121714] dark:text-white group-hover:text-primary transition-colors leading-snug line-clamp-2">
+                  <h3 className="font-bold text-[#121714] dark:text-white group-hover:text-primary transition-colors leading-snug line-clamp-2">
                     {product.name}
-                  </h4>
+                  </h3>
                   <div className="flex items-baseline gap-2">
                     <p className="text-primary font-black text-lg">
                       PKR {product.price.toLocaleString()}

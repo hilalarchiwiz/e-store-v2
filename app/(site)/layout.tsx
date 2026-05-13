@@ -3,9 +3,12 @@ import { Metadata } from "next";
 // Manrope font is now loaded via Google Fonts link in head for build stability
 
 export const metadata: Metadata = {
-  title: "Ecomare v2 | Sustainable Eco-Conscious Shopping",
-  description:
-    "Live Green, Shop Better. Upgrade your home with planet-friendly essentials.",
+  title: {
+    default: "Qaam.pk | Premium Laptops, Tablets & PC Essentials",
+    template: "%s | Qaam.pk"
+  },
+  description: "Upgrade your workspace with high-performance laptops, tablets, and PC gear. Discover the latest tech, new arrivals, and exclusive deals at Qaam.pk.",
+  metadataBase: new URL('https://qaam.pk'),
 };
 
 import { ReduxProvider } from "@/redux/provider";

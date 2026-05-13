@@ -2,6 +2,8 @@ import Breadcrumbs from "@/components/v2/Breadcrumbs";
 import FilterSidebar from "@/components/v2/FilterSidebar";
 import ShopContent from "@/components/v2/ShopContent";
 import prisma from "@/lib/prisma";
+import { Metadata } from "next";
+import Script from "next/script";
 
 export const dynamic = "force-dynamic";
 
@@ -15,6 +17,67 @@ interface ShopPageProps {
     sort?: string;
     search?: string;
   }>;
+}
+
+export async function generateMetadata({ searchParams }: ShopPageProps): Promise<Metadata> {
+  const params = await searchParams;
+  const search = params.search?.trim() || "";
+  const categoryParam = params.category;
+  const brandParam = params.brand;
+
+  let title = "Shop Premium Laptops, Tablets & PC Essentials | Qaam.pk";
+  let description = "Explore our extensive collection of high-performance laptops, tablets, and computing gear at Qaam.pk. Find the perfect tech for work, gaming, and home.";
+
+  if (search) {
+    title = `Search results for "${search}" | Qaam.pk`;
+    description = `Browse the best deals for "${search}" at Qaam.pk. High-quality computing products at competitive prices.`;
+  } else if (categoryParam) {
+    const parts = categoryParam.split(",");
+    const firstPart = parts[0];
+    let categoryName = firstPart;
+
+    if (!isNaN(Number(firstPart))) {
+      const category = await prisma.category.findUnique({
+        where: { id: Number(firstPart) },
+        select: { title: true }
+      });
+      if (category) categoryName = category.title;
+    }
+
+    title = `${categoryName} - Premium Tech Collection | Qaam.pk`;
+    description = `Shop the latest ${categoryName} at Qaam.pk. Discover high-performance options tailored for your needs.`;
+  } else if (brandParam) {
+    const parts = brandParam.split(",");
+    const firstPart = parts[0];
+    let brandName = firstPart;
+
+    if (!isNaN(Number(firstPart))) {
+      const brand = await prisma.brand.findUnique({
+        where: { id: Number(firstPart) },
+        select: { title: true }
+      });
+      if (brand) brandName = brand.title;
+    }
+
+    title = `Premium ${brandName} Products | Qaam.pk`;
+    description = `Discover the complete range of ${brandName} tech products at Qaam.pk. Quality guaranteed with official warranty.`;
+  }
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://qaam.pk/shop${search ? `?search=${search}` : ""}`,
+      siteName: "Qaam.pk",
+      images: [{ url: "/images/og-image.png" }],
+      type: "website",
+    },
+    alternates: {
+      canonical: "/shop",
+    },
+  };
 }
 
 const ShopPage = async ({ searchParams }: ShopPageProps) => {
@@ -202,6 +265,32 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
           totalPages={totalPages}
         />
       </div>
+
+      {/* Structured Data for CollectionPage */}
+      <Script
+        id="shop-collection-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": search ? `Search results for "${search}"` : "Premium Tech Catalog",
+            "description": "Browse our complete catalog of high-performance laptops, tablets, and PC accessories.",
+            "url": `https://qaam.pk/shop${search ? `?search=${search}` : ""}`,
+            "mainEntity": {
+              "@type": "ItemList",
+              "numberOfItems": products.length,
+              "itemListElement": products.map((p, index) => ({
+                "@type": "ListItem",
+                "position": index + 1,
+                "url": `https://qaam.pk/product/${p.id}`,
+                "name": p.name,
+                "image": `https://qaam.pk${p.image}`
+              }))
+            }
+          }),
+        }}
+      />
     </main>
   );
 };

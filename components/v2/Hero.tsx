@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
-import type { HeroSlide } from "@/app/v2/page";
+import type { HeroSlide } from "@/app/(site)/page";
 
 const FALLBACK_SLIDES: HeroSlide[] = [
   {
     id: 0,
-    title: "Live Green, Shop Better",
+    title: "Powerful Performance, Unmatched Portability",
     description:
-      "Upgrade your home with planet-friendly essentials — curated for quality, sustainability, and effortless style.",
+      "Upgrade your workflow with high-performance laptops and tablets — curated for power, efficiency, and effortless style.",
     img: "/images/hero/hero-bg.png",
     link: "/shop",
   },
@@ -101,13 +101,13 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
       >
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/20 backdrop-blur-sm border border-primary/40 text-primary rounded-full text-xs font-bold tracking-widest uppercase w-fit mb-6">
-          <span className="material-symbols-outlined text-sm">verified</span>
-          Eco-Conscious Shopping
+          <span className="material-symbols-outlined text-sm">laptop_mac</span>
+          Premium Computing Gear
         </div>
 
         {/* Title */}
         <h1 className="text-white text-4xl md:text-6xl font-black leading-[1.1] tracking-tight mb-5 drop-shadow-lg">
-          {slide.title.split(",").map((part, i, arr) =>
+          {slide.title.split(",").map((part: string, i: number, arr: string[]) =>
             i < arr.length - 1 ? (
               <React.Fragment key={i}>
                 {part},<br />

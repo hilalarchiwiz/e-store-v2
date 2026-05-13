@@ -8,6 +8,51 @@ import Feedback from "@/components/v2/Feedback";
 import Subscribe from "@/components/v2/Subscribe";
 import prisma from "@/lib/prisma";
 import { getLatestReviews } from "@/lib/action/review.action";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Qaam.pk | Premium Laptops, Tablets & PC Essentials",
+  description:
+    "Upgrade your workspace with high-performance laptops, tablets, and PC gear. Discover the latest tech, new arrivals, and exclusive deals at Ecomare.",
+  keywords: [
+    "laptops",
+    "tablets",
+    "gaming pc",
+    "computer hardware",
+    "tech store",
+    "desktops",
+    "Ecomare",
+    "PC accessories",
+    "high-performance computing",
+  ],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    title: "Qaam.pk | Premium Laptops, Tablets & PC Essentials",
+    description:
+      "Upgrade your workspace with high-performance laptops, tablets, and PC gear. Curated for quality and power.",
+    url: "https://qaam.pk",
+    siteName: "Qaam.pk",
+    images: [
+      {
+        url: "/images/hero/hero-bg.png",
+        width: 1200,
+        height: 630,
+        alt: "Qaam.pk - Premium Laptops & Tech Gear",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Qaam.pk | Laptops, Tablets & PC Essentials",
+    description:
+      "High-performance tech for work and play. Upgrade your home with the latest laptops and tablets.",
+    images: ["/images/og-image.png"],
+  },
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export type HeroSlide = {
   id: number;
@@ -22,10 +67,10 @@ export default async function V2HomePage() {
     where: { status: "active" },
     include: {
       _count: {
-        select: { 
+        select: {
           products: {
-            where: { status: "active" }
-          } 
+            where: { status: "active" },
+          },
         },
       },
     },
@@ -58,16 +103,19 @@ export default async function V2HomePage() {
       oldPrice: discountPercent ? product.price : undefined,
       discountedPrice: product.discountedPrice ?? null,
       description: product.description,
-      images: product.images.length > 0 ? product.images : ["/images/placeholder-product.jpg"],
+      images:
+        product.images.length > 0
+          ? product.images
+          : ["/images/placeholder-product.jpg"],
       image: product.images[0] || "/images/placeholder-product.jpg",
       inStock: product.quantity > 0,
       isNew:
         (new Date().getTime() - new Date(product.createdAt).getTime()) /
-        (1000 * 3600 * 24) <
+          (1000 * 3600 * 24) <
         7,
       rating: 0,
       reviews: 0,
-    }
+    };
   });
 
   const banners = await prisma.banner.findMany({
@@ -84,7 +132,12 @@ export default async function V2HomePage() {
 
   console.log("DEBUG: NEW ARRIVALS COUNT:", newArrivalsData.length);
   console.log("DEBUG: BEST SELLERS COUNT:", bestSellersData.length);
-  console.log("DEBUG: SAMPLE BEST SELLER:", bestSellersData[0] ? { title: bestSellersData[0].title, status: bestSellersData[0].status } : "NONE");
+  console.log(
+    "DEBUG: SAMPLE BEST SELLER:",
+    bestSellersData[0]
+      ? { title: bestSellersData[0].title, status: bestSellersData[0].status }
+      : "NONE",
+  );
 
   const bestSellers = bestSellersData.map((product) => {
     const discountPercent =
@@ -95,7 +148,6 @@ export default async function V2HomePage() {
       ? product.price - (product.price * discountPercent) / 100
       : product.price;
     return {
-
       id: product.id,
       name: product.title,
       price: finalPrice,
@@ -103,11 +155,18 @@ export default async function V2HomePage() {
       discountedPrice: product.discountedPrice ?? null,
       description: product.description,
       image: product.images[0] || "/images/placeholder-product.jpg",
-      images: product.images.length > 0 ? product.images : ["/images/placeholder-product.jpg"],
-      inStock: product.quantity > 0,
+      images:
+        product.images.length > 0
+          ? product.images
+          : ["/images/placeholder-product.jpg"],
+      isNew:
+        (new Date().getTime() - new Date(product.createdAt).getTime()) /
+          (1000 * 3600 * 24) <
+        7,
       rating: 5,
+      reviews: 12,
       soldCount: 120,
-    }
+    };
   });
 
   const latestReviews = await getLatestReviews(8);
@@ -127,6 +186,44 @@ export default async function V2HomePage() {
 
   return (
     <main className="max-w-[1200px] mx-auto pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "Ecomare",
+            url: "https://ecomare.com",
+            potentialAction: {
+              "@type": "SearchAction",
+              target: "https://ecomare.com/shop?q={search_term_string}",
+              "query-input": "required name=search_term_string",
+            },
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Ecomare",
+            url: "https://ecomare.com",
+            logo: "https://ecomare.com/logo.png",
+            contactPoint: {
+              "@type": "ContactPoint",
+              telephone: "+92-300-1234567",
+              contactType: "customer service",
+            },
+            sameAs: [
+              "https://facebook.com/ecomare",
+              "https://instagram.com/ecomare",
+              "https://twitter.com/ecomare",
+            ],
+          }),
+        }}
+      />
       <Hero slides={slides} />
       <CategorySlider categories={categories} />
       <NewArrivals products={newArrivals} />

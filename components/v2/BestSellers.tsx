@@ -175,9 +175,9 @@ const BestSellers: React.FC<BestSellersProps> = ({ products = [] }) => {
                     </span>
                   </div>
 
-                  <h4 className="font-bold text-sm text-[#121714] dark:text-white group-hover:text-primary transition-colors leading-snug line-clamp-2">
+                  <h3 className="font-bold text-sm text-[#121714] dark:text-white group-hover:text-primary transition-colors leading-snug line-clamp-2">
                     {product.name}
-                  </h4>
+                  </h3>
 
                   {/* Price */}
                   <div className="flex items-baseline gap-1.5 mt-0.5">

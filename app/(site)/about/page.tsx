@@ -3,6 +3,20 @@ import Button from '@/components/v2/Button';
 import Link from 'next/link';
 import { getSetting } from '@/app/(admin)/admin/(admin)/setting/actions/setting.action';
 import prisma from '@/lib/prisma';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "About Us | Qaam.pk - High Performance Computing",
+  description: "Discover Qaam.pk, your premier source for premium laptops, tablets, and PC gear. Learn about our mission to provide the best technology solutions.",
+  openGraph: {
+    title: "About Qaam.pk | Your Trusted Tech Partner",
+    description: "Learn about our journey, values, and commitment to delivering top-tier tech gear.",
+    url: "https://qaam.pk/about",
+    siteName: "Qaam.pk",
+    images: [{ url: "/images/og-image.png" }],
+    type: "website",
+  },
+};
 
 async function getAboutData() {
   const [bannerRes, whoWeAreRes, whatWeDoSettingRes, whatWeDo, missionVision, whyChoose, teams] = await Promise.all([
@@ -50,7 +64,7 @@ export default async function AboutPageV2() {
             {banner.title || 'Eco-Conscious Living Starts Here'}
           </h1>
           <p className="text-lg md:text-xl text-white/90 leading-relaxed max-w-2xl mx-auto">
-            {banner.description || 'Discover the story, mission, and passionate team behind Ecomare.'}
+            {banner.description || 'Discover the story, mission, and passionate team behind Qaam.pk.'}
           </p>
         </div>
       </section>
@@ -149,7 +163,7 @@ export default async function AboutPageV2() {
         <section className="bg-[#121714] py-24 md:py-32">
           <div className="max-w-300 mx-auto px-6">
             <h2 className="text-4xl md:text-5xl font-black text-white text-center mb-20">
-              Why Choose <span className="text-primary italic">Ecomare?</span>
+              Why Choose <span className="text-primary italic">Qaam.pk?</span>
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {whyChoose.map((item) => (

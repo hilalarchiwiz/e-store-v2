@@ -1,15 +1,38 @@
 import React from 'react';
-import Header from '@/components/v2/Header';
-import Footer from '@/components/v2/Footer';
 import Breadcrumbs from '@/components/v2/Breadcrumbs';
 import Link from 'next/link';
 import { getPageBySlug } from '@/lib/action/home.action';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
 interface PageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const response = await getPageBySlug(slug);
+
+  if (!response.success || !response.page) return {};
+
+  const { page } = response;
+  const title = `${page.title} | Qaam.pk`;
+  const description = page.content.replace(/<[^>]*>/g, '').substring(0, 160);
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://qaam.pk/${slug}`,
+      siteName: "Qaam.pk",
+      images: [{ url: "/images/og-image.png" }],
+      type: "article",
+    },
+  };
 }
 
 const DynamicPage = async ({ params }: PageProps) => {
