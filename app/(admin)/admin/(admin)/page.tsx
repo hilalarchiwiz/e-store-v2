@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Package } from "lucide-react";
 import { Suspense } from "react";
 import AddButton from "@/components/Admin/Buttons/AddButton";
+import PendingOrdersAlert from "@/components/Admin/Dashboard/PendingOrdersAlert";
 
 export default function AdminDashboard() {
   return (
@@ -25,6 +26,11 @@ export default function AdminDashboard() {
             <AddButton title="Add Product" url="/admin/products/create" />
           </div>
         </div>
+
+        {/* Pending Orders Alert */}
+        <Suspense fallback={null}>
+          <PendingOrdersAlert />
+        </Suspense>
 
         {/* Stats Cards */}
         <Suspense fallback={<StatsLoading />}>

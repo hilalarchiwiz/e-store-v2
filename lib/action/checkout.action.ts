@@ -1,5 +1,6 @@
 "use server";
 import { revalidatePath } from "next/cache";
+import { sendEmail } from "../mailer";
 import { redirect } from "next/navigation";
 import prisma from "../prisma";
 import { discountPrice } from "../helper";
@@ -215,14 +216,14 @@ export async function processCheckout(input: CheckoutInput) {
 
             // Update product stock
             for (const cartItem of input.cartItems) {
-                await tx.product.update({
-                    where: { id: Number(cartItem.productId) },
-                    data: {
-                        quantity: {
-                            decrement: cartItem.quantity,
-                        },
+            await tx.product.update({
+                where: { id: Number(cartItem.productId) },
+                data: {
+                    quantity: {
+                        decrement: cartItem.quantity,
                     },
-                });
+                },
+            });
             }
 
             // Update coupon usage if applied
@@ -247,6 +248,30 @@ export async function processCheckout(input: CheckoutInput) {
 
             return newOrder;
         });
+
+        // Send email to admin (Moved OUTSIDE transaction to prevent timeout)
+        try {
+            await sendEmail({
+                to: "qaamdotpk@gmail.com",
+                subject: `New Order Received (Legacy): ${order.orderNumber}`,
+                html: `
+                    <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+                        <h2 style="color: #16a34a;">New Order Alert!</h2>
+                        <p>A new order has been placed on Ecomare (via Legacy Checkout).</p>
+                        <hr style="border: 0; border-top: 1px solid #eee;" />
+                        <p><strong>Order Number:</strong> ${order.orderNumber}</p>
+                        <p><strong>Total Amount:</strong> PKR ${total.toLocaleString()}</p>
+                        <p><strong>Payment Method:</strong> ${input.paymentMethod}</p>
+                        <p><strong>Customer Email:</strong> ${input.billingAddress?.email || "N/A"}</p>
+                        <hr style="border: 0; border-top: 1px solid #eee;" />
+                        <p>Please log in to the admin dashboard to process this order.</p>
+                        <a href="${process.env.NEXT_PUBLIC_SITE_URL}/admin/orders" style="display: inline-block; background: #16a34a; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">View Order</a>
+                    </div>
+                `,
+            });
+        } catch (emailError) {
+            console.error("Failed to send admin email notification:", emailError);
+        }
 
         let checkoutUrl;
         let data;
@@ -307,6 +332,8 @@ export async function processCheckout(input: CheckoutInput) {
 
         revalidatePath("/cart");
         revalidatePath("/orders");
+        revalidatePath("/admin/orders");
+        revalidatePath("/admin");
         return {
             success: true,
             orderId: order.id,
@@ -342,7 +369,7 @@ export async function getCartItems(userId: string | undefined) {
 }
 
 // Add to cart
-export async function addToCart(userId: string, productId: string, quantity: number = 1) {
+export async function addToCart(userId: string, productId: number, quantity: number = 1) {
     try {
         // Check if product exists and has stock
         const product = await prisma.product.findUnique({
@@ -358,12 +385,10 @@ export async function addToCart(userId: string, productId: string, quantity: num
         }
 
         // Check if item already in cart
-        const existingItem = await prisma.cartItem.findUnique({
+        const existingItem = await prisma.cart.findFirst({
             where: {
-                userId_productId: {
-                    userId,
-                    productId,
-                },
+                userId,
+                productId,
             },
         });
 
@@ -374,13 +399,13 @@ export async function addToCart(userId: string, productId: string, quantity: num
                 return { success: false, error: "Insufficient stock" };
             }
 
-            await prisma.cartItem.update({
+            await prisma.cart.update({
                 where: { id: existingItem.id },
                 data: { quantity: newQuantity },
             });
         } else {
             // Create new cart item
-            await prisma.cartItem.create({
+            await prisma.cart.create({
                 data: {
                     userId,
                     productId,
@@ -400,7 +425,7 @@ export async function addToCart(userId: string, productId: string, quantity: num
 // Update cart item quantity
 export async function updateCartItemQuantity(cartItemId: string, quantity: number) {
     try {
-        const cartItem = await prisma.cartItem.findUnique({
+        const cartItem = await prisma.cart.findUnique({
             where: { id: cartItemId },
             include: { product: true },
         });
@@ -413,7 +438,7 @@ export async function updateCartItemQuantity(cartItemId: string, quantity: numbe
             return { success: false, error: "Insufficient stock" };
         }
 
-        await prisma.cartItem.update({
+        await prisma.cart.update({
             where: { id: cartItemId },
             data: { quantity },
         });
@@ -429,7 +454,7 @@ export async function updateCartItemQuantity(cartItemId: string, quantity: numbe
 // Remove from cart
 export async function removeFromCart(cartItemId: string) {
     try {
-        await prisma.cartItem.delete({
+        await prisma.cart.delete({
             where: { id: cartItemId },
         });
 

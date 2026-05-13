@@ -39,9 +39,10 @@ export async function getUsers(searchParams: {
         const skip = (currentPage - 1) * itemsPerPage;
 
         const whereClause: any = {
-            NOT: {
-                roleName: 'Super Admin'
-            }
+            NOT: [
+                { roleName: 'Super Admin' },
+                { roleName: 'user' }
+            ]
         };
 
         if (query) {
@@ -69,6 +70,53 @@ export async function getUsers(searchParams: {
         return {
             success: true,
             users,
+            totalPages: Math.ceil(totalCount / itemsPerPage),
+            totalCount: totalCount ?? 0
+        };
+    });
+}
+
+// 2.5 Get Customers (Only 'user' role)
+export async function getCustomers(searchParams: {
+    search?: string;
+    page?: string;
+    limit?: string
+}) {
+    return withPermission('user_view', async () => {
+        const query = searchParams.search || "";
+        const currentPage = Number(searchParams.page) || 1;
+        const itemsPerPage = Number(searchParams.limit) || PAGE_SIZE;
+        const skip = (currentPage - 1) * itemsPerPage;
+
+        const whereClause: any = {
+            roleName: 'user'
+        };
+
+        if (query) {
+            whereClause.AND = [
+                {
+                    OR: [
+                        { name: { contains: query, mode: 'insensitive' as const } },
+                        { email: { contains: query, mode: 'insensitive' as const } },
+                    ]
+                }
+            ];
+        }
+
+        const [customers, totalCount] = await Promise.all([
+            prisma.user.findMany({
+                where: whereClause,
+                skip: skip,
+                take: itemsPerPage,
+                orderBy: { createdAt: 'desc' },
+                include: { role: true }
+            }),
+            prisma.user.count({ where: whereClause })
+        ]);
+
+        return {
+            success: true,
+            customers,
             totalPages: Math.ceil(totalCount / itemsPerPage),
             totalCount: totalCount ?? 0
         };

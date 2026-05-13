@@ -23,6 +23,7 @@ import {
     AlertTriangle,
     Menu,
     User,
+    Users,
     Logs
 } from 'lucide-react';
 import Link from 'next/link';
@@ -30,6 +31,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
+import { getPendingOrdersCount } from '@/lib/action/v2-order.action';
+import { useEffect } from 'react';
 
 const menuItems = [
     { icon: Home, label: 'Dashboard', href: '/admin', permission: 'yes' },
@@ -43,6 +46,12 @@ const menuItems = [
         icon: User,
         label: 'User',
         href: '/admin/users',
+        permission: 'user_view'
+    },
+    {
+        icon: Users,
+        label: 'Customers',
+        href: '/admin/customers',
         permission: 'user_view'
     },
     { icon: Layers, label: 'Categories', href: '/admin/category', permission: 'category_view' },
@@ -67,7 +76,21 @@ export default function Sidebar({ permissions }) {
     const pathname = usePathname();
     const dispatch = useDispatch();
     const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const [pendingCount, setPendingCount] = useState(0);
     const router = useRouter();
+
+    useEffect(() => {
+        const fetchCount = async () => {
+            const res = await getPendingOrdersCount();
+            if (res.success) {
+                setPendingCount(res.count);
+            }
+        };
+        fetchCount();
+        // Refresh count every 2 minutes
+        const interval = setInterval(fetchCount, 120000);
+        return () => clearInterval(interval);
+    }, []);
     const visibleMenuItems = menuItems.filter(item => {
         if (item.permission === 'yes') return true;
         return Array.isArray(permissions) && permissions.includes(item.permission);
@@ -166,6 +189,12 @@ export default function Sidebar({ permissions }) {
                         ${isActive ? 'scale-110' : 'group-hover:scale-110'}
                     `} />
                                         <span className="relative z-10">{item.label}</span>
+
+                                        {item.label === 'Orders' && pendingCount > 0 && (
+                                            <span className="ml-auto relative z-10 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center">
+                                                {pendingCount}
+                                            </span>
+                                        )}
 
                                         {isActive && (
                                             <span className="ml-auto w-2 h-2 rounded-full bg-white animate-pulse" />
