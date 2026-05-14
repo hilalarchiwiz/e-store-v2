@@ -238,7 +238,7 @@ export default function Cart() {
                         <p className="font-extrabold text-[#121714] dark:text-white">
                           PKR {Number(price).toLocaleString()}
                         </p>
-                        {item.product.discountedPrice &&
+                        {!!item.product.discountedPrice &&
                           item.product.discountedPrice < item.product.price && (
                             <p className="text-xs text-gray-400 line-through">
                               PKR {Number(item.product.price).toLocaleString()}
