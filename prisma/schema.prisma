@@ -17,6 +17,7 @@ model Category {
   status         CategoryStatus @default(active)
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
+  order_number   Int            @default(0)
 
   products      Product[]
   subCategories SubCategory[]

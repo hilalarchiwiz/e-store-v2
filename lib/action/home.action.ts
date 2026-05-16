@@ -519,6 +519,23 @@ export async function getRecentlyViewedProducts(userId?: string, page: number = 
     }
 }
 
+export async function clearRecentlyViewed(userId?: string) {
+    try {
+        const anonymousId = await getOrCreateAnonymousId();
+        const userFilter = userId ? { userId } : { anonymousId };
+
+        await prisma.recentlyViewed.deleteMany({
+            where: userFilter
+        });
+
+        revalidatePath('/recently-viewed');
+        return { success: true, message: 'History cleared successfully' };
+    } catch (error) {
+        console.error("Error clearing history:", error);
+        return { success: false, message: 'Failed to clear history' };
+    }
+}
+
 export async function addProductToWishlist(productId: number, userId: string | undefined) {
     try {
         // 1. Determine who is adding the product

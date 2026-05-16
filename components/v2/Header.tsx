@@ -22,13 +22,11 @@ interface ProductResult {
 
 const Header = ({ logo }: HeaderProps) => {
   const { data: session } = useSession();
-  const isAdmin = session?.user?.roleName && session.user.roleName !== 'user';
+  const isAdmin = session?.user?.roleName && session.user.roleName !== "user";
   const cartCount = useAppSelector((state) =>
-    state.cartReducer.items.reduce((sum, item) => sum + item.quantity, 0)
+    state.cartReducer.items.reduce((sum, item) => sum + item.quantity, 0),
   );
-  const wishlistCount = useAppSelector(
-    (state) => state.wishlistReducer.count
-  );
+  const wishlistCount = useAppSelector((state) => state.wishlistReducer.count);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
@@ -53,7 +51,9 @@ const Header = ({ logo }: HeaderProps) => {
       if (debouncedSearchQuery.trim().length > 1) {
         setIsSearching(true);
         try {
-          const res = await fetch(`/api/products?q=${encodeURIComponent(debouncedSearchQuery)}`);
+          const res = await fetch(
+            `/api/products?q=${encodeURIComponent(debouncedSearchQuery)}`,
+          );
           const data = await res.json();
           setSearchResults(data.products || []);
           setShowDropdown(true);
@@ -73,7 +73,10 @@ const Header = ({ logo }: HeaderProps) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
         setShowDropdown(false);
       }
     };
@@ -93,20 +96,22 @@ const Header = ({ logo }: HeaderProps) => {
                   <img
                     src={logo.logo}
                     alt="Logo (White)"
-                    className={`h-9 w-auto object-contain ${logo.dark_logo ? 'hidden dark:block' : ''}`}
+                    className={`h-9 w-auto object-contain ${logo.dark_logo ? "hidden dark:block" : ""}`}
                   />
                 )}
                 {logo.dark_logo && (
                   <img
                     src={logo.dark_logo}
                     alt="Logo (Black)"
-                    className={`h-9 w-auto object-contain ${logo.logo ? 'dark:hidden block' : ''}`}
+                    className={`h-9 w-auto object-contain ${logo.logo ? "dark:hidden block" : ""}`}
                   />
                 )}
               </>
             ) : (
               <>
-                <span className="material-symbols-outlined text-3xl font-bold">eco</span>
+                <span className="material-symbols-outlined text-3xl font-bold">
+                  eco
+                </span>
                 <h2 className="text-[#121714] dark:text-white text-2xl font-black leading-tight tracking-[-0.015em]">
                   Ecomare
                 </h2>
@@ -116,13 +121,22 @@ const Header = ({ logo }: HeaderProps) => {
 
           {/* Nav */}
           <nav className="hidden lg:flex items-center gap-8">
-            <Link className="text-[#121714] dark:text-white text-sm font-semibold leading-normal hover:text-primary transition-colors" href="/shop">
+            <Link
+              className="text-[#121714] dark:text-white text-sm font-semibold leading-normal hover:text-primary transition-colors"
+              href="/shop"
+            >
               Shop
             </Link>
-            <Link className="text-[#121714] dark:text-white text-sm font-semibold leading-normal hover:text-primary transition-colors" href="/about">
+            <Link
+              className="text-[#121714] dark:text-white text-sm font-semibold leading-normal hover:text-primary transition-colors"
+              href="/about"
+            >
               About
             </Link>
-            <Link className="text-[#121714] dark:text-white text-sm font-semibold leading-normal hover:text-primary transition-colors" href="/contact">
+            <Link
+              className="text-[#121714] dark:text-white text-sm font-semibold leading-normal hover:text-primary transition-colors"
+              href="/contact"
+            >
               Contact
             </Link>
           </nav>
@@ -130,7 +144,10 @@ const Header = ({ logo }: HeaderProps) => {
 
         <div className="flex flex-1 justify-end items-center gap-4">
           {/* Search */}
-          <div className="hidden md:block flex-1 max-w-md relative" ref={searchRef}>
+          <div
+            className="hidden md:block flex-1 max-w-md relative"
+            ref={searchRef}
+          >
             <form
               onSubmit={handleSearch}
               className="flex items-stretch rounded-lg h-10 bg-[#f1f4f2] dark:bg-[#2a3a2f] border border-transparent focus-within:border-primary transition-all"
@@ -144,7 +161,7 @@ const Header = ({ logo }: HeaderProps) => {
               </div>
               <input
                 className="w-full border-none bg-transparent focus:ring-0 text-sm placeholder:text-[#668571] px-4"
-                placeholder="Search eco-products..."
+                placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -188,7 +205,9 @@ const Header = ({ logo }: HeaderProps) => {
                             />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-gray-400">
-                              <span className="material-symbols-outlined">image</span>
+                              <span className="material-symbols-outlined">
+                                image
+                              </span>
                             </div>
                           )}
                         </div>
@@ -232,7 +251,10 @@ const Header = ({ logo }: HeaderProps) => {
             <ThemeToggle />
 
             {/* Wishlist */}
-            <Link href="/wishlist" className="relative size-10 flex items-center justify-center rounded-lg bg-[#f1f4f2] dark:bg-[#2a3a2f] text-[#121714] dark:text-white hover:bg-primary/20 transition-colors">
+            <Link
+              href="/wishlist"
+              className="relative size-10 flex items-center justify-center rounded-lg bg-[#f1f4f2] dark:bg-[#2a3a2f] text-[#121714] dark:text-white hover:bg-primary/20 transition-colors"
+            >
               <span className="material-symbols-outlined">favorite</span>
               {wishlistCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full bg-primary text-white text-[10px] font-bold leading-none">
@@ -242,7 +264,10 @@ const Header = ({ logo }: HeaderProps) => {
             </Link>
 
             {/* Cart */}
-            <Link href="/cart" className="relative size-10 flex items-center justify-center rounded-lg bg-[#f1f4f2] dark:bg-[#2a3a2f] text-[#121714] dark:text-white hover:bg-primary/20 transition-colors">
+            <Link
+              href="/cart"
+              className="relative size-10 flex items-center justify-center rounded-lg bg-[#f1f4f2] dark:bg-[#2a3a2f] text-[#121714] dark:text-white hover:bg-primary/20 transition-colors"
+            >
               <span className="material-symbols-outlined">shopping_cart</span>
               {cartCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full bg-primary text-white text-[10px] font-bold leading-none">
@@ -252,7 +277,10 @@ const Header = ({ logo }: HeaderProps) => {
             </Link>
 
             {/* Account */}
-            <Link href={isAdmin ? "/admin" : "/dashboard"} className="size-10 flex items-center justify-center rounded-lg bg-primary text-white hover:bg-primary-dark transition-colors">
+            <Link
+              href={isAdmin ? "/admin" : "/dashboard"}
+              className="size-10 flex items-center justify-center rounded-lg bg-primary text-white hover:bg-primary-dark transition-colors"
+            >
               <span className="material-symbols-outlined">person</span>
             </Link>
           </div>

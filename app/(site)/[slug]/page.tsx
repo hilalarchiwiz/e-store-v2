@@ -1,9 +1,9 @@
-import React from 'react';
-import Breadcrumbs from '@/components/v2/Breadcrumbs';
-import Link from 'next/link';
-import { getPageBySlug } from '@/lib/action/home.action';
-import { notFound } from 'next/navigation';
-import { Metadata } from 'next';
+import React from "react";
+import Breadcrumbs from "@/components/v2/Breadcrumbs";
+import Link from "next/link";
+import { getPageBySlug } from "@/lib/action/home.action";
+import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 interface PageProps {
   params: Promise<{
@@ -11,7 +11,9 @@ interface PageProps {
   }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const response = await getPageBySlug(slug);
 
@@ -19,7 +21,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const { page } = response;
   const title = `${page.title} | Qaam.pk`;
-  const description = page.content.replace(/<[^>]*>/g, '').substring(0, 160);
+  const description = page.content.replace(/<[^>]*>/g, "").substring(0, 160);
 
   return {
     title,
@@ -46,14 +48,9 @@ const DynamicPage = async ({ params }: PageProps) => {
   const { page } = response;
 
   return (
-
-
     <main className="flex-1 max-w-[1000px] mx-auto w-full px-6 py-10 md:py-20 flex flex-col gap-10">
       <Breadcrumbs
-        items={[
-          { label: 'Home', href: '/' },
-          { label: page.title }
-        ]}
+        items={[{ label: "Home", href: "/" }, { label: page.title }]}
       />
 
       <article className="animate-in fade-in slide-in-from-bottom-4 duration-700 w-full overflow-hidden break-words">
@@ -62,8 +59,15 @@ const DynamicPage = async ({ params }: PageProps) => {
             {page.title}
           </h1>
           <div className="flex items-center gap-4 text-sm text-gray-400 font-bold uppercase tracking-widest">
-            <span className="material-symbols-outlined text-primary text-xl">event_note</span>
-            Last Updated: {new Date(page.updatedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+            <span className="material-symbols-outlined text-primary text-xl">
+              event_note
+            </span>
+            Last Updated:{" "}
+            {new Date(page.updatedAt).toLocaleDateString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
           </div>
         </header>
 
@@ -90,16 +94,24 @@ const DynamicPage = async ({ params }: PageProps) => {
             <span className="material-symbols-outlined text-4xl">eco</span>
           </div>
           <div>
-            <h3 className="text-xl font-black text-[#121714] dark:text-white">Eco-Conscious Promise</h3>
-            <p className="text-sm text-gray-500 font-medium">This page was rendered with minimal digital carbon footprint.</p>
+            <h3 className="text-xl font-black text-[#121714] dark:text-white">
+              Trusted Tech Store
+            </h3>
+            <p className="text-sm text-gray-500 font-medium">
+              High-quality computers, laptops, accessories, and networking
+              solutions.
+            </p>
           </div>
         </div>
-        <Link href="/shop" className="text-sm font-black uppercase tracking-widest text-[#121714] dark:text-white hover:text-primary transition-colors flex items-center gap-2">
-          Return to Shop <span className="material-symbols-outlined">arrow_forward</span>
+        <Link
+          href="/shop"
+          className="text-sm font-black uppercase tracking-widest text-[#121714] dark:text-white hover:text-primary transition-colors flex items-center gap-2"
+        >
+          Return to Shop{" "}
+          <span className="material-symbols-outlined">arrow_forward</span>
         </Link>
       </div>
     </main>
-
   );
 };
 

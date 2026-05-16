@@ -65,6 +65,9 @@ export type HeroSlide = {
 export default async function V2HomePage() {
   const categoriesData = await prisma.category.findMany({
     where: { status: "active" },
+    orderBy: [
+      { order_number: "asc" }, // nulls will sort last by default in most DBs
+    ],
     include: {
       _count: {
         select: {
@@ -76,12 +79,15 @@ export default async function V2HomePage() {
     },
   });
 
-  const categories = categoriesData.map((cat) => ({
-    name: cat.title,
-    count: cat._count.products,
-    image: cat.img || "/images/categories/categories-01.png",
-  }));
-
+  const categories = categoriesData
+    .sort((a, b) => (a.order_number ?? Infinity) - (b.order_number ?? Infinity))
+    .map((cat) => ({
+      name: cat.title,
+      order_number: cat.order_number,
+      count: cat._count.products,
+      image: cat.img || "/images/categories/categories-01.png",
+    }));
+  console.log(categories);
   const newArrivalsData = await prisma.product.findMany({
     where: { status: "active" },
     orderBy: { createdAt: "desc" },

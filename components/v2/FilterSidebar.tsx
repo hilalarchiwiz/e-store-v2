@@ -294,19 +294,19 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
               onTouchEnd={handlePriceCommit}
             />
             <div className="flex justify-between items-center text-xs text-[#648770] font-bold">
-              <span>${minPrice}</span>
-              <span>${maxPrice}+</span>
+              <span>Rs. {minPrice}</span>
+              <span>Rs. {maxPrice}+</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <div className="flex-1 relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-[#648770] font-bold">
-                $
+                Rs{" "}
               </span>
               <input
-                className="w-full pl-6 pr-2 py-2 text-sm border-[#dce5df] dark:border-[#2a3a30] dark:bg-[#1a2e22] rounded-lg focus:ring-primary focus:border-primary outline-none"
+                className="w-full ml-2 pl-6 pr-2 py-2 text-sm border-[#dce5df] dark:border-[#2a3a30] dark:bg-[#1a2e22] rounded-lg focus:ring-primary focus:border-primary outline-none"
                 placeholder="Min"
-                type="number"
+                type="text"
                 value={priceRange[0]}
                 onChange={(e) => handlePriceChange(0, Number(e.target.value))}
               />
@@ -314,12 +314,12 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
             <span className="text-[#648770]">-</span>
             <div className="flex-1 relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-[#648770] font-bold">
-                $
+                Rs{" "}
               </span>
               <input
-                className="w-full pl-6 pr-2 py-2 text-sm border-[#dce5df] dark:border-[#2a3a30] dark:bg-[#1a2e22] rounded-lg focus:ring-primary focus:border-primary outline-none"
+                className="w-full ml-2 pl-6 pr-2 py-2 text-sm border-[#dce5df] dark:border-[#2a3a30] dark:bg-[#1a2e22] rounded-lg focus:ring-primary focus:border-primary outline-none"
                 placeholder="Max"
-                type="number"
+                type="text"
                 value={priceRange[1]}
                 onChange={(e) => handlePriceChange(1, Number(e.target.value))}
               />

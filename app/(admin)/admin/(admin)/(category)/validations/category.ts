@@ -5,6 +5,7 @@ export const CategorySchema = z.object({
         message: "Title is required",
     }).min(2, "Title must be at least 2 characters").max(100),
     description: z.string().max(500).optional().or(z.literal('')),
+    order_number: z.number().int().optional().default(0),
 });
 
 export type CategoryInput = z.infer<typeof CategorySchema>;

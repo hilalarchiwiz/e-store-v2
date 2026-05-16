@@ -55,14 +55,14 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                     <img
                       src={logo.logo}
                       alt="Logo (White)"
-                      className={`h-9 w-auto object-contain ${logo.dark_logo ? 'hidden dark:block' : ''}`}
+                      className={`h-9 w-auto object-contain ${logo.dark_logo ? "hidden dark:block" : ""}`}
                     />
                   )}
                   {logo.dark_logo && (
                     <img
                       src={logo.dark_logo}
                       alt="Logo (Black)"
-                      className={`h-9 w-auto object-contain ${logo.logo ? 'dark:hidden block' : ''}`}
+                      className={`h-9 w-auto object-contain ${logo.logo ? "dark:hidden block" : ""}`}
                     />
                   )}
                 </>
@@ -175,10 +175,10 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
           <div>
             <h4 className="font-bold text-lg mb-6">Support</h4>
             <ul className="flex flex-col gap-4 text-[#121714]/60 dark:text-white/60 text-sm">
-              <li>
+              {/* <li>
                 <Link
                   className="hover:text-primary transition-colors"
-                  href="/shop"
+                  href="/track-order"
                 >
                   Track Your Order
                 </Link>
@@ -186,7 +186,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
               <li>
                 <Link
                   className="hover:text-primary transition-colors"
-                  href="/shop"
+                  href="/returns-exchanges"
                 >
                   Returns &amp; Exchanges
                 </Link>
@@ -198,7 +198,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                 >
                   Shipping Information
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   className="hover:text-primary transition-colors"

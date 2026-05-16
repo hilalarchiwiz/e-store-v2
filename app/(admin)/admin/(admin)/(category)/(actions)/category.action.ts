@@ -48,6 +48,7 @@ export async function createCategory(prevData: any, formData: FormData) {
         const rawData = {
             title: formData.get('title') as string,
             description: formData.get('description') as string,
+            order_number: parseInt(formData.get('order_number') as string) || 0,
         }
 
         const validatedFields = CategorySchema.safeParse(rawData);
@@ -71,7 +72,7 @@ export async function createCategory(prevData: any, formData: FormData) {
                 message: imageUrlResponse.message,
             }
         };
-        const { title, description } = validatedFields.data;
+        const { title, description, order_number } = validatedFields.data;
         // Inside createCategory or updateCategory
         const specifications: { [key: string]: string } = {};
 
@@ -94,6 +95,7 @@ export async function createCategory(prevData: any, formData: FormData) {
                 title,
                 status: 'active',
                 description: description ?? '',
+                order_number: order_number,
                 img: imageUrlResponse.url || '',
                 specifications
             }
@@ -138,6 +140,7 @@ export async function updateCategory(categoryId: number | undefined, prevData: a
         const rawData = {
             title: formData.get('title') as string,
             description: formData.get('description') as string,
+            order_number: parseInt(formData.get('order_number') as string) || 0,
         }
 
         const validatedFields = CategorySchema.safeParse(rawData);
@@ -166,7 +169,7 @@ export async function updateCategory(categoryId: number | undefined, prevData: a
             };
             imageUrl = imageUrlResponse.url || '';
         }
-        const { title, description } = validatedFields.data;
+        const { title, description, order_number } = validatedFields.data;
         // Inside createCategory or updateCategory
         const specifications: { [key: string]: string } = {};
 
@@ -189,6 +192,7 @@ export async function updateCategory(categoryId: number | undefined, prevData: a
             title,
             description: description ?? '',
             status: 'active',
+            order_number: order_number,
             specifications
         };
 

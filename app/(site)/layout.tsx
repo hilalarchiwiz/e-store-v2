@@ -1,16 +1,5 @@
 import "../css/style.css";
 import { Metadata } from "next";
-// Manrope font is now loaded via Google Fonts link in head for build stability
-
-export const metadata: Metadata = {
-  title: {
-    default: "Qaam.pk | Premium Laptops, Tablets & PC Essentials",
-    template: "%s | Qaam.pk"
-  },
-  description: "Upgrade your workspace with high-performance laptops, tablets, and PC gear. Discover the latest tech, new arrivals, and exclusive deals at Qaam.pk.",
-  metadataBase: new URL('https://qaam.pk'),
-};
-
 import { ReduxProvider } from "@/redux/provider";
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/v2/Header";
@@ -19,6 +8,26 @@ import TopBar from "@/components/v2/TopBar";
 import NavigationProgress from "@/components/v2/NavigationProgress";
 import { getSiteSettings } from "@/lib/action/settings.action";
 import CartInitializer from "@/components/v2/CartInitializer";
+import { getSetting } from "../(admin)/admin/(admin)/setting/actions/setting.action";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { setting } = await getSetting("logo");
+
+  return {
+    title: {
+      default: "Qaam.pk | Premium Laptops, Tablets & PC Essentials",
+      template: "%s | Qaam.pk",
+    },
+    description:
+      "Upgrade your workspace with high-performance laptops, tablets, and PC gear. Discover the latest tech, new arrivals, and exclusive deals at Qaam.pk.",
+    metadataBase: new URL("https://qaam.pk"),
+    icons: {
+      icon: setting?.favicon, // This sets the dynamic favicon
+      shortcut: setting?.favicon,
+      apple: setting?.favicon, // Optional: for apple touch icon
+    },
+  };
+}
 
 export default async function V2Layout({
   children,
@@ -28,11 +37,7 @@ export default async function V2Layout({
   const settings = await getSiteSettings();
 
   return (
-    <html
-      lang="en"
-      className="font-manrope"
-      suppressHydrationWarning={true}
-    >
+    <html lang="en" className="font-manrope" suppressHydrationWarning={true}>
       <head>
         <link
           rel="stylesheet"
