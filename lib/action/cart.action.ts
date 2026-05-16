@@ -112,3 +112,15 @@ export async function getCart() {
     return [];
   }
 }
+
+export async function getProductStock(productId: number): Promise<number> {
+  try {
+    const product = await prisma.product.findUnique({
+      where: { id: productId },
+      select: { quantity: true },
+    });
+    return product?.quantity ?? 0;
+  } catch {
+    return 0;
+  }
+}

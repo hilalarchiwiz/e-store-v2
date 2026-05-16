@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { addItemToCart } from "@/redux/features/cart-slice";
-import { addToCart } from "@/lib/action/cart.action";
+import { addToCart, getProductStock } from "@/lib/action/cart.action";
 import { toast } from "react-hot-toast";
 
 export interface QuickViewProduct {
@@ -42,6 +42,8 @@ export default function QuickViewModal({
   const [activeIdx, setActiveIdx] = useState(0);
   const [imgErrors, setImgErrors] = useState<Record<number, boolean>>({});
   const [quantity, setQuantity] = useState(1);
+  const [maxQty, setMaxQty] = useState<number>(1);
+  const [stockLoaded, setStockLoaded] = useState(false);
 
   const images =
     product.images.length > 0
@@ -50,7 +52,9 @@ export default function QuickViewModal({
   const inStock = product.inStock ?? true;
 
   const salePrice =
-    product.discountedPrice && product.discountedPrice > 0 && product.discountedPrice < product.price
+    product.discountedPrice &&
+    product.discountedPrice > 0 &&
+    product.discountedPrice < product.price
       ? product.discountedPrice
       : null;
   const displayPrice = salePrice ?? product.price;
@@ -58,6 +62,20 @@ export default function QuickViewModal({
     salePrice && product.price > 0
       ? Math.round((1 - salePrice / product.price) * 100)
       : null;
+
+  // Fetch real stock quantity when modal opens
+  useEffect(() => {
+    let cancelled = false;
+    getProductStock(product.id).then((stock) => {
+      if (!cancelled) {
+        setMaxQty(stock);
+        setStockLoaded(true);
+        // Clamp current quantity if needed
+        setQuantity((q) => Math.min(q, stock));
+      }
+    });
+    return () => { cancelled = true; };
+  }, [product.id]);
 
   // Close on ESC, lock body scroll
   useEffect(() => {
@@ -87,6 +105,17 @@ export default function QuickViewModal({
       );
       toast.success("Added to cart");
     } else {
+      // Parse stock limit from error message like "Only 3 more units available (stock: 3)"
+      const stockMatch = result.error?.match(/stock:\s*(\d+)/);
+      const availableMatch = result.error?.match(/Only (\d+) more/);
+      if (stockMatch) {
+        const stockLimit = parseInt(stockMatch[1]);
+        setMaxQty(stockLimit);
+        setQuantity((q) => Math.min(q, stockLimit));
+      } else if (availableMatch) {
+        const alreadyInCart = quantity - parseInt(availableMatch[1]);
+        setMaxQty(alreadyInCart > 0 ? alreadyInCart : 1);
+      }
       toast.error(result.error ?? "Failed to add to cart");
     }
   };
@@ -119,10 +148,11 @@ export default function QuickViewModal({
             <button
               key={i}
               onClick={() => setActiveIdx(i)}
-              className={`relative shrink-0 size-[80px] md:size-[90px] rounded-xl overflow-hidden border-2 transition-colors ${activeIdx === i
-                ? "border-primary"
-                : "border-transparent hover:border-gray-300"
-                }`}
+              className={`relative shrink-0 size-[80px] md:size-[90px] rounded-xl overflow-hidden border-2 transition-colors ${
+                activeIdx === i
+                  ? "border-primary"
+                  : "border-transparent hover:border-gray-300"
+              }`}
             >
               {!imgErrors[i] ? (
                 <Image
@@ -182,10 +212,11 @@ export default function QuickViewModal({
               {[...Array(5)].map((_, i) => (
                 <span
                   key={i}
-                  className={`material-symbols-outlined text-[16px] ${i < product.rating
-                    ? "text-yellow-400 fill-1"
-                    : "text-gray-300"
-                    }`}
+                  className={`material-symbols-outlined text-[16px] ${
+                    i < product.rating
+                      ? "text-yellow-400 fill-1"
+                      : "text-gray-300"
+                  }`}
                 >
                   star
                 </span>
@@ -245,14 +276,21 @@ export default function QuickViewModal({
                   {quantity}
                 </span>
                 <button
-                  onClick={() => setQuantity((q) => q + 1)}
-                  className="size-9 rounded-lg border border-gray-200 dark:border-[#3a4a3f] flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#2a3a2f] transition-colors"
+                  onClick={() => setQuantity((q) => Math.min(maxQty, q + 1))}
+                  disabled={!stockLoaded || quantity >= maxQty}
+                  className="size-9 rounded-lg border border-gray-200 dark:border-[#3a4a3f] flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#2a3a2f] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <span className="material-symbols-outlined text-[18px]">
                     add
                   </span>
                 </button>
               </div>
+              {stockLoaded && maxQty > 0 && (
+                <p className="text-[10px] text-gray-400 mt-1">{maxQty} in stock</p>
+              )}
+              {stockLoaded && maxQty <= 0 && (
+                <p className="text-[10px] text-red-400 font-bold mt-1">Out of stock</p>
+              )}
             </div>
           </div>
 
@@ -285,10 +323,11 @@ export default function QuickViewModal({
 
             <button
               onClick={onToggleWishlist}
-              className={`w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors ${isInWishlist
-                ? "bg-red-500 text-white hover:bg-red-600"
-                : "bg-[#1a2744] dark:bg-[#2a3a2f] text-white hover:bg-[#243060] dark:hover:bg-[#3a4a3f]"
-                }`}
+              className={`w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors ${
+                isInWishlist
+                  ? "bg-red-500 text-white hover:bg-red-600"
+                  : "bg-[#1a2744] dark:bg-[#2a3a2f] text-white hover:bg-[#243060] dark:hover:bg-[#3a4a3f]"
+              }`}
             >
               <span
                 className={`material-symbols-outlined text-[18px] ${isInWishlist ? "fill-1" : ""}`}
