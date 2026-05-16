@@ -288,7 +288,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
               : `© ${year} Ecomare Inc. All rights reserved.`}
           </p>
           <div className="flex items-center gap-8">
-            <a className="hover:text-primary" href="#">
+            {/* <a className="hover:text-primary" href="#">
               Privacy Policy
             </a>
             <a className="hover:text-primary" href="#">
@@ -296,7 +296,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
             </a>
             <a className="hover:text-primary" href="#">
               Cookies
-            </a>
+            </a> */}
           </div>
           <div className="flex items-center gap-4 grayscale opacity-50">
             <span className="material-symbols-outlined">payments</span>
