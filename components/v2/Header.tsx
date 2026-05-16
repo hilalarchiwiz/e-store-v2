@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
 import { useAppSelector } from "@/redux/store";
 import { useDebounce } from "use-debounce";
+import { useSession } from "@/lib/auth-client";
 
 interface HeaderProps {
   logo?: { logo?: string; favicon?: string };
@@ -20,6 +21,8 @@ interface ProductResult {
 }
 
 const Header = ({ logo }: HeaderProps) => {
+  const { data: session } = useSession();
+  const isAdmin = session?.user?.roleName && session.user.roleName !== 'user';
   const cartCount = useAppSelector((state) =>
     state.cartReducer.items.reduce((sum, item) => sum + item.quantity, 0)
   );
@@ -238,7 +241,7 @@ const Header = ({ logo }: HeaderProps) => {
             </Link>
 
             {/* Account */}
-            <Link href="/dashboard" className="size-10 flex items-center justify-center rounded-lg bg-primary text-white hover:bg-primary-dark transition-colors">
+            <Link href={isAdmin ? "/admin" : "/dashboard"} className="size-10 flex items-center justify-center rounded-lg bg-primary text-white hover:bg-primary-dark transition-colors">
               <span className="material-symbols-outlined">person</span>
             </Link>
           </div>
