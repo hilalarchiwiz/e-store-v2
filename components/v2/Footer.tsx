@@ -3,7 +3,7 @@ import { getPages } from "@/lib/action/home.action";
 import generateSession from "@/lib/generate-session";
 
 interface FooterProps {
-  logo?: { logo?: string; favicon?: string };
+  logo?: { logo?: string; dark_logo?: string; favicon?: string };
   generalSetting?: {
     support_number?: string;
     footer_text?: string;
@@ -49,12 +49,23 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
               href="/"
               className="flex items-center gap-2 text-primary mb-6"
             >
-              {logo?.logo ? (
-                <img
-                  src={logo.logo}
-                  alt="Logo"
-                  className="h-9 w-auto object-contain"
-                />
+              {logo?.logo || logo?.dark_logo ? (
+                <>
+                  {logo.logo && (
+                    <img
+                      src={logo.logo}
+                      alt="Logo (White)"
+                      className={`h-9 w-auto object-contain ${logo.dark_logo ? 'hidden dark:block' : ''}`}
+                    />
+                  )}
+                  {logo.dark_logo && (
+                    <img
+                      src={logo.dark_logo}
+                      alt="Logo (Black)"
+                      className={`h-9 w-auto object-contain ${logo.logo ? 'dark:hidden block' : ''}`}
+                    />
+                  )}
+                </>
               ) : (
                 <>
                   <span className="material-symbols-outlined text-3xl font-bold">

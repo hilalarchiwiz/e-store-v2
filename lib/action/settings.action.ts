@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma";
 
 export interface SiteSettings {
-  logo: { logo?: string; favicon?: string };
+  logo: { logo?: string; dark_logo?: string; favicon?: string };
   generalSetting: {
     support_number?: string;
     footer_text?: string;
