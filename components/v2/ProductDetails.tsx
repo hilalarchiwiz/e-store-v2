@@ -283,12 +283,19 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             <Button
               fullWidth
               icon="shopping_cart"
-              className="flex-1 rounded-xl"
+              className="flex-1 rounded-xl hidden sm:flex"
               onClick={handleAddToCart}
               isLoading={cartLoading}
             >
               Add to Cart
             </Button>
+
+            <Button
+              icon="shopping_cart"
+              className="flex-1 rounded-xl sm:hidden"
+              onClick={handleAddToCart}
+              isLoading={cartLoading}
+            />
             <button
               onClick={() => toggleWishlist(product.id)}
               title={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
