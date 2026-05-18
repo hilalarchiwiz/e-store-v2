@@ -154,7 +154,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             />
             {badge && (
               <span
-                className={`absolute top-2 left-2 ${badge.variant === "primary" ? "bg-primary" : "bg-[#121714]"} px-2 py-0.5 rounded text-white text-[9px] font-bold uppercase tracking-wide`}
+                className={`absolute top-2 left-2 ${badge.variant === "primary" ? "bg-primary" : "bg-[#121714]"} px-2 py-0.5 rounded text-white text-[9px] font-bold capitalize tracking-wide`}
               >
                 {badge.text}
               </span>
@@ -283,7 +283,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           {badge && (
             <div className="absolute bottom-4 left-4">
               <span
-                className={`${badge.variant === "primary" ? "bg-primary" : "bg-[#121714]"} px-3 py-1 rounded-lg text-white text-[10px] font-bold uppercase tracking-wide shadow-md`}
+                className={`${badge.variant === "primary" ? "bg-primary" : "bg-[#121714]"} px-3 py-1 rounded-lg text-white text-[10px] font-bold capitalize tracking-wide shadow-md`}
               >
                 {badge.text}
               </span>

@@ -350,11 +350,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
             Shop Sale
           </button>
         </div>
-        <div className="absolute -right-8 -bottom-8 opacity-20 transform rotate-12">
-          <span className="material-symbols-outlined !text-[120px]">
-            psychiatry
-          </span>
-        </div>
+      
       </div>
     </aside>
   );

@@ -76,7 +76,7 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
             {totalProducts}
           </span>
           <span className="text-[#648770] text-sm font-medium">
-            product{totalProducts !== 1 ? "s" : ""} found
+            product {totalProducts !== 1 ? "s" : ""} found
           </span>
         </div>
 
@@ -84,20 +84,22 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
           <button
             onClick={() => onViewModeChange("grid")}
             title="Grid view"
-            className={`p-2.5 border-r border-[#dce5df] dark:border-[#2a3a30] transition-colors ${viewMode === "grid"
-              ? "bg-primary/10 text-primary"
-              : "text-[#648770] hover:bg-[#f0f4f2] dark:hover:bg-[#1a2e22]"
-              }`}
+            className={`p-2.5 border-r border-[#dce5df] dark:border-[#2a3a30] transition-colors ${
+              viewMode === "grid"
+                ? "bg-primary/10 text-primary"
+                : "text-[#648770] hover:bg-[#f0f4f2] dark:hover:bg-[#1a2e22]"
+            }`}
           >
             <span className="material-symbols-outlined text-xl">grid_view</span>
           </button>
           <button
             onClick={() => onViewModeChange("list")}
             title="List view"
-            className={`p-2.5 transition-colors ${viewMode === "list"
-              ? "bg-primary/10 text-primary"
-              : "text-[#648770] hover:bg-[#f0f4f2] dark:hover:bg-[#1a2e22]"
-              }`}
+            className={`p-2.5 transition-colors ${
+              viewMode === "list"
+                ? "bg-primary/10 text-primary"
+                : "text-[#648770] hover:bg-[#f0f4f2] dark:hover:bg-[#1a2e22]"
+            }`}
           >
             <span className="material-symbols-outlined text-xl">view_list</span>
           </button>

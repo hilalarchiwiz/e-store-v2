@@ -711,11 +711,11 @@ export default function CheckoutPage() {
                         <span className="text-xs font-black text-primary">
                           Rs.{(finalPrice * item.quantity).toFixed(2)}
                         </span>
-                        {hasDiscount && (
+                        {hasDiscount ? (
                           <span className="text-[10px] text-gray-400 line-through">
                             Rs.{(item.product.price * item.quantity).toFixed(2)}
                           </span>
-                        )}
+                        ) : null}
                       </div>
                     </div>
                   </div>

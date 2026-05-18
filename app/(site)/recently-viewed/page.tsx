@@ -108,7 +108,7 @@ const RecentlyViewedPage = () => {
         <div className="mt-10 p-8 bg-primary/5 dark:bg-white/5 rounded-3xl border border-primary/10 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <div className="size-14 bg-primary text-white rounded-2xl flex items-center justify-center">
-              <span className="material-symbols-outlined text-3xl">psychiatry</span>
+              <span className="material-symbols-outlined text-3xl">recommend</span>
             </div>
             <div className="text-left">
               <h3 className="font-black text-[#121714] dark:text-white">Need a recommendation?</h3>
