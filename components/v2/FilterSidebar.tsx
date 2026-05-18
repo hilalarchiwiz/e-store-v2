@@ -341,16 +341,15 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
             Green Weekend
           </span>
           <h4 className="text-2xl font-black leading-tight">
-            20% Off All Succulents
+            Power Up Your Setup
           </h4>
           <p className="text-xs text-white/80 leading-relaxed font-medium">
-            Refresh your home office with nature's air purifiers.
+            Save upto 20% on laptops and pc components
           </p>
           <button className="mt-4 w-full bg-white text-primary py-3 rounded-xl text-sm font-black hover:bg-background-light transition-all active:scale-95 shadow-xl">
             Shop Sale
           </button>
         </div>
-      
       </div>
     </aside>
   );
