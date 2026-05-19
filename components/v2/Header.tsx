@@ -235,7 +235,7 @@ const Header = ({ logo }: HeaderProps) => {
                               {product.discountedPrice ? (
                                 <>
                                   <span className="text-primary font-bold text-sm">
-                                    PKR {product.discountedPrice}
+                                    PKR {(product.price * (100 - product.discountedPrice) / 100).toFixed(2)}
                                   </span>
                                   <span className="text-xs text-[#668571] line-through">
                                     PKR {product.price}
