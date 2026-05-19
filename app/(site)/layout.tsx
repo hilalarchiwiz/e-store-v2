@@ -50,7 +50,7 @@ export default async function V2Layout({
       </head>
       <body className="font-display">
         <NavigationProgress />
-        <Toaster position="top-right" />
+        <Toaster position="top-center" />
         <ReduxProvider>
           <CartInitializer />
           <div className="flex flex-col min-h-screen">
