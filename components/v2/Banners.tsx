@@ -19,7 +19,7 @@ const Banners: React.FC<BannersProps> = ({ banners = [] }) => {
   const [banner1, banner2, banner3] = banners;
 
   return (
-    <section className="px-6 py-16">
+    <section className="py-16">
       <div className="grid lg:grid-cols-4 gap-6">
         {/* Banner 1 - Left */}
         {banner1 && (
@@ -88,10 +88,15 @@ const Banners: React.FC<BannersProps> = ({ banners = [] }) => {
               </h3>
               <a
                 href={banner3.link}
-                className="text-sm font-bold underline flex items-center gap-2 justify-end"
+                className="text-sm font-bold underline flex items-baseline space-x-1 justify-end"
               >
                 {banner3.buttonText || "Our Process"}{" "}
-                <span className="material-symbols-outlined text-sm">
+                <span
+                  className="material-symbols-outlined text-sm"
+                  style={{
+                    fontSize: "15px",
+                  }}
+                >
                   arrow_forward
                 </span>
               </a>

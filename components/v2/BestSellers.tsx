@@ -43,9 +43,9 @@ const BestSellers: React.FC<BestSellersProps> = ({ products = [] }) => {
 
   return (
     <>
-      <section className="px-6 py-12">
+      <section className=" py-12">
         {/* Header */}
-        <div className="flex justify-between items-end mb-10">
+        <div className="flex justify-between items-center mb-10">
           <div>
             <p className="text-primary text-xs font-bold uppercase tracking-widest mb-2">
               Top Picks
@@ -67,7 +67,7 @@ const BestSellers: React.FC<BestSellersProps> = ({ products = [] }) => {
         </div>
 
         {/* Grid — 4 cols desktop, 3 tablet, 2 mobile */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {products.slice(0, 12).map((product, idx) => {
 
             return (

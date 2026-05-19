@@ -42,10 +42,10 @@ const NewArrivals: React.FC<NewArrivalsProps> = ({ products = [] }) => {
 
   return (
     <>
-      <section className="px-6 py-10 bg-[#f1f4f2] dark:bg-[#1a251d] rounded-[2rem] mx-6">
-        <div className="max-w-[1100px] mx-auto">
+      <section className="px-6 py-10 bg-[#f1f4f2] dark:bg-[#1a251d] rounded-[2rem] ">
+        <div className="max-w-400 mx-auto">
           {/* Header */}
-          <div className="flex justify-between items-end mb-10">
+          <div className="flex justify-between items-center mb-10">
             <div>
               <p className="text-primary text-xs font-bold uppercase tracking-widest mb-2">
                 Just Arrived
@@ -67,8 +67,8 @@ const NewArrivals: React.FC<NewArrivalsProps> = ({ products = [] }) => {
           </div>
 
           {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.slice(0, 6).map((product, idx) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {products.slice(0, 8).map((product, idx) => (
               <Link
                 key={product.id}
                 href={`/product/${product.id}`}

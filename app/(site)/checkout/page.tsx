@@ -269,7 +269,7 @@ export default function CheckoutPage() {
 
   if (sessionLoading || cartLoading) {
     return (
-      <main className="flex-1 max-w-300 mx-auto w-full px-6 py-16">
+      <main className="flex-1 max-w-400 mx-auto w-full px-6 md:px-10 py-16">
         <div className="animate-pulse space-y-6">
           <div className="h-10 bg-gray-200 dark:bg-white/10 rounded-2xl w-1/3" />
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -287,7 +287,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="flex-1 max-w-300 mx-auto w-full px-6 py-10 md:py-16">
+    <main className="flex-1 max-w-400 mx-auto w-full px-6 md:px-10 py-10 md:py-16">
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm font-bold text-[#648770] hover:text-primary transition-colors mb-4 w-fit">
@@ -791,21 +791,6 @@ export default function CheckoutPage() {
                 Terms of Service
               </Link>
             </p>
-
-            {/* Eco Banner */}
-            <div className="mt-5 p-4 bg-green-50 dark:bg-primary/5 rounded-2xl border border-primary/10">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="material-symbols-outlined text-primary text-lg">
-                  forest
-                </span>
-                <span className="text-[10px] font-black uppercase tracking-widest text-primary">
-                  Planet Impact
-                </span>
-              </div>
-              <p className="text-[10px] text-green-700 dark:text-green-500 leading-relaxed font-bold">
-                2 TREES WILL BE PLANTED WITH THIS ORDER.
-              </p>
-            </div>
           </div>
         </div>
       </div>

@@ -70,9 +70,9 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ categories = [] }) => {
   };
 
   return (
-    <section className="px-6 py-12">
+    <section className="py-12">
       {/* Header */}
-      <div className="flex justify-between items-end mb-10 max-w-7xl mx-auto">
+      <div className="flex justify-between items-end mb-10 ">
         <div>
           <p className="text-primary text-xs font-bold uppercase tracking-widest mb-2">
             Shop By Category
@@ -107,7 +107,7 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ categories = [] }) => {
       </div>
 
       {/* Cards */}
-      <div className="relative max-w-7xl mx-auto">
+      <div className="relative  mx-auto">
         <div
           ref={scrollRef}
           className="flex gap-6 sm:gap-10 overflow-x-auto no-scrollbar scroll-smooth pb-4 snap-x snap-mandatory py-2"

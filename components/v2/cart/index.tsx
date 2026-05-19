@@ -105,7 +105,7 @@ export default function Cart() {
   const total = subtotal;
 
   return (
-    <main className="flex-1 max-w-[1200px] mx-auto w-full px-6 py-10 md:py-16 flex flex-col gap-10">
+    <main className="flex-1 max-w-400 mx-auto w-full px-6 md:px-10 py-10 md:py-16 flex flex-col gap-10">
       <Breadcrumbs
         items={[{ label: "Home", href: "/" }, { label: "Shopping Cart" }]}
       />
@@ -344,16 +344,6 @@ export default function Cart() {
                   Proceed to Checkout
                 </Button>
               </Link>
-
-              <div className="mt-6 flex items-center gap-3 p-4 bg-green-50 dark:bg-primary/5 rounded-2xl">
-                <span className="material-symbols-outlined text-green-600 shrink-0">
-                  eco
-                </span>
-                <p className="text-[10px] font-bold text-green-700 dark:text-green-500 leading-tight">
-                  This order will plant 2 trees through our partnership with One
-                  Tree Planted.
-                </p>
-              </div>
             </div>
           </div>
         </div>

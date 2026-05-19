@@ -21,7 +21,7 @@ export default async function ContactPage() {
   const { contactInfo, generalSetting } = await getSiteSettings();
 
   return (
-    <main className="flex-1 max-w-300 mx-auto w-full px-6 py-10 md:py-16 flex flex-col gap-10">
+    <main className="flex-1 max-w-400 mx-auto w-full px-6 md:px-10 py-10 md:py-16 flex flex-col gap-10">
       <Breadcrumbs
         items={[{ label: "Home", href: "/" }, { label: "Contact Us" }]}
       />

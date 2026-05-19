@@ -325,12 +325,12 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
               />
             </div>
           </div>
-          <button
+          {/* <button
             onClick={handlePriceCommit}
             className="w-full bg-primary text-white py-2 rounded-lg font-bold text-sm hover:bg-primary-dark transition-colors shadow-lg shadow-primary/20"
           >
             Apply Price
-          </button>
+          </button> */}
         </div>
       </FilterSection>
 

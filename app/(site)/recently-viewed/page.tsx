@@ -41,7 +41,7 @@ const RecentlyViewedPage = () => {
 
   return (
     <>
-      <main className="flex-1 max-w-[1200px] mx-auto w-full px-6 py-10 md:py-16 flex flex-col gap-10">
+      <main className="flex-1 max-w-400 mx-auto w-full px-6 md:px-10 py-10 md:py-16 flex flex-col gap-10">
         <Breadcrumbs
           items={[
             { label: 'Home', href: '/' },
@@ -104,19 +104,6 @@ const RecentlyViewedPage = () => {
             ))}
           </div>
         )}
-
-        <div className="mt-10 p-8 bg-primary/5 dark:bg-white/5 rounded-3xl border border-primary/10 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="size-14 bg-primary text-white rounded-2xl flex items-center justify-center">
-              <span className="material-symbols-outlined text-3xl">recommend</span>
-            </div>
-            <div className="text-left">
-              <h3 className="font-black text-[#121714] dark:text-white">Need a recommendation?</h3>
-              <p className="text-sm text-gray-500">Our eco-experts have curated collections just for you.</p>
-            </div>
-          </div>
-          <Button variant="primary" icon="auto_awesome">Get Recommendations</Button>
-        </div>
       </main>
     </>
   );

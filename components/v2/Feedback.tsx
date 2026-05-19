@@ -30,8 +30,8 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
   const useDB = reviews.length > 0;
 
   return (
-    <section className="px-6 py-16">
-      <div className="flex justify-between items-end mb-12">
+    <section className="py-16">
+      <div className="flex justify-between items-center mb-12">
         <div>
           <h2 className="text-4xl font-bold tracking-tight mb-4">
             Satisfied Professionals

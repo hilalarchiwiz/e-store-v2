@@ -107,7 +107,7 @@ const Header = ({ logo }: HeaderProps) => {
   return (
     <>
       <header className="sticky top-0 z-50 bg-white dark:bg-background-dark border-b border-solid border-[#f1f4f2] dark:border-[#2a3a2f] px-6 md:px-10 py-4">
-        <div className="max-w-300 mx-auto flex items-center justify-between gap-8">
+        <div className="max-w-400 mx-auto flex items-center justify-between gap-8">
           <div className="flex items-center gap-10">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 text-primary">

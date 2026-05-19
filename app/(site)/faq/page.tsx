@@ -26,7 +26,7 @@ const FAQPage = async () => {
   return (
 
 
-    <main className="flex-1 max-w-[1200px] mx-auto w-full px-6 py-10 md:py-20 flex flex-col gap-10">
+    <main className="flex-1 max-w-400 mx-auto w-full px-6 md:px-10 py-10 md:py-20 flex flex-col gap-10">
       <Breadcrumbs
         items={[
           { label: 'Home', href: '/' },
@@ -34,7 +34,7 @@ const FAQPage = async () => {
         ]}
       />
 
-      <div className="text-center max-w-3xl mx-auto mb-10">
+      <div className="text-center max-w-300 mx-auto mb-10">
         <div className="inline-flex items-center gap-2 mb-6 text-primary">
           <span className="material-symbols-outlined text-4xl">help_center</span>
           <span className="text-sm font-black uppercase tracking-[0.3em]">Help Center</span>

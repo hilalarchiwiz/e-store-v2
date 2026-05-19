@@ -69,13 +69,13 @@ export default async function AboutPageV2() {
         </div>
       </section>
 
-      <div className="max-w-300 mx-auto w-full px-6 -mt-8 relative z-20 mb-10">
+      <div className="max-w-400 md:px-10 mx-auto w-full px-6 -mt-8 relative z-20 mb-10">
         <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About Us' }]} />
       </div>
 
       {/* 2. Who We Are */}
       {(whoWeAre.title || whoWeAre.description) && (
-        <section className="max-w-300 mx-auto px-6 py-20 md:py-32 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <section className="max-w-400 md:px-10 mx-auto px-6 py-20 md:py-32 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <div className="space-y-8">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest">
               Visionaries
@@ -115,7 +115,7 @@ export default async function AboutPageV2() {
 
       {/* 3. What We Do */}
       <section className="bg-primary/5 dark:bg-[#1a251d]/30 py-24 md:py-32">
-        <div className="max-w-300 mx-auto px-6 text-center">
+        <div className="max-w-400 md:px-10 mx-auto px-6 text-center">
           <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] mb-4 block">Our Services</span>
           <h2 className="text-4xl md:text-5xl font-black text-[#121714] dark:text-white mb-4">
             {whatWeDoSetting.title || 'What We Do'}
@@ -144,7 +144,7 @@ export default async function AboutPageV2() {
 
       {/* 4. Mission & Vision */}
       {missionVision.length > 0 && (
-        <section className="max-w-300 mx-auto px-6 py-24 md:py-32 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <section className="max-w-400 md:px-10 mx-auto px-6 py-24 md:py-32 grid grid-cols-1 md:grid-cols-2 gap-8">
           {missionVision.map((item, i) => (
             <div key={item.id} className={`${CARD_STYLES[i % CARD_STYLES.length]} p-12 md:p-20 rounded-[3rem] shadow-2xl relative overflow-hidden group`}>
               <div className="absolute -top-10 -right-10 size-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
@@ -161,7 +161,7 @@ export default async function AboutPageV2() {
       {/* 5. Why Choose Us */}
       {whyChoose.length > 0 && (
         <section className="bg-[#121714] py-24 md:py-32">
-          <div className="max-w-300 mx-auto px-6">
+          <div className="max-w-400 md:px-10 mx-auto px-6">
             <h2 className="text-4xl md:text-5xl font-black text-white text-center mb-20">
               Why Choose <span className="text-primary italic">Qaam.pk?</span>
             </h2>
@@ -182,7 +182,7 @@ export default async function AboutPageV2() {
 
       {/* 6. Team */}
       {teams.length > 0 && (
-        <section className="max-w-300 mx-auto px-6 py-24 md:py-32">
+        <section className="max-w-400 md:px-10 mx-auto px-6 py-24 md:py-32">
           <div className="text-center mb-20">
             <div className="inline-flex items-center gap-2 mb-6 text-primary">
               <span className="material-symbols-outlined text-4xl">groups</span>

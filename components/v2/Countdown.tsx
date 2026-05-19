@@ -2,7 +2,7 @@ import React from 'react';
 
 const Countdown = () => {
   return (
-    <section className="px-6 py-12">
+    <section className="py-12">
       <div className="bg-primary-dark rounded-[2.5rem] p-10 md:p-16 text-center text-white relative overflow-hidden shadow-2xl shadow-primary-dark/40">
         <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
           <span className="material-symbols-outlined text-[200px]">eco</span>

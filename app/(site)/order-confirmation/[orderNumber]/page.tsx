@@ -40,7 +40,7 @@ export default async function OrderConfirmationPage({
   });
 
   return (
-    <main className="flex-1 max-w-300 mx-auto w-full px-6 py-10 md:py-16">
+    <main className="flex-1 max-w-400 mx-auto w-full px-6 md:px-10 py-10 md:py-16">
       {/* Success Banner */}
       <div className="bg-gradient-to-br from-primary/10 to-green-500/10 border border-primary/20 rounded-3xl p-8 md:p-12 mb-10 text-center">
         <div className="size-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-primary/30">
@@ -188,17 +188,6 @@ export default async function OrderConfirmationPage({
               <span className="material-symbols-outlined text-xl">storefront</span>
               Continue Shopping
             </Link>
-          </div>
-
-          {/* Eco */}
-          <div className="p-5 bg-green-50 dark:bg-primary/5 rounded-2xl border border-primary/10">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="material-symbols-outlined text-primary text-xl">forest</span>
-              <span className="text-[10px] font-black uppercase tracking-widest text-primary">Planet Impact</span>
-            </div>
-            <p className="text-xs text-green-700 dark:text-green-500 leading-relaxed font-bold">
-              2 TREES WILL BE PLANTED WITH THIS ORDER. THANK YOU FOR MAKING A DIFFERENCE!
-            </p>
           </div>
         </div>
       </div>

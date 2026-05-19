@@ -12,7 +12,9 @@ interface PageProps {
   }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { id } = await params;
   const productId = parseInt(id);
 
@@ -20,13 +22,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const product = await prisma.product.findUnique({
     where: { id: productId },
-    include: { category: true }
+    include: { category: true },
   });
 
   if (!product) return {};
 
   const title = `${product.title} | Qaam.pk`;
-  const description = product.description?.substring(0, 160) || `Buy ${product.title} at Qaam.pk. Discover high-performance tech and premium PC gear.`;
+  const description =
+    product.description?.substring(0, 160) ||
+    `Buy ${product.title} at Qaam.pk. Discover high-performance tech and premium PC gear.`;
 
   return {
     title,
@@ -87,7 +91,7 @@ export default async function ProductPage({ params }: PageProps) {
   });
 
   return (
-    <main className="max-w-[1440px] mx-auto w-full px-6 py-6 md:py-10 flex flex-col gap-8">
+    <main className="max-w-400 mx-auto w-full px-6 py-6 md:py-10 md:px-10 flex flex-col gap-8">
       <Breadcrumbs
         items={[
           { label: "Home", href: "/" },
@@ -100,7 +104,7 @@ export default async function ProductPage({ params }: PageProps) {
         ]}
       />
 
-      <div className="bg-white dark:bg-[#1a251d] rounded-[3rem] p-8 md:p-12 shadow-xl border border-gray-100 dark:border-white/5">
+      <div className="bg-white dark:bg-[#1a251d] rounded-[3rem] p-8 md:p-12  dark:border-white/5">
         <ProductDetails
           product={{
             ...product,
@@ -126,28 +130,35 @@ export default async function ProductPage({ params }: PageProps) {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            "name": product.title,
-            "image": product.images.map(img => `https://qaam.pk${img}`),
-            "description": product.description,
-            "brand": {
+            name: product.title,
+            image: product.images.map((img) => `https://qaam.pk${img}`),
+            description: product.description,
+            brand: {
               "@type": "Brand",
-              "name": "Qaam.pk"
+              name: "Qaam.pk",
             },
-            "offers": {
+            offers: {
               "@type": "Offer",
-              "url": `https://qaam.pk/product/${id}`,
-              "priceCurrency": "PKR",
-              "price": product.discountedPrice || product.price,
-              "availability": product.quantity > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-              "itemCondition": "https://schema.org/NewCondition"
+              url: `https://qaam.pk/product/${id}`,
+              priceCurrency: "PKR",
+              price: product.discountedPrice || product.price,
+              availability:
+                product.quantity > 0
+                  ? "https://schema.org/InStock"
+                  : "https://schema.org/OutOfStock",
+              itemCondition: "https://schema.org/NewCondition",
             },
-            ...(product.reviews.length > 0 ? {
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": product.reviews.reduce((acc, r) => acc + r.rating, 0) / product.reviews.length,
-                "reviewCount": product.reviews.length
-              }
-            } : {})
+            ...(product.reviews.length > 0
+              ? {
+                  aggregateRating: {
+                    "@type": "AggregateRating",
+                    ratingValue:
+                      product.reviews.reduce((acc, r) => acc + r.rating, 0) /
+                      product.reviews.length,
+                    reviewCount: product.reviews.length,
+                  },
+                }
+              : {}),
           }),
         }}
       />

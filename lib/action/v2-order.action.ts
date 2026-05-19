@@ -277,12 +277,13 @@ export async function getOrderByNumber(orderNumber: string) {
       where: { orderNumber, userId: session.user.id },
       include: {
         orderItems: {
-          include: { product: { select: { id: true, title: true, images: true, price: true } } },
+          include: { product: { select: { id: true, title: true, images: true, price: true,discountedPrice:true } } },
         },
         billingAddress: true,
         shippingAddress: true,
       },
     });
+    console.log(order);
 
     if (!order) return { success: false, order: null, error: "Order not found" };
     return { success: true, order };

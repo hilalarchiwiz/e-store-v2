@@ -148,10 +148,10 @@ export default function DashboardPage() {
           </h2>
           <Link
             href="/dashboard/orders"
-            className="text-sm font-bold text-primary hover:underline flex items-center gap-1"
+            className="text-sm font-bold text-primary flex items-center gap-1 transition-colors group"
           >
-            View All
-            <span className="material-symbols-outlined text-base">
+            <span className="group-hover:underline">View All</span>
+            <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">
               arrow_forward
             </span>
           </Link>

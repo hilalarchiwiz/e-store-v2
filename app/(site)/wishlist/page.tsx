@@ -73,7 +73,7 @@ const WishlistPage = () => {
   );
 
   return (
-    <main className="max-w-[1200px] mx-auto w-full px-6 py-10 md:py-16 flex flex-col gap-10">
+    <main className="max-w-400 mx-auto w-full px-6 md:px-10 py-10 md:py-16 flex flex-col gap-10">
       <Breadcrumbs
         items={[{ label: "Home", href: "/" }, { label: "My Wishlist" }]}
       />

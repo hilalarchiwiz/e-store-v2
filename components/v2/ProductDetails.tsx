@@ -309,7 +309,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             </button>
           </div>
 
-          {/* Buy Now */}
+         <div className="lg:flex block space-y-4 lg:space-y-0 my-2 lg:space-x-4">
+           {/* Buy Now */}
           <Button
             fullWidth
             icon="bolt"
@@ -324,7 +325,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           {/* WhatsApp */}
           <button
             onClick={handleWhatsApp}
-            className="w-full flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#20bd5a] hover:shadow-xl hover:shadow-green-500/20 active:scale-[0.98] text-white font-black py-4 rounded-2xl transition-all group"
+            className="w-full flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#20bd5a] hover:shadow-xl hover:shadow-green-500/20 active:scale-[0.98] text-white font-black py-4 rounded-xl transition-all group"
           >
             <svg
               className="w-6 h-6 fill-white shrink-0 group-hover:rotate-12 transition-transform"
@@ -337,6 +338,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               Order on WhatsApp
             </span>
           </button>
+          </div>
 
           {/* Trust badges */}
           <div className="flex flex-col gap-2 text-sm text-gray-500 font-medium">

@@ -39,7 +39,7 @@ const DashboardSidebar = () => {
   };
 
   return (
-    <aside className="w-full lg:w-72 shrink-0">
+    <aside className="w-full lg:w-92 shrink-0">
       <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl overflow-hidden sticky top-24">
         {/* User Info */}
         <div className="p-8 border-b border-gray-100 dark:border-white/5">

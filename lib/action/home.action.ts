@@ -1252,19 +1252,30 @@ export async function getTeams() {
 export async function getBlogs({
     page = 1,
     pageSize = PAGE_SIZE,
-    tag
+    tag,
+    search
 }: {
     page?: number,
     pageSize?: number,
-    tag?: string
+    tag?: string,
+    search?: string
 }) {
     try {
         const skip = (page - 1) * pageSize;
 
         // Build the where clause dynamically
-        const where = tag && tag !== "All Posts"
-            ? { tag: tag }
-            : {};
+        const where: any = {};
+        
+        if (tag && tag !== "All Posts") {
+            where.tag = tag;
+        }
+        
+        if (search) {
+            where.OR = [
+                { title: { contains: search, mode: 'insensitive' } },
+                { description: { contains: search, mode: 'insensitive' } },
+            ];
+        }
 
         const [blogs, totalCount] = await Promise.all([
             prisma.blog.findMany({

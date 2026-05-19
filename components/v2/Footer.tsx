@@ -41,7 +41,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
 
   return (
     <footer className="bg-white dark:bg-[#0c120e] border-t border-[#f1f4f2] dark:border-[#2a3a2f] pt-16 pb-8">
-      <div className="max-w-300 mx-auto px-6 lg:px-10">
+      <div className="max-w-400 mx-auto px-6 lg:px-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div>
@@ -301,7 +301,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-[#f1f4f2] dark:border-[#2a3a2f] pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-[#121714]/40 dark:text-white/40">
+        <div className="border-t border-[#f1f4f2] dark:border-[#2a3a2f] pt-8 flex flex-col md:flex-row justify-center items-center gap-6 text-sm text-[#121714]/40 dark:text-white/40">
           <p>
             {generalSetting?.footer_text
               ? generalSetting.footer_text
@@ -318,11 +318,11 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
               Cookies
             </a> */}
           </div>
-          <div className="flex items-center gap-4 grayscale opacity-50">
+          {/* <div className="flex items-center gap-4 grayscale opacity-50">
             <span className="material-symbols-outlined">payments</span>
             <span className="material-symbols-outlined">credit_card</span>
             <span className="material-symbols-outlined">wallet</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>
