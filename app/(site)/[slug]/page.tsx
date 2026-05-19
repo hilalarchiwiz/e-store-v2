@@ -86,31 +86,6 @@ const DynamicPage = async ({ params }: PageProps) => {
           />
         </div>
       </article>
-
-      {/* Global Sustainability Impact Section to maintain branding */}
-      <div className="mt-20 p-10 bg-primary/5 dark:bg-white/5 rounded-[3rem] border border-primary/10 flex flex-col md:flex-row items-center justify-between gap-8">
-        <div className="flex items-center gap-6">
-          <div className="size-16 bg-primary rounded-3xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
-            <span className="material-symbols-outlined text-4xl">eco</span>
-          </div>
-          <div>
-            <h3 className="text-xl font-black text-[#121714] dark:text-white">
-              Trusted Tech Store
-            </h3>
-            <p className="text-sm text-gray-500 font-medium">
-              High-quality computers, laptops, accessories, and networking
-              solutions.
-            </p>
-          </div>
-        </div>
-        <Link
-          href="/shop"
-          className="text-sm font-black uppercase tracking-widest text-[#121714] dark:text-white hover:text-primary transition-colors flex items-center gap-2"
-        >
-          Return to Shop{" "}
-          <span className="material-symbols-outlined">arrow_forward</span>
-        </Link>
-      </div>
     </main>
   );
 };
