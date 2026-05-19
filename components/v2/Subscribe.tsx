@@ -27,15 +27,19 @@ const Subscribe = () => {
   };
 
   return (
-    <section className="py-10">
-      <div className="bg-[#1a251d] rounded-3xl p-10 md:p-20 relative overflow-hidden flex flex-col items-center text-center">
-        <div
-          className="absolute inset-0 opacity-10 pointer-events-none"
-          style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #25a752 1px, transparent 0)', backgroundSize: '40px 40px' }}
-        />
-        <div className="relative z-10 max-w-2xl w-full">
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-6">Stay Ahead of the Tech Curve</h2>
-          <p className="text-white/70 mb-10 text-lg">
+    <section className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-section-gap bg-surface-container rounded-[40px] overflow-hidden my-8">
+      <div className="bg-emerald-deep rounded-[40px] px-8 py-20 text-center relative overflow-hidden group">
+        {/* Subtle decorative elements */}
+        <div className="absolute top-0 right-0 p-20 opacity-10 pointer-events-none group-hover:scale-105 transition-transform duration-500">
+          <span className="material-symbols-outlined text-[200px] text-white">eco</span>
+        </div>
+        
+        <div className="relative z-10 max-w-2xl mx-auto space-y-8">
+          <h2 className="font-display-hero text-display-hero-mobile md:text-display-hero text-white leading-tight">
+            Stay Ahead of the Tech Curve
+          </h2>
+          
+          <p className="font-body-lg text-body-lg text-surface-variant/80">
             Receive tech updates, exclusive offers, and early access to new laptop collections directly in your inbox.
           </p>
 
@@ -48,9 +52,9 @@ const Subscribe = () => {
               <p className="text-white/60">Check your inbox for a welcome message.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4 w-full max-w-lg mx-auto">
+            <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4 max-w-lg mx-auto w-full">
               <input
-                className="flex-1 h-14 rounded-xl px-6 bg-white/10 border border-white/20 text-white placeholder:text-white/40 focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
+                className="flex-1 bg-white/10 border border-white/20 text-white placeholder:text-white/40 rounded-xl px-6 py-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
                 placeholder="Your email address"
                 required
                 type="email"
@@ -59,7 +63,7 @@ const Subscribe = () => {
                 disabled={loading}
               />
               <button
-                className="h-14 bg-primary text-white font-bold px-8 rounded-xl hover:bg-primary/90 transition-all whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 min-w-40"
+                className="bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold px-8 py-4 rounded-xl transition-all whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
                 type="submit"
                 disabled={loading}
               >
@@ -75,7 +79,9 @@ const Subscribe = () => {
             </form>
           )}
 
-          <p className="text-[10px] text-white/40 mt-6 uppercase tracking-widest font-bold">No spam. Only high-performance tech.</p>
+          <p className="text-[10px] text-white/40 uppercase tracking-widest">
+            No spam. Only high-performance tech.
+          </p>
         </div>
       </div>
     </section>

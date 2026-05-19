@@ -2,6 +2,24 @@
 @plugin "@tailwindcss/typography";
 @variant dark (&:where(.dark, .dark *));
 
+:root {
+  --primary: #006d30; /* Classy deep forest green from Qaam */
+  --primary-dark: #005322;
+  --background-light: #f7f9fb; /* Light soft background from Qaam */
+  --background-dark: #121714; /* Emerald-deep dark background from Qaam */
+  --surface-light: #ffffff;
+  --surface-dark: #1a251d; /* Clean matching dark surface */
+  --border-light: #e0e3e5; /* Clean light border */
+  --border-dark: #3e4a3e; /* Matching dark forest border */
+  --text-light: #191c1e; /* Crisp slate dark gray from Qaam */
+  --text-dark: #f7f9fb; /* Soft white from Qaam */
+}
+
+.dark {
+  --primary: #006d30;
+  --primary-dark: #005322;
+}
+
 button {
   @apply cursor-pointer;
 }
@@ -141,8 +159,8 @@ button {
   --color-gray-6: #6b7280;
   --color-gray-7: #374151;
 
-  --color-blue: #182c1f;
-  --color-blue-dark: #1a7339;
+  --color-blue: #a3ba99;
+  --color-blue-dark: #86a37a;
   --color-blue-light: #5475e5;
   --color-blue-light-2: #8099ec;
   --color-blue-light-3: #adbcf2;
@@ -345,18 +363,138 @@ button {
     0px 2px 2px 0px rgba(33, 37, 41, 0.06);
   --shadow-filter: 0px 1px 0px 0px #e5e7eb;
   --shadow-list: 1px 0px 0px 0px #e5e7eb;
-  --shadow-input: inset 0 0 0 2px #182c1f;
+  --shadow-input: inset 0 0 0 2px #a3ba99;
 
   /* V2 Theme Additions - Dark mode configured via @variant dark above */
-  --color-primary: #25a752;
-  --color-primary-dark: #1a7339;
-  --color-background-light: #f6f8f7;
-  --color-background-dark: #132017;
-  --font-display: var(--font-manrope), "Manrope", sans-serif;
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-background-light: var(--background-light);
+  --color-background-dark: var(--background-dark);
+  --font-display: "Montserrat", var(--font-manrope), "Manrope", sans-serif;
+  --font-sans: "Inter", var(--font-manrope), "Manrope", sans-serif;
   --radius-default: 0.25rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
   --radius-full: 9999px;
+
+  /* Qaam Custom Theme Tokens */
+  --color-on-secondary-fixed-variant: #3e4a40;
+  --color-on-secondary-container: #5b675d;
+  --color-on-secondary: #ffffff;
+  --color-emerald-deep: #121714;
+  --color-primary: #006d30;
+  --color-primary-container: #25a752;
+  --color-slate-charcoal: #334155;
+  --color-on-primary: #ffffff;
+  --color-on-background: #191c1e;
+  --color-surface-container-high: #e6e8ea;
+  --color-on-tertiary-fixed: #161c22;
+  --color-error-red: #EF4444;
+  --color-surface-bright: #f7f9fb;
+  --color-on-error: #ffffff;
+  --color-on-surface: #191c1e;
+  --color-inverse-surface: #2d3133;
+  --color-error: #ba1a1a;
+  --color-surface-variant: #e0e3e5;
+  --color-error-container: #ffdad6;
+  --color-surface-tint: #006d30;
+  --color-surface: #f7f9fb;
+  --color-on-tertiary-fixed-variant: #41474e;
+  --color-secondary-container: #d9e6d9;
+  --color-surface-container-highest: #e0e3e5;
+  --color-tertiary-container: #8c939a;
+  --color-secondary-fixed: #d9e6d9;
+  --color-primary-fixed: #82fb9b;
+  --color-tertiary-fixed: #dde3eb;
+  --color-secondary-fixed-dim: #bdcabe;
+  --color-inverse-primary: #65de82;
+  --color-outline: #6e7a6d;
+  --color-surface-container: #eceef0;
+  --color-on-primary-fixed: #00210a;
+  --color-surface-dim: #d8dadc;
+  --color-on-surface-variant: #3e4a3e;
+  --color-tertiary: #595f66;
+  --color-on-tertiary: #ffffff;
+  --color-on-primary-fixed-variant: #005322;
+  --color-surface-container-lowest: #ffffff;
+  --color-primary-fixed-dim: #65de82;
+  --color-on-primary-container: #003312;
+  --color-mint-highlight: #D1FAE5;
+  --color-on-error-container: #93000a;
+  --color-on-secondary-fixed: #131e16;
+  --color-secondary: #556157;
+  --color-outline-variant: #bdcaba;
+  --color-inverse-on-surface: #eff1f3;
+  --color-surface-container-low: #f2f4f6;
+  --color-tertiary-fixed-dim: #c1c7cf;
+  --color-on-tertiary-container: #252c32;
+  --color-background: #f7f9fb;
+
+  /* Spacing */
+  --spacing-margin-mobile: 16px;
+  --spacing-section-gap: 80px;
+  --spacing-component-padding: 1.5rem;
+  --spacing-container-max: 1280px;
+  --spacing-gutter: 24px;
+  --spacing-margin-desktop: 48px;
+
+  /* Font Families */
+  --font-body-lg: "Inter", sans-serif;
+  --font-body-sm: "Inter", sans-serif;
+  --font-label-bold: "Inter", sans-serif;
+  --font-display-hero-mobile: "Montserrat", sans-serif;
+  --font-headline-md: "Montserrat", sans-serif;
+  --font-headline-sm: "Montserrat", sans-serif;
+  --font-body-md: "Inter", sans-serif;
+  --font-price-display: "Inter", sans-serif;
+  --font-display-hero: "Montserrat", sans-serif;
+  --font-headline-lg: "Montserrat", sans-serif;
+
+  /* Font Sizes */
+  --font-size-body-lg: 18px;
+  --font-size-body-lg--line-height: 28px;
+  --font-size-body-lg--font-weight: 400;
+
+  --font-size-body-sm: 14px;
+  --font-size-body-sm--line-height: 20px;
+  --font-size-body-sm--font-weight: 400;
+
+  --font-size-label-bold: 12px;
+  --font-size-label-bold--line-height: 16px;
+  --font-size-label-bold--letter-spacing: 0.05em;
+  --font-size-label-bold--font-weight: 600;
+    --tracking-tight: 0.025em;
+  --font-size-display-hero-mobile: 32px;
+  --font-size-display-hero-mobile--line-height: 40px;
+  --font-size-display-hero-mobile--letter-spacing: -0.01em;
+  --font-size-display-hero-mobile--font-weight: 700;
+
+  --font-size-headline-md: 24px;
+  --font-size-headline-md--line-height: 32px;
+  --font-size-headline-md--letter-spacing: 0.01em;
+  --font-size-headline-md--font-weight: 600;
+
+  --font-size-headline-sm: 20px;
+  --font-size-headline-sm--line-height: 28px;
+  --font-size-headline-sm--font-weight: 600;
+
+  --font-size-body-md: 16px;
+  --font-size-body-md--line-height: 24px;
+  --font-size-body-md--font-weight: 400;
+
+  --font-size-price-display: 20px;
+  --font-size-price-display--line-height: 24px;
+  --font-size-price-display--font-weight: 700;
+
+  --font-size-display-hero: 48px;
+  --font-size-display-hero--line-height: 56px;
+  --font-size-display-hero--letter-spacing: -0.02em;
+  --font-size-display-hero--font-weight: 700;
+
+  --font-size-headline-lg: 32px;
+  --font-size-headline-lg--line-height: 40px;
+  --font-size-headline-lg--letter-spacing: -0.05em;
+  --font-size-headline-lg--font-weight: 700;
 }
 
 @layer base {
@@ -364,8 +502,13 @@ button {
     scroll-behavior: smooth;
   }
 
+  .font-family-inter{
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 400;
+  }
+
   body {
-    font-family: var(--font-euclid-circular-a);
+    font-family: 'Montserrat', sans-serif !important;
     font-weight: 400;
     font-size: 1rem;
     color: var(--color-dark-3);
@@ -720,4 +863,112 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .range-slider__range {
   background-color: var(--color-blue) !important;
+}
+
+/* Premium Qaam Tech Theme Overrides to configure the exact card layout, colors, shadows, and fonts */
+
+/* Main Text & Background overrides */
+.text-\[\#121714\] {
+  color: var(--text-light) !important;
+}
+.bg-\[\#f1f4f2\] {
+  background-color: #f2f4f6 !important; /* Qaam bg-surface-container-low */
+}
+.border-\[\#f1f4f2\] {
+  border-color: var(--border-light) !important;
+}
+.border-\[\#dce5df\] {
+  border-color: var(--border-light) !important;
+}
+.hover\:bg-\[\#f1f4f2\]:hover {
+  background-color: #e6e8ea !important; /* Qaam bg-surface-container-high */
+}
+.text-\[\#668571\],
+.text-\[\#648770\] {
+  color: #595f66 !important; /* Muted tertiary from Qaam */
+}
+
+/* Card Style Overrides matching the exact Qaam specifications */
+.group.bg-white,
+.group.bg-white.dark\:bg-\[\#1a251d\] {
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05) !important;
+  border-color: var(--border-light) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.group.bg-white:hover,
+.group.bg-white.dark\:bg-\[\#1a251d\]:hover {
+  box-shadow: 0px 10px 30px rgba(0, 109, 48, 0.08) !important;
+  transform: translateY(-4px) !important;
+}
+
+/* Dark Mode specific overrides */
+.dark {
+  .dark\:text-white,
+  .text-\[\#121714\] {
+    color: var(--text-dark) !important;
+  }
+  
+  .dark\:bg-background-dark {
+    background-color: var(--background-dark) !important;
+  }
+  
+  /* Modern Dark Ash Gray for Product Cards/Containers */
+  .dark\:bg-\[\#1a251d\],
+  .group.bg-white.dark\:bg-\[\#1a251d\] {
+    background-color: var(--surface-dark) !important;
+    border-color: var(--border-dark) !important;
+  }
+  
+  /* Lighter Ash Gray for badges, hover, or nested elements */
+  .dark\:bg-\[\#2a3a2f\],
+  .dark\:bg-\[\#2a3a30\] {
+    background-color: #253127 !important; /* Authentic deep forest container */
+  }
+  
+  /* Clean Slate Borders instead of green-borders */
+  .dark\:border-\[\#2a3a2f\],
+  .dark\:border-\[\#2a3a30\],
+  .dark\:border-white\/5 {
+    border-color: var(--border-dark) !important;
+  }
+  
+  /* Hover effects */
+  .dark\:hover\:bg-\[\#2a3a2f\]:hover {
+    background-color: #2e3c30 !important;
+  }
+  
+  .dark\:hover\:bg-white\/5:hover {
+    background-color: rgba(255, 255, 255, 0.04) !important;
+  }
+  
+  .dark\:text-\[\#668571\],
+  .dark\:text-\[\#648770\] {
+    color: #8c939a !important; /* Muted gray in dark mode from Qaam */
+  }
+}
+
+/* Helper utility classes for Qaam branding layout */
+.glass-nav {
+  background: rgba(247, 249, 251, 0.8) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+.dark .glass-nav {
+  background: rgba(18, 23, 20, 0.8) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+
+.custom-shadow {
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+.text-glow {
+  text-shadow: 0 0 10px rgba(0, 109, 48, 0.3) !important;
 }

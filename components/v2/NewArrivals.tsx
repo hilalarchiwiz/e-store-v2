@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useWishlist } from "@/hooks/useWishlist";
 import QuickViewModal from "./QuickViewModal";
+import TextHeading from "./TextHeading";
 
 interface Product {
   id: number;
@@ -27,7 +28,9 @@ interface NewArrivalsProps {
 
 const NewArrivals: React.FC<NewArrivalsProps> = ({ products = [] }) => {
   const { isInWishlist, toggleWishlist } = useWishlist();
-  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(
+    null,
+  );
   const [imgErrors, setImgErrors] = useState<Record<number, boolean>>({});
 
   const openQuickView = (e: React.MouseEvent, product: Product) => {
@@ -50,9 +53,7 @@ const NewArrivals: React.FC<NewArrivalsProps> = ({ products = [] }) => {
               <p className="text-primary text-xs font-bold uppercase tracking-widest mb-2">
                 Just Arrived
               </p>
-              <h2 className="text-3xl font-black tracking-tight text-[#121714] dark:text-white">
-                New Arrivals
-              </h2>
+              <TextHeading title="New Arrivals" />
               <div className="w-12 h-0.75 bg-primary rounded-full mt-3" />
             </div>
             <Link
@@ -85,7 +86,10 @@ const NewArrivals: React.FC<NewArrivalsProps> = ({ products = [] }) => {
                       className="object-contain transition-transform duration-500 group-hover:scale-105"
                       priority={idx < 3}
                       onError={() =>
-                        setImgErrors((prev) => ({ ...prev, [product.id]: true }))
+                        setImgErrors((prev) => ({
+                          ...prev,
+                          [product.id]: true,
+                        }))
                       }
                     />
                   ) : (
@@ -117,14 +121,16 @@ const NewArrivals: React.FC<NewArrivalsProps> = ({ products = [] }) => {
                           ? "Remove from wishlist"
                           : "Add to wishlist"
                       }
-                      className={`size-9 rounded-full flex items-center justify-center transition-all duration-200 shadow-sm ${isInWishlist(product.id)
-                        ? "bg-red-500 text-white scale-100 opacity-100"
-                        : "bg-white/90 dark:bg-[#2a3a2f]/90 text-[#121714] dark:text-white opacity-0 group-hover:opacity-100 hover:bg-red-500 hover:text-white"
-                        }`}
+                      className={`size-9 rounded-full flex items-center justify-center transition-all duration-200 shadow-sm ${
+                        isInWishlist(product.id)
+                          ? "bg-red-500 text-white scale-100 opacity-100"
+                          : "bg-white/90 dark:bg-[#2a3a2f]/90 text-[#121714] dark:text-white opacity-0 group-hover:opacity-100 hover:bg-red-500 hover:text-white"
+                      }`}
                     >
                       <span
-                        className={`material-symbols-outlined text-sm ${isInWishlist(product.id) ? "fill-1" : ""
-                          }`}
+                        className={`material-symbols-outlined text-sm ${
+                          isInWishlist(product.id) ? "fill-1" : ""
+                        }`}
                       >
                         favorite
                       </span>
@@ -150,8 +156,9 @@ const NewArrivals: React.FC<NewArrivalsProps> = ({ products = [] }) => {
                       {[...Array(5)].map((_, i) => (
                         <span
                           key={i}
-                          className={`material-symbols-outlined text-sm ${i < product.rating ? "fill-1" : ""
-                            }`}
+                          className={`material-symbols-outlined text-sm ${
+                            i < product.rating ? "fill-1" : ""
+                          }`}
                         >
                           star
                         </span>

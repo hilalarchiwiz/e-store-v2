@@ -107,7 +107,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           id,
           title: name,
           price: oldPrice ?? price,
-          discountedPrice: oldPrice ? price : undefined,
+          discountedPrice: oldPrice ? Math.round((1 - price / oldPrice) * 100) : 0,
           quantity: 1,
           images: images && images.length > 0 ? images : [image],
         }),
@@ -244,86 +244,94 @@ const ProductCard: React.FC<ProductCardProps> = ({
   // Grid layout (default)
   return (
     <>
-      <Link
-        href={`/product/${id}`}
-        className="group bg-white dark:bg-[#1a251d] rounded-2xl border border-[#dce5df] dark:border-[#2a3a30] overflow-hidden flex flex-col shadow-sm hover:shadow-xl transition-all duration-300"
+      <div
+        className="group bg-white dark:bg-[#1a251d] rounded-2xl border border-outline-variant/30 dark:border-white/10 overflow-hidden flex flex-col relative hover:shadow-xl transition-all duration-300"
       >
-        <div className="relative h-64 overflow-hidden bg-[#f1f4f2] dark:bg-[#2a3a2f]">
+        <Link href={`/product/${id}`} className="block relative h-64 overflow-hidden bg-surface-container-low flex items-center justify-center p-6">
           <img
-            className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500"
+            className="h-44 w-auto object-contain group-hover:scale-105 transition-transform duration-500"
             src={image}
             alt={name}
           />
-          {/* Wishlist */}
-          <button
-            className={`absolute top-4 flex items-center right-4 p-2 rounded-full backdrop-blur-sm transition-all hover:scale-110 active:scale-95 ${isWishlisted ? "bg-red-50 text-red-500" : "bg-white/80 text-[#648770] hover:text-red-500 hover:bg-white"}`}
-            onClick={handleAddToWishlist}
-            title={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-          >
+          
+          {badge && (
             <span
-              className={`material-symbols-outlined text-lg ${isWishlisted ? "fill-1" : ""}`}
+              className={`absolute top-4 left-4 ${badge.variant === "primary" ? "bg-primary text-on-primary" : "bg-[#121714] text-white"} text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider`}
             >
-              favorite
+              {badge.text}
             </span>
-          </button>
+          )}
 
           {/* Quick View — appears on hover */}
           <button
             onClick={openQuickView}
             data-no-progress
             title="Quick View"
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white dark:bg-[#1a251d] text-[#111713] dark:text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg flex items-center gap-1.5 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 whitespace-nowrap border border-gray-100 dark:border-white/10 hover:bg-primary hover:text-white hover:border-primary"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white dark:bg-[#1a251d] text-[#111713] dark:text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-lg flex items-center gap-1.5 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 whitespace-nowrap border border-gray-100 dark:border-white/10 hover:bg-primary hover:text-white hover:border-primary cursor-pointer"
           >
             <span className="material-symbols-outlined text-[16px]">
               visibility
             </span>
             Quick View
           </button>
+        </Link>
 
-          {badge && (
-            <div className="absolute bottom-4 left-4">
-              <span
-                className={`${badge.variant === "primary" ? "bg-primary" : "bg-[#121714]"} px-3 py-1 rounded-lg text-white text-[10px] font-bold capitalize tracking-wide shadow-md`}
-              >
-                {badge.text}
-              </span>
-            </div>
-          )}
-        </div>
-        <div className="p-5 flex flex-col flex-1 gap-4">
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-1">
-              <StarRating rating={rating} />
-              <span className="text-xs text-[#648770] ml-1 font-semibold">
-                ({reviews})
-              </span>
-            </div>
-            <h3 className="text-[#111713] dark:text-white font-bold text-lg leading-tight group-hover:text-primary transition-colors line-clamp-2">
-              {name}
-            </h3>
-            <p className="text-[#648770] text-sm font-medium">{category}</p>
-          </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-xl font-extrabold text-[#111713] dark:text-white">
-              {formatPrice(price)}
-            </span>
-            {oldPrice && (
-              <span className="text-sm text-[#648770] line-through">
-                {formatPrice(oldPrice)}
-              </span>
-            )}
-          </div>
-          <button
-            className="w-full bg-primary text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-sm active:scale-95"
-            onClick={handleAddToCart}
+        {/* Wishlist */}
+        <button
+          className={`absolute top-4 right-4 p-2 rounded-full backdrop-blur-sm transition-all hover:scale-110 active:scale-95 cursor-pointer ${isWishlisted ? "bg-red-50 text-red-500" : "bg-white/80 text-[#648770] hover:text-red-500 hover:bg-white"}`}
+          onClick={handleAddToWishlist}
+          title={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+        >
+          <span
+            className={`material-symbols-outlined text-lg ${isWishlisted ? "fill-1" : ""}`}
           >
-            <span className="material-symbols-outlined text-sm">
-              add_shopping_cart
-            </span>
-            Add to Cart
-          </button>
+            favorite
+          </span>
+        </button>
+
+        <div className="p-6 flex flex-col flex-1 justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex justify-between items-center">
+              <p className="font-label-bold text-label-bold text-secondary dark:text-white/60 uppercase tracking-widest">
+                {category}
+              </p>
+              <div className="flex items-center gap-1 text-xs font-semibold text-[#648770] dark:text-white/40">
+                <StarRating rating={rating} size="xs" />
+                <span>({reviews})</span>
+              </div>
+            </div>
+            
+            <Link href={`/product/${id}`} className="block">
+              <h3 className="font-bold text-body-md text-on-surface dark:text-white line-clamp-2 leading-tight group-hover:text-primary transition-colors">
+                {name}
+              </h3>
+            </Link>
+          </div>
+
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <span className="font-price-display text-price-display text-primary">
+                {formatPrice(price)}
+              </span>
+              {oldPrice && (
+                <span className="text-xs text-secondary dark:text-white/40 line-through">
+                  {formatPrice(oldPrice)}
+                </span>
+              )}
+            </div>
+            
+            <button
+              className="w-full border border-primary text-primary hover:text-white hover:bg-primary font-bold py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+              onClick={handleAddToCart}
+            >
+              <span className="material-symbols-outlined text-sm">
+                shopping_bag
+              </span>
+              Add to Cart
+            </button>
+          </div>
         </div>
-      </Link>
+      </div>
 
       {quickViewOpen && (
         <QuickViewModal

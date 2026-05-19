@@ -3,6 +3,8 @@
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import TextHeading from "./TextHeading";
+import TextSubHeading from "./TextSubHeading";
 
 interface Category {
   name: string;
@@ -74,12 +76,8 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ categories = [] }) => {
       {/* Header */}
       <div className="flex justify-between items-end mb-10 ">
         <div>
-          <p className="text-primary text-xs font-bold uppercase tracking-widest mb-2">
-            Shop By Category
-          </p>
-          <h2 className="text-3xl font-black tracking-tight text-[#121714] dark:text-white">
-            Browse Categories
-          </h2>
+          <TextSubHeading title="Shop By Category" />
+          <TextHeading title="Browse Categories" />
           <div className="w-12 h-0.75 bg-primary rounded-full mt-3" />
         </div>
 

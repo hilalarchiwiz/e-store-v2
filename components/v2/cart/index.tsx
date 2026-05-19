@@ -170,7 +170,7 @@ export default function Cart() {
           <div className="lg:col-span-8 flex flex-col gap-6">
             <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
               {/* Table header */}
-              <div className="hidden md:grid grid-cols-12 gap-4 px-8 py-4 bg-[#f1f4f2] dark:bg-white/5 border-b border-gray-100 dark:border-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+              <div className="hidden md:grid grid-cols-12 gap-4 px-8 py-4 bg-[#f1f4f2] dark:bg-white/5 border-b border-gray-100 dark:border-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-black">
                 <div className="col-span-6">Product</div>
                 <div className="col-span-2 text-center">Price</div>
                 <div className="col-span-2 text-center">Qty</div>
@@ -232,7 +232,7 @@ export default function Cart() {
 
                       {/* Unit Price */}
                       <div className="md:col-span-2 text-center">
-                        <span className="md:hidden text-xs font-bold text-gray-400 block mb-1">
+                        <span className="md:hidden text-xs font-bold text-gray-900 block mb-1">
                           Price
                         </span>
                         <p className="font-extrabold text-[#121714] dark:text-white">
@@ -262,7 +262,7 @@ export default function Cart() {
                                 remove
                               </span>
                             </button>
-                            <span className="w-10 text-center font-black text-[#121714] dark:text-white text-sm">
+                            <span className="w-10 text-center font-black text-black dark:text-black text-sm">
                               {item.quantity}
                             </span>
                             <button

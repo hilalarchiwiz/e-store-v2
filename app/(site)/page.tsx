@@ -181,7 +181,7 @@ export default async function V2HomePage() {
   }));
 
   return (
-    <main className="max-w-400 mx-auto pb-20 md:px-10 px-6">
+    <main className=" mx-auto pb-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

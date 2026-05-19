@@ -1,41 +1,117 @@
-import React from 'react';
+"use client";
 
-const Countdown = () => {
+import React, { useState, useEffect } from "react";
+
+export default function Countdown() {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 2,
+    hours: 14,
+    minutes: 35,
+    seconds: 59,
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        let { days, hours, minutes, seconds } = prev;
+
+        seconds--;
+        if (seconds < 0) {
+          seconds = 59;
+          minutes--;
+          if (minutes < 0) {
+            minutes = 59;
+            hours--;
+            if (hours < 0) {
+              hours = 23;
+              days--;
+              if (days < 0) {
+                // Timer finished, reset to default stateful loop or freeze at zero
+                clearInterval(timer);
+                return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+              }
+            }
+          }
+        }
+
+        return { days, hours, minutes, seconds };
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatNumber = (num: number) => String(num).padStart(2, "0");
+
   return (
-    <section className="py-12">
-      <div className="bg-primary-dark rounded-[2.5rem] p-10 md:p-16 text-center text-white relative overflow-hidden shadow-2xl shadow-primary-dark/40">
-        <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
-          <span className="material-symbols-outlined text-[200px]">eco</span>
-        </div>
-        <div className="relative z-10 flex flex-col items-center gap-6">
-          <span className="text-primary bg-white px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest">Hurry Up!</span>
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight">Green Friday Flash Sale</h2>
-          <p className="text-white/80 max-w-xl mx-auto">Get massive discounts on our most popular sustainable products. Offer ends in:</p>
-          <div className="flex gap-4 md:gap-8 mt-4">
-            <div className="flex flex-col gap-1">
-              <div className="bg-white/10 backdrop-blur-lg size-16 md:size-24 rounded-2xl flex items-center justify-center text-3xl md:text-5xl font-black border border-white/20">02</div>
-              <span className="text-[10px] uppercase font-bold tracking-widest opacity-60">Days</span>
+    <section className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-section-gap">
+      <div className="relative bg-emerald-deep rounded-[32px] p-10 md:p-20 overflow-hidden group shadow-2xl">
+        {/* Abstract patterns */}
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/20 rounded-full blur-[120px] group-hover:bg-primary/30 transition-colors duration-500"></div>
+        <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-primary-container/10 rounded-full blur-[80px]"></div>
+
+        <div className="relative z-10 text-center max-w-3xl mx-auto space-y-8">
+          <div className="inline-block bg-primary px-4 py-1 rounded-full">
+            <p className="font-label-bold text-label-bold text-on-primary uppercase tracking-widest">
+              Hurry Up!
+            </p>
+          </div>
+          
+          <h2 className="font-display-hero text-white text-display-hero-mobile md:text-display-hero">
+            Green Friday <span className="text-primary-fixed">Flash Sale</span>
+          </h2>
+          
+          <p className="font-body-lg text-body-lg text-surface-variant/80">
+            Get massive discounts on our most popular sustainable products.
+            Precision performance at unprecedented value.
+          </p>
+
+          {/* Countdown */}
+          <div className="flex justify-center gap-4 md:gap-8">
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 md:w-24 md:h-24 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center font-display-hero text-white text-3xl md:text-4xl border border-white/20 shadow-lg">
+                {formatNumber(timeLeft.days)}
+              </div>
+              <span className="mt-2 text-white/60 font-label-bold uppercase tracking-wider text-[10px]">
+                Days
+              </span>
             </div>
-            <div className="flex flex-col gap-1">
-              <div className="bg-white/10 backdrop-blur-lg size-16 md:size-24 rounded-2xl flex items-center justify-center text-3xl md:text-5xl font-black border border-white/20">14</div>
-              <span className="text-[10px] uppercase font-bold tracking-widest opacity-60">Hours</span>
+            
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 md:w-24 md:h-24 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center font-display-hero text-white text-3xl md:text-4xl border border-white/20 shadow-lg">
+                {formatNumber(timeLeft.hours)}
+              </div>
+              <span className="mt-2 text-white/60 font-label-bold uppercase tracking-wider text-[10px]">
+                Hours
+              </span>
             </div>
-            <div className="flex flex-col gap-1">
-              <div className="bg-white/10 backdrop-blur-lg size-16 md:size-24 rounded-2xl flex items-center justify-center text-3xl md:text-5xl font-black border border-white/20">35</div>
-              <span className="text-[10px] uppercase font-bold tracking-widest opacity-60">Mins</span>
+            
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 md:w-24 md:h-24 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center font-display-hero text-white text-3xl md:text-4xl border border-white/20 shadow-lg">
+                {formatNumber(timeLeft.minutes)}
+              </div>
+              <span className="mt-2 text-white/60 font-label-bold uppercase tracking-wider text-[10px]">
+                Mins
+              </span>
             </div>
-            <div className="flex flex-col gap-1">
-              <div className="bg-white/10 backdrop-blur-lg size-16 md:size-24 rounded-2xl flex items-center justify-center text-3xl md:text-5xl font-black border border-white/20">59</div>
-              <span className="text-[10px] uppercase font-bold tracking-widest opacity-60">Secs</span>
+            
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 md:w-24 md:h-24 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center font-display-hero text-white text-3xl md:text-4xl border border-white/20 shadow-lg">
+                {formatNumber(timeLeft.seconds)}
+              </div>
+              <span className="mt-2 text-white/60 font-label-bold uppercase tracking-wider text-[10px]">
+                Secs
+              </span>
             </div>
           </div>
-          <button className="mt-8 bg-primary hover:bg-primary-dark border-2 border-primary text-white px-10 py-4 rounded-xl font-bold transition-all shadow-xl flex items-center gap-2">
-            Access Sale Now <span className="material-symbols-outlined">bolt</span>
+
+          <button className="bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold px-12 py-4 rounded-xl transition-all duration-300 flex items-center gap-2 mx-auto cursor-pointer shadow-lg hover:scale-105">
+            Access Sale Now
+            <span className="material-symbols-outlined fill-1" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
           </button>
         </div>
       </div>
     </section>
   );
-};
+}
 
-export default Countdown;

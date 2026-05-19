@@ -84,44 +84,69 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
 
   return (
     <section
-      className="relative w-full overflow-hidden rounded-2xl mx-auto mt-4 mb-2 shadow-2xl bg-[#0a1a0f]"
+      className="relative w-full overflow-hidden mx-auto mb-2  bg-[#0a1a0f]"
       style={{
         backgroundImage: `url('${slide.img}')`,
+        backgroundColor: "#0a1a0fa4",
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundBlendMode: "darken",
+        backgroundRepeat: "no-repeat",
+        maskImage: "linear-gradient(to right, #0a1a0f, #0a1a0f)",
+        WebkitMaskImage: "linear-gradient(to right, #0a1a0f, #0a1a0f)",
+        maskSize: "cover",
+        WebkitMaskSize: "cover",
+        maskRepeat: "no-repeat",
+        WebkitMaskRepeat: "no-repeat",
+        maskPosition: "center",
+        WebkitMaskPosition: "center",
+        maskComposite: "source-in",
+        WebkitMaskComposite: "source-in",
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        objectPosition: "center",
       }}
     >
-      {/* Dark gradient overlays */}
-      <div className="absolute inset-0 z-0 bg-linear-to-r from-black/80 via-black/50 to-black/10" />
-      <div className="absolute inset-0 z-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
-
       {/* Content */}
       <div
-        className={`relative z-10 flex flex-col justify-center min-h-105 md:min-h-135 px-8 md:px-16 py-12 md:py-16 max-w-3xl transition-all duration-400 ease-out ${translateClass}`}
+        className={`relative z-10 flex flex-col justify-center min-h-105 md:min-h-160 px-8 md:px-16   max-w-3xl transition-all duration-400 ease-out ${translateClass}`}
       >
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/20 backdrop-blur-sm border border-primary/40 text-primary rounded-full text-xs font-bold tracking-widest uppercase w-fit mb-6">
-          <span className="material-symbols-outlined text-sm">laptop_mac</span>
+        <div className="inline-flex items-center gap-2 px-4 py-1 bg-[#006d3033] backdrop-blur-sm text-[#82fb9b] rounded-full text-[12px] leading-[16px] font-bold tracking-widest uppercase w-fit mb-6">
+          <span
+            className="material-symbols-outlined text-sm"
+            style={{
+              fontSize: "12px",
+              color: "#82fb9b",
+            }}
+          >
+            verified
+          </span>
           Premium Computing Gear
         </div>
 
         {/* Title */}
-        <h1 className="text-white text-4xl md:text-6xl font-black leading-[1.1] tracking-tight mb-5 drop-shadow-lg">
-          {slide.title.split(",").map((part: string, i: number, arr: string[]) =>
-            i < arr.length - 1 ? (
-              <React.Fragment key={i}>
-                {part},<br />
-              </React.Fragment>
-            ) : (
-              <span key={i} className="text-primary">
-                {part}
-              </span>
-            ),
-          )}
+        <h1 className="text-white text-[48px] font-black leading-tight tracking-tight mb-5 drop-shadow-lg">
+          {(() => {
+            const words = slide.title.split(/\s+/);
+            if (words.length > 3) {
+              const firstPart = words.slice(0, 3).join(" ");
+              const secondPart = words.slice(3).join(" ");
+              return (
+                <>
+                  {firstPart}
+                  <br />
+                  <span className="text-[#65de82]">{secondPart}</span>
+                </>
+              );
+            }
+            return slide.title;
+          })()}
         </h1>
 
         {/* Description */}
-        <p className="text-white/80 text-base md:text-lg leading-relaxed mb-8 max-w-xl">
+        <p className="text-[#e0e3e5] text-[18px] md:text-[18px] leading-[28px] font-family-inter font-normal mb-8 max-w-lg">
           {slide.description}
         </p>
 
@@ -150,7 +175,7 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
           )}
           <Link
             href="/about"
-            className="px-8 h-13 inline-flex items-center bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-xl font-bold text-base hover:bg-white/20 transition-all"
+            className="px-8 h-13 inline-flex items-center border border-white bg-transparent text-white rounded-xl font-bold text-base hover:bg-white/20 transition-all"
           >
             Our Story
           </Link>
@@ -181,7 +206,7 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
       {/* Prev / Next arrows */}
       {data.length > 1 && (
         <>
-          <button
+          {/* <button
             onClick={handlePrev}
             aria-label="Previous slide"
             className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-white hover:bg-primary hover:border-primary transition-all shadow-lg"
@@ -198,7 +223,7 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
             <span className="material-symbols-outlined text-xl">
               chevron_right
             </span>
-          </button>
+          </button> */}
         </>
       )}
 

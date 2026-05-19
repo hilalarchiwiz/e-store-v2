@@ -19,10 +19,7 @@ export function proxy(request: NextRequest) {
   // We only want to aggressively rate-limit sensitive endpoints.
   // We don't want to rate-limit a user just browsing the homepage.
   const isSensitiveRoute =
-    path.includes('login') ||
-    path.includes('register') ||
-    path.includes('subscribe') ||
-    path.includes('contact');
+    path.includes('subscribe');
 
   if (isSensitiveRoute) {
     // Attempt to get the user's IP address. 
