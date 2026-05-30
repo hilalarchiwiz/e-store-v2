@@ -101,7 +101,7 @@ const BestSellers: React.FC<BestSellersProps> = ({ products = [] }) => {
                   {/* Sale badge */}
                   {product.oldPrice && (
                     <span className="absolute top-2 left-2 bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded z-10">
-                      -{Math.round((1 - product.price / product.oldPrice) * 100)}%
+                      {Math.round((1 - product.price / product.oldPrice) * 100)}%
                     </span>
                   )}
 
