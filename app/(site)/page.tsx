@@ -116,7 +116,7 @@ export default async function V2HomePage() {
       inStock: product.quantity > 0,
       isNew:
         (new Date().getTime() - new Date(product.createdAt).getTime()) /
-          (1000 * 3600 * 24) <
+        (1000 * 3600 * 24) <
         7,
       rating: 0,
       reviews: 0,
@@ -157,7 +157,7 @@ export default async function V2HomePage() {
           : ["/images/placeholder-product.jpg"],
       isNew:
         (new Date().getTime() - new Date(product.createdAt).getTime()) /
-          (1000 * 3600 * 24) <
+        (1000 * 3600 * 24) <
         7,
       rating: 5,
       reviews: 12,
@@ -189,10 +189,10 @@ export default async function V2HomePage() {
             "@context": "https://schema.org",
             "@type": "WebSite",
             name: "Ecomare",
-            url: "https://ecomare.com",
+            url: "https://qaam.pk",
             potentialAction: {
               "@type": "SearchAction",
-              target: "https://ecomare.com/shop?q={search_term_string}",
+              target: "https://qaam.pk/shop?q={search_term_string}",
               "query-input": "required name=search_term_string",
             },
           }),
@@ -204,19 +204,14 @@ export default async function V2HomePage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            name: "Ecomare",
-            url: "https://ecomare.com",
-            logo: "https://ecomare.com/logo.png",
+            name: "qaam.pk",
+            url: "https://qaam.pk",
+            logo: "https://qaam.pk/logo.png",
             contactPoint: {
               "@type": "ContactPoint",
               telephone: "+92-300-1234567",
               contactType: "customer service",
             },
-            sameAs: [
-              "https://facebook.com/ecomare",
-              "https://instagram.com/ecomare",
-              "https://twitter.com/ecomare",
-            ],
           }),
         }}
       />
