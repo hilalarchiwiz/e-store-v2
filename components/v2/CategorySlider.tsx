@@ -22,10 +22,10 @@ function CategoryCard({ cat }: { cat: Category }) {
       href={`/shop?category=${encodeURIComponent(cat.name)}`}
       className="flex flex-col items-center w-36 lg:w-48 shrink-0 group gap-4 cursor-pointer"
     >
-      <div className="relative w-36 h-36 lg:w-48 lg:h-48 rounded-full bg-white dark:bg-[#1a201c] border border-gray-200 dark:border-white/5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)] dark:shadow-none group-hover:bg-gray-50 dark:group-hover:bg-[#252d28] group-hover:scale-[1.03] transition-all duration-300 flex items-center justify-center overflow-hidden">
+      <div className="relative w-36 h-36 lg:w-48 lg:h-48 rounded-full bg-white dark:bg-[#1a201c]  dark:border-white/5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)] dark:shadow-none group-hover:bg-gray-50 dark:group-hover:bg-[#252d28] group-hover:scale-[1.03] transition-all duration-300 flex items-center justify-center overflow-hidden">
         {/* Image */}
         {!imgError && (
-          <div className="absolute inset-0 p-4">
+          <div className="absolute inset-0 p-1">
             <div className="relative w-full h-full rounded-full overflow-hidden">
               <Image
                 src={cat.image}
