@@ -513,7 +513,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                   local_shipping
                 </span>
               </div>
-              <span>Free Shipping on orders over PKR 5,000</span>
+              <span>Free Shipping all over pakistan</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="size-7 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
@@ -521,7 +521,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                   verified_user
                 </span>
               </div>
-              <span>Secure Payment &amp; 30 Days Return</span>
+              <span>Secure Payment</span>
             </div>
           </div>
         </div>
