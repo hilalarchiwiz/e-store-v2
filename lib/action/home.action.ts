@@ -184,6 +184,7 @@ export async function getProductById(id: number) {
             include: {
                 category: true,
                 brand: true,
+                grading: true,
                 reviews: {
                     select: {
                         id: true,
@@ -1265,11 +1266,11 @@ export async function getBlogs({
 
         // Build the where clause dynamically
         const where: any = {};
-        
+
         if (tag && tag !== "All Posts") {
             where.tag = tag;
         }
-        
+
         if (search) {
             where.OR = [
                 { title: { contains: search, mode: 'insensitive' } },

@@ -22,7 +22,7 @@ export async function generateMetadata({
 
   const product = await prisma.product.findUnique({
     where: { id: productId },
-    include: { category: true },
+    include: { category: true, grading: true },
   });
 
   if (!product) return {};
@@ -70,6 +70,7 @@ export default async function ProductPage({ params }: PageProps) {
     include: {
       category: true,
       reviews: true,
+      grading: true,
     },
   });
 
@@ -114,7 +115,7 @@ export default async function ProductPage({ params }: PageProps) {
                 : ["/images/placeholder-product.jpg"],
             rating:
               product.reviews.reduce((acc, r) => acc + r.rating, 0) /
-                product.reviews.length || 0,
+              product.reviews.length || 0,
             reviews: product.reviews.length,
             reviewsList: product.reviews,
           }}
@@ -150,14 +151,14 @@ export default async function ProductPage({ params }: PageProps) {
             },
             ...(product.reviews.length > 0
               ? {
-                  aggregateRating: {
-                    "@type": "AggregateRating",
-                    ratingValue:
-                      product.reviews.reduce((acc, r) => acc + r.rating, 0) /
-                      product.reviews.length,
-                    reviewCount: product.reviews.length,
-                  },
-                }
+                aggregateRating: {
+                  "@type": "AggregateRating",
+                  ratingValue:
+                    product.reviews.reduce((acc, r) => acc + r.rating, 0) /
+                    product.reviews.length,
+                  reviewCount: product.reviews.length,
+                },
+              }
               : {}),
           }),
         }}
