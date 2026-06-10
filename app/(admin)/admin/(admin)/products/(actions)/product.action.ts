@@ -18,6 +18,7 @@ interface ProductUpdateData {
     price: number;
     discountedPrice?: number;
     brandId: number;
+    gradingId: number;
     quantity: number;
     categoryId: number;
     subCategoryId?: number | null;
@@ -36,6 +37,7 @@ function extractAndValidateProductData(formData: FormData): ProductUpdateData {
     const quantity = formData.get('quantity') as string;
     const discountedPriceString = formData.get('discount_price') as string | null;
     const brandIdString = formData.get('brand_id') as string;
+    const gradingIdString = formData.get('grading_id') as string;
     const categoryIdString = formData.get('category_id') as string;
     const subCategoryIdString = formData.get('subcategory_id') as string;
     const status = formData.get('status') as string;
@@ -62,6 +64,7 @@ function extractAndValidateProductData(formData: FormData): ProductUpdateData {
         price: Number(priceString),
         discountedPrice: discountedPriceString ? Number(discountedPriceString) : undefined,
         brandId: parseInt(brandIdString),
+        gradingId: parseInt(gradingIdString),
         categoryId: parseInt(categoryIdString),
         subCategoryId: subCategoryIdString ? parseInt(subCategoryIdString) : null,
         quantity: Number(quantity),
@@ -166,7 +169,7 @@ export async function getAllProducts(searchParams: { search?: string; page?: str
                 skip,
                 take: itemsPerPage,
                 orderBy: { createdAt: 'desc' },
-                include: { brand: true, category: true }
+                include: { brand: true, category: true,grading:true }
             }),
             prisma.product.count({ where: whereClause })
         ]);
@@ -316,6 +319,7 @@ export async function saveProductDraft(productId: number | null, formData: FormD
         const quantityString = formData.get('quantity') as string;
         const discountedPriceString = formData.get('discount_price') as string;
         const brandIdString = formData.get('brand_id') as string;
+        const gradingIdString = formData.get('grading_id') as string;
         const categoryIdString = formData.get('category_id') as string;
         const additionalInfo = formData.get('additional_information') as string || "";
         const imageUrls = formData.getAll('images') as string[];
@@ -346,6 +350,7 @@ export async function saveProductDraft(productId: number | null, formData: FormD
             images: imageUrls,
             specifications: specifications,
             additionalInfo,
+            gradingId: Number(gradingIdString)
         };
 
         // Only add Relations if they are valid numbers
@@ -403,4 +408,36 @@ export async function updateProductPrice(productId: number, price: number, disco
         (revalidateTag as any)('products');
         return { success: true, message: "Price updated successfully." };
     });
+}
+
+
+export async function getGradingsBySearch({
+    searchTerm = "",
+    skip = 0,
+    take = 50,
+}) {
+    const where = searchTerm
+        ? {
+            OR: [
+                { title: { contains: searchTerm, mode: "insensitive" as const } },
+                { description: { contains: searchTerm, mode: "insensitive" as const } },
+            ],
+        }
+        : {};
+
+    const [gradings, totalCount] = await Promise.all([
+        prisma.grading.findMany({
+            where,
+            skip,
+            take,
+            orderBy: { createdAt: "desc" },
+        }),
+        prisma.grading.count({ where }),
+    ]);
+
+    return {
+        success: true,
+        gradings,
+        hasMore: skip + take < totalCount,
+    };
 }

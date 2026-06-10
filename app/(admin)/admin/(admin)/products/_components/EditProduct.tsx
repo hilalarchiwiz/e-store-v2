@@ -10,6 +10,7 @@ import UploadMultipleFiles from "@/components/Admin/UploadMultipleFiles";
 import AdditionalInfo from "@/components/Admin/AdditionalInfo";
 import FontPicker from "@/components/Common/FontPicker";
 import { useCallback, useState } from "react";
+import OptimizedGetAllGradings from "@/components/Admin/Grading";
 
 interface EditProductProps {
   product: any;
@@ -68,7 +69,8 @@ const EditProduct = ({ product }: EditProductProps) => {
           categoryId={categoryId}
           defaultSubCategoryId={product?.subCategoryId}
         />
-
+        <OptimizedGetAllGradings selectValue={product?.grading?.title}
+          selectId={product?.grading?.id?.toString()} />
         <div>
           <FormInput
             label="Product warranty (in days)"

@@ -57,8 +57,8 @@ export default function ProductTable({
               unoptimized
               src={
                 product.images &&
-                product.images.length > 0 &&
-                product.images[0] !== ""
+                  product.images.length > 0 &&
+                  product.images[0] !== ""
                   ? product.images[0]
                   : `https://ui-avatars.com/api/?name=${encodeURIComponent(product.title)}&background=94849&color=fff&bold=true`
               }
@@ -73,6 +73,7 @@ export default function ProductTable({
     { header: "Name", accessor: "title" },
     { header: "Brand", accessor: (product: any) => product.brand?.title },
     { header: "Category", accessor: (product: any) => product.category?.title },
+    { header: "Grading", accessor: (product: any) => product.grading?.title },
     { header: "Price", accessor: (product: any) => `Rs. ${product.price}` },
     { header: "Quantity", accessor: "quantity" },
     {
@@ -85,44 +86,44 @@ export default function ProductTable({
     },
     ...(canDelete || canView || canEdit
       ? [
-          {
-            header: "Action",
-            accessor: (product: any) => (
-              <div className="flex gap-2">
-                {canView && (
-                  <Link
-                    href={`/admin/products/view/${product.id}`}
-                    className="p-2 bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors"
-                    title="View Product"
+        {
+          header: "Action",
+          accessor: (product: any) => (
+            <div className="flex gap-2">
+              {canView && (
+                <Link
+                  href={`/admin/products/view/${product.id}`}
+                  className="p-2 bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors"
+                  title="View Product"
+                >
+                  <Eye size={14} />
+                </Link>
+              )}
+              {canEdit && (
+                <>
+                  <button
+                    onClick={() => setSelectedProductForPrice(product)}
+                    className="p-2 bg-emerald-50 text-emerald-600 rounded hover:bg-emerald-100 transition-colors"
+                    title="Update Price"
                   >
-                    <Eye size={14} />
+                    <DollarSign size={14} />
+                  </button>
+                  <Link
+                    href={`/admin/products/edit/${product.id}`}
+                    className="p-2 bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors"
+                    title="Edit Product"
+                  >
+                    <Pencil size={14} />
                   </Link>
-                )}
-                {canEdit && (
-                  <>
-                    <button
-                      onClick={() => setSelectedProductForPrice(product)}
-                      className="p-2 bg-emerald-50 text-emerald-600 rounded hover:bg-emerald-100 transition-colors"
-                      title="Update Price"
-                    >
-                      <DollarSign size={14} />
-                    </button>
-                    <Link
-                      href={`/admin/products/edit/${product.id}`}
-                      className="p-2 bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors"
-                      title="Edit Product"
-                    >
-                      <Pencil size={14} />
-                    </Link>
-                  </>
-                )}
-                {canDelete && (
-                  <DeleteButton id={product.id} action={deleteProduct} />
-                )}
-              </div>
-            ),
-          },
-        ]
+                </>
+              )}
+              {canDelete && (
+                <DeleteButton id={product.id} action={deleteProduct} />
+              )}
+            </div>
+          ),
+        },
+      ]
       : []),
   ];
 
@@ -278,8 +279,8 @@ function ImageSliderModal({
     product.images && product.images.length > 0
       ? product.images
       : [
-          `https://ui-avatars.com/api/?name=${encodeURIComponent(product.title)}&background=94849&color=fff&bold=true`,
-        ];
+        `https://ui-avatars.com/api/?name=${encodeURIComponent(product.title)}&background=94849&color=fff&bold=true`,
+      ];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [zoom, setZoom] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });

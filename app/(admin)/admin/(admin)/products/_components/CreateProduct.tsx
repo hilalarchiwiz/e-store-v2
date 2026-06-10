@@ -10,6 +10,7 @@ import UploadMultipleFiles from '@/components/Admin/UploadMultipleFiles'
 import FontPicker from '@/components/Common/FontPicker'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { saveProductDraft } from '../(actions)/product.action'
+import OptimizedGetAllGradings from '@/components/Admin/Grading'
 
 const CreateProduct = () => {
     const [productId, setProductId] = useState<number | null>(null);
@@ -124,6 +125,7 @@ const CreateProduct = () => {
                 <OptimizedGetAllCategory setFormData={updateField} setSpecifications={updateSpecifications} />
                 <OptimizedGetAllBrands setFormData={updateField} />
                 <SubCategorySelect categoryId={formData.category_id} />
+                <OptimizedGetAllGradings setFormData={updateField} />
 
                 <div className="md:col-span-2">
                     <FontPicker />
