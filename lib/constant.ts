@@ -67,6 +67,10 @@ export const permissionModules = [
         permissions: ["brand_view", "brand_create", "brand_update", "brand_delete"],
     },
     {
+        module: "Grading",
+        permissions: ["grading_view"],
+    },
+    {
         module: "Roles",
         permissions: ["role_view", "role_create", "role_update", "role_delete"],
     },

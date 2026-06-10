@@ -60,22 +60,26 @@ enum BrandStatus {
 }
 
 model Product {
-  id              Int              @id @default(autoincrement())
+  id              Int           @id @default(autoincrement())
   title           String
-  titleFont       String?          @default("Inter")
-  description     String           @db.Text
+  titleFont       String?       @default("Inter")
+  description     String        @db.Text
   warranty        String
   price           Float
-  quantity        Int              @default(1)
+  quantity        Int           @default(1)
   discountedPrice Float?
-  additionalInfo  String?          @db.Text
-  status          ProductStatus    @default(active)
+  additionalInfo  String?       @db.Text
+  status          ProductStatus @default(active)
   brandId         Int?
   categoryId      Int?
   subCategoryId   Int?
-  brand           Brand?           @relation(fields: [brandId], references: [id])
-  category        Category?        @relation(fields: [categoryId], references: [id])
-  subCategory     SubCategory?     @relation(fields: [subCategoryId], references: [id])
+  brand           Brand?        @relation(fields: [brandId], references: [id])
+  category        Category?     @relation(fields: [categoryId], references: [id])
+  subCategory     SubCategory?  @relation(fields: [subCategoryId], references: [id])
+
+  gradingId Int?
+  grading   Grading? @relation(fields: [gradingId], references: [id], onDelete: SetNull)
+
   images          String[]
   specifications  Json
   imgs            Json? // { thumbnails: string[], previews: string[] }
@@ -497,4 +501,15 @@ model AuditLog {
   newData    Json? // The record after change
   changedBy  String // User ID who made the change
   createdAt  DateTime @default(now())
+}
+
+model Grading {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String?
+
+  products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -57,6 +57,7 @@ const menuItems = [
     { icon: Layers, label: 'Categories', href: '/admin/category', permission: 'category_view' },
     { icon: Layers, label: 'Sub-Categories', href: '/admin/subcategory', permission: 'category_view' },
     { icon: Bookmark, label: 'Brands', href: '/admin/brand', permission: 'brand_view' },      // Bookmark for brand identity
+    { icon: Bookmark, label: 'Grading', href: '/admin/grading', permission: 'grading_view' },      // Bookmark for brand identity
     { icon: ShoppingBag, label: 'Products', href: '/admin/products', permission: 'product_view' }, // ShoppingBag is better for retail
     { icon: ImageIcon, label: 'Sliders', href: '/admin/slider', permission: 'slider_view' },   // ImageIcon for visual slides
     { icon: Monitor, label: 'Banner', href: '/admin/banner', permission: 'banner_view' },      // Monitor for display banners
