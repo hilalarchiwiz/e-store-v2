@@ -327,41 +327,33 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               </div>
             </div>
           )}
-          <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
-              Grade A
-            </span>
-
-            <div className="relative group">
-              <span className="material-symbols-outlined text-gray-400 text-[14px] cursor-help">
-                info
+          {product.grading && (
+            <div className="flex items-center gap-2">
+              <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
+                {product.grading.title}
               </span>
 
-              <div
-                className="
-        absolute left-1/2 -translate-x-1/2 top-7
-        w-72
-        bg-slate-900
-        text-white
-        rounded-xl
-        p-4
-        shadow-xl
-        opacity-0 invisible
-        group-hover:opacity-100
-        group-hover:visible
-        transition-all
-        z-50
-      "
-              >
-                <h4 className="font-semibold mb-2">Grade A</h4>
-                <p className="text-slate-300 text-sm">
-                  Premium quality with minimal signs of use. Fully tested and in excellent condition.
-                </p>
+              {product.grading.description && (
+                <div className="relative group">
+                  <span className="material-symbols-outlined text-gray-400 text-[18px] cursor-help">
+                    info
+                  </span>
 
-                <div className="absolute -top-1 left-1/2 -translate-x-1/2 h-3 w-3 rotate-45 bg-slate-900" />
-              </div>
+                  <div className="absolute left-1/2 -translate-x-1/2 top-7 w-72 bg-slate-900 text-white rounded-xl p-4 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                    <h4 className="font-semibold mb-2">
+                      {product.grading.title}
+                    </h4>
+
+                    <p className="text-slate-300 text-sm">
+                      {product.grading.description}
+                    </p>
+
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 h-3 w-3 rotate-45 bg-slate-900" />
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
+          )}
 
           <div className="h-px bg-gray-100 dark:bg-white/10 w-full"></div>
 
