@@ -441,3 +441,18 @@ export async function getGradingsBySearch({
         hasMore: skip + take < totalCount,
     };
 }
+
+export async function updateProductGrading(productId: number, gradingId: number | null) {
+    return await withPermission('product_update', async () => {
+        await prisma.product.update({
+            where: { id: productId },
+            data: {
+                gradingId,
+            }
+        });
+
+        revalidatePath('/admin/products');
+        (revalidateTag as any)('products');
+        return { success: true, message: "Grading assigned successfully." };
+    });
+}

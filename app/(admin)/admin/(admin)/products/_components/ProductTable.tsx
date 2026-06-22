@@ -11,10 +11,11 @@ import {
   ChevronLeft,
   ChevronRight,
   ZoomIn,
+  Award,
 } from "lucide-react";
 import DataTable from "@/components/Admin/Common/DataTable";
 import DeleteButton from "@/components/Admin/Buttons/DeleteButton";
-import { deleteProduct, updateProductPrice } from "../(actions)/product.action";
+import { deleteProduct, updateProductPrice, updateProductGrading, getGradingsBySearch } from "../(actions)/product.action";
 import toast from "react-hot-toast";
 
 interface ProductTableProps {
@@ -37,6 +38,8 @@ export default function ProductTable({
   const [selectedProductForPrice, setSelectedProductForPrice] =
     useState<any>(null);
   const [selectedProductForImage, setSelectedProductForImage] =
+    useState<any>(null);
+  const [selectedProductForGrading, setSelectedProductForGrading] =
     useState<any>(null);
 
   const productColumns = [
@@ -102,6 +105,13 @@ export default function ProductTable({
               {canEdit && (
                 <>
                   <button
+                    onClick={() => setSelectedProductForGrading(product)}
+                    className="p-2 bg-purple-50 text-purple-600 rounded hover:bg-purple-100 transition-colors"
+                    title="Assign Grading"
+                  >
+                    <Award size={14} />
+                  </button>
+                  <button
                     onClick={() => setSelectedProductForPrice(product)}
                     className="p-2 bg-emerald-50 text-emerald-600 rounded hover:bg-emerald-100 transition-colors"
                     title="Update Price"
@@ -142,6 +152,13 @@ export default function ProductTable({
         <ImageSliderModal
           product={selectedProductForImage}
           onClose={() => setSelectedProductForImage(null)}
+        />
+      )}
+
+      {selectedProductForGrading && (
+        <GradingModal
+          product={selectedProductForGrading}
+          onClose={() => setSelectedProductForGrading(null)}
         />
       )}
     </>
@@ -417,6 +434,123 @@ function ImageSliderModal({
       {/* Product Title */}
       <div className="absolute top-6 left-6 text-white/90 text-lg font-semibold max-w-[calc(100%-100px)] truncate">
         {product.title}
+      </div>
+    </div>
+  );
+}
+
+function GradingModal({
+  product,
+  onClose,
+}: {
+  product: any;
+  onClose: () => void;
+}) {
+  const [gradings, setGradings] = useState<any[]>([]);
+  const [selectedGrading, setSelectedGrading] = useState<string>(
+    product.gradingId?.toString() || ""
+  );
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  React.useEffect(() => {
+    const fetchGradings = async () => {
+      try {
+        const res = await getGradingsBySearch({ take: 100 });
+        if (res.success) {
+          setGradings(res.gradings || []);
+        }
+      } catch (error) {
+        console.error("Failed to fetch gradings", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchGradings();
+  }, []);
+
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const finalGradingId = selectedGrading ? Number(selectedGrading) : null;
+      const result = await updateProductGrading(product.id, finalGradingId);
+      if (result.success) {
+        toast.success(result.message);
+        onClose();
+      } else {
+        toast.error(result.message || "Failed to update grading");
+      }
+    } catch (error) {
+      toast.error("An error occurred while updating grading");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
+        <div className="flex items-center justify-between px-6 py-4 border-b">
+          <h3 className="text-lg font-semibold text-gray-800">Assign Grading</h3>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <X size={20} />
+          </button>
+        </div>
+        <form onSubmit={handleUpdate} className="p-6 space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Product
+            </label>
+            <div className="text-sm text-gray-500 font-medium">
+              {product.title}
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="grading"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Select Grading
+            </label>
+            {isLoading ? (
+              <div className="text-sm text-gray-500">Loading gradings...</div>
+            ) : (
+              <select
+                id="grading"
+                value={selectedGrading}
+                onChange={(e) => setSelectedGrading(e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+              >
+                <option value="">-- No Grading --</option>
+                {gradings.map((g) => (
+                  <option key={g.id} value={g.id}>
+                    {g.title}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
+          <div className="flex gap-3 mt-6">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={isSubmitting || isLoading}
+              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+              {isSubmitting ? "Assigning..." : "Assign Grading"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
