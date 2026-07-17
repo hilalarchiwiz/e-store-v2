@@ -23,7 +23,6 @@ export const GOOGLE_FONTS = [
 
 
 // @/constants/icons.ts
-// @/constants/icons.ts
 export const LUCIDE_ICON_NAMES = [
     // --- Technology & Hardware ---
     "Laptop", "Wifi", "Keyboard", "Mouse", "Cpu", "Monitor", "Smartphone", "Tablet",
