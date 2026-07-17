@@ -12,11 +12,15 @@ import {
   ChevronRight,
   ZoomIn,
   Award,
+  PenLine,
 } from "lucide-react";
 import DataTable from "@/components/Admin/Common/DataTable";
 import DeleteButton from "@/components/Admin/Buttons/DeleteButton";
 import { deleteProduct, updateProductPrice, updateProductGrading, getGradingsBySearch } from "../(actions)/product.action";
 import toast from "react-hot-toast";
+import ProductQuickEditModal, {
+  type QuickEditProduct,
+} from "./ProductQuickEditModal";
 
 interface ProductTableProps {
   products: any[];
@@ -41,6 +45,8 @@ export default function ProductTable({
     useState<any>(null);
   const [selectedProductForGrading, setSelectedProductForGrading] =
     useState<any>(null);
+  const [selectedProductForQuickEdit, setSelectedProductForQuickEdit] =
+    useState<QuickEditProduct | null>(null);
 
   const productColumns = [
     {
@@ -92,7 +98,7 @@ export default function ProductTable({
         {
           header: "Action",
           accessor: (product: any) => (
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {canView && (
                 <Link
                   href={`/admin/products/view/${product.id}`}
@@ -104,6 +110,15 @@ export default function ProductTable({
               )}
               {canEdit && (
                 <>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedProductForQuickEdit(product)}
+                    className="rounded bg-amber-50 p-2 text-amber-700 transition-colors hover:bg-amber-100"
+                    title="Quick edit title and quantity"
+                    aria-label={`Quick edit ${product.title}`}
+                  >
+                    <PenLine size={14} />
+                  </button>
                   <button
                     onClick={() => setSelectedProductForGrading(product)}
                     className="p-2 bg-purple-50 text-purple-600 rounded hover:bg-purple-100 transition-colors"
@@ -140,6 +155,13 @@ export default function ProductTable({
   return (
     <>
       <DataTable data={products} columns={productColumns} />
+
+      {selectedProductForQuickEdit && (
+        <ProductQuickEditModal
+          product={selectedProductForQuickEdit}
+          onClose={() => setSelectedProductForQuickEdit(null)}
+        />
+      )}
 
       {selectedProductForPrice && (
         <PriceModal
@@ -395,7 +417,7 @@ function ImageSliderModal({
 
           {/* Thumbnails / Indicators */}
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20">
-            {images.map((_, idx) => (
+            {images.map((_: string, idx: number) => (
               <button
                 key={idx}
                 onClick={(e) => {
