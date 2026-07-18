@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import {
   Check,
   LoaderCircle,
@@ -58,6 +58,7 @@ export default function ProductQuickEditModal({
   const [searchMessage, setSearchMessage] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [isQuantityFromErp, setIsQuantityFromErp] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const searchRequestId = useRef(0);
   const wordCount = getWordCount(title);
@@ -79,15 +80,19 @@ export default function ProductQuickEditModal({
 
         if (!result.success) {
           setMatches([]);
+          setIsQuantityFromErp(false);
           setSearchMessage(result.message || "Unable to search ERP products.");
           return;
         }
 
         setMatches(result.products as ProductTitleMatch[]);
+        setQuantity(String(result.availableQuantity));
+        setIsQuantityFromErp(true);
         setSearchMessage("");
       } catch {
         if (requestId !== searchRequestId.current) return;
         setMatches([]);
+        setIsQuantityFromErp(false);
         setSearchMessage("ERP search is unavailable. Please try again.");
       } finally {
         if (requestId === searchRequestId.current) setIsSearching(false);
@@ -104,7 +109,7 @@ export default function ProductQuickEditModal({
     [runTitleSearch],
   );
 
-  const scheduleTitleSearch = (searchTitle: string, immediate = false) => {
+  const scheduleTitleSearch = useCallback((searchTitle: string, immediate = false) => {
     runTitleSearch.cancel();
     searchRequestId.current += 1;
     const requestId = searchRequestId.current;
@@ -114,6 +119,7 @@ export default function ProductQuickEditModal({
       setIsSearching(false);
       setHasSearched(false);
       setMatches([]);
+      setIsQuantityFromErp(false);
       setSearchMessage("");
       return;
     }
@@ -121,10 +127,15 @@ export default function ProductQuickEditModal({
     setIsSearching(true);
     setHasSearched(true);
     setMatches([]);
+    setIsQuantityFromErp(false);
     setSearchMessage("");
     runTitleSearch(searchTitle, requestId);
     if (immediate) runTitleSearch.flush();
-  };
+  }, [runTitleSearch]);
+
+  useEffect(() => {
+    scheduleTitleSearch(product.title, true);
+  }, [product.title, scheduleTitleSearch]);
 
   const handleTitleChange = (value: string) => {
     setTitle(value);
@@ -139,8 +150,8 @@ export default function ProductQuickEditModal({
     setIsSearching(false);
     setSelectedMatchId(match.id);
     setTitle(match.title);
-    setQuantity(String(match.units));
     setValidationError("");
+    scheduleTitleSearch(match.title, true);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -312,7 +323,7 @@ export default function ProductQuickEditModal({
                   </div>
                 ) : matches.length === 0 ? (
                   <div className="px-4 py-6 text-center text-sm text-gray-500">
-                    No products matched all words in this title.
+                    No ERP products matched this product name and configuration.
                   </div>
                 ) : (
                   <div className="max-h-64 space-y-2 overflow-y-auto p-2">
@@ -398,10 +409,10 @@ export default function ProductQuickEditModal({
                 >
                   Available quantity
                 </label>
-                {selectedMatchId && (
+                {isQuantityFromErp && (
                   <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700">
                     <Check className="h-3.5 w-3.5" aria-hidden="true" />
-                    Filled from selected ERP product
+                    Filled from available ERP matches
                   </span>
                 )}
               </div>
@@ -411,6 +422,7 @@ export default function ProductQuickEditModal({
                 value={quantity}
                 onChange={(event) => {
                   setQuantity(event.target.value);
+                  setIsQuantityFromErp(false);
                   setValidationError("");
                 }}
                 min="0"
@@ -421,7 +433,7 @@ export default function ProductQuickEditModal({
                 className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-800 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 disabled:bg-gray-100"
               />
               <p className="mt-1.5 text-xs text-gray-500">
-                The selected ERP quantity is only a starting value—you can change it before saving.
+                ERP quantity updates after each successful title search. You can change it before saving.
               </p>
             </div>
 

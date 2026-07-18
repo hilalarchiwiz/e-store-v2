@@ -36,6 +36,41 @@ const ERP_API_BASE_URL = (process.env.ERP_API_BASE_URL || 'https://erp.archiwiz.
     .trim()
     .replace(/\/$/, '');
 
+const getNormalizedTitleWords = (value: string): string[] => (
+    value
+        .normalize('NFKD')
+        .toLocaleLowerCase('en')
+        .match(/[\p{L}\p{N}]+/gu) || []
+);
+
+const isProcessorOrGenerationWord = (word: string) => (
+    /^i[3579]$/.test(word) || /^\d+(?:st|nd|rd|th)$/.test(word)
+);
+
+/**
+ * count3 returns products that share any three words with the query. Keep only
+ * products whose first three title words identify the same product, then apply
+ * CPU/generation qualifiers when the storefront title contains them.
+ */
+function isRelevantErpTitle(searchTitle: string, erpTitle: string) {
+    const searchWords = getNormalizedTitleWords(searchTitle);
+    const erpWords = getNormalizedTitleWords(erpTitle);
+
+    if (searchWords.length < 3 || erpWords.length < 3) return false;
+
+    const hasSameProductPrefix = searchWords
+        .slice(0, 3)
+        .every((word, index) => erpWords[index] === word);
+
+    if (!hasSameProductPrefix) return false;
+
+    const requiredQualifiers = searchWords
+        .slice(3)
+        .filter(isProcessorOrGenerationWord);
+
+    return requiredQualifiers.every((word) => erpWords.includes(word));
+}
+
 export interface ProductListSearchParams {
     search?: ProductListParam;
     page?: ProductListParam;
@@ -212,7 +247,9 @@ export async function searchErpProductsByTitle(title: string) {
         const products = Array.isArray(data.products)
             ? data.products
                 .filter((item): item is ErpTitleMatchProduct & { title: string } => (
-                    typeof item?.title === 'string' && item.title.trim().length > 0
+                    typeof item?.title === 'string'
+                    && item.title.trim().length > 0
+                    && isRelevantErpTitle(normalizedTitle, item.title)
                 ))
                 .map((item, index) => {
                     const parsedUnits = Number(item.units);
@@ -237,11 +274,17 @@ export async function searchErpProductsByTitle(title: string) {
                 })
             : [];
 
+        const availableQuantity = products.reduce((total, product) => {
+            if (product.sold || product.scrapped) return total;
+            return total + product.units;
+        }, 0);
+
         return {
             success: true,
             query: data.query || normalizedTitle,
             wordCount: data.word_count ?? wordCount,
             count: products.length,
+            availableQuantity,
             products,
         };
     });
