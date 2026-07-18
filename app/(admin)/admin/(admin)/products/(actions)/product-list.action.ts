@@ -43,14 +43,10 @@ const getNormalizedTitleWords = (value: string): string[] => (
         .match(/[\p{L}\p{N}]+/gu) || []
 );
 
-const isProcessorOrGenerationWord = (word: string) => (
-    /^i[3579]$/.test(word) || /^\d+(?:st|nd|rd|th)$/.test(word)
-);
-
 /**
  * count3 returns products that share any three words with the query. Keep only
- * products whose first three title words identify the same product, then apply
- * CPU/generation qualifiers when the storefront title contains them.
+ * products whose first three title words identify the same product. ERP titles
+ * can omit storefront details such as processor, RAM, storage and display.
  */
 function isRelevantErpTitle(searchTitle: string, erpTitle: string) {
     const searchWords = getNormalizedTitleWords(searchTitle);
@@ -62,13 +58,7 @@ function isRelevantErpTitle(searchTitle: string, erpTitle: string) {
         .slice(0, 3)
         .every((word, index) => erpWords[index] === word);
 
-    if (!hasSameProductPrefix) return false;
-
-    const requiredQualifiers = searchWords
-        .slice(3)
-        .filter(isProcessorOrGenerationWord);
-
-    return requiredQualifiers.every((word) => erpWords.includes(word));
+    return hasSameProductPrefix;
 }
 
 export interface ProductListSearchParams {
