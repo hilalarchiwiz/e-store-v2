@@ -2,11 +2,10 @@ import DashboardStats from "@/components/Admin/Dashboard/DashboardStats";
 import RecentActivity from "@/components/Admin/Dashboard/RecentActivity";
 import SalesChart from "@/components/Admin/Dashboard/SalesChart";
 import TopProducts from "@/components/Admin/Dashboard/TopProducts";
-import Link from "next/link";
-import { Package } from "lucide-react";
 import { Suspense } from "react";
 import AddButton from "@/components/Admin/Buttons/AddButton";
 import PendingOrdersAlert from "@/components/Admin/Dashboard/PendingOrdersAlert";
+import ErpSoldItemsAlert from "@/components/Admin/Dashboard/ErpSoldItemsAlert";
 
 export default function AdminDashboard() {
   return (
@@ -19,7 +18,7 @@ export default function AdminDashboard() {
               Dashboard Overview
             </h1>
             <p className="mt-2 text-sm text-gray-600">
-              Monitor your store's performance and key metrics
+              Monitor your store&apos;s performance and key metrics
             </p>
           </div>
           <div className="flex gap-4">
@@ -30,6 +29,11 @@ export default function AdminDashboard() {
         {/* Pending Orders Alert */}
         <Suspense fallback={null}>
           <PendingOrdersAlert />
+        </Suspense>
+
+        {/* ERP sold inventory review */}
+        <Suspense fallback={<ErpSoldItemsLoading />}>
+          <ErpSoldItemsAlert />
         </Suspense>
 
         {/* Stats Cards */}
@@ -70,6 +74,20 @@ function StatsLoading() {
           <div className="h-8 bg-gray-200 rounded w-32" />
         </div>
       ))}
+    </div>
+  );
+}
+
+function ErpSoldItemsLoading() {
+  return (
+    <div className="mb-8 rounded-xl border border-orange-100 bg-white p-5 shadow-sm">
+      <div className="flex animate-pulse items-center gap-3">
+        <div className="h-10 w-10 rounded-lg bg-orange-100" />
+        <div className="flex-1">
+          <div className="h-4 w-44 rounded bg-gray-200" />
+          <div className="mt-2 h-3 w-72 max-w-full rounded bg-gray-100" />
+        </div>
+      </div>
     </div>
   );
 }
