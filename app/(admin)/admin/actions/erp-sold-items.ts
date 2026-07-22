@@ -49,6 +49,8 @@ const ERP_API_BASE_URL = (process.env.ERP_API_BASE_URL || "https://erp.archiwiz.
   .replace(/\/$/, "");
 const ERP_SOLD_AUDIT_ENTITY = "ErpSoldItem";
 const ERP_SEARCH_CONCURRENCY = 6;
+const ERP_SEARCH_CACHE_TTL_MS = 60_000;
+const erpSearchCache = new Map<string, { expiresAt: number; products: ErpProduct[] }>();
 
 const getNormalizedTitleWords = (value: string): string[] =>
   value
@@ -125,7 +127,13 @@ const selectQaamProduct = (products: QaamProduct[], erpProduct: ErpProduct) =>
     return left.id - right.id;
   })[0];
 
-async function fetchErpProductsByTitle(title: string) {
+async function fetchErpProductsByTitle(title: string, forceFresh = false) {
+  const cacheKey = getProductTitleKey(title);
+  const cachedResult = erpSearchCache.get(cacheKey);
+  if (!forceFresh && cachedResult && cachedResult.expiresAt > Date.now()) {
+    return cachedResult.products;
+  }
+
   const response = await fetch(
     `${ERP_API_BASE_URL}/api/products/count3?title=${encodeURIComponent(title)}`,
     {
@@ -141,14 +149,19 @@ async function fetchErpProductsByTitle(title: string) {
     throw new Error(data?.message || `ERP search failed for ${title}.`);
   }
 
-  return Array.isArray(data.products) ? data.products : [];
+  const products = Array.isArray(data.products) ? data.products : [];
+  erpSearchCache.set(cacheKey, {
+    expiresAt: Date.now() + ERP_SEARCH_CACHE_TTL_MS,
+    products,
+  });
+  return products;
 }
 
 async function findCurrentSoldErpProduct(product: QaamProduct, eventKey: string) {
   const titleKey = getProductTitleKey(product.title);
   if (getNormalizedTitleWords(titleKey).length < 3) return null;
 
-  const matches = await fetchErpProductsByTitle(titleKey);
+  const matches = await fetchErpProductsByTitle(titleKey, true);
   return matches.find((match) => (
     typeof match.title === "string"
     && hasMatchingProductTitle(product.title, match.title)
@@ -161,7 +174,7 @@ async function findCurrentSoldErpProduct(product: QaamProduct, eventKey: string)
 export async function getPendingErpSoldItems() {
   return withPermission("product_update", async () => {
     const products = await prisma.product.findMany({
-      where: { status: "active" },
+      where: { status: "active", quantity: { gt: 0 } },
       orderBy: { id: "asc" },
       select: { id: true, title: true, quantity: true },
     });

@@ -32,9 +32,7 @@ export default function AdminDashboard() {
         </Suspense>
 
         {/* ERP sold inventory review */}
-        <Suspense fallback={<ErpSoldItemsLoading />}>
-          <ErpSoldItemsAlert />
-        </Suspense>
+        <ErpSoldItemsAlert />
 
         {/* Stats Cards */}
         <Suspense fallback={<StatsLoading />}>
@@ -74,20 +72,6 @@ function StatsLoading() {
           <div className="h-8 bg-gray-200 rounded w-32" />
         </div>
       ))}
-    </div>
-  );
-}
-
-function ErpSoldItemsLoading() {
-  return (
-    <div className="mb-8 rounded-xl border border-orange-100 bg-white p-5 shadow-sm">
-      <div className="flex animate-pulse items-center gap-3">
-        <div className="h-10 w-10 rounded-lg bg-orange-100" />
-        <div className="flex-1">
-          <div className="h-4 w-44 rounded bg-gray-200" />
-          <div className="mt-2 h-3 w-72 max-w-full rounded bg-gray-100" />
-        </div>
-      </div>
     </div>
   );
 }
