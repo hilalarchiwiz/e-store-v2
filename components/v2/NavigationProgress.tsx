@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import PageLoader from "./PageLoader";
 
 function ProgressBar() {
   const pathname = usePathname();
@@ -41,6 +42,10 @@ function ProgressBar() {
   // Intercept all internal link clicks to start the bar
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+        return;
+      }
+
       // If the click originates from a button or interactive element, skip —
       // it might just open a modal or trigger an action inside a <Link> card.
       const interactive = (e.target as HTMLElement).closest(
@@ -52,7 +57,13 @@ function ProgressBar() {
       if (!anchor) return;
 
       const href = anchor.getAttribute("href") ?? "";
-      if (!href || href.startsWith("#") || href.startsWith("javascript") || anchor.target === "_blank") return;
+      if (
+        !href
+        || href.startsWith("#")
+        || href.startsWith("javascript")
+        || anchor.target === "_blank"
+        || anchor.hasAttribute("download")
+      ) return;
 
       try {
         const url = new URL(href, window.location.href);
@@ -72,21 +83,23 @@ function ProgressBar() {
 
   // Complete bar when route finishes loading
   useEffect(() => {
-    completeProgress();
+    const animationFrame = window.requestAnimationFrame(() => completeProgress());
+    return () => window.cancelAnimationFrame(animationFrame);
   }, [pathname, searchParams]);
+
+  useEffect(() => {
+    if (!visible) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [visible]);
 
   if (!visible) return null;
 
-  return (
-    <div
-      className="fixed top-0 left-0 z-[9999] h-[3px] bg-primary"
-      style={{
-        width: `${width}%`,
-        transition: width === 100 ? "width 200ms ease-out" : "width 300ms ease-in-out",
-        boxShadow: "0 0 8px var(--color-primary)",
-      }}
-    />
-  );
+  return <PageLoader progress={width} message="Opening the next page for you." />;
 }
 
 // Suspense boundary required because useSearchParams() suspends
