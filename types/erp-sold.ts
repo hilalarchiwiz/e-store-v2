@@ -1,4 +1,7 @@
-export type ErpSoldReviewDecision = "APPROVED" | "REJECTED";
+export type ErpSoldReviewDecision =
+  | "APPROVED"
+  | "REJECTED"
+  | "ALREADY_ADJUSTED";
 
 export interface PendingErpSoldItem {
   eventKey: string;

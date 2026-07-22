@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import {
+  BadgeCheck,
   CheckCircle2,
   Clock3,
   LoaderCircle,
@@ -36,13 +37,16 @@ export default function ErpSoldItemsReview({
 }: ErpSoldItemsReviewProps) {
   const router = useRouter();
   const [items, setItems] = useState(initialItems);
-  const [processingKey, setProcessingKey] = useState<string | null>(null);
+  const [processing, setProcessing] = useState<{
+    eventKey: string;
+    decision: ErpSoldReviewDecision;
+  } | null>(null);
 
   const reviewItem = async (
     item: PendingErpSoldItem,
     decision: ErpSoldReviewDecision,
   ) => {
-    setProcessingKey(item.eventKey);
+    setProcessing({ eventKey: item.eventKey, decision });
 
     try {
       const result = await reviewErpSoldItem({
@@ -56,14 +60,19 @@ export default function ErpSoldItemsReview({
         return;
       }
 
-      setItems((currentItems) =>
-        currentItems.filter((currentItem) => currentItem.eventKey !== item.eventKey));
+      setItems((currentItems) => currentItems
+        .filter((currentItem) => currentItem.eventKey !== item.eventKey)
+        .map((currentItem) => (
+          currentItem.productId === item.productId && typeof result.quantity === "number"
+            ? { ...currentItem, currentQuantity: result.quantity }
+            : currentItem
+        )));
       toast.success(result.message);
       router.refresh();
     } catch {
       toast.error("Unable to review the ERP sold item. Please try again.");
     } finally {
-      setProcessingKey(null);
+      setProcessing(null);
     }
   };
 
@@ -79,7 +88,7 @@ export default function ErpSoldItemsReview({
           <div>
             <h2 className="font-semibold text-orange-950">New ERP sold items</h2>
             <p className="mt-0.5 text-sm text-orange-800">
-              Approve to reduce the matched QAAM stock, or reject to dismiss without changing stock.
+              Approve to reduce QAAM stock. Use Already adjusted for sales you reconciled manually.
             </p>
           </div>
         </div>
@@ -98,7 +107,7 @@ export default function ErpSoldItemsReview({
 
       <div className="max-h-[28rem] divide-y divide-gray-100 overflow-y-auto">
         {items.map((item) => {
-          const isProcessing = processingKey === item.eventKey;
+          const isProcessing = processing?.eventKey === item.eventKey;
 
           return (
             <article key={item.eventKey} className="p-5">
@@ -123,14 +132,14 @@ export default function ErpSoldItemsReview({
                   </div>
                 </div>
 
-                <div className="flex shrink-0 gap-2">
+                <div className="flex shrink-0 flex-wrap gap-2">
                   <button
                     type="button"
                     onClick={() => reviewItem(item, "REJECTED")}
-                    disabled={processingKey !== null}
+                    disabled={processing !== null}
                     className="inline-flex min-w-24 items-center justify-center gap-1.5 rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 disabled:cursor-wait disabled:opacity-50"
                   >
-                    {isProcessing ? (
+                    {isProcessing && processing?.decision === "REJECTED" ? (
                       <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" />
                     ) : (
                       <XCircle className="h-4 w-4" aria-hidden="true" />
@@ -139,11 +148,24 @@ export default function ErpSoldItemsReview({
                   </button>
                   <button
                     type="button"
+                    onClick={() => reviewItem(item, "ALREADY_ADJUSTED")}
+                    disabled={processing !== null}
+                    className="inline-flex min-w-32 items-center justify-center gap-1.5 rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-100 disabled:cursor-wait disabled:opacity-50"
+                  >
+                    {isProcessing && processing?.decision === "ALREADY_ADJUSTED" ? (
+                      <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" />
+                    ) : (
+                      <BadgeCheck className="h-4 w-4" aria-hidden="true" />
+                    )}
+                    Already adjusted
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => reviewItem(item, "APPROVED")}
-                    disabled={processingKey !== null}
+                    disabled={processing !== null}
                     className="inline-flex min-w-24 items-center justify-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-wait disabled:opacity-50"
                   >
-                    {isProcessing ? (
+                    {isProcessing && processing?.decision === "APPROVED" ? (
                       <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" />
                     ) : (
                       <CheckCircle2 className="h-4 w-4" aria-hidden="true" />

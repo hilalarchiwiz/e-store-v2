@@ -276,7 +276,7 @@ export async function reviewErpSoldItem(input: ErpSoldReviewInput) {
       !input
       || !Number.isInteger(input.productId)
       || input.productId <= 0
-      || !["APPROVED", "REJECTED"].includes(input.decision)
+      || !["APPROVED", "REJECTED", "ALREADY_ADJUSTED"].includes(input.decision)
       || typeof input.eventKey !== "string"
       || !input.eventKey.startsWith("erp-sold:")
     ) {
@@ -302,8 +302,8 @@ export async function reviewErpSoldItem(input: ErpSoldReviewInput) {
     const erpTitle = erpProduct.title.trim();
 
     const result = await prisma.$transaction(async (transaction) => {
-      await transaction.$queryRaw(
-        Prisma.sql`SELECT pg_advisory_xact_lock(hashtext(${input.eventKey}))`,
+      await transaction.$queryRaw<Array<{ locked: boolean }>>(
+        Prisma.sql`SELECT pg_advisory_xact_lock(hashtext(${input.eventKey})) IS NULL AS "locked"`,
       );
 
       const existingReview = await transaction.auditLog.findFirst({
@@ -385,7 +385,9 @@ export async function reviewErpSoldItem(input: ErpSoldReviewInput) {
       success: true,
       message: input.decision === "APPROVED"
         ? `Approved. ${product.title} quantity changed from ${result.quantityBefore} to ${result.quantityAfter}.`
-        : "ERP sold item rejected. QAAM quantity was not changed.",
+        : input.decision === "ALREADY_ADJUSTED"
+          ? "Marked as already adjusted. QAAM quantity was not changed again."
+          : "ERP sold item rejected. QAAM quantity was not changed.",
       quantity: result.quantityAfter,
     };
   });
