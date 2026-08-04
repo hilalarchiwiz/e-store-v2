@@ -3,6 +3,14 @@ import { PAGE_SIZE } from "@/lib/constant";
 import prisma from "@/lib/prisma";
 import { OrderStatus, PaymentStatus, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { withPermission } from "@/lib/action-utils";
+
+interface SaveInvoiceInput {
+    orderId: string;
+    status: string;
+    paymentStatus: string;
+    discount: number;
+}
 
 export async function getOrders(searchParams: { search?: string; page?: string; limit?: string }) {
     try {
@@ -86,4 +94,76 @@ export async function updatePaymentStatus(orderId: string, paymentStatus: Paymen
     });
 
     revalidatePath("/admin/orders");
+}
+
+export async function saveInvoice(input: SaveInvoiceInput) {
+    return withPermission("order_status_manage", async () => {
+        const orderStatus = input.status as OrderStatus;
+        const paymentStatus = input.paymentStatus as PaymentStatus;
+        const requestedDiscount = Number(input.discount);
+
+        if (!input.orderId) {
+            return { success: false, message: "Order ID is required." };
+        }
+
+        if (!Object.values(OrderStatus).includes(orderStatus)) {
+            return { success: false, message: "Please select a valid order status." };
+        }
+
+        if (!Object.values(PaymentStatus).includes(paymentStatus)) {
+            return { success: false, message: "Please select a valid payment status." };
+        }
+
+        if (!Number.isFinite(requestedDiscount) || requestedDiscount < 0) {
+            return { success: false, message: "Discount must be a positive amount." };
+        }
+
+        const discount = Math.round(requestedDiscount * 100) / 100;
+
+        const updatedOrder = await prisma.$transaction(async (tx) => {
+            const order = await tx.order.findUnique({
+                where: { id: input.orderId },
+                select: { subtotal: true, shippingFee: true },
+            });
+
+            if (!order) {
+                throw new Error("Order not found.");
+            }
+
+            const amountBeforeDiscount = order.subtotal + order.shippingFee;
+
+            if (discount > amountBeforeDiscount) {
+                throw new Error("Discount cannot be greater than the invoice amount.");
+            }
+
+            const total = Math.round((amountBeforeDiscount - discount) * 100) / 100;
+
+            return tx.order.update({
+                where: { id: input.orderId },
+                data: {
+                    status: orderStatus,
+                    paymentStatus,
+                    discount,
+                    total,
+                },
+                select: {
+                    id: true,
+                    status: true,
+                    paymentStatus: true,
+                    discount: true,
+                    total: true,
+                    updatedAt: true,
+                },
+            });
+        });
+
+        revalidatePath("/admin/orders");
+        revalidatePath(`/admin/orders/${input.orderId}/invoice`);
+
+        return {
+            success: true,
+            message: "Invoice saved successfully.",
+            invoice: updatedOrder,
+        };
+    });
 }
