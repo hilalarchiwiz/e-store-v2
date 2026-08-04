@@ -299,10 +299,12 @@ model Order {
   shipToDifferentAddress Boolean @default(false)
 
   // Order Details
-  subtotal    Float
-  shippingFee Float @default(0)
-  discount    Float @default(0)
-  total       Float
+  subtotal      Float
+  shippingFee   Float   @default(0)
+  discount      Float   @default(0)
+  discountInput String?
+  amountPaid    Float   @default(0)
+  total         Float
 
   // Payment & Shipping
   paymentMethod  PaymentMethod  @default(CASH_ON_DELIVERY)

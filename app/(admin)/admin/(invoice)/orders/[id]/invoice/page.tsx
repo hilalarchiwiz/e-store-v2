@@ -71,7 +71,8 @@ export default async function InvoicePage({
   const sellerEmail = settings.generalSetting.support_email;
   const invoiceDate = formatDate(order.updatedAt);
   const dueDate = formatDate(order.updatedAt);
-  const amountDue = order.paymentStatus === "PAID" ? 0 : order.total;
+  const amountPaid = Math.min(order.total, Math.max(0, order.amountPaid));
+  const amountDue = Math.max(0, Math.round((order.total - amountPaid) * 100) / 100);
 
   return (
     <main className="min-h-screen px-4 py-6 sm:px-8">
@@ -204,13 +205,30 @@ export default async function InvoicePage({
             )}
             {order.discount > 0 && (
               <div className="flex justify-between px-2 text-emerald-700">
-                <span>Discount{order.couponCode ? ` (${order.couponCode})` : ""}</span>
+                <span>
+                  Discount
+                  {order.discountInput?.endsWith("%")
+                    ? ` (${order.discountInput})`
+                    : order.couponCode
+                      ? ` (${order.couponCode})`
+                      : ""}
+                </span>
                 <span>-{formatCurrency(order.discount)}</span>
               </div>
             )}
             <div className="flex justify-between border-t border-slate-600 px-2 pt-3 text-sm font-semibold text-slate-900">
               <span>TOTAL PKR</span>
               <span>{formatCurrency(order.total)}</span>
+            </div>
+            {amountPaid > 0 && (
+              <div className="flex justify-between px-2 text-blue-700">
+                <span>Amount Paid</span>
+                <span>-{formatCurrency(amountPaid)}</span>
+              </div>
+            )}
+            <div className="flex justify-between border-t border-slate-300 px-2 pt-2 font-semibold text-rose-700">
+              <span>AMOUNT DUE</span>
+              <span>{formatCurrency(amountDue)}</span>
             </div>
           </div>
         </section>

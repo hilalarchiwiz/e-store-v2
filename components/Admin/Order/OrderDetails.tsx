@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react';
-import { Eye, Package, Truck, CheckCircle, XCircle, Clock, AlertCircle, Printer, Save, Loader2 } from 'lucide-react';
-import { saveInvoice } from '@/app/(admin)/admin/(admin)/orders/actions/order.action';
+import { Eye, Package, Truck, CheckCircle, XCircle, Clock, AlertCircle, Printer, Save, Loader2, Banknote } from 'lucide-react';
+import { recordOrderPayment, saveInvoice } from '@/app/(admin)/admin/(admin)/orders/actions/order.action';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
@@ -47,6 +47,35 @@ const PaymentStatus = {
     REFUNDED: { label: "Refunded", color: "bg-gray-100 text-gray-800" }
 };
 
+const parseDiscountInput = (value: string, amountBeforeDiscount: number) => {
+    const rawValue = value.trim();
+
+    if (!rawValue) {
+        return { amount: 0, normalized: "0", isPercentage: false };
+    }
+
+    const isPercentage = rawValue.endsWith("%");
+    const numericText = (isPercentage ? rawValue.slice(0, -1) : rawValue)
+        .replace(/,/g, "")
+        .trim();
+    const numericValue = Number(numericText);
+
+    if (!Number.isFinite(numericValue) || numericValue < 0) return null;
+    if (isPercentage && numericValue > 100) return null;
+
+    const amount = isPercentage
+        ? (amountBeforeDiscount * numericValue) / 100
+        : numericValue;
+
+    if (amount > amountBeforeDiscount) return null;
+
+    return {
+        amount: Math.round(amount * 100) / 100,
+        normalized: isPercentage ? `${numericValue}%` : String(numericValue),
+        isPercentage,
+    };
+};
+
 const OrderDetails = ({ orders, totalPages, currentPage, limit, totalCount, params }: OrderDetailsProps) => {
     const [selectedOrder, setSelectedOrder] = useState<AdminOrder | null>(null);
     const [showModal, setShowModal] = useState(false);
@@ -54,6 +83,9 @@ const OrderDetails = ({ orders, totalPages, currentPage, limit, totalCount, para
     const [draftPaymentStatus, setDraftPaymentStatus] = useState("");
     const [draftDiscount, setDraftDiscount] = useState("0");
     const [isSaving, setIsSaving] = useState(false);
+    const [showPaymentModal, setShowPaymentModal] = useState(false);
+    const [paymentAmount, setPaymentAmount] = useState("");
+    const [isSavingPayment, setIsSavingPayment] = useState(false);
     const router = useRouter();
 
     const formatDate = (date: Date | string) => {
@@ -77,39 +109,40 @@ const OrderDetails = ({ orders, totalPages, currentPage, limit, totalCount, para
         setSelectedOrder(order);
         setDraftStatus(order.status);
         setDraftPaymentStatus(order.paymentStatus);
-        setDraftDiscount(String(order.discount || 0));
+        setDraftDiscount(order.discountInput || String(order.discount || 0));
         setShowModal(true);
     };
 
     const closeModal = () => {
         setShowModal(false);
+        setShowPaymentModal(false);
         setSelectedOrder(null);
     };
 
+    const discountBase = selectedOrder ? Number(selectedOrder.subtotal) : 0;
     const amountBeforeDiscount = selectedOrder
-        ? Number(selectedOrder.subtotal) + Number(selectedOrder.shippingFee)
+        ? discountBase + Number(selectedOrder.shippingFee)
         : 0;
-    const parsedDiscount = Number(draftDiscount);
-    const draftDiscountAmount = Number.isFinite(parsedDiscount) && parsedDiscount >= 0
-        ? parsedDiscount
-        : 0;
+    const parsedDiscount = parseDiscountInput(draftDiscount, discountBase);
+    const draftDiscountAmount = parsedDiscount?.amount ?? 0;
     const draftTotal = Math.max(0, amountBeforeDiscount - draftDiscountAmount);
+    const amountPaid = Number(selectedOrder?.amountPaid || 0);
+    const draftAmountDue = Math.max(0, draftTotal - amountPaid);
+    const savedAmountDue = selectedOrder
+        ? Math.max(0, Number(selectedOrder.total) - amountPaid)
+        : 0;
+    const savedDiscountInput = selectedOrder?.discountInput || String(selectedOrder?.discount || 0);
     const hasUnsavedChanges = selectedOrder !== null && (
         draftStatus !== selectedOrder.status
         || draftPaymentStatus !== selectedOrder.paymentStatus
-        || draftDiscountAmount !== Number(selectedOrder.discount)
+        || parsedDiscount?.normalized !== savedDiscountInput
     );
 
     const handleSaveInvoice = async () => {
         if (!selectedOrder) return;
 
-        if (!Number.isFinite(parsedDiscount) || parsedDiscount < 0) {
-            toast.error("Enter a valid discount amount.");
-            return;
-        }
-
-        if (parsedDiscount > amountBeforeDiscount) {
-            toast.error("Discount cannot be greater than the invoice amount.");
+        if (!parsedDiscount) {
+            toast.error("Enter a valid discount such as 5000 or 5%.");
             return;
         }
 
@@ -120,7 +153,7 @@ const OrderDetails = ({ orders, totalPages, currentPage, limit, totalCount, para
                 orderId: selectedOrder.id,
                 status: draftStatus,
                 paymentStatus: draftPaymentStatus,
-                discount: parsedDiscount,
+                discountInput: parsedDiscount.normalized,
             });
 
             if (!result?.success || !result.invoice) {
@@ -129,7 +162,8 @@ const OrderDetails = ({ orders, totalPages, currentPage, limit, totalCount, para
             }
 
             setSelectedOrder({ ...selectedOrder, ...result.invoice });
-            setDraftDiscount(String(result.invoice.discount));
+            setDraftPaymentStatus(result.invoice.paymentStatus);
+            setDraftDiscount(result.invoice.discountInput || String(result.invoice.discount));
             toast.success(result.message || "Invoice saved successfully.");
             router.refresh();
         } catch {
@@ -148,6 +182,64 @@ const OrderDetails = ({ orders, totalPages, currentPage, limit, totalCount, para
         }
 
         window.open(`/admin/orders/${selectedOrder.id}/invoice`, '_blank', 'noopener,noreferrer');
+    };
+
+    const openPaymentModal = () => {
+        if (!selectedOrder) return;
+
+        if (hasUnsavedChanges) {
+            toast.error("Save the invoice before recording a payment.");
+            return;
+        }
+
+        if (savedAmountDue <= 0) {
+            toast.success("This invoice is already fully paid.");
+            return;
+        }
+
+        setPaymentAmount("");
+        setShowPaymentModal(true);
+    };
+
+    const handleRecordPayment = async (fullAmount?: number) => {
+        if (!selectedOrder) return;
+
+        const amount = fullAmount ?? Number(paymentAmount.replace(/,/g, ""));
+
+        if (!Number.isFinite(amount) || amount <= 0) {
+            toast.error("Enter a valid payment amount.");
+            return;
+        }
+
+        if (amount > savedAmountDue) {
+            toast.error("Payment cannot be greater than the amount due.");
+            return;
+        }
+
+        setIsSavingPayment(true);
+
+        try {
+            const result = await recordOrderPayment({
+                orderId: selectedOrder.id,
+                amount,
+            });
+
+            if (!result?.success || !result.payment) {
+                toast.error(result?.message || "Unable to record the payment.");
+                return;
+            }
+
+            setSelectedOrder({ ...selectedOrder, ...result.payment });
+            setDraftPaymentStatus(result.payment.paymentStatus);
+            setShowPaymentModal(false);
+            setPaymentAmount("");
+            toast.success(result.message || "Payment recorded successfully.");
+            router.refresh();
+        } catch {
+            toast.error("Unable to record the payment. Please try again.");
+        } finally {
+            setIsSavingPayment(false);
+        }
     };
 
     const StatusBadge = ({ status, type = "order" }: { status: string; type?: "order" | "payment" }) => {
@@ -358,16 +450,16 @@ const OrderDetails = ({ orders, totalPages, currentPage, limit, totalCount, para
                                                     <div>
                                                         <h3 className="font-semibold text-gray-900 mb-2">Invoice Discount (PKR)</h3>
                                                         <input
-                                                            type="number"
-                                                            min="0"
-                                                            max={amountBeforeDiscount}
-                                                            step="0.01"
+                                                            type="text"
+                                                            inputMode="decimal"
                                                             value={draftDiscount}
                                                             onChange={(e) => setDraftDiscount(e.target.value)}
-                                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                                            placeholder="0.00"
+                                                            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${parsedDiscount ? 'border-gray-300' : 'border-red-400'}`}
+                                                            placeholder="5000 or 5%"
                                                         />
-                                                        <p className="mt-1 text-xs text-gray-500">Saved only when you click Save Invoice.</p>
+                                                        <p className="mt-1 text-xs text-gray-500">
+                                                            Enter 5000 for PKR 5,000 or 5% for five percent. Saved with Save Invoice.
+                                                        </p>
                                                     </div>
                                                 </div>
 
@@ -419,7 +511,9 @@ const OrderDetails = ({ orders, totalPages, currentPage, limit, totalCount, para
                                                     </div>
                                                     {draftDiscountAmount > 0 && (
                                                         <div className="flex justify-between text-green-600">
-                                                            <span>Discount{selectedOrder.couponCode ? ` (${selectedOrder.couponCode})` : ''}:</span>
+                                                            <span>
+                                                                Discount{parsedDiscount?.isPercentage ? ` (${parsedDiscount.normalized})` : selectedOrder.couponCode ? ` (${selectedOrder.couponCode})` : ''}:
+                                                            </span>
                                                             <span className="font-medium">-Rs. {formatCurrency(draftDiscountAmount)}</span>
                                                         </div>
                                                     )}
@@ -428,8 +522,16 @@ const OrderDetails = ({ orders, totalPages, currentPage, limit, totalCount, para
                                                         <span className="font-medium">{selectedOrder.shippingFee === 0 ? 'FREE' : `Rs. ${formatCurrency(selectedOrder.shippingFee)}`}</span>
                                                     </div>
                                                     <div className="flex justify-between text-lg font-bold border-t border-gray-300 pt-2">
-                                                        <span>Total:</span>
+                                                        <span>Invoice Total:</span>
                                                         <span>Rs. {formatCurrency(draftTotal)}</span>
+                                                    </div>
+                                                    <div className="flex justify-between text-blue-700">
+                                                        <span>Amount Paid:</span>
+                                                        <span className="font-semibold">Rs. {formatCurrency(amountPaid)}</span>
+                                                    </div>
+                                                    <div className="flex justify-between border-t border-gray-300 pt-2 text-lg font-bold text-rose-700">
+                                                        <span>Amount Due:</span>
+                                                        <span>Rs. {formatCurrency(draftAmountDue)}</span>
                                                     </div>
                                                 </div>
 
@@ -439,7 +541,16 @@ const OrderDetails = ({ orders, totalPages, currentPage, limit, totalCount, para
                                                             ? 'You have unsaved invoice changes.'
                                                             : 'Invoice values are saved and ready to print.'}
                                                     </p>
-                                                    <div className="flex items-center gap-3">
+                                                    <div className="flex flex-wrap items-center gap-3">
+                                                        <button
+                                                            type="button"
+                                                            onClick={openPaymentModal}
+                                                            disabled={isSaving || savedAmountDue <= 0}
+                                                            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-blue-200 bg-blue-50 rounded-lg font-semibold text-blue-700 hover:bg-blue-100 disabled:opacity-50"
+                                                        >
+                                                            <Banknote size={18} />
+                                                            Record Payment
+                                                        </button>
                                                         <button
                                                             type="button"
                                                             onClick={handlePrintInvoice}
@@ -459,6 +570,83 @@ const OrderDetails = ({ orders, totalPages, currentPage, limit, totalCount, para
                                                             {isSaving ? 'Saving...' : 'Save Invoice'}
                                                         </button>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {showPaymentModal && selectedOrder && (
+                                    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4">
+                                        <div className="w-full max-w-md rounded-xl bg-white shadow-2xl">
+                                            <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+                                                <div>
+                                                    <h2 className="text-xl font-bold text-gray-900">Record Payment</h2>
+                                                    <p className="mt-1 text-sm text-gray-500">Invoice {selectedOrder.orderNumber}</p>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowPaymentModal(false)}
+                                                    className="text-gray-400 hover:text-gray-600"
+                                                    aria-label="Close payment modal"
+                                                >
+                                                    <XCircle size={22} />
+                                                </button>
+                                            </div>
+
+                                            <div className="space-y-5 p-6">
+                                                <div className="space-y-2 rounded-lg bg-gray-50 p-4 text-sm">
+                                                    <div className="flex justify-between">
+                                                        <span className="text-gray-600">Invoice Total</span>
+                                                        <span className="font-semibold">Rs. {formatCurrency(selectedOrder.total)}</span>
+                                                    </div>
+                                                    <div className="flex justify-between">
+                                                        <span className="text-gray-600">Already Paid</span>
+                                                        <span className="font-semibold text-blue-700">Rs. {formatCurrency(amountPaid)}</span>
+                                                    </div>
+                                                    <div className="flex justify-between border-t border-gray-300 pt-2 text-base font-bold text-rose-700">
+                                                        <span>Amount Due</span>
+                                                        <span>Rs. {formatCurrency(savedAmountDue)}</span>
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <label htmlFor="payment-amount" className="mb-2 block text-sm font-semibold text-gray-900">
+                                                        Payment Amount (PKR)
+                                                    </label>
+                                                    <input
+                                                        id="payment-amount"
+                                                        type="text"
+                                                        inputMode="decimal"
+                                                        value={paymentAmount}
+                                                        onChange={(e) => setPaymentAmount(e.target.value)}
+                                                        placeholder="e.g. 30000"
+                                                        className="w-full rounded-lg border border-gray-300 px-3 py-2.5 focus:ring-2 focus:ring-blue-500"
+                                                    />
+                                                    <p className="mt-1 text-xs text-gray-500">
+                                                        This payment reduces the Amount Due, not the invoice subtotal.
+                                                    </p>
+                                                </div>
+
+                                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleRecordPayment()}
+                                                        disabled={isSavingPayment}
+                                                        className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 px-4 py-2.5 font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                                                    >
+                                                        {isSavingPayment ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
+                                                        Save Payment
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleRecordPayment(savedAmountDue)}
+                                                        disabled={isSavingPayment || savedAmountDue <= 0}
+                                                        className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
+                                                    >
+                                                        {isSavingPayment ? <Loader2 size={18} className="animate-spin" /> : <Banknote size={18} />}
+                                                        Pay Full Due
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
