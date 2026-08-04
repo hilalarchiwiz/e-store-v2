@@ -43,10 +43,14 @@ const WhatWeDoPage = async ({
     {
       header: "Icon",
       accessor: (whatwedo: any) => {
+        const Icon = (
+          Icons as unknown as Record<string, React.ElementType | undefined>
+        )[whatwedo?.icon];
+
         return (
           <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-            {whatwedo ? (
-              React.createElement((Icons as any)[whatwedo.icon], {
+            {Icon ? (
+              React.createElement(Icon, {
                 className: "w-6 h-6 text-emerald-500",
               })
             ) : (
