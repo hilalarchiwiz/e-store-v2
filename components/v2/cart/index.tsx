@@ -157,7 +157,7 @@ export default function Cart() {
             Your basket is empty
           </h2>
           <p className="text-gray-500 dark:text-gray-400 max-w-sm mb-10 leading-relaxed px-6">
-            Looks like you haven't added anything yet. Explore our sustainable
+            Looks like you haven&apos;t added anything yet. Explore our sustainable
             collection and find something you love.
           </p>
           <Button variant="primary" icon="shopping_bag">
@@ -203,18 +203,10 @@ export default function Cart() {
                             }
                             alt={item.product.title}
                             fill
-                            className="object-contain p-2 transition-transform duration-500 group-hover:scale-110"
+                            className="object-contain p-2 transition-transform duration-500 group-hover:scale-105"
                           />
-                          <button
-                            onClick={() => removeItem(item)}
-                            className="absolute inset-0 bg-red-500/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                          >
-                            <span className="material-symbols-outlined">
-                              delete
-                            </span>
-                          </button>
                         </div>
-                        <div>
+                        <div className="flex flex-col items-start">
                           <Link
                             href={`/product/${item.product.id}`}
                             className="text-base font-black text-[#121714] dark:text-white hover:text-primary transition-colors leading-snug line-clamp-2"
@@ -227,6 +219,16 @@ export default function Cart() {
                               In Stock
                             </span>
                           </div>
+                          <button
+                            onClick={() => removeItem(item)}
+                            className="mt-2.5 inline-flex items-center gap-1 text-xs font-bold text-red-500 hover:text-red-700 transition-colors"
+                            title="Remove item"
+                          >
+                            <span className="material-symbols-outlined text-base">
+                              delete
+                            </span>
+                            <span>Remove</span>
+                          </button>
                         </div>
                       </div>
 
@@ -313,34 +315,34 @@ export default function Cart() {
 
           {/* Order Summary */}
           <div className="lg:col-span-4">
-            <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-8">
-              <h2 className="text-2xl font-black text-[#121714] dark:text-white mb-8">
+            <div className="bg-white dark:bg-[#1a251d] rounded-2xl border border-primary/5 shadow-xl p-6 sm:p-7">
+              <h2 className="text-xl font-bold text-[#121714] dark:text-white mb-5">
                 Order Summary
               </h2>
 
-              <div className="space-y-4 mb-8">
-                <div className="flex justify-between items-center text-sm font-bold">
+              <div className="space-y-2 mb-5">
+                <div className="flex justify-between items-center text-sm font-semibold">
                   <span className="text-gray-500">Subtotal</span>
-                  <span className="text-[#121714] dark:text-white">
+                  <span className="text-[#121714] dark:text-white whitespace-nowrap font-bold">
                     PKR {subtotal.toLocaleString()}
                   </span>
                 </div>
-                <p className="text-[10px] text-gray-400">Free shipping</p>
+                <p className="text-xs text-gray-400">Free shipping</p>
               </div>
 
-              <div className="border-t border-gray-100 dark:border-white/5 pt-6 mb-8">
-                <div className="flex justify-between items-center">
-                  <span className="text-lg font-bold text-[#121714] dark:text-white">
+              <div className="border-t border-gray-100 dark:border-white/5 pt-4 mb-6">
+                <div className="flex justify-between items-center gap-2">
+                  <span className="text-base font-bold text-[#121714] dark:text-white whitespace-nowrap">
                     Total Amount
                   </span>
-                  <span className="text-3xl font-black text-primary">
+                  <span className="text-xl sm:text-2xl font-black text-primary whitespace-nowrap">
                     PKR {total.toLocaleString()}
                   </span>
                 </div>
               </div>
 
               <Link href="/checkout" className="block w-full">
-                <Button fullWidth icon="payments" className="py-5 shadow-2xl">
+                <Button fullWidth icon="payments" className="py-3.5 shadow-lg text-sm sm:text-base font-bold">
                   Proceed to Checkout
                 </Button>
               </Link>

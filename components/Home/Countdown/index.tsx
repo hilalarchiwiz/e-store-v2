@@ -42,61 +42,43 @@ const CounDown = () => {
             <p>The Havit H206d is a wired PC headphone.</p>
 
             {/* <!-- Countdown timer --> */}
-            <div
-              className="flex flex-wrap gap-6 mt-6"
-              x-data="timer()"
-              x-init="countdown()"
-            >
+            <div className="grid grid-cols-4 gap-2 sm:gap-4 mt-5 sm:mt-6 max-w-sm sm:max-w-none">
               {/* <!-- timer day --> */}
-              <div>
-                <span
-                  className="min-w-[64px] h-14.5 font-semibold text-xl lg:text-3xl text-dark rounded-lg flex items-center justify-center bg-white shadow-2 px-4 mb-2"
-                  x-text="days"
-                >
-                  {" "}
-                  {days < 10 ? "0" + days : days}{" "}
+              <div className="text-center">
+                <span className="w-full h-12 sm:h-14.5 font-semibold text-lg sm:text-xl lg:text-3xl text-dark rounded-lg flex items-center justify-center bg-white shadow-2 px-1 sm:px-4 mb-1.5">
+                  {days < 10 ? "0" + days : days}
                 </span>
-                <span className="block text-[14px] text-dark text-center">
+                <span className="block text-[11px] sm:text-[14px] text-dark text-center font-medium">
                   Days
                 </span>
               </div>
 
               {/* <!-- timer hours --> */}
-              <div>
-                <span
-                  className="min-w-[64px] h-14.5 font-semibold text-xl lg:text-3xl text-dark rounded-lg flex items-center justify-center bg-white shadow-2 px-4 mb-2"
-                  x-text="hours"
-                >
-                  {" "}
-                  {hours < 10 ? "0" + hours : hours}{" "}
+              <div className="text-center">
+                <span className="w-full h-12 sm:h-14.5 font-semibold text-lg sm:text-xl lg:text-3xl text-dark rounded-lg flex items-center justify-center bg-white shadow-2 px-1 sm:px-4 mb-1.5">
+                  {hours < 10 ? "0" + hours : hours}
                 </span>
-                <span className="block text-[14px] text-dark text-center">
+                <span className="block text-[11px] sm:text-[14px] text-dark text-center font-medium">
                   Hours
                 </span>
               </div>
 
               {/* <!-- timer minutes --> */}
-              <div>
-                <span
-                  className="min-w-[64px] h-14.5 font-semibold text-xl lg:text-3xl text-dark rounded-lg flex items-center justify-center bg-white shadow-2 px-4 mb-2"
-                  x-text="minutes"
-                >
-                  {minutes < 10 ? "0" + minutes : minutes}{" "}
+              <div className="text-center">
+                <span className="w-full h-12 sm:h-14.5 font-semibold text-lg sm:text-xl lg:text-3xl text-dark rounded-lg flex items-center justify-center bg-white shadow-2 px-1 sm:px-4 mb-1.5">
+                  {minutes < 10 ? "0" + minutes : minutes}
                 </span>
-                <span className="block text-[14px] text-dark text-center">
+                <span className="block text-[11px] sm:text-[14px] text-dark text-center font-medium">
                   Minutes
                 </span>
               </div>
 
               {/* <!-- timer seconds --> */}
-              <div>
-                <span
-                  className="min-w-[64px] h-14.5 font-semibold text-xl lg:text-3xl text-dark rounded-lg flex items-center justify-center bg-white shadow-2 px-4 mb-2"
-                  x-text="seconds"
-                >
-                  {seconds < 10 ? "0" + seconds : seconds}{" "}
+              <div className="text-center">
+                <span className="w-full h-12 sm:h-14.5 font-semibold text-lg sm:text-xl lg:text-3xl text-dark rounded-lg flex items-center justify-center bg-white shadow-2 px-1 sm:px-4 mb-1.5">
+                  {seconds < 10 ? "0" + seconds : seconds}
                 </span>
-                <span className="block text-[14px] text-dark text-center">
+                <span className="block text-[11px] sm:text-[14px] text-dark text-center font-medium">
                   Seconds
                 </span>
               </div>
@@ -105,7 +87,7 @@ const CounDown = () => {
 
             <a
               href="#"
-              className="inline-flex font-medium text-[14px] text-white bg-blue-dark py-3 px-9.5 rounded-md ease-out duration-200 hover:bg-[#25a953] mt-7.5"
+              className="inline-flex items-center justify-center font-medium text-xs sm:text-[14px] text-white bg-blue-dark py-2.5 sm:py-3 px-7 sm:px-9.5 rounded-md ease-out duration-200 hover:bg-[#25a953] mt-6 sm:mt-7.5 w-full sm:w-auto"
             >
               Check it Out!
             </a>

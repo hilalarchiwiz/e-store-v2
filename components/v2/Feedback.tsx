@@ -30,36 +30,36 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
   const useDB = reviews.length > 0;
 
   return (
-    <section className="py-16">
-      <div className="flex justify-between items-center mb-12">
-        <div>
-          <h2 className="text-4xl font-bold tracking-tight mb-4">
+    <section className="py-10 sm:py-16">
+      <div className="flex justify-between items-end sm:items-center mb-6 sm:mb-12 gap-3">
+        <div className="min-w-0 flex-1">
+          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-2 sm:mb-4 whitespace-nowrap">
             Satisfied Professionals
           </h2>
-          <p className="text-[#121714]/60 dark:text-white/60">
+          <p className="text-xs sm:text-base text-[#121714]/60 dark:text-white/60 max-w-xl">
             Real feedback from tech enthusiasts and professionals who upgraded
             their workflow with our high-performance gear.
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 shrink-0 pb-1">
           <button
             onClick={() => scroll("left")}
-            className="size-10 rounded-full border border-[#f1f4f2] dark:border-[#2a3a2f] flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
+            className="size-8 sm:size-10 rounded-full border border-[#f1f4f2] dark:border-[#2a3a2f] flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
           >
-            <span className="material-symbols-outlined">chevron_left</span>
+            <span className="material-symbols-outlined text-base sm:text-xl">chevron_left</span>
           </button>
           <button
             onClick={() => scroll("right")}
-            className="size-10 rounded-full border border-[#f1f4f2] dark:border-[#2a3a2f] flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
+            className="size-8 sm:size-10 rounded-full border border-[#f1f4f2] dark:border-[#2a3a2f] flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
           >
-            <span className="material-symbols-outlined">chevron_right</span>
+            <span className="material-symbols-outlined text-base sm:text-xl">chevron_right</span>
           </button>
         </div>
       </div>
 
       <div
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto no-scrollbar pb-8 scroll-smooth"
+        className="flex gap-4 sm:gap-6 overflow-x-auto no-scrollbar pb-6 sm:pb-8 scroll-smooth"
       >
         {useDB ? (
           reviews.map((review, idx) => {
@@ -68,7 +68,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
             return (
               <div
                 key={review.id}
-                className={`min-w-87.5 md:min-w-100 p-8 rounded-2xl shadow-sm border transition-shadow ${
+                className={`min-w-[270px] xs:min-w-87.5 md:min-w-100 p-5 sm:p-8 rounded-2xl shadow-sm border transition-shadow ${
                   isHighlight
                     ? "bg-primary text-white shadow-xl shadow-primary/20 border-transparent"
                     : "bg-white dark:bg-[#2a3a2f] border-[#f1f4f2] dark:border-[#2a3a2f] hover:shadow-md"
@@ -103,7 +103,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
                 <p
                   className={`leading-relaxed ${isHighlight ? "font-medium" : "text-[#121714]/80 dark:text-white/80 italic"}`}
                 >
-                  "{review.comment}"
+                  &quot;{review.comment}&quot;
                 </p>
               </div>
             );
@@ -117,7 +117,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
             </div>
             <h3 className="text-lg font-bold mb-1">No Reviews Yet</h3>
             <p className="text-[#121714]/60 dark:text-white/60 text-sm max-w-[280px] text-center">
-              We haven't received any reviews for our database yet. Be the first
+              We haven&apos;t received any reviews for our database yet. Be the first
               to share your earth-friendly journey!
             </p>
           </div>

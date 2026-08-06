@@ -146,12 +146,12 @@ const WishlistPage = () => {
             return (
               <div
                 key={item.id}
-                className="group bg-white dark:bg-[#1a251d] border border-[#dce5df] dark:border-[#2a3a30] rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300"
+                className="group bg-white dark:bg-[#1a251d] border border-[#dce5df] dark:border-[#2a3a30] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300"
               >
                 {/* Image */}
                 <Link
                   href={`/product/${product.id}`}
-                  className="size-32 rounded-2xl overflow-hidden flex-shrink-0 bg-[#f1f4f2] dark:bg-[#2a3a2f] relative"
+                  className="size-24 sm:size-32 rounded-xl sm:rounded-2xl overflow-hidden flex-shrink-0 bg-[#f1f4f2] dark:bg-[#2a3a2f] relative"
                 >
                   <Image
                     src={product.images[0] || "/images/placeholder-product.jpg"}
@@ -160,24 +160,24 @@ const WishlistPage = () => {
                     className="w-full h-full object-contain p-2 group-hover:scale-110 transition-transform duration-500"
                   />
                   {!!product.discountedPrice && product.discountedPrice > 0 && (
-                    <div className="absolute top-2 left-2 bg-primary text-white text-[10px] font-black px-2 py-1 rounded-lg shadow-xl z-10">
+                    <div className="absolute top-1.5 left-1.5 bg-primary text-white text-[9px] sm:text-[10px] font-black px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-md sm:rounded-lg shadow-xl z-10">
                       {product.discountedPrice}% OFF
                     </div>
                   )}
                 </Link>
 
                 {/* Info + actions */}
-                <div className="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-6 w-full">
-                  <div className="flex flex-col gap-2 max-w-xl">
+                <div className="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 w-full">
+                  <div className="flex flex-col gap-1.5 sm:gap-2 max-w-xl">
                     <Link
                       href={`/product/${product.id}`}
-                      className="text-lg md:text-xl font-black text-[#121714] dark:text-white hover:text-primary transition-colors leading-tight line-clamp-2"
+                      className="text-base sm:text-lg md:text-xl font-bold text-[#121714] dark:text-white hover:text-primary transition-colors leading-tight line-clamp-2"
                     >
                       {product.title}
                     </Link>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span
-                        className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${
+                        className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 sm:py-1 rounded-full ${
                           inStock
                             ? "bg-emerald-100 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400"
                             : "bg-red-100 text-red-600 dark:bg-red-500/10 dark:text-red-400"
@@ -186,36 +186,33 @@ const WishlistPage = () => {
                         {inStock ? "In Stock" : "Out of Stock"}
                       </span>
                       {product.category && (
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-100 dark:bg-white/5 px-2.5 py-1 rounded-full">
+                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-100 dark:bg-white/5 px-2.5 py-0.5 sm:py-1 rounded-full">
                           {product.category.title}
                         </span>
                       )}
                     </div>
                   </div>
 
-                  <div className="flex flex-row items-center justify-between md:justify-end gap-4 md:gap-10 w-full md:w-auto mt-2 md:mt-0 pt-4 md:pt-0 border-t md:border-0 border-gray-100 dark:border-white/5">
+                  <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between md:justify-end gap-3 sm:gap-6 md:gap-10 w-full md:w-auto pt-3 md:pt-0 border-t md:border-0 border-gray-100 dark:border-white/5">
                     {/* Price */}
-                    <div className="flex flex-col items-start md:items-end">
-                      <div className="flex flex-col">
-                        <p className="text-xl font-black text-primary">
-                          Rs. {Number(finalPrice).toLocaleString()}
+                    <div className="flex items-center xs:flex-col xs:items-start md:items-end gap-2 xs:gap-0">
+                      <p className="text-lg sm:text-xl font-black text-primary whitespace-nowrap">
+                        Rs. {Number(finalPrice).toLocaleString()}
+                      </p>
+                      {!!product.discountedPrice && product.discountedPrice > 0 && (
+                        <p className="text-xs sm:text-sm text-gray-400 line-through font-medium whitespace-nowrap">
+                          Rs. {Number(product.price).toLocaleString()}
                         </p>
-                      </div>
-                      {!!product.discountedPrice &&
-                        product.discountedPrice > 0 && (
-                          <p className="text-sm text-gray-400 line-through font-medium">
-                            Rs. {Number(product.price).toLocaleString()}
-                          </p>
-                        )}
+                      )}
                     </div>
 
                     {/* Buttons */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3 w-full xs:w-auto">
                       <Button
                         variant="primary"
                         disabled={!inStock}
                         icon="shopping_basket"
-                        className="!px-6 !py-3.5 font-bold whitespace-nowrap shadow-lg shadow-primary/20 transition-transform active:scale-95"
+                        className="flex-1 xs:flex-initial !px-4 sm:!px-6 !py-2.5 sm:!py-3.5 text-xs sm:text-sm font-bold whitespace-nowrap shadow-md shadow-primary/20 transition-transform active:scale-95"
                         onClick={() => handleAddToCart(item)}
                       >
                         Add to Cart
@@ -223,10 +220,10 @@ const WishlistPage = () => {
                       <button
                         disabled={removingId === product.id}
                         onClick={() => handleRemove(product.id)}
-                        className="size-12 bg-red-50 text-red-500 dark:bg-red-500/10 dark:text-red-400 rounded-2xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all active:scale-90 disabled:opacity-50 border border-red-100 dark:border-red-500/20"
+                        className="size-10 sm:size-12 shrink-0 bg-red-50 text-red-500 dark:bg-red-500/10 dark:text-red-400 rounded-xl sm:rounded-2xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all active:scale-90 disabled:opacity-50 border border-red-100 dark:border-red-500/20"
                         title="Remove from Wishlist"
                       >
-                        <span className="material-symbols-outlined text-2xl">
+                        <span className="material-symbols-outlined text-xl sm:text-2xl">
                           delete
                         </span>
                       </button>

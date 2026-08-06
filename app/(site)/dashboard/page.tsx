@@ -114,7 +114,7 @@ export default function DashboardPage() {
           Hello, {firstName}! 👋
         </h1>
         <p className="text-gray-500 dark:text-gray-400">
-          Welcome back to your eco-dashboard. Here's what's happening today.
+          Welcome back to your eco-dashboard. Here&apos;s what&apos;s happening today.
         </p>
       </div>
 
@@ -181,14 +181,14 @@ export default function DashboardPage() {
             </Link>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
+          <div className="overflow-x-auto no-scrollbar">
+            <table className="w-full text-left min-w-[550px] sm:min-w-0">
               <thead>
                 <tr className="bg-[#f1f4f2] dark:bg-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
-                  <th className="px-8 py-4">Order ID</th>
-                  <th className="px-8 py-4">Date</th>
-                  <th className="px-8 py-4">Status</th>
-                  <th className="px-8 py-4">Total</th>
+                  <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Order ID</th>
+                  <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Date</th>
+                  <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Status</th>
+                  <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Total</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-white/5 text-sm font-bold">
@@ -206,7 +206,7 @@ export default function DashboardPage() {
                       key={order.id}
                       className="hover:bg-primary/5 transition-colors group"
                     >
-                      <td className="px-8 py-6 text-[#121714] dark:text-white font-black">
+                      <td className="px-4 sm:px-8 py-4 sm:py-6 text-[#121714] dark:text-white font-black whitespace-nowrap">
                         <Link
                           href={`/dashboard/orders/${order.orderNumber}`}
                           className="hover:text-primary transition-colors"
@@ -214,18 +214,18 @@ export default function DashboardPage() {
                           {order.orderNumber}
                         </Link>
                       </td>
-                      <td className="px-8 py-6 text-gray-500 font-medium">
+                      <td className="px-4 sm:px-8 py-4 sm:py-6 text-gray-500 font-medium whitespace-nowrap">
                         {date}
                       </td>
-                      <td className="px-8 py-6">
+                      <td className="px-4 sm:px-8 py-4 sm:py-6 whitespace-nowrap">
                         <span
-                          className={`px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-black ${STATUS_COLORS[order.status] ?? STATUS_COLORS.PENDING}`}
+                          className={`inline-block px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-black whitespace-nowrap ${STATUS_COLORS[order.status] ?? STATUS_COLORS.PENDING}`}
                         >
                           {order.status}
                         </span>
                       </td>
-                      <td className="px-8 py-6 text-primary font-black">
-                        Rs.{Number(order.total).toFixed(2)}
+                      <td className="px-4 sm:px-8 py-4 sm:py-6 text-primary font-black whitespace-nowrap">
+                        Rs. {Number(order.total).toLocaleString()}
                       </td>
                     </tr>
                   );

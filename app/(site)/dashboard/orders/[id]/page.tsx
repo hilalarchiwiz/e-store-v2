@@ -202,50 +202,38 @@ export default function OrderDetailsPage() {
             <div className="divide-y divide-gray-100 dark:divide-white/5">
               {order.orderItems.map((item: any) => {
                 return (
-                <div
-                  key={item.id}
-                  className="p-4 flex items-center gap-6 group"
-                >
-                  <div className="size-24 rounded-2xl overflow-hidden bg-[#f1f4f2] dark:bg-[#2a3a2f] shrink-0 border border-gray-100 dark:border-white/5">
-                    <img
-                      src={item.product.images?.[0] ?? "/placeholder.jpg"}
-                      alt={item.product.title}
-                      className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <Link
-                        href={`/product/${item.product.id}`}
-                        className="text-sm font-black text-[#121714] dark:text-white group-hover:text-primary transition-colors"
-                      >
-                        {item.product.title.split(" ").slice(0, 6).join(" ")}
-                        {item.product.title.split(" ").length > 6 && (
-                          <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              setShowItemsModal(true);
-                            }}
-                            className="inline-block text-xs text-zinc-500 ml-1 transition-colors"
-                            title="View All Items"
-                          >
-                            ... more
-                          </button>
-                        )}
-                      </Link>
+                  <div
+                    key={item.id}
+                    className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
+                  >
+                    <div className="flex items-center gap-4 flex-1 min-w-0">
+                      <div className="size-20 sm:size-24 rounded-2xl overflow-hidden bg-[#f1f4f2] dark:bg-[#2a3a2f] shrink-0 border border-gray-100 dark:border-white/5">
+                        <img
+                          src={item.product.images?.[0] ?? "/placeholder.jpg"}
+                          alt={item.product.title}
+                          className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <Link
+                          href={`/product/${item.product.id}`}
+                          className="text-sm sm:text-base font-bold text-[#121714] dark:text-white hover:text-primary transition-colors leading-snug block"
+                        >
+                          {item.product.title}
+                        </Link>
+                        <p className="text-xs font-semibold text-gray-400 mt-1">
+                          Qty: {item.quantity}
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-xs font-bold text-gray-400 mt-1">
-                      Qty: {item.quantity}
-                    </p>
+                    <div className="flex justify-between sm:justify-end items-center pt-2 sm:pt-0 border-t sm:border-0 border-gray-100 dark:border-white/5">
+                      <span className="sm:hidden text-xs text-gray-400 font-medium">Subtotal</span>
+                      <p className="text-base sm:text-lg font-black text-primary whitespace-nowrap">
+                        Rs. {Number(item.subtotal).toLocaleString()}
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xl font-black text-[#121714] dark:text-white">
-                      Rs.{Number(item.subtotal).toFixed(2)}
-                    </p>
-                  </div>
-                </div>
-              )
+                );
               })}
             </div>
           </div>
@@ -312,8 +300,8 @@ export default function OrderDetailsPage() {
             <div className="space-y-4 font-bold text-sm mb-6">
               <div className="flex justify-between items-center">
                 <span className="text-gray-500">Subtotal</span>
-                <span className="text-[#121714] dark:text-white">
-                  Rs.{Number(order.subtotal).toFixed(2)}
+                <span className="text-[#121714] dark:text-white whitespace-nowrap">
+                  Rs. {Number(order.subtotal).toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between items-center">
@@ -321,13 +309,13 @@ export default function OrderDetailsPage() {
                 <span
                   className={
                     order.shippingFee === 0
-                      ? "text-green-500"
-                      : "text-[#121714] dark:text-white"
+                      ? "text-green-500 font-bold whitespace-nowrap"
+                      : "text-[#121714] dark:text-white whitespace-nowrap"
                   }
                 >
                   {order.shippingFee === 0
                     ? "FREE"
-                    : `Rs.${Number(order.shippingFee).toFixed(2)}`}
+                    : `Rs. ${Number(order.shippingFee).toLocaleString()}`}
                 </span>
               </div>
               {order.discount > 0 && (
@@ -335,16 +323,16 @@ export default function OrderDetailsPage() {
                   <span>
                     Discount{order.couponCode ? ` (${order.couponCode})` : ""}
                   </span>
-                  <span>-Rs.{Number(order.discount).toFixed(2)}</span>
+                  <span className="whitespace-nowrap">-Rs. {Number(order.discount).toLocaleString()}</span>
                 </div>
               )}
             </div>
             <div className="pt-6 border-t border-gray-100 dark:border-white/5 flex justify-between items-center">
-              <span className="text-sm font-black text-[#121714] dark:text-white">
+              <span className="text-sm font-black text-[#121714] dark:text-white whitespace-nowrap">
                 Total Amount
               </span>
-              <span className="text-md font-black text-primary">
-                Rs.{Number(order.total).toFixed(2)}
+              <span className="text-base sm:text-lg font-black text-primary whitespace-nowrap">
+                Rs. {Number(order.total).toLocaleString()}
               </span>
             </div>
           </div>

@@ -12,7 +12,7 @@ interface FilterSectionProps {
 const FilterSection: React.FC<FilterSectionProps> = ({
   title,
   children,
-  defaultOpen = true,
+  defaultOpen = false,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -62,41 +62,40 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
-  const [selectedBrands, setSelectedBrands] = useState<number[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([
-    minPrice,
-    maxPrice,
-  ]);
-  const [sort, setSort] = useState<string>("newest");
+  const categoryParamStr = searchParams.get("category") || "";
+  const brandParamStr = searchParams.get("brand") || "";
+  const minParamStr = searchParams.get("minPrice") || "";
+  const maxParamStr = searchParams.get("maxPrice") || "";
+  const sortParamStr = searchParams.get("sort") || "";
+
+  const [selectedCategories, setSelectedCategories] = useState<number[]>(
+    categoryParamStr ? categoryParamStr.split(",").map(Number) : []
+  );
+  const [selectedBrands, setSelectedBrands] = useState<number[]>(
+    brandParamStr ? brandParamStr.split(",").map(Number) : []
+  );
+  const [priceRange, setPriceRange] = useState<[number, number]>(
+    minParamStr && maxParamStr ? [Number(minParamStr), Number(maxParamStr)] : [minPrice, maxPrice]
+  );
+  const [sort, setSort] = useState<string>(sortParamStr || "newest");
 
   useEffect(() => {
-    // Parse URL params
-    const categoryParam = searchParams.get("category");
-    if (categoryParam) {
-      setSelectedCategories(categoryParam.split(",").map(Number));
+    setSelectedCategories(categoryParamStr ? categoryParamStr.split(",").map(Number) : []);
+    setSelectedBrands(brandParamStr ? brandParamStr.split(",").map(Number) : []);
+    if (minParamStr && maxParamStr) {
+      setPriceRange([Number(minParamStr), Number(maxParamStr)]);
     } else {
-      setSelectedCategories([]);
+      setPriceRange([minPrice, maxPrice]);
     }
+    setSort(sortParamStr || "newest");
+  }, [categoryParamStr, brandParamStr, minParamStr, maxParamStr, sortParamStr, minPrice, maxPrice]);
 
-    const brandParam = searchParams.get("brand");
-    if (brandParam) {
-      setSelectedBrands(brandParam.split(",").map(Number));
-    } else {
-      setSelectedBrands([]);
+  const scrollToProducts = () => {
+    const el = document.getElementById("shop-products-section");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-
-    const min = searchParams.get("minPrice");
-    const max = searchParams.get("maxPrice");
-    if (min && max) {
-      setPriceRange([Number(min), Number(max)]);
-    }
-
-    const sortParam = searchParams.get("sort");
-    if (sortParam) {
-      setSort(sortParam);
-    }
-  }, [searchParams]);
+  };
 
   const applyFilters = (
     newCategories?: number[],
@@ -134,7 +133,8 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
 
     params.set("page", "1");
 
-    router.push(`/shop?${params.toString()}`);
+    router.push(`/shop?${params.toString()}`, { scroll: false });
+    scrollToProducts();
   };
 
   const handleCategoryChange = (id: number) => {
@@ -185,7 +185,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
     setSelectedBrands([]);
     setPriceRange([minPrice, maxPrice]);
     setSort("newest");
-    router.push("/shop");
+    router.push("/shop", { scroll: false });
   };
 
   return (

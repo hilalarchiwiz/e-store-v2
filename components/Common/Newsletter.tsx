@@ -34,17 +34,17 @@ const Newsletter = () => {
                 successMessage="subscribe successfully"
                 href=""
               >
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                   <input
                     type="email"
                     name="email"
                     id="email"
                     placeholder="Enter your email"
-                    className="w-full bg-gray-1 border border-gray-3 outline-none rounded-md placeholder:text-dark-4 py-3 px-5"
+                    className="w-full bg-gray-1 border border-gray-3 outline-none rounded-md placeholder:text-dark-4 py-3 px-5 text-sm sm:text-base"
                   />
                   <button
                     type="submit"
-                    className="inline-flex justify-center py-3 px-7 text-white bg-blue-dark font-medium rounded-md ease-out duration-200 hover:bg-[#25a953]"
+                    className="inline-flex justify-center items-center py-3 px-7 text-white bg-blue-dark font-medium rounded-md ease-out duration-200 hover:bg-[#25a953] w-full sm:w-auto shrink-0"
                   >
                     Subscribe
                   </button>

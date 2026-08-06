@@ -11,16 +11,16 @@ const NewArrival = async () => {
     <section className="overflow-hidden pt-15">
       <div className=" max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
         {/* <!-- section title --> */}
-        <div className="mb-7 flex items-center justify-between">
+        <div className="mb-7 flex items-center justify-between gap-3">
           <div>
-            <h2 className="font-semibold text-xl xl:text-heading-5 text-dark">
+            <h2 className="font-semibold text-sm sm:text-lg md:text-xl xl:text-heading-5 text-dark whitespace-nowrap">
               New Arrivals
             </h2>
           </div>
 
           <Link
             href="/shop"
-            className="inline-flex font-medium text-[14px] py-2.5 px-7 rounded-md border-gray-3 border bg-gray-1 text-dark ease-out duration-200 hover:bg-blue-dark hover:text-white hover:border-transparent"
+            className="inline-flex font-medium text-xs sm:text-[14px] py-1.5 sm:py-2.5 px-4 sm:px-7 rounded-md border-gray-3 border bg-gray-1 text-dark ease-out duration-200 hover:bg-blue-dark hover:text-white hover:border-transparent whitespace-nowrap shrink-0"
           >
             View All
           </Link>

@@ -1,7 +1,6 @@
 import "../css/style.css";
 import { Metadata } from "next";
 import { ReduxProvider } from "@/redux/provider";
-import { Toaster } from "react-hot-toast";
 import Header from "@/components/v2/Header";
 import Footer from "@/components/v2/Footer";
 import TopBar from "@/components/v2/TopBar";
@@ -9,6 +8,8 @@ import NavigationProgress from "@/components/v2/NavigationProgress";
 import { getSiteSettings } from "@/lib/action/settings.action";
 import CartInitializer from "@/components/v2/CartInitializer";
 import { getSetting } from "../(admin)/admin/(admin)/setting/actions/setting.action";
+
+import ToasterProvider from "@/components/v2/ToasterProvider";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { setting } = await getSetting("logo");
@@ -50,7 +51,7 @@ export default async function V2Layout({
       </head>
       <body className="font-display">
         <NavigationProgress />
-        <Toaster position="top-center" />
+        <ToasterProvider />
         <ReduxProvider>
           <CartInitializer />
           <div className="flex flex-col min-h-screen">

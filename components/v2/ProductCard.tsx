@@ -267,12 +267,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </span>
           </button>
 
-          {/* Quick View — appears on hover */}
+          {/* Quick View — visible on mobile, hover on desktop */}
           <button
             onClick={openQuickView}
             data-no-progress
             title="Quick View"
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white dark:bg-[#1a251d] text-[#111713] dark:text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg flex items-center gap-1.5 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 whitespace-nowrap border border-gray-100 dark:border-white/10 hover:bg-primary hover:text-white hover:border-primary"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white dark:bg-[#1a251d] text-[#111713] dark:text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg flex items-center gap-1.5 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 translate-y-0 sm:translate-y-2 sm:group-hover:translate-y-0 transition-all duration-300 whitespace-nowrap border border-gray-100 dark:border-white/10 hover:bg-primary hover:text-white hover:border-primary"
           >
             <span className="material-symbols-outlined text-[16px]">
               visibility

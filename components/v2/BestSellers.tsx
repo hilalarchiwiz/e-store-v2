@@ -45,22 +45,22 @@ const BestSellers: React.FC<BestSellersProps> = ({ products = [] }) => {
     <>
       <section className=" py-12">
         {/* Header */}
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex justify-between items-end sm:items-center mb-6 sm:mb-10 gap-2">
           <div>
-            <p className="text-primary text-xs font-bold uppercase tracking-widest mb-2">
+            <p className="text-primary text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-1 sm:mb-2 whitespace-nowrap">
               Top Picks
             </p>
-            <h2 className="text-3xl font-black tracking-tight text-[#121714] dark:text-white">
+            <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-[#121714] dark:text-white whitespace-nowrap">
               Best Sellers
             </h2>
-            <div className="w-12 h-0.75 bg-primary rounded-full mt-3" />
+            <div className="w-8 sm:w-12 h-0.75 bg-primary rounded-full mt-2 sm:mt-3" />
           </div>
           <Link
             href="/shop"
-            className="text-primary font-bold flex items-center gap-1 group text-sm"
+            className="text-primary font-bold flex items-center gap-1 group text-xs sm:text-sm whitespace-nowrap shrink-0 pb-1"
           >
             View All
-            <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">
+            <span className="material-symbols-outlined text-xs sm:text-sm group-hover:translate-x-1 transition-transform">
               arrow_forward
             </span>
           </Link>

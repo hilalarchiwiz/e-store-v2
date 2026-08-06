@@ -82,16 +82,16 @@ export default function OrdersPage() {
       </div>
 
       <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
+        <div className="overflow-x-auto no-scrollbar">
+          <table className="w-full text-left min-w-[650px] sm:min-w-0">
             <thead>
               <tr className="bg-[#f1f4f2] dark:bg-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
-                <th className="px-8 py-4">Order ID</th>
-                <th className="px-8 py-4">Date</th>
-                <th className="px-8 py-4">Items</th>
-                <th className="px-8 py-4">Status</th>
-                <th className="px-8 py-4">Total</th>
-                <th className="px-8 py-4 text-right">Action</th>
+                <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Order ID</th>
+                <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Date</th>
+                <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Items</th>
+                <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Status</th>
+                <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Total</th>
+                <th className="px-4 sm:px-8 py-3.5 sm:py-4 text-right whitespace-nowrap">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-white/5 text-sm font-bold">
@@ -102,20 +102,20 @@ export default function OrdersPage() {
                 const totalItems = order.orderItems.reduce((n: number, i: any) => n + i.quantity, 0);
                 return (
                   <tr key={order.id} className="hover:bg-primary/5 transition-colors group">
-                    <td className="px-8 py-6 text-[#121714] dark:text-white font-black">
+                    <td className="px-4 sm:px-8 py-4 sm:py-6 text-[#121714] dark:text-white font-black whitespace-nowrap">
                       {order.orderNumber}
                     </td>
-                    <td className="px-8 py-6 text-gray-500 font-medium">{date}</td>
-                    <td className="px-8 py-6 text-gray-500 font-medium">
+                    <td className="px-4 sm:px-8 py-4 sm:py-6 text-gray-500 font-medium whitespace-nowrap">{date}</td>
+                    <td className="px-4 sm:px-8 py-4 sm:py-6 text-gray-500 font-medium whitespace-nowrap">
                       {totalItems} item{totalItems !== 1 ? "s" : ""}
                     </td>
-                    <td className="px-8 py-6">
-                      <span className={`px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-black ${STATUS_COLORS[order.status] ?? STATUS_COLORS.PENDING}`}>
+                    <td className="px-4 sm:px-8 py-4 sm:py-6 whitespace-nowrap">
+                      <span className={`inline-block px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-black whitespace-nowrap ${STATUS_COLORS[order.status] ?? STATUS_COLORS.PENDING}`}>
                         {order.status}
                       </span>
                     </td>
-                    <td className="px-8 py-6 text-primary">Rs.{Number(order.total).toFixed(2)}</td>
-                    <td className="px-8 py-6 text-right">
+                    <td className="px-4 sm:px-8 py-4 sm:py-6 text-primary font-black whitespace-nowrap">Rs. {Number(order.total).toLocaleString()}</td>
+                    <td className="px-4 sm:px-8 py-4 sm:py-6 text-right whitespace-nowrap">
                       <Link
                         href={`/dashboard/orders/${order.orderNumber}`}
                         className="inline-flex items-center gap-1.5 text-xs font-black text-[#648770] hover:text-primary transition-colors bg-[#f1f4f2] dark:bg-white/5 hover:bg-primary/10 px-3 py-2 rounded-xl"

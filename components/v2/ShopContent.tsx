@@ -35,8 +35,9 @@ const ShopContent: React.FC<ShopContentProps> = ({
   totalPages,
 }) => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
   return (
-    <section className="flex-1 flex flex-col gap-6">
+    <section id="shop-products-section" className="flex-1 flex flex-col gap-6 scroll-mt-28">
       <ShopHeader
         totalProducts={totalProducts}
         viewMode={viewMode}
