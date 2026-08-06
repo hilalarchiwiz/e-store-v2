@@ -149,10 +149,10 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
             </Link>
           )}
           <Link
-            href="/about"
+            href="/contact"
             className="px-8 h-13 inline-flex items-center bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-xl font-bold text-base hover:bg-white/20 transition-all"
           >
-            Our Story
+            Contact Us
           </Link>
         </div>
       </div>

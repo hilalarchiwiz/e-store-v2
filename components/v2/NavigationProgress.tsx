@@ -75,14 +75,20 @@ function ProgressBar() {
       }
 
       startProgress();
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     };
 
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
   }, [pathname]);
 
-  // Complete bar when route finishes loading
+  // Complete bar and scroll to top when route finishes loading
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
     const animationFrame = window.requestAnimationFrame(() => completeProgress());
     return () => window.cancelAnimationFrame(animationFrame);
   }, [pathname, searchParams]);
