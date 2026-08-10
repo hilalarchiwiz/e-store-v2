@@ -1,4 +1,5 @@
-// // import { PrismaClient } from '@prisma/client';
+import { Prisma } from "@prisma/client";
+// import { PrismaClient } from '@prisma/client';
 // // import { PrismaPg } from '@prisma/adapter-pg';
 
 // // const adapter = new PrismaPg({
@@ -169,7 +170,7 @@ const prismaClientSingleton = () => {
                             entityName: model,
                             entityId: String((result as any).id || "unknown"),
                             action: "CREATE",
-                            oldData: null,
+                            oldData: (Prisma as any).JsonNull,
                             newData: JSON.parse(JSON.stringify(result)),
                             changedBy: userContext.getStore() || "SYSTEM",
                         },
@@ -194,7 +195,7 @@ const prismaClientSingleton = () => {
                             entityId: String(args.where.id || "unknown"),
                             action: "DELETE",
                             oldData: JSON.parse(JSON.stringify(oldData)),
-                            newData: null,
+                            newData: (Prisma as any).JsonNull,
                             changedBy: userContext.getStore() || "SYSTEM",
                         },
                     });

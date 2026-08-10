@@ -107,7 +107,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           id,
           title: name,
           price: oldPrice ?? price,
-          discountedPrice: oldPrice ? price : undefined,
+          discountedPrice: oldPrice ? price : price,
           quantity: 1,
           images: images && images.length > 0 ? images : [image],
         }),

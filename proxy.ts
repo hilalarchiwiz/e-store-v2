@@ -27,8 +27,7 @@ export function proxy(request: NextRequest) {
   if (isSensitiveRoute) {
     // Attempt to get the user's IP address. 
     // This works automatically on Vercel or when behind a proxy.
-    const ip = request.ip ||
-      request.headers.get('x-real-ip') ||
+    const ip = request.headers.get('x-real-ip') ||
       request.headers.get('x-forwarded-for')?.split(',')[0] ||
       'unknown-ip';
                

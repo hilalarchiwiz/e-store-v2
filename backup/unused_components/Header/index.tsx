@@ -63,7 +63,11 @@ const Header = ({ user, categories, setting, footer_setting }) => {
     try {
       const result = await getProductToWishlists(user?.id);
       if (result.success) {
-        dispatch(setWishlistItems(result?.data || []));
+        const formatted = (result?.data || []).map((item: any) => ({
+          ...item,
+          discountedPrice: item.discountedPrice ?? item.price,
+        }));
+        dispatch(setWishlistItems(formatted as any));
       } else {
         toast.error(result?.message || "Failed to fetch");
       }
@@ -388,7 +392,7 @@ const Header = ({ user, categories, setting, footer_setting }) => {
                         className="group relative before:w-0 before:h-[3px] before:bg-blue before:absolute before:left-0 before:top-0 before:rounded-b-[3px] before:ease-out before:duration-200 hover:before:w-full "
                       >
                         <Link
-                          href={menuItem.path}
+                          href={menuItem.path || "#"}
                           className={`hover:text-blue text-[15px] font-medium text-dark flex ${stickyMenu ? "xl:py-4" : "xl:py-6"
                             }`}
                         >

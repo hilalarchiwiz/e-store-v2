@@ -3,14 +3,14 @@ import { deleteGrading, getGradings } from "../actions/grade.action";
 import Link from "next/link";
 import { Pencil } from "lucide-react";
 import DeleteButton from "@/components/Admin/Buttons/DeleteButton";
-import Image from "next/image";
 import Pagination from "@/components/Admin/Pagination";
-import DataTable from "@/components/Admin/Common/DataTable";
+import DataTable, { Column } from "@/components/Admin/Common/DataTable";
 import AddButton from "@/components/Admin/Buttons/AddButton";
 import TableControls from "@/components/Admin/Common/TableControls";
 import RecordNotFound from "@/components/Admin/Common/RecordNotFound";
 import Title from "@/components/Admin/Typography/Title";
 import { hasPermission } from "@/lib/auth-utils";
+import { Grading } from "@prisma/client";
 
 export async function generateMetadata() {
     return {
@@ -29,24 +29,22 @@ const GradingPage = async ({
     const { gradings, totalPages, totalCount } = await getGradings(params);
     const currentPage = Number(params.page) || 1;
     const limit = Number(params.limit) || PAGE_SIZE;
-    const canEdit = await hasPermission('banner_update');
-    const canCreate = await hasPermission('banner_create');
 
-    const gradingColumns = [
+    const gradingColumns: Column<Grading>[] = [
         {
             header: "SN",
-            accessor: (_: any, index: number) => (currentPage - 1) * limit + (index + 1),
+            accessor: (_: Grading, index: number) => (currentPage - 1) * limit + (index + 1),
         },
         { header: "Name", accessor: "title" },
         { header: "Description", accessor: "description" },
         {
             header: "Action",
-            accessor: (grade: any) => (
+            accessor: (grade: Grading) => (
                 <div className="flex gap-2">
                     <Link href={`/admin/grading/edit-grading/${grade.id}`} className="p-2 bg-blue-50 text-blue-600 rounded">
                         <Pencil size={14} />
                     </Link>
-                    <DeleteButton id={grade.id} action={deleteGrading} />
+                    <DeleteButton id={String(grade.id)} action={deleteGrading} />
                 </div>
             ),
         }
@@ -65,7 +63,7 @@ const GradingPage = async ({
             {/* Content */}
             <div className="px-4 py-6">
                 {
-                    canCreate && <AddButton title='Add Grade' url='/admin/grading/add-grading' />
+                    <AddButton title='Add Grade' url='/admin/grading/add-grading' />
                 }
 
                 {/* White Table Container */}

@@ -2,7 +2,7 @@ import generateSession from "./generate-session"
 import { DiscountPriceType } from "./type"
 
 export const discountPrice = (data: DiscountPriceType) => {
-    return data.price - (data.price * data?.discount) / 100
+    return data.price - (data.price * (data?.discount ?? 0)) / 100
 }
 
 

@@ -27,7 +27,7 @@ const Pagination = ({ totalPages }: PaginationProps) => {
     const renderPageNumbers = () => {
         if (!totalPages) return null;
 
-        const pages = [];
+        const pages: React.ReactNode[] = [];
         const itemsToShow = 2; // Number of pages to show around current page
 
         for (let i = 1; i <= totalPages; i++) {

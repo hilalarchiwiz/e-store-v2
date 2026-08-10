@@ -85,7 +85,9 @@ const CustomImage = Image.extend({
                 } else if (action === 'right') {
                     editor.commands.updateAttributes('image', { style: 'float: right; margin: 0 0 1rem 1rem;' })
                 } else if (action === 'delete') {
-                    editor.commands.deleteRange({ from: pos, to: pos + node.nodeSize })
+                    if (typeof pos === 'number') {
+                        editor.commands.deleteRange({ from: pos, to: pos + node.nodeSize })
+                    }
                 }
             })
 
@@ -184,7 +186,7 @@ const PageEditor = ({ initialContent = "", name = "content", uploadToAzure }) =>
         try {
             const result = await uploadToAzure(file)
             if (result.success && result.url) {
-                editor?.chain().focus().setImage({
+                (editor?.chain().focus() as any).setImage({
                     src: result.url,
                     style: 'float: none; margin: 1rem auto; display: block; max-width: 100%;'
                 }).run()
@@ -415,7 +417,7 @@ const PageEditor = ({ initialContent = "", name = "content", uploadToAzure }) =>
                                 <ToolbarGroup>
                                     <input
                                         type="color"
-                                        onInput={(e) => editor.chain().focus().setColor(e.target.value).run()}
+                                        onInput={(e) => editor.chain().focus().setColor((e.target as HTMLInputElement).value).run()}
                                         className="w-8 h-8 rounded cursor-pointer border-2 border-slate-200"
                                         value={editor.getAttributes('textStyle').color || '#000000'}
                                         title="Text Color"
@@ -623,7 +625,7 @@ const ToolbarGroup = ({ children }) => (
     </div>
 )
 
-const ToolbarButton = ({ onClick, active, children, title }) => (
+const ToolbarButton = ({ onClick, active, children, title }: { onClick?: any; active?: any; children?: any; title?: any }) => (
     <button
         type="button"
         onClick={onClick}

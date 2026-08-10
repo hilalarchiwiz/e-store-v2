@@ -78,7 +78,7 @@ const ProductTab = ({ tabs, product }) => {
                         {Object.entries(product.specifications).map(([key, value]) => (
                             <div key={key} className="flex items-start border-b border-gray-100 pb-3">
                                 <div className="w-1/3 text-sm font-medium text-gray-700">{key}</div>
-                                <div className="w-2/3 text-sm text-gray-600">{value}</div>
+                                <div className="w-2/3 text-sm text-gray-600">{String(value)}</div>
                             </div>
                         ))}
                     </div>

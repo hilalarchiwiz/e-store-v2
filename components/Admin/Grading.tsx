@@ -1,6 +1,6 @@
 'use client';
 
-import Select, { components } from 'react-select';
+import Select, { components, MenuListProps } from 'react-select';
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { getGradingsBySearch } from '@/app/(admin)/admin/(admin)/products/(actions)/product.action';
 
@@ -23,9 +23,18 @@ const mapGradingsToOptions = (gradings: Grading[]): SelectOption[] => {
     }));
 };
 
-const CustomMenuList = (props: any) => {
+interface CustomSelectProps {
+    handleScroll?: () => void;
+    hasMore?: boolean;
+}
+
+type CustomMenuListProps = MenuListProps<SelectOption, false> & {
+    selectProps: CustomSelectProps;
+};
+
+const CustomMenuList = (props: CustomMenuListProps) => {
     const { children, selectProps } = props;
-    const { handleScroll } = selectProps;
+    const { handleScroll, hasMore } = selectProps;
 
     const scrollRef = useRef<HTMLDivElement | null>(null);
 
@@ -35,12 +44,12 @@ const CustomMenuList = (props: any) => {
         const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
 
         if (scrollHeight - scrollTop <= clientHeight + 1) {
-            handleScroll();
+            handleScroll?.();
         }
     };
 
     return (
-        <components.MenuList {...props}>
+        <components.MenuList {...(props as unknown as MenuListProps<SelectOption, false>)}>
             <div
                 ref={scrollRef}
                 onScroll={onScroll}
@@ -48,7 +57,7 @@ const CustomMenuList = (props: any) => {
             >
                 {children}
 
-                {selectProps.hasMore && (
+                {hasMore && (
                     <div className="p-2 text-center text-gray-500">
                         Loading more grades...
                     </div>
@@ -65,7 +74,7 @@ const OptimizedGetAllGradings = ({
 }: {
     selectValue?: string;
     selectId?: string;
-    setFormData?: (value: any) => void | null;
+    setFormData?: (value: Record<string, string>) => void;
 }) => {
     const [isMounted, setIsMounted] = useState(false);
 
@@ -104,70 +113,75 @@ const OptimizedGetAllGradings = ({
                 take: PAGE_SIZE,
             });
 
-            if (success) {
+            if (success && newGradings) {
                 const newOptions = mapGradingsToOptions(newGradings);
 
-                if (isSearch || isInitialLoadRef.current) {
-                    setOptions(newOptions);
-                } else {
-                    setOptions((prevOptions) => [
-                        ...prevOptions,
-                        ...newOptions,
-                    ]);
-                }
+                setOptions((prevOptions) => {
+                    if (isSearch) {
+                        return newOptions;
+                    }
+                    const existingIds = new Set(prevOptions.map((opt) => opt.value));
+                    const uniqueNewOptions = newOptions.filter(
+                        (opt) => !existingIds.has(opt.value)
+                    );
+                    return [...prevOptions, ...uniqueNewOptions];
+                });
 
-                currentPageRef.current = pageToLoad + 1;
                 setHasMore(newHasMore);
-                isInitialLoadRef.current = false;
+                currentPageRef.current = pageToLoad + 1;
             }
         } catch (error) {
-            console.error("Failed to load grades:", error);
-            setHasMore(false);
+            console.error('Error fetching gradings:', error);
         } finally {
             setIsLoading(false);
         }
     }, [searchTerm, hasMore, isLoading]);
 
-    const handleScroll = useCallback(() => {
-        if (!isLoading && hasMore) {
+    useEffect(() => {
+        if (!isMounted) return;
+
+        if (isInitialLoadRef.current) {
+            isInitialLoadRef.current = false;
             fetchData(false);
         }
-    }, [isLoading, hasMore, fetchData]);
-
-    const handleInputChange = (newSearchTerm: string) => {
-        if (newSearchTerm !== searchTerm) {
-            setSearchTerm(newSearchTerm);
-            currentPageRef.current = 0;
-            setHasMore(true);
-            isInitialLoadRef.current = true;
-        }
-
-        return newSearchTerm;
-    };
+    }, [isMounted, fetchData]);
 
     useEffect(() => {
-        if (isMounted) {
+        if (!isMounted || isInitialLoadRef.current) return;
+
+        const handler = setTimeout(() => {
+            currentPageRef.current = 0;
+            setHasMore(true);
             fetchData(true);
-        }
-    }, [searchTerm, isMounted]);
+        }, 500);
+
+        return () => clearTimeout(handler);
+    }, [searchTerm, isMounted, fetchData]);
+
+    const handleInputChange = (newSearchTerm: string) => {
+        setSearchTerm(newSearchTerm);
+        return newSearchTerm;
+    };
 
     const handleSelectChange = (option: SelectOption | null) => {
         setSelectedValue(option);
 
-        setFormData?.({
-            grading_id: option?.value || '',
-        });
+        if (setFormData && option) {
+            setFormData({
+                grading_id: option.value,
+                grading_title: option.label,
+            });
+        }
+    };
+
+    const handleScroll = () => {
+        if (!isLoading && hasMore) {
+            fetchData(false);
+        }
     };
 
     return (
-        <div>
-            <label
-                className="block text-sm font-semibold text-gray-700 mb-2"
-                htmlFor="grading_select"
-            >
-                Grade
-            </label>
-
+        <div className="w-full">
             {!isMounted ? (
                 <div className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-gray-500">
                     Loading component...
@@ -182,8 +196,8 @@ const OptimizedGetAllGradings = ({
                     onInputChange={handleInputChange}
                     onChange={handleSelectChange}
                     value={selectedValue}
-                    components={{ MenuList: CustomMenuList }}
-                    selectProps={{ handleScroll, hasMore } as any}
+                    components={{ MenuList: CustomMenuList as unknown as typeof components.MenuList }}
+                    {...({ selectProps: { handleScroll, hasMore } } as unknown as Record<string, unknown>)}
                 />
             )}
 

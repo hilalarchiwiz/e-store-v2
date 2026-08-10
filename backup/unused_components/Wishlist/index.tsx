@@ -27,7 +27,11 @@ export const Wishlist = () => {
       setLoading(true);
       const result = await getProductToWishlists(user?.id);
       if (result.success) {
-        dispatch(setWishlistItems(result?.data || []));
+        const formatted = (result?.data || []).map((item: any) => ({
+          ...item,
+          discountedPrice: item.discountedPrice ?? item.price,
+        }));
+        dispatch(setWishlistItems(formatted as any));
       } else {
         toast.error(result?.message || "Failed to fetch");
       }

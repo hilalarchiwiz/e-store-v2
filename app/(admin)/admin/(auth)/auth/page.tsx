@@ -54,7 +54,8 @@ export default function Pages() {
                 setError(res.error.message || "Something went wrong.");
                 setLoading(false);
             } else {
-                if (res.data?.user?.role === "admin") {
+                const userRole = (res.data?.user as any)?.role || (res.data?.user as any)?.roleName;
+                if (userRole === "admin") {
                     router.push("/admin");
                 } else {
                     setError("Access denied. Admin only.");

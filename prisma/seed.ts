@@ -41,7 +41,7 @@ async function main() {
         },
     ];
 
-    for (const banner of banners) {
+    for (const banner of banners as any[]) {
         await prisma.banner.upsert({
             where: { id: banner.order }, // Using order as a temporary ID reference for seeding
             update: banner,

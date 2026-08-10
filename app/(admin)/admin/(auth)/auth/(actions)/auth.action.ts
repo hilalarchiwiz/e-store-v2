@@ -11,7 +11,7 @@ export async function login(formData: FormData) {
             throw new Error('Invalid email or password')
         }
 
-        await auth.signIn.email({
+        await (auth as any).signIn.email({
             email: email as string,
             password: password as string,
             callbackURL: "/admin/dashboard"

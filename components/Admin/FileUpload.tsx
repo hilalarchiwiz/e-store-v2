@@ -8,7 +8,7 @@ const FileUpload = ({ defaultImageUrl, title = "Add Image", name = "image" }: an
     console.log(defaultImageUrl);
     const [preview, setPreview] = useState(defaultImageUrl);
     const [isDragging, setIsDragging] = useState(false);
-    const fileInputRef = useRef(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         if (defaultImageUrl) setPreview(defaultImageUrl);

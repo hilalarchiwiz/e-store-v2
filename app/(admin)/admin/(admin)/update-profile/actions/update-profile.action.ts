@@ -23,8 +23,8 @@ export async function updateProfile(prevData: any, formData: FormData) {
             select: { image: true }
         });
         if (imageFile && imageFile instanceof File && imageFile.size > 0) {
-            const imageUrlResponse = await uploadImage(formData);
-            if (imageUrlResponse.error) throw new Error(`Image upload failed: ${imageUrlResponse.error}`);
+            const imageUrlResponse: any = await uploadImage(formData);
+            if (imageUrlResponse?.error || !imageUrlResponse?.success) throw new Error(`Image upload failed: ${imageUrlResponse?.error || imageUrlResponse?.message || 'Upload failed'}`);
             // Cleanup old image if it changed and isn't the dummy
             if (currentUser?.image && currentUser.image !== image && !currentUser.image.includes('dummy')) {
                 await deleteMultipleImages([currentUser.image]);

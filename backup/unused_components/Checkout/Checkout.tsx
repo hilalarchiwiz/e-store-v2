@@ -22,7 +22,7 @@ const Checkout = () => {
     const isDirect = searchParams.get("direct") === "true";
     const productId = searchParams.get("pid");
     const quantity = parseInt(searchParams.get("qty") || "1");
-    const [displayItems, setDisplayItems] = useState([]);
+    const [displayItems, setDisplayItems] = useState<any[]>([]);
     const info = useAppSelector((state) => state.userReducer);
     const [loading, setLoading] = useState(false);
     const carts = useAppSelector(state => state.cartReducer.items);
@@ -167,45 +167,71 @@ const Checkout = () => {
             setCouponApplied(true);
             toast.success(`Coupon applied! You saved $${result.discount.toFixed(2)}`);
         } else {
-            toast.error(result.message);
+            toast.error(result.message || "Invalid coupon code");
         }
     };
 
     const validateForm = () => {
         // Validate billing address
-        const requiredFields = [
-            "firstName",
-            "lastName",
-            "country",
-            "streetAddress",
-            "city",
-            "phone",
-            "email",
-        ];
-
-        for (const field of requiredFields) {
-            if (!billingAddress[field]) {
-                toast.error(`Please fill in ${field.replace(/([A-Z])/g, " $1").toLowerCase()}`);
-                return false;
-            }
+        if (!billingAddress.firstName.trim()) {
+            toast.error("First name is required");
+            return false;
+        }
+        if (!billingAddress.lastName.trim()) {
+            toast.error("Last name is required");
+            return false;
+        }
+        if (!billingAddress.streetAddress.trim()) {
+            toast.error("Street address is required");
+            return false;
+        }
+        if (!billingAddress.city.trim()) {
+            toast.error("City is required");
+            return false;
+        }
+        if (!billingAddress.state.trim()) {
+            toast.error("State / County is required");
+            return false;
+        }
+        if (!billingAddress.phone.trim()) {
+            toast.error("Phone number is required");
+            return false;
+        }
+        if (!billingAddress.email.trim()) {
+            toast.error("Email is required");
+            return false;
         }
 
         // Validate shipping address if different
         if (shipToDifferentAddress) {
-            for (const field of requiredFields) {
-                if (!shippingAddress[field]) {
-                    toast.error(
-                        `Please fill in shipping ${field.replace(/([A-Z])/g, " $1").toLowerCase()}`
-                    );
-                    return false;
-                }
+            if (!shippingAddress.firstName.trim()) {
+                toast.error("Shipping first name is required");
+                return false;
             }
-        }
-
-        // Validate cart
-        if (displayItems.length === 0) {
-            toast.error("Your cart is empty");
-            return false;
+            if (!shippingAddress.lastName.trim()) {
+                toast.error("Shipping last name is required");
+                return false;
+            }
+            if (!shippingAddress.streetAddress.trim()) {
+                toast.error("Shipping street address is required");
+                return false;
+            }
+            if (!shippingAddress.city.trim()) {
+                toast.error("Shipping city is required");
+                return false;
+            }
+            if (!shippingAddress.state.trim()) {
+                toast.error("Shipping state / county is required");
+                return false;
+            }
+            if (!shippingAddress.phone.trim()) {
+                toast.error("Shipping phone number is required");
+                return false;
+            }
+            if (!shippingAddress.email.trim()) {
+                toast.error("Shipping email is required");
+                return false;
+            }
         }
 
         return true;
@@ -226,8 +252,8 @@ const Checkout = () => {
         setLoading(true);
 
         try {
-            const checkoutData = {
-                userId: info?.info?.id,
+            const checkoutData: any = {
+                userId: info?.info?.id || "",
                 billingAddress,
                 shippingAddress: shipToDifferentAddress ? shippingAddress : undefined,
                 shipToDifferentAddress,

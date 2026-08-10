@@ -148,7 +148,7 @@ export async function processCheckout(input: CheckoutInput) {
 
         // Validate coupon if provided
         let discount = 0;
-        let validCoupon = null;
+        let validCoupon: any = null;
         if (input.couponCode) {
             const couponResult = await validateCoupon(input.couponCode, subtotal);
             if (!couponResult.valid) {

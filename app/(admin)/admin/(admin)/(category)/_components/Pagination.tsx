@@ -23,7 +23,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage, search
     };
 
     const renderPageNumbers = () => {
-        const pages = [];
+        const pages: React.ReactNode[] = [];
         // Simple logic: show current page, 2 pages before and 2 pages after
         const startPage = Math.max(1, currentPage - 2);
         const endPage = Math.min(totalPages, currentPage + 2);

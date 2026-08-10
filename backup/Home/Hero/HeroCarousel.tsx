@@ -5,7 +5,7 @@ import "swiper/css/pagination";
 import "swiper/css";
 import Image from "next/image";
 
-const HeroCarousal = ({ sliders }) => {
+const HeroCarousal = ({ sliders }: { sliders?: any[] }) => {
   return (
     <Swiper
       spaceBetween={30}
@@ -16,7 +16,7 @@ const HeroCarousal = ({ sliders }) => {
       className="hero-carousel h-full"
     >
       {sliders &&
-        sliders.map((slider) => (
+        sliders.map((slider: any) => (
           <SwiperSlide key={slider.id}>
             <div className="flex items-center justify-between flex-col-reverse sm:flex-row min-h-[340px] sm:min-h-115 px-4 sm:px-10 py-6 sm:py-0 gap-4 sm:gap-6">
               <div className="w-full sm:max-w-[450px] py-2 sm:py-10 flex flex-col justify-center text-center sm:text-left items-center sm:items-start">

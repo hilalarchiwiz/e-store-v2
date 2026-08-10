@@ -1,6 +1,6 @@
 import React from "react";
 
-interface Column<T> {
+export interface Column<T> {
     header: string;
     accessor: keyof T | ((item: T, index: number) => React.ReactNode);
     className?: string;

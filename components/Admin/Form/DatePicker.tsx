@@ -7,7 +7,7 @@ import { parseISO, isValid } from 'date-fns'; // Helpful for string conversion
 import "react-datepicker/dist/react-datepicker.css";
 
 const DatePickerCalender = ({ defaultValue }: any) => {
-  const [startDate, setStartDate] = useState(null);
+  const [startDate, setStartDate] = useState<Date | null>(null);
 
   useEffect(() => {
     console.log(defaultValue);
