@@ -1,7 +1,7 @@
 import FormWrapper from "@/components/Admin/Form/FormWrapper";
 import FormInput from "@/components/Admin/Form/Input";
 import FormTextarea from "@/components/Admin/Form/Textarea";
-import IconPicker from "@/components/Admin/Form/IconPicker";
+import FileUpload from "@/components/Admin/FileUpload";
 import {
   getWhatWeDoById,
   updateWhatWeDo,
@@ -11,6 +11,11 @@ const page = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
   const response = await getWhatWeDoById(id);
   const whatwedo = response?.whatwedo;
+  const currentImage = whatwedo?.icon && (
+    whatwedo.icon.startsWith('/') ||
+    whatwedo.icon.startsWith('http://') ||
+    whatwedo.icon.startsWith('https://')
+  ) ? whatwedo.icon : undefined;
   return (
     <div className="w-full">
       <div className="md:-mt-4 mt-1">
@@ -20,12 +25,12 @@ const page = async ({ params }: { params: { id: string } }) => {
           successMessage="About Who we do Update successfully"
           href="/admin/about/mission-vision"
         >
-          <IconPicker defaultValue={whatwedo?.icon} />
+          <FileUpload title="Mission or vision image" defaultImageUrl={currentImage} />
           <FormInput
             label="Enter Title"
             required
             name="title"
-            placeholder="Enter Who we are Title"
+            placeholder="Our Mission"
             defaultValue={whatwedo?.title}
           />
           <FormTextarea

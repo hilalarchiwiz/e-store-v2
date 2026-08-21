@@ -2,7 +2,7 @@ import FormWrapper from '@/components/Admin/Form/FormWrapper'
 import { createWhatWeDo } from '../actions/whatwedo.action'
 import FormInput from '@/components/Admin/Form/Input'
 import FormTextarea from '@/components/Admin/Form/Textarea'
-import IconPicker from '@/components/Admin/Form/IconPicker'
+import FileUpload from '@/components/Admin/FileUpload'
 
 const page = () => {
     return (
@@ -14,13 +14,13 @@ const page = () => {
                     successMessage="About Who we do create successfully"
                     href="/admin/about/what-we-do"
                 >
-                    <IconPicker />
+                    <FileUpload title="Service image" />
                     <input type="hidden" name='type' value={'what_we_do'} readOnly />
                     <FormInput
                         label="Enter Title"
                         required
                         name="title"
-                        placeholder="Enter Who we are Title"
+                        placeholder="Laptops"
 
                     />
                     <FormTextarea

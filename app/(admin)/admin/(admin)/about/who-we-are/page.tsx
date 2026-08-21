@@ -18,38 +18,34 @@ const WhoWeArePage = async () => {
                         href="/admin/about/who-we-are"
                     >
                         <FormInput
-                            label="Enter Who we are Title"
+                            label="Section label"
+                            required
+                            name="eyebrow"
+                            placeholder="WHO WE ARE"
+                            defaultValue={setting?.eyebrow}
+                        />
+                        <FormInput
+                            label="Section title"
                             required
                             name="title"
-                            placeholder="Enter Who we are Title"
+                            placeholder="Trusted Refurbished Tech. Built for Pakistan."
                             defaultValue={setting?.title}
 
                         />
                         <FormTextarea
-                            label="Enter Banner Short Description"
+                            label="Main description"
                             required
-                            placeholder="Enter Banner Short Description"
+                            name="description"
+                            placeholder="Describe who QAAM is and how customers benefit"
                             defaultValue={setting?.description}
                         />
-
-                        <FormInput
-                            label="Enter Button title"
-                            required
-                            name="buttonText"
-                            placeholder="Enter Button title"
-                            defaultValue={setting?.buttonText}
-
+                        <FormTextarea
+                            label="Additional description (optional)"
+                            name="secondaryDescription"
+                            placeholder="Add a second paragraph if needed"
+                            defaultValue={setting?.secondaryDescription}
                         />
-
-                        <FormInput
-                            label="Enter Button link"
-                            required
-                            name="link"
-                            placeholder="Enter Button link"
-                            defaultValue={setting?.link}
-
-                        />
-                        <FileUpload defaultImageUrl={setting?.image} />
+                        <FileUpload defaultImageUrl={setting?.image} title="Team or showroom image" />
                     </FormWrapper>
                 </div>
             </div>

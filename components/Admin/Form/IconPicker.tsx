@@ -1,15 +1,14 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import * as Icons from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { LUCIDE_ICON_NAMES } from "@/lib/constant";
 
 const IconPicker = ({ defaultValue }: { defaultValue?: string | null }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selected, setSelected] = useState(defaultValue || "");
 
-  useEffect(() => {
-    if (defaultValue) setSelected(defaultValue);
-  }, [defaultValue]);
+  const getIcon = (name: string) => Icons[name as keyof typeof Icons] as LucideIcon | undefined;
 
   const filteredIcons = useMemo(() => {
     const query = searchTerm.toLowerCase().trim();
@@ -37,7 +36,7 @@ const IconPicker = ({ defaultValue }: { defaultValue?: string | null }) => {
       <div className="grid grid-cols-5 gap-3 max-h-60 overflow-y-auto p-2 no-scrollbar bg-white/50 dark:bg-slate-950/50 rounded-lg border border-emerald-100 dark:border-emerald-900/30">
         {filteredIcons.length > 0 ? (
           filteredIcons.map((name) => {
-            const IconComponent = (Icons as any)[name];
+            const IconComponent = getIcon(name);
 
             if (!IconComponent) return null;
 
@@ -71,7 +70,7 @@ const IconPicker = ({ defaultValue }: { defaultValue?: string | null }) => {
           <div className="flex items-center gap-2">
             <div className="p-1.5 bg-emerald-500 rounded-lg text-white">
               {(() => {
-                const SelectedIcon = (Icons as any)[selected];
+                const SelectedIcon = getIcon(selected);
                 return SelectedIcon ? <SelectedIcon size={16} /> : null;
               })()}
             </div>

@@ -5,6 +5,11 @@ import Link from "next/link";
 import ShopHeader from "./ShopHeader";
 import ProductCard from "./ProductCard";
 import Pagination from "./Pagination";
+import ShopIntro from "./ShopIntro";
+import {
+  MobileFilterModal,
+  MobileSortModal,
+} from "./MobileShopControls";
 
 interface Product {
   id: number;
@@ -18,6 +23,7 @@ interface Product {
   description?: string;
   rating: number;
   reviews: number;
+  quantity: number;
   badge?: { text: string; variant: "primary" | "secondary" };
 }
 
@@ -26,6 +32,29 @@ interface ShopContentProps {
   totalProducts: number;
   currentPage: number;
   totalPages: number;
+  banner: {
+    title: string;
+    description: string | null;
+    buttonText: string | null;
+    link: string;
+    imageUrl: string;
+    bgColor: string;
+  } | null;
+  categories: {
+    id: number;
+    title: string;
+    image: string;
+    count: number;
+  }[];
+  selectedCategoryIds: number[];
+  brands: {
+    id: number;
+    title: string;
+    count?: number;
+  }[];
+  generations: number[];
+  minPrice: number;
+  maxPrice: number;
 }
 
 const ShopContent: React.FC<ShopContentProps> = ({
@@ -33,15 +62,41 @@ const ShopContent: React.FC<ShopContentProps> = ({
   totalProducts,
   currentPage,
   totalPages,
+  banner,
+  categories,
+  selectedCategoryIds,
+  brands,
+  generations,
+  minPrice,
+  maxPrice,
 }) => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [mobileSortOpen, setMobileSortOpen] = useState(false);
 
   return (
-    <section id="shop-products-section" className="flex-1 flex flex-col gap-6 scroll-mt-28">
+    <section
+      id="shop-products-section"
+      className="flex w-full min-w-0 max-w-full flex-1 flex-col gap-6 scroll-mt-28"
+    >
       <ShopHeader
         totalProducts={totalProducts}
         viewMode={viewMode}
         onViewModeChange={setViewMode}
+        onOpenFilters={() => {
+          setMobileSortOpen(false);
+          setMobileFiltersOpen(true);
+        }}
+        onOpenSort={() => {
+          setMobileFiltersOpen(false);
+          setMobileSortOpen(true);
+        }}
+      />
+
+      <ShopIntro
+        banner={banner}
+        categories={categories}
+        selectedCategoryIds={selectedCategoryIds}
       />
 
       {products.length === 0 ? (
@@ -70,7 +125,7 @@ const ShopContent: React.FC<ShopContentProps> = ({
           </Link>
         </div>
       ) : viewMode === "grid" ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="grid w-full min-w-0 grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
           {products.map((product) => (
             <ProductCard key={product.id} {...product} />
           ))}
@@ -84,6 +139,20 @@ const ShopContent: React.FC<ShopContentProps> = ({
       )}
 
       <Pagination currentPage={currentPage} totalPages={totalPages} />
+
+      {mobileFiltersOpen && (
+        <MobileFilterModal
+          onClose={() => setMobileFiltersOpen(false)}
+          categories={categories}
+          brands={brands}
+          generations={generations}
+          minPrice={minPrice}
+          maxPrice={maxPrice}
+        />
+      )}
+      {mobileSortOpen && (
+        <MobileSortModal onClose={() => setMobileSortOpen(false)} />
+      )}
     </section>
   );
 };

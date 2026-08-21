@@ -36,10 +36,9 @@ export default function SecurityPage() {
 
     if (!result.success) {
       const fieldErrors: { [key: string]: string } = {};
-      result.error.flatten().fieldErrors &&
-        Object.entries(result.error.flatten().fieldErrors).forEach(([key, val]) => {
-          if (val && val.length > 0) fieldErrors[key] = val[0];
-        });
+      Object.entries(result.error.flatten().fieldErrors).forEach(([key, val]) => {
+        if (val && val.length > 0) fieldErrors[key] = val[0];
+      });
       setErrors(fieldErrors);
       setIsLoading(false);
       return;

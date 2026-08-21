@@ -40,14 +40,14 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-white dark:bg-[#0c120e] border-t border-[#f1f4f2] dark:border-[#2a3a2f] pt-16 pb-8">
-      <div className="max-w-400 mx-auto px-6 lg:px-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+    <footer className="border-t border-[#f1f4f2] bg-white pb-6 pt-10 dark:border-[#2a3a2f] dark:bg-[#0c120e] sm:pb-8 sm:pt-16">
+      <div className="max-w-400 mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="mb-10 grid grid-cols-1 gap-8 text-center md:mb-16 md:grid-cols-2 md:gap-12 md:text-left lg:grid-cols-4">
           {/* Brand */}
-          <div>
+          <div className="flex flex-col items-center md:items-start">
             <Link
               href="/"
-              className="flex items-center gap-2 text-primary mb-6"
+              className="mb-4 flex items-center justify-center gap-2 text-primary sm:mb-6 md:justify-start"
             >
               {logo?.logo || logo?.dark_logo ? (
                 <>
@@ -77,12 +77,12 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                 </>
               )}
             </Link>
-            <p className="text-[#121714]/60 dark:text-white/60 mb-6 leading-relaxed text-sm">
+            <p className="mb-4 max-w-xs text-xs leading-relaxed text-[#121714]/60 dark:text-white/60 sm:mb-6 sm:text-sm">
               We provide high-quality refurbished laptops, gadgets, and accessories that deliver premium performance without the premium price tag.
             </p>
             {/* Social links */}
             {socialLinks.length > 0 ? (
-              <div className="flex gap-3 flex-wrap">
+              <div className="flex flex-wrap justify-center gap-3 md:justify-start">
                 {socialLinks.map(([key, url]) => (
                   <a
                     key={key}
@@ -119,7 +119,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                 ))}
               </div>
             ) : (
-              <div className="flex gap-3">
+              <div className="flex justify-center gap-3 md:justify-start">
                 <a
                   className="size-10 bg-[#f1f4f2] dark:bg-[#2a3a2f] rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                   href="#"
@@ -150,8 +150,8 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-bold text-lg mb-6">Quick Links</h4>
-            <ul className="flex flex-col gap-4 text-[#121714]/60 dark:text-white/60 text-sm">
+            <h4 className="mb-4 text-base font-bold sm:mb-6 sm:text-lg">Quick Links</h4>
+            <ul className="flex flex-col gap-3 text-xs text-[#121714]/60 dark:text-white/60 sm:gap-4 sm:text-sm">
               <li>
                 <Link
                   className="hover:text-primary transition-colors"
@@ -192,8 +192,8 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
 
           {/* Support */}
           <div>
-            <h4 className="font-bold text-lg mb-6">Support</h4>
-            <ul className="flex flex-col gap-4 text-[#121714]/60 dark:text-white/60 text-sm">
+            <h4 className="mb-4 text-base font-bold sm:mb-6 sm:text-lg">Support</h4>
+            <ul className="flex flex-col gap-3 text-xs text-[#121714]/60 dark:text-white/60 sm:gap-4 sm:text-sm">
               {/* <li>
                 <Link
                   className="hover:text-primary transition-colors"
@@ -259,8 +259,8 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
 
           {/* My Account */}
           <div>
-            <h4 className="font-bold text-lg mb-6">My Account</h4>
-            <ul className="flex flex-col gap-4 text-[#121714]/60 dark:text-white/60 text-sm">
+            <h4 className="mb-4 text-base font-bold sm:mb-6 sm:text-lg">My Account</h4>
+            <ul className="flex flex-col gap-3 text-xs text-[#121714]/60 dark:text-white/60 sm:gap-4 sm:text-sm">
               {!isLoggedIn && (
                 <li>
                   <Link
@@ -300,7 +300,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-[#f1f4f2] dark:border-[#2a3a2f] pt-8 flex flex-col md:flex-row justify-center items-center gap-6 text-sm text-[#121714]/40 dark:text-white/40">
+        <div className="flex flex-col items-center justify-center gap-4 border-t border-[#f1f4f2] pt-6 text-center text-[10px] text-[#121714]/40 dark:border-[#2a3a2f] dark:text-white/40 sm:gap-6 sm:pt-8 sm:text-sm md:flex-row">
           <p>
             {generalSetting?.footer_text
               ? generalSetting.footer_text

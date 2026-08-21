@@ -1,51 +1,148 @@
 import Breadcrumbs from '@/components/v2/Breadcrumbs';
-import Button from '@/components/v2/Button';
-import Link from 'next/link';
 import DynamicIcon from '@/components/v2/DynamicIcon';
+import Subscribe from '@/components/v2/Subscribe';
 import { getSetting } from '@/app/(admin)/admin/(admin)/setting/actions/setting.action';
 import prisma from '@/lib/prisma';
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: "About QAAM | QAAM.PK - Technology You Can Trust",
-  description: "QAAM.PK is redefining the way Pakistan shops for technology. We provide high-quality refurbished laptops, gadgets, and accessories that deliver premium performance.",
+  title: 'About QAAM | Technology You Can Trust',
+  description:
+    'Discover how QAAM.PK makes tested, dependable and affordable refurbished technology accessible across Pakistan.',
   openGraph: {
-    title: "About QAAM | Technology You Can Trust",
-    description: "QAAM.PK is redefining the way Pakistan shops for technology with high-quality refurbished laptops and accessories.",
-    url: "https://qaam.pk/about",
-    siteName: "Qaam.pk",
-    images: [{ url: "/images/og-image.png" }],
-    type: "website",
+    title: 'About QAAM | Technology You Can Trust',
+    description:
+      'QAAM.PK is redefining how Pakistan shops for dependable refurbished laptops, computers and accessories.',
+    url: 'https://qaam.pk/about',
+    siteName: 'QAAM.PK',
+    images: [{ url: '/images/og-image.png' }],
+    type: 'website',
   },
 };
 
+const SHOWROOM_IMAGE = '/images/about/qaam-showroom.png';
+
+const DEFAULT_SERVICES = [
+  {
+    title: 'Laptops',
+    description: 'Refurbished laptops with powerful performance for work, study and gaming.',
+    image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85',
+  },
+  {
+    title: 'Tablets',
+    description: 'Reliable tablets for entertainment, learning and productivity.',
+    image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=900&q=85',
+  },
+  {
+    title: 'Computers',
+    description: 'Desktop systems built for speed, stability and everyday computing needs.',
+    image: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=900&q=85',
+  },
+  {
+    title: 'LEDs',
+    description: 'High-quality LED monitors and displays for sharp, vivid visuals.',
+    image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=900&q=85',
+  },
+  {
+    title: 'Gadgets',
+    description: 'Smart, useful gadgets that make everyday life easier and more enjoyable.',
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=85',
+  },
+  {
+    title: 'Projectors',
+    description: 'Projectors for presentations, movies and big-screen experiences.',
+    image: 'https://images.unsplash.com/photo-1528395874238-34ebe249b3f2?auto=format&fit=crop&w=900&q=85',
+  },
+  {
+    title: 'Batteries',
+    description: 'Long-lasting batteries that keep your devices powered when you need them.',
+    image: 'https://images.unsplash.com/photo-1609592424824-4d40193b2617?auto=format&fit=crop&w=900&q=85',
+  },
+  {
+    title: 'Laptop Parts & Accessories',
+    description: 'Quality parts and accessories to maintain, protect and upgrade your devices.',
+    image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=900&q=85',
+  },
+];
+
+const DEFAULT_MISSION_VISION = [
+  {
+    title: 'Our Mission',
+    description:
+      'To deliver dependable products, honest value and excellent customer service while reducing electronic waste and supporting a more sustainable technology ecosystem.',
+    image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=85',
+  },
+  {
+    title: 'Our Vision',
+    description:
+      'To become a trusted leader in sustainable technology by changing how people buy, use and reuse electronics—making quality technology accessible while extending the useful life of every device.',
+    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=85',
+  },
+];
+
+const DEFAULT_BENEFITS = [
+  { title: 'Quality Assured', description: 'Every product is tested for dependable performance.', icon: 'BadgeCheck' },
+  { title: 'Trusted Support', description: 'We are here before and after your purchase.', icon: 'Headphones' },
+  { title: 'Best Prices', description: 'Premium technology without the premium cost.', icon: 'BadgeDollarSign' },
+  { title: 'Sustainable Choice', description: 'Refurbished technology for a better tomorrow.', icon: 'Leaf' },
+];
+
+const DEFAULT_STATS = [
+  { value: '10,000+', label: 'Products Sold', detail: 'Across Pakistan', icon: 'ShoppingBag' },
+  { value: '5,000+', label: 'Happy Customers', detail: 'And growing', icon: 'UsersRound' },
+  { value: 'Checked & Tested', label: 'By Tech Experts', detail: 'Quality assured', icon: 'ShieldCheck' },
+  { value: 'Nationwide', label: 'Delivery', detail: 'At your doorstep', icon: 'Truck' },
+];
+
+function isImage(value?: string | null) {
+  return Boolean(
+    value &&
+      (value.startsWith('/') ||
+        value.startsWith('http://') ||
+        value.startsWith('https://') ||
+        /\.(png|jpe?g|webp|gif|svg)$/i.test(value)),
+  );
+}
+
 async function getAboutData() {
   try {
-    const [bannerRes, whoWeAreRes, whatWeDoSettingRes, whatWeDo, missionVision, whyChoose, teams] = await Promise.all([
-      getSetting('about_banner'),
-      getSetting('about_who_we_are'),
-      getSetting('about_what_we_do'),
-      prisma.whatWeDo.findMany({ where: { type: 'what_we_do' }, orderBy: { createdAt: 'asc' } }),
-      prisma.whatWeDo.findMany({ where: { type: 'mission_vision' }, orderBy: { createdAt: 'asc' } }),
-      prisma.whatWeDo.findMany({ where: { type: 'why_choose' }, orderBy: { createdAt: 'asc' } }),
-      prisma.team.findMany({ orderBy: { createdAt: 'asc' } }),
-    ]);
+    const [bannerRes, whoWeAreRes, whatWeDoSettingRes, statsRes, whyChooseSettingRes, teamSettingRes, whatWeDo, missionVision, whyChoose, teams] =
+      await Promise.all([
+        getSetting('about_banner'),
+        getSetting('about_who_we_are'),
+        getSetting('about_what_we_do'),
+        getSetting('about_stats'),
+        getSetting('about_why_choose'),
+        getSetting('team'),
+        prisma.whatWeDo.findMany({ where: { type: 'what_we_do' }, orderBy: { createdAt: 'asc' } }),
+        prisma.whatWeDo.findMany({ where: { type: 'mission_vision' }, orderBy: { createdAt: 'asc' } }),
+        prisma.whatWeDo.findMany({ where: { type: 'why_choose' }, orderBy: { createdAt: 'asc' } }),
+        prisma.team.findMany({ orderBy: { createdAt: 'asc' } }),
+      ]);
+
     return {
       banner: bannerRes?.setting || {},
       whoWeAre: whoWeAreRes?.setting || {},
-      whatWeDo: whatWeDo || [],
       whatWeDoSetting: whatWeDoSettingRes?.setting || {},
-      missionVision: missionVision || [],
-      whyChoose: whyChoose || [],
-      teams: teams || [],
+      statsSetting: statsRes?.setting || {},
+      whyChooseSetting: whyChooseSettingRes?.setting || {},
+      teamSetting: teamSettingRes?.setting || {},
+      whatWeDo,
+      missionVision,
+      whyChoose,
+      teams,
     };
   } catch (error) {
-    console.error("Error loading about data:", error);
+    console.error('Error loading About page data:', error);
     return {
       banner: {},
       whoWeAre: {},
-      whatWeDo: [],
       whatWeDoSetting: {},
+      statsSetting: {},
+      whyChooseSetting: {},
+      teamSetting: {},
+      whatWeDo: [],
       missionVision: [],
       whyChoose: [],
       teams: [],
@@ -53,449 +150,281 @@ async function getAboutData() {
   }
 }
 
-// Default fallback categories/services for QAAM redesign matching mockup specs
-const DEFAULT_SERVICES = [
-  {
-    title: "Laptops",
-    description: "Refurbished laptops with powerful performance for work, study and gaming.",
-    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80",
-    icon: "laptop",
-  },
-  {
-    title: "Tablets",
-    description: "Reliable tablets for entertainment, learning and productivity.",
-    image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=800&q=80",
-    icon: "tablet",
-  },
-  {
-    title: "Computer",
-    description: "Desktop built for speed, stability and everyday computing needs.",
-    image: "https://images.unsplash.com/photo-1587831990711-23ca6441447b?auto=format&fit=crop&w=800&q=80",
-    icon: "monitor",
-  },
-  {
-    title: "LEDs",
-    description: "High quality LED monitors and displays for crisp visuals.",
-    image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=800&q=80",
-    icon: "tv",
-  },
-  {
-    title: "Gadgets",
-    description: "Smart and useful gadgets that make life easier and more fun.",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
-    icon: "headphones",
-  },
-  {
-    title: "Projectors",
-    description: "Projectors for presentations, movies and big screen experiences.",
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80",
-    icon: "projector",
-  },
-  {
-    title: "Batteries",
-    description: "Long lasting batteries to keep your devices powered when you need them.",
-    image: "https://images.unsplash.com/photo-1619725002198-6a689b72f41d?auto=format&fit=crop&w=800&q=80",
-    icon: "battery-charging",
-  },
-  {
-    title: "Laptop parts & Accessories",
-    description: "Original parts and accessories to maintain and upgrade your devices.",
-    image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=800&q=80",
-    icon: "cpu",
-  },
-];
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return <p className="text-[11px] font-extrabold uppercase tracking-[0.08em] text-primary sm:text-sm lg:text-base">{children}</p>;
+}
 
-const DEFAULT_VALUE_PROPS = [
-  {
-    title: "Quality Assured",
-    description: "Every product is tested for top performance",
-    icon: "verified",
-  },
-  {
-    title: "Best Prices",
-    description: "Premium technology without the premium cost.",
-    icon: "payments",
-  },
-  {
-    title: "Trusted Support",
-    description: "We're here before and after your purchase.",
-    icon: "headset_mic",
-  },
-  {
-    title: "Sustainable Choice",
-    description: "Refurbished tech for a better tomorrow.",
-    icon: "eco",
-  },
-];
+function PlayLink({ href, label }: { href?: string; label: string }) {
+  const className =
+    'inline-flex size-14 items-center justify-center rounded-full bg-white text-[#121714] shadow-xl transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/30';
 
-export default async function AboutPageV2() {
-  const { banner, whoWeAre, whatWeDo, whatWeDoSetting, missionVision, whyChoose } = await getAboutData();
-
-  // Combine dynamic data with QAAM defaults for a complete aesthetic display
-  const heroTitle = whoWeAre.title || banner.title || "About QAAM";
-  const heroSubtitle = "Technology you can trust, performance you can feel.";
-  const heroDescription = whoWeAre.description || banner.description || "QAAM.PK is redefining the way Pakistan shops for technology. We provide high-quality refurbished laptops, gadgets, and accessories that deliver premium performance without the premium price tag. With a focus on trust, affordability, and customer satisfaction, we make smart technology accessible for everyone.";
-  const heroImage = whoWeAre.image || banner.image || "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1200&q=80";
-
-  const servicesList = whatWeDo.length > 0
-    ? whatWeDo.map((item, idx) => ({
-      title: item.title,
-      description: item.description,
-      image: DEFAULT_SERVICES[idx % DEFAULT_SERVICES.length].image,
-      icon: item.icon || DEFAULT_SERVICES[idx % DEFAULT_SERVICES.length].icon,
-    }))
-    : DEFAULT_SERVICES;
-
-  const valueProps = whyChoose.length > 0
-    ? whyChoose.map((item, idx) => ({
-      title: item.title,
-      description: item.description,
-      icon: item.icon || DEFAULT_VALUE_PROPS[idx % DEFAULT_VALUE_PROPS.length].icon,
-    }))
-    : DEFAULT_VALUE_PROPS;
+  if (!href) {
+    return (
+      <span className={className} aria-hidden="true">
+        <DynamicIcon name="Play" size={24} className="ml-1 fill-current" />
+      </span>
+    );
+  }
 
   return (
-    <main className="min-h-screen bg-white dark:bg-[#121815] text-gray-900 dark:text-white transition-colors duration-300">
-
-      {/* 1. Breadcrumbs Container */}
-      <div className="max-w-400 mx-auto px-4  pt-6 pb-2">
-        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
-      </div>
-
-      {/* 2. Hero About Section */}
-      <section className="max-w-400 mx-auto px-4  py-8 md:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-
-          {/* Left Text Block */}
-          <div className="lg:col-span-6 flex flex-col justify-start items-start gap-6">
-            <div>
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-gray-900 dark:text-white font-['Inter',sans-serif] leading-tight">
-                {heroTitle}
-              </h1>
-              <p className="mt-2 text-xl sm:text-2xl font-semibold text-green-600 dark:text-green-400">
-                {heroSubtitle}
-              </p>
-            </div>
-
-            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-              {heroDescription}
-            </p>
-
-            <div className="pt-2">
-              <Link
-                href="/shop"
-                className="inline-flex items-center gap-2 px-6 py-3.5 bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-semibold rounded-lg shadow-lg hover:shadow-green-600/20 transition-all duration-200 group"
-              >
-                <span>Shop Our Products</span>
-                <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Image Block */}
-          <div className="lg:col-span-6">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gray-100 dark:bg-gray-800 aspect-[4/3] sm:aspect-[16/11]">
-              <img
-                src={heroImage}
-                alt="About QAAM"
-                className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 ring-1 ring-inset ring-black/10 dark:ring-white/10 rounded-2xl pointer-events-none" />
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 3. Feature Highlights / Badges Bar */}
-      <section className="max-w-400 mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-gray-50 dark:bg-[#1a231e] border border-gray-100 dark:border-gray-800/80 rounded-2xl p-6 md:p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {valueProps.map((prop, idx) => (
-            <div key={idx} className="flex items-center gap-4 group">
-              <div className="w-14 h-14 rounded-full bg-green-600/10 dark:bg-green-500/15 flex items-center justify-center text-green-600 dark:text-green-400 shrink-0 group-hover:bg-green-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                <DynamicIcon name={prop.icon} fallback="verified" size={26} />
-              </div>
-              <div className="flex flex-col">
-                <h4 className="text-base font-bold text-gray-900 dark:text-white leading-snug">
-                  {prop.title}
-                </h4>
-                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5 leading-snug">
-                  {prop.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 4. Our Services / What We Offer */}
-      <section className="max-w-400 mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
-          <span className="text-green-600 dark:text-green-400 font-bold text-lg md:text-xl block mb-1">
-            Our Services
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white">
-            {whatWeDoSetting.title || "What We Offer"}
-          </h2>
-          {whatWeDoSetting.description && (
-            <p className="mt-3 text-gray-600 dark:text-gray-400 text-sm md:text-base">
-              {whatWeDoSetting.description}
-            </p>
-          )}
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {servicesList.map((service, idx) => (
-            <div
-              key={idx}
-              className="bg-white dark:bg-[#1a231e] rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group p-3.5"
-            >
-              <div className="w-full h-48 md:h-52 rounded-lg overflow-hidden relative bg-gray-100 dark:bg-gray-800">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-4 flex flex-col flex-1 justify-start">
-                <Link href={`/shop?category=${encodeURIComponent(service.title)}`} className="no-underline">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
-                    {service.title}
-                  </h3>
-                </Link>
-                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-                  {service.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 5. Our Mission & Our Vision */}
-      <section className="max-w-400 mx-auto px-4 sm:px-6 lg:px-8 pb-16 md:pb-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-          {/* Mission Card */}
-          <div className="bg-gray-50 dark:bg-[#1a231e] border border-gray-100 dark:border-gray-800 rounded-2xl p-6 sm:p-10 flex flex-col sm:flex-row items-center gap-6 shadow-sm hover:shadow-md transition-shadow">
-            <div className="w-full sm:w-64 h-48 sm:h-44 rounded-xl overflow-hidden shrink-0 bg-gray-200 dark:bg-gray-700">
-              <img
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
-                alt="Our Mission"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="flex flex-col items-start">
-              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-                {missionVision[0]?.title || "Our Mission"}
-              </h3>
-              <div className="w-16 h-1 bg-green-600 dark:bg-green-500 rounded-full my-3" />
-              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-                {missionVision[0]?.description || "We are committed to delivering dependable products, honest value, and excellent customer service while reducing electronic waste and promoting a more sustainable technology ecosystem."}
-              </p>
-            </div>
-          </div>
-
-          {/* Vision Card */}
-          <div className="bg-gray-50 dark:bg-[#1a231e] border border-gray-100 dark:border-gray-800 rounded-2xl p-6 sm:p-10 flex flex-col sm:flex-row items-center gap-6 shadow-sm hover:shadow-md transition-shadow">
-            <div className="w-full sm:w-64 h-48 sm:h-44 rounded-xl overflow-hidden shrink-0 bg-gray-200 dark:bg-gray-700">
-              <img
-                src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80"
-                alt="Our Vision"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="flex flex-col items-start">
-              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-                {missionVision[1]?.title || "Our Vision"}
-              </h3>
-              <div className="w-16 h-1 bg-green-600 dark:bg-green-500 rounded-full my-3" />
-              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-                {missionVision[1]?.description || "To become a trusted leader in sustainable technology solutions by transforming the way people buy, use, and reuse electronics. We envision a future where quality technology is accessible to everyone and electronic waste is reduced through responsible refurbishment, repair, and reuse."}
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-    </main>
+    <a href={href} target="_blank" rel="noreferrer" className={className} aria-label={label}>
+      <DynamicIcon name="Play" size={24} className="ml-1 fill-current" />
+    </a>
   );
 }
 
-/* ============================================================================
-   OLD ABOUT PAGE CODE (COMMENTED OUT FOR REFERENCE AS REQUESTED)
-   ============================================================================
+export default async function AboutPage() {
+  const {
+    banner,
+    whoWeAre,
+    whatWeDoSetting,
+    statsSetting,
+    whyChooseSetting,
+    teamSetting,
+    whatWeDo,
+    missionVision,
+    whyChoose,
+    teams,
+  } = await getAboutData();
 
-const CARD_STYLES = [
-  'bg-primary text-white',
-  'bg-white dark:bg-[#1a251d] text-[#121714] dark:text-white',
-];
+  const hero = {
+    title: banner.title || 'Our Story.\nOur Promise.',
+    subtitle: banner.subtitle || 'QAAM.PK is redefining the way Pakistan shops for technology.',
+    description:
+      banner.description ||
+      'We offer premium, tested and certified refurbished laptops, desktops, monitors, gadgets and accessories at honest prices—backed by warranty, trust and real people.',
+    buttonText: banner.buttonText || 'Shop Our Products',
+    link: banner.link || '/shop',
+    images: [
+      banner.image || 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1100&q=85',
+      banner.image2 || 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=700&q=85',
+      banner.image3 || 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85',
+      banner.image4 || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=85',
+      banner.image5 || SHOWROOM_IMAGE,
+    ],
+    videoUrl: banner.videoUrl || '',
+  };
 
-export function OldAboutPageV2({ banner, whoWeAre, whatWeDo, whatWeDoSetting, missionVision, whyChoose, teams }: any) {
+  const stats = DEFAULT_STATS.map((item, index) => ({
+    value: statsSetting[`item${index + 1}Value`] || item.value,
+    label: statsSetting[`item${index + 1}Label`] || item.label,
+    detail: statsSetting[`item${index + 1}Detail`] || item.detail,
+    icon: statsSetting[`item${index + 1}Icon`] || item.icon,
+  }));
+
+  const services = (whatWeDo.length ? whatWeDo : DEFAULT_SERVICES).map((item: any, index: number) => ({
+    title: item.title,
+    description: item.description,
+    image: isImage(item.image || item.icon) ? item.image || item.icon : DEFAULT_SERVICES[index % DEFAULT_SERVICES.length].image,
+  }));
+
+  const missionCards = (missionVision.length ? missionVision : DEFAULT_MISSION_VISION).map((item: any, index: number) => ({
+    title: item.title,
+    description: item.description,
+    image: isImage(item.image || item.icon)
+      ? item.image || item.icon
+      : DEFAULT_MISSION_VISION[index % DEFAULT_MISSION_VISION.length].image,
+  }));
+
+  const benefits = (whyChoose.length ? whyChoose : DEFAULT_BENEFITS).map((item: any, index: number) => ({
+    title: item.title,
+    description: item.description,
+    icon: item.icon || DEFAULT_BENEFITS[index % DEFAULT_BENEFITS.length].icon,
+  }));
+
   return (
-    <main className="flex-1">
-      <section className="relative h-[360px] sm:h-[440px] md:h-[500px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          {banner.image ? (
-            <img src={banner.image} className="w-full h-full object-cover scale-105" alt="About Banner" />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-primary to-[#1a4731]" />
-          )}
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-[1px]" />
-        </div>
-        <div className="relative z-10 max-w-[800px] mx-auto px-4 sm:px-6 text-center text-white">
-          <h1 className="text-3xl sm:text-5xl md:text-7xl font-black mb-3 sm:mb-6 leading-tight">
-            {banner.title || 'Eco-Conscious Living Starts Here'}
-          </h1>
-          <p className="text-sm sm:text-lg md:text-xl text-white/90 leading-relaxed max-w-2xl mx-auto">
-            {banner.description || 'Discover the story, mission, and passionate team behind Qaam.pk.'}
-          </p>
-        </div>
-      </section>
-
-      <div className="max-w-400 md:px-10 mx-auto w-full px-4 sm:px-6 -mt-6 sm:-mt-8 relative z-20 mb-6 sm:mb-10">
-        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About Us' }]} />
+    <main className="about-page bg-white text-[#121714] transition-colors dark:bg-[#101713] dark:text-white">
+      <div className="mx-auto hidden w-full max-w-[1600px] px-4 pb-2 pt-5 sm:block sm:px-6 lg:px-10">
+        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
       </div>
 
-      {(whoWeAre.title || whoWeAre.description) && (
-        <section className="max-w-400 md:px-10 mx-auto px-4 sm:px-6 py-10 sm:py-20 md:py-32 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
-          <div className="space-y-4 sm:space-y-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest">
-              Visionaries
-            </div>
-            <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-[#121714] dark:text-white leading-tight">
-              {whoWeAre.title}
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg text-gray-500 dark:text-gray-400 leading-relaxed font-medium">
-              {whoWeAre.description}
+      <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-9 px-3 pb-12 pt-5 sm:gap-14 sm:px-6 sm:pt-0 md:gap-20 lg:px-10 lg:pb-24">
+        <section className="grid items-center gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:gap-14 lg:py-10">
+          <div className="mx-auto max-w-2xl text-center sm:mx-0 sm:text-left">
+            <h1 className="whitespace-pre-line text-[32px] font-black leading-[1.02] tracking-[-0.04em] sm:text-5xl lg:text-7xl">
+              {hero.title}
+            </h1>
+            <p className="mx-auto mt-3 max-w-lg text-[11px] font-extrabold leading-snug text-primary sm:mx-0 sm:mt-4 sm:text-xl">{hero.subtitle}</p>
+            <p className="mx-auto mt-4 max-w-xl text-[11px] leading-[1.55] text-[#667069] dark:text-white/65 sm:mx-0 sm:mt-7 sm:text-base sm:leading-7">
+              {hero.description}
             </p>
-            {whoWeAre.buttonText && (
-              whoWeAre.link ? (
-                <Link href={whoWeAre.link}>
-                  <Button variant="primary" icon="trending_up">{whoWeAre.buttonText}</Button>
-                </Link>
-              ) : (
-                <Button variant="primary" icon="trending_up">{whoWeAre.buttonText}</Button>
-              )
-            )}
+            <Link
+              href={hero.link}
+              className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-primary px-3.5 py-2 text-[10px] font-extrabold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg sm:mt-7 sm:gap-2 sm:rounded-lg sm:px-5 sm:py-3 sm:text-sm"
+            >
+              {hero.buttonText}
+              <DynamicIcon name="ArrowRight" size={15} />
+            </Link>
           </div>
-          <div className="relative group">
-            <div className="aspect-[4/3] sm:aspect-[4/5] rounded-2xl sm:rounded-[2.5rem] overflow-hidden shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]">
-              {whoWeAre.image ? (
-                <img src={whoWeAre.image} className="w-full h-full object-cover" alt="Who we are" />
-              ) : (
-                <div className="w-full h-full bg-primary/10 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-6xl sm:text-8xl text-primary/40">nature_people</span>
-                </div>
+
+          <div className="grid h-[205px] grid-cols-[1.25fr_.95fr] grid-rows-3 gap-1.5 sm:h-[390px] sm:gap-2 md:h-[470px] md:gap-3">
+            <img src={hero.images[0]} alt="QAAM refurbished laptop" className="row-span-2 h-full w-full rounded-xl object-cover" />
+            <img src={hero.images[1]} alt="Technology available at QAAM" className="h-full w-full rounded-xl object-cover" />
+            <img src={hero.images[2]} alt="QAAM computer collection" className="h-full w-full rounded-xl object-cover" />
+            <div className="relative overflow-hidden rounded-xl">
+              <img src={hero.images[4]} alt="QAAM technology showroom" className="h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-black/20" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <PlayLink href={hero.videoUrl} label="Watch the QAAM story" />
+              </div>
+            </div>
+            <img src={hero.images[3]} alt="Technology accessories from QAAM" className="h-full w-full rounded-xl object-cover" />
+          </div>
+        </section>
+
+        <section className="overflow-hidden rounded-xl bg-[#f4f5f4] p-4 dark:bg-[#1a231e] sm:rounded-2xl sm:p-8 lg:p-10">
+          <div className="grid items-center gap-5 sm:gap-8 lg:grid-cols-[.78fr_1.22fr] lg:gap-12">
+            <div className="text-center sm:text-left">
+              <SectionLabel>{whoWeAre.eyebrow || 'Who we are'}</SectionLabel>
+              <h2 className="mt-2 whitespace-pre-line text-xl font-black leading-tight tracking-tight sm:mt-3 sm:text-4xl">
+                {whoWeAre.title || 'Trusted Refurbished Tech.\nBuilt for Pakistan.'}
+              </h2>
+              <div className="mx-auto my-3 h-0.5 w-10 rounded-full bg-primary sm:mx-0 sm:my-5 sm:h-1 sm:w-14" />
+              <p className="text-[11px] leading-[1.55] text-[#667069] dark:text-white/65 sm:text-base sm:leading-7">
+                {whoWeAre.description ||
+                  'We deliver dependable products, honest value and excellent customer service while reducing electronic waste and building a more sustainable technology ecosystem.'}
+              </p>
+              {whoWeAre.secondaryDescription && (
+                <p className="mt-2 text-[11px] leading-[1.55] text-[#667069] dark:text-white/65 sm:mt-3 sm:text-base sm:leading-7">{whoWeAre.secondaryDescription}</p>
               )}
             </div>
-            <div className="absolute -bottom-10 -left-10 bg-primary p-10 rounded-[2rem] shadow-2xl text-white hidden xl:block">
-              <span className="material-symbols-outlined text-5xl">nature_people</span>
-            </div>
+            <img
+              src={whoWeAre.image || SHOWROOM_IMAGE}
+              alt="QAAM team helping customers choose reliable technology"
+              className="h-52 w-full rounded-lg object-cover sm:h-80 sm:rounded-xl lg:h-[390px]"
+            />
           </div>
         </section>
-      )}
 
-      <section className="bg-primary/5 dark:bg-[#1a251d]/30 py-12 sm:py-24 md:py-32">
-        <div className="max-w-400 md:px-10 mx-auto px-4 sm:px-6 text-center">
-          <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] mb-2 sm:mb-4 block">Our Services</span>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#121714] dark:text-white mb-3 sm:mb-4">
-            {whatWeDoSetting.title || 'What We Do'}
-          </h2>
-          {whatWeDoSetting.description && (
-            <p className="text-xs sm:text-base text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-10 sm:mb-16 md:mb-20">{whatWeDoSetting.description}</p>
-          )}
-          {!whatWeDoSetting.description && <div className="mb-10 sm:mb-16 md:mb-20" />}
-          {whatWeDo.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-10">
-              {whatWeDo.map((item: any) => (
-                <div key={item.id} className="bg-white dark:bg-[#1a251d] p-6 sm:p-10 rounded-2xl sm:rounded-[2.5rem] shadow-xl hover:-translate-y-2 transition-transform duration-500 border border-primary/5">
-                  <div className="size-14 sm:size-20 bg-primary rounded-2xl sm:rounded-3xl flex items-center justify-center text-white mx-auto mb-5 sm:mb-8 shadow-lg shadow-primary/30">
-                    <DynamicIcon name={item.icon} fallback="Eco" size={32} />
-                  </div>
-                  <h3 className="text-lg sm:text-2xl font-black text-[#121714] dark:text-white mb-2 sm:mb-4">{item.title}</h3>
-                  <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">{item.description}</p>
+        <section aria-label="QAAM at a glance" className="rounded-xl border border-black/5 bg-white px-1 py-3 shadow-[0_8px_30px_rgba(0,0,0,.10)] dark:border-white/10 dark:bg-[#18211c] sm:rounded-2xl sm:p-6">
+          <div className="grid grid-cols-4 gap-0">
+            {stats.map((stat, index) => (
+              <div key={`${stat.label}-${index}`} className="flex min-w-0 flex-col items-center justify-center gap-1 border-r border-black/10 px-1 text-center last:border-r-0 dark:border-white/10 sm:flex-row sm:gap-3 sm:px-4 sm:text-left lg:px-7">
+                <span className="shrink-0 text-primary">
+                  <DynamicIcon name={stat.icon} fallback="BadgeCheck" size={24} />
+                </span>
+                <div className="min-w-0">
+                  <p className="break-words text-[8px] font-black leading-tight sm:text-lg lg:text-xl">{stat.value}</p>
+                  <p className="mt-0.5 break-words text-[7px] font-semibold leading-tight text-[#667069] dark:text-white/65 sm:mt-1 sm:text-xs lg:text-sm">{stat.label}</p>
+                  <span className="sr-only">{stat.detail}</span>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-400 text-sm sm:text-lg">No services added yet.</p>
-          )}
-        </div>
-      </section>
-
-      {missionVision.length > 0 && (
-        <section className="max-w-400 md:px-10 mx-auto px-4 sm:px-6 py-12 sm:py-24 md:py-32 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          {missionVision.map((item: any, i: number) => (
-            <div key={item.id} className={`${CARD_STYLES[i % CARD_STYLES.length]} p-6 sm:p-12 md:p-20 rounded-2xl sm:rounded-[3rem] shadow-2xl relative overflow-hidden group`}>
-              <div className="absolute -top-10 -right-10 size-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
-              <div className="size-12 sm:size-16 bg-white/20 rounded-xl sm:rounded-2xl flex items-center justify-center mb-5 sm:mb-8 backdrop-blur-md">
-                <DynamicIcon name={item.icon} fallback="Flag" size={28} />
-              </div>
-              <h3 className="text-2xl sm:text-3xl md:text-4xl font-black mb-3 sm:mb-6">{item.title}</h3>
-              <p className="text-sm sm:text-base md:text-lg opacity-80 leading-relaxed font-medium">{item.description}</p>
-            </div>
-          ))}
-        </section>
-      )}
-
-      {whyChoose.length > 0 && (
-        <section className="bg-[#121714] py-12 sm:py-24 md:py-32">
-          <div className="max-w-400 md:px-10 mx-auto px-4 sm:px-6">
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-white text-center mb-10 sm:mb-16 md:mb-20">
-              Why Choose <span className="text-primary italic">Qaam.pk?</span>
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-              {whyChoose.map((item: any) => (
-                <div key={item.id} className="text-center group p-4 sm:p-0">
-                  <div className="size-16 sm:size-24 bg-primary/10 rounded-2xl sm:rounded-[2rem] flex items-center justify-center text-primary mx-auto mb-4 sm:mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-xl shadow-black/20">
-                    <DynamicIcon name={item.icon} fallback="Star" size={32} />
-                  </div>
-                  <h4 className="text-lg sm:text-xl font-black text-white mb-2 sm:mb-4">{item.title}</h4>
-                  <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">{item.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {teams.length > 0 && (
-        <section className="max-w-400 md:px-10 mx-auto px-4 sm:px-6 py-12 sm:py-24 md:py-32">
-          <div className="text-center mb-10 sm:mb-20">
-            <div className="inline-flex items-center gap-2 mb-3 sm:mb-6 text-primary">
-              <span className="material-symbols-outlined text-2xl sm:text-4xl">groups</span>
-              <span className="text-xs sm:text-sm font-black uppercase tracking-[0.3em]">Our Tribe</span>
-            </div>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#121714] dark:text-white mb-3 sm:mb-6">Meet the Experts</h2>
-            <p className="text-xs sm:text-base text-gray-500 max-w-xl mx-auto font-medium">
-              Combining decades of experience in environmental science, botany, and sustainable design.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10">
-            {teams.map((member: any) => (
-              <div key={member.id} className="group text-center">
-                <div className="mb-4 sm:mb-8 rounded-2xl sm:rounded-[2rem] overflow-hidden aspect-[3/4] relative shadow-xl">
-                  {member.image ? (
-                    <img src={member.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt={member.name} />
-                  ) : (
-                    <div className="w-full h-full bg-primary/10 flex items-center justify-center">
-                      <span className="material-symbols-outlined text-5xl sm:text-6xl text-primary/40">person</span>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
-                <h3 className="text-lg sm:text-2xl font-black text-[#121714] dark:text-white mb-1">{member.name}</h3>
-                <p className="text-primary font-bold text-xs sm:text-sm mb-2 sm:mb-4">{member.designation}</p>
-                <p className="text-xs text-gray-500 leading-relaxed font-medium px-2 sm:px-4">{member.description}</p>
               </div>
             ))}
           </div>
         </section>
-      )}
+
+        <section className="text-center sm:text-left">
+          <SectionLabel>{whatWeDoSetting.eyebrow || 'What we do'}</SectionLabel>
+          <h2 className="mx-auto mt-2 max-w-3xl whitespace-pre-line text-xl font-black leading-tight tracking-tight sm:mx-0 sm:mt-3 sm:text-4xl">
+            {whatWeDoSetting.title || 'Quality Tech, Smart Choices.\nEverything You Need, All in One Place.'}
+          </h2>
+          {whatWeDoSetting.description && (
+            <p className="mx-auto mt-3 max-w-3xl text-[11px] leading-[1.55] text-[#667069] dark:text-white/65 sm:mx-0 sm:mt-4 sm:text-base sm:leading-7">{whatWeDoSetting.description}</p>
+          )}
+          <div className="mt-5 grid grid-cols-2 gap-2.5 text-center sm:mt-8 sm:gap-5 sm:text-left lg:grid-cols-4">
+            {services.map((service: any, index: number) => (
+              <article key={`${service.title}-${index}`} className="group overflow-hidden rounded-lg border border-black/10 bg-white p-2 shadow-[0_3px_12px_rgba(0,0,0,.08)] transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-[#18211c] sm:rounded-xl sm:p-3">
+                <div className="h-28 overflow-hidden rounded-md bg-[#f4f5f4] sm:h-52 sm:rounded-lg">
+                  <img src={service.image} alt={service.title} className="h-full w-full object-contain p-1 transition duration-500 group-hover:scale-105" />
+                </div>
+                <div className="px-0.5 pb-1 pt-2.5 sm:px-1 sm:pb-2 sm:pt-4">
+                  <h3 className="text-[12px] font-black leading-tight sm:text-lg">{service.title}</h3>
+                  <p className="mt-1 text-[9px] leading-[1.35] text-[#667069] dark:text-white/60 sm:mt-2 sm:text-sm sm:leading-6">{service.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="grid gap-4 sm:gap-6 xl:grid-cols-2">
+          {missionCards.map((card: any, index: number) => (
+            <article key={`${card.title}-${index}`} className="grid overflow-hidden rounded-lg bg-[#f4f5f4] dark:bg-[#1a231e] sm:grid-cols-[.88fr_1.12fr] sm:rounded-xl">
+              <img src={card.image} alt={card.title} className="h-64 w-full object-cover sm:h-full sm:min-h-[300px]" />
+              <div className="flex flex-col justify-center p-4 text-center sm:p-9 sm:text-left">
+                <h3 className="text-xl font-black sm:text-3xl">{card.title}</h3>
+                <div className="mx-auto my-3 h-0.5 w-10 rounded-full bg-primary sm:mx-0 sm:my-4 sm:h-1 sm:w-14" />
+                <p className="text-[11px] leading-[1.55] text-[#667069] dark:text-white/65 sm:text-sm sm:leading-7">{card.description}</p>
+              </div>
+            </article>
+          ))}
+        </section>
+
+        <section className="grid items-center gap-5 py-1 sm:gap-9 sm:py-3 xl:grid-cols-[.92fr_1fr_.72fr]">
+          <div className="text-center sm:text-left">
+            <SectionLabel>{whyChooseSetting.eyebrow || 'Why choose QAAM?'}</SectionLabel>
+            <h2 className="mt-2 whitespace-pre-line text-xl font-black leading-tight tracking-tight sm:mt-3 sm:text-4xl">
+              {whyChooseSetting.title || 'Technology You Can Trust.\nService You Can Count On.'}
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-[10px] leading-[1.5] text-[#667069] dark:text-white/65 sm:mx-0 sm:mt-5 sm:text-base sm:leading-7">
+              {whyChooseSetting.description ||
+                'From honest product information to careful testing and helpful after-sales support, every part of the QAAM experience is designed around your confidence.'}
+            </p>
+            <Link
+              href={whyChooseSetting.link || '/shop'}
+              className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-primary px-3.5 py-2 text-[10px] font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-primary/90 sm:mt-6 sm:gap-2 sm:rounded-lg sm:px-5 sm:py-3 sm:text-sm"
+            >
+              {whyChooseSetting.buttonText || 'Shop With Confidence'}
+              <DynamicIcon name="ArrowRight" size={15} />
+            </Link>
+          </div>
+
+          <div className="hidden gap-5 sm:grid sm:grid-cols-2">
+            {benefits.map((benefit: any, index: number) => (
+              <div key={`${benefit.title}-${index}`} className="flex items-start gap-4">
+                <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <DynamicIcon name={benefit.icon} fallback="BadgeCheck" size={23} />
+                </span>
+                <div>
+                  <h3 className="font-black">{benefit.title}</h3>
+                  <p className="mt-1 text-sm leading-6 text-[#667069] dark:text-white/60">{benefit.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="relative h-64 overflow-hidden rounded-lg sm:h-80 sm:rounded-xl xl:h-[330px]">
+            <img src={whyChooseSetting.image || SHOWROOM_IMAGE} alt="QAAM quality testing and customer support" className="h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-black/25" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <PlayLink href={whyChooseSetting.videoUrl} label="Watch why customers choose QAAM" />
+            </div>
+          </div>
+        </section>
+
+        {teams.length > 0 && (
+          <section className="overflow-hidden rounded-xl bg-[#f4f5f4] p-4 dark:bg-[#1a231e] sm:rounded-2xl sm:p-8 lg:p-10">
+            <div className="grid gap-5 sm:gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-start">
+              <div className="text-center sm:text-left">
+                <SectionLabel>{teamSetting.eyebrow || 'Our team'}</SectionLabel>
+                <h2 className="mt-2 whitespace-pre-line text-xl font-black leading-tight tracking-tight sm:mt-3 sm:text-4xl">
+                  {teamSetting.title || 'The People Behind QAAM\nWorking for You.'}
+                </h2>
+                {teamSetting.description && <p className="mt-3 text-[11px] leading-[1.55] text-[#667069] dark:text-white/65 sm:mt-4 sm:text-sm sm:leading-7">{teamSetting.description}</p>}
+              </div>
+              <div className="-mx-4 flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 xl:grid-cols-4">
+                {teams.map((member: any) => (
+                  <article key={member.id} className="w-[44%] shrink-0 snap-start overflow-hidden rounded-lg bg-white text-center shadow-[0_3px_14px_rgba(0,0,0,.13)] dark:bg-[#101713] sm:w-auto sm:rounded-xl">
+                    <img src={member.image} alt={member.name} className="h-32 w-full object-cover object-top sm:h-44" />
+                    <div className="p-2.5 sm:p-4">
+                      <h3 className="text-[11px] font-black sm:text-base">{member.name}</h3>
+                      <p className="mt-0.5 text-[9px] text-[#667069] dark:text-white/60 sm:mt-1 sm:text-sm">{member.designation}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        <Subscribe
+          variant="compact"
+          title={banner.newsletterTitle || 'Stay Updated with QAAM'}
+          description={
+            banner.newsletterDescription ||
+            'Subscribe for the latest deals, new arrivals and exclusive offers delivered straight to your inbox.'
+          }
+        />
+      </div>
     </main>
   );
 }
-============================================================================ */
-

@@ -16,9 +16,9 @@ export default async function SettingsPanelPage() {
                         successMessage='General Setting Updated Successfully'
                         href='/admin/setting/logo'
                     >
-                        <FileUpload title="Upload Light Logo" defaultImageUrl={setting?.logo} name="logo" />
-                        <FileUpload title="Upload Dark Logo" defaultImageUrl={setting?.dark_logo} name="dark_logo" />
-                        <FileUpload title="Upload Favicon" defaultImageUrl={setting?.favicon} name="favicon" />
+                        <FileUpload title="Upload Light Logo" defaultImageUrl={setting?.logo} name="logo" aspectRatio={16 / 5} allowAspectSelection={false} />
+                        <FileUpload title="Upload Dark Logo" defaultImageUrl={setting?.dark_logo} name="dark_logo" aspectRatio={16 / 5} allowAspectSelection={false} />
+                        <FileUpload title="Upload Favicon" defaultImageUrl={setting?.favicon} name="favicon" aspectRatio={1} allowAspectSelection={false} />
                     </FormWrapper>
                 </div>
             </div>

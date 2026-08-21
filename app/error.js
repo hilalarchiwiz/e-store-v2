@@ -2,11 +2,12 @@
 
 import './css/style.css';
 import './css/euclid-circular-a-font.css'
-import { startTransition } from 'react';
-import { router } from 'better-auth/api';
+import { startTransition, useId } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 export default function Error({ error, reset }) {
   const router = useRouter();
+  const errorId = useId().replaceAll(':', '').toUpperCase();
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
       <div className="max-w-md w-full">
@@ -39,7 +40,7 @@ export default function Error({ error, reset }) {
               Something went wrong
             </h1>
             <p className="text-sm text-gray-500">
-              Don't worry, it happens to the best of us
+              Don&apos;t worry, it happens to the best of us
             </p>
           </div>
 
@@ -75,7 +76,7 @@ export default function Error({ error, reset }) {
             </button>
 
             <button
-              onClick={() => window.location.href = '/'}
+              onClick={() => router.push('/')}
               className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-lg transition-all duration-200"
             >
               Go back home
@@ -86,16 +87,16 @@ export default function Error({ error, reset }) {
           <div className="text-center pt-4 border-t border-gray-100">
             <p className="text-xs text-gray-500">
               If this problem persists, please{' '}
-              <a href="/contact" className="text-blue-600 hover:text-blue-700 underline">
+              <Link href="/contact" className="text-blue-600 hover:text-blue-700 underline">
                 contact support
-              </a>
+              </Link>
             </p>
           </div>
         </div>
 
         {/* Footer */}
         <p className="text-center text-sm text-gray-400 mt-6">
-          Error ID: {Math.random().toString(36).substr(2, 9).toUpperCase()}
+          Error ID: {errorId}
         </p>
       </div>
     </div>

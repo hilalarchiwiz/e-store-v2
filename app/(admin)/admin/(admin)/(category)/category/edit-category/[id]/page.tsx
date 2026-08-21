@@ -68,7 +68,12 @@ export default async function UpdateCategoryPage({
             name="order_number"
           />
 
-          <FileUpload defaultImageUrl={category?.img} />
+          <FileUpload
+            title="Category image"
+            defaultImageUrl={category?.img}
+            aspectRatio={1}
+            allowAspectSelection={false}
+          />
           <Specification defaultSpecs={category?.specifications} />
         </FormWrapper>
       </Card>

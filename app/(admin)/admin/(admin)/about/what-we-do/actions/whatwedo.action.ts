@@ -75,8 +75,17 @@ export async function createWhatWeDo(prevData: any, formData: FormData) {
     try {
         const title = formData.get('title') as string;
         const description = formData.get('description') as string;
-        const icon = formData.get('icon') as string;
+        let icon = formData.get('icon') as string;
         const type = formData.get('type') as string;
+
+        const imageFile = formData.get('image');
+        if (imageFile instanceof File && imageFile.size > 0) {
+            const uploadResult = await uploadImage(formData);
+            if (!uploadResult.success) {
+                return { success: false, message: uploadResult.message || 'Image upload failed' };
+            }
+            icon = uploadResult.url || '';
+        }
 
         await prisma.whatWeDo.create({
             data: {
@@ -131,12 +140,21 @@ export async function updateWhatWeDo(id: number | undefined, prevData: any, form
     try {
         const title = formData.get('title') as string;
         const description = formData.get('description') as string;
-        const icon = formData.get('icon') as string;
+        let icon = formData.get('icon') as string;
+
+        const imageFile = formData.get('image');
+        if (imageFile instanceof File && imageFile.size > 0) {
+            const uploadResult = await uploadImage(formData);
+            if (!uploadResult.success) {
+                return { success: false, message: uploadResult.message || 'Image upload failed' };
+            }
+            icon = uploadResult.url || '';
+        }
 
         const updateData: any = {
             title,
             description,
-            icon
+            ...(icon ? { icon } : {})
         };
         await prisma.whatWeDo.update({
             where: {
@@ -145,7 +163,7 @@ export async function updateWhatWeDo(id: number | undefined, prevData: any, form
             data: updateData
         });
         revalidatePath('/admin/about/what-we-do');
-        revalidatePath('/');
+        revalidatePath('/about');
 
         return {
             success: true,
@@ -177,7 +195,7 @@ export async function deleteWhatWeDo(id: string): Promise<void | BrandResponse> 
             }
         });
         revalidatePath('/admin/about/what-we-do')
-        revalidatePath('/')
+        revalidatePath('/about')
         return {
             success: true,
             message: 'WhatWedo deleted successfully',

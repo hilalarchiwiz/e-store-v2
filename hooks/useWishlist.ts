@@ -14,10 +14,12 @@ import {
   addToWishlist,
   removeFromWishlistByProductId,
 } from "@/lib/action/wishlist.action";
+import { useHydrated } from "@/hooks/useHydrated";
 
 export function useWishlist() {
   const dispatch = useDispatch<AppDispatch>();
   const wishlistIds = useAppSelector((state) => state.wishlistReducer.ids);
+  const hydrated = useHydrated();
 
   useEffect(() => {
     getWishlistProductIds().then((ids) => {
@@ -26,8 +28,8 @@ export function useWishlist() {
   }, [dispatch]);
 
   const isInWishlist = useCallback(
-    (id: number) => wishlistIds.includes(id),
-    [wishlistIds]
+    (id: number) => hydrated && wishlistIds.includes(id),
+    [hydrated, wishlistIds]
   );
 
   const toggleWishlist = useCallback(

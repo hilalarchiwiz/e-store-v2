@@ -70,7 +70,7 @@ const RegisterForm = () => {
         email,
         password,
         name,
-        // @ts-ignore
+        // @ts-expect-error -- roleName is a Better Auth additional field configured on the server.
         roleName: "user", // Default role
       });
 

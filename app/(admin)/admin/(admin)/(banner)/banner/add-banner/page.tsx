@@ -65,7 +65,11 @@ export default async function CategoryPage() {
                         label="Banner Background Color"
                         name="bgColor"
                     />
-                    <FileUpload />
+                    <FileUpload
+                        title="Banner image"
+                        aspectRatio={16 / 5}
+                        allowAspectSelection={false}
+                    />
 
                     <div>
                         <label className="block text-sm font-semibold text-gray-700 mb-2">

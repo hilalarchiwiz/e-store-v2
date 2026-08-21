@@ -4,7 +4,13 @@ import React, { useState } from 'react';
 import { subscribeEmail } from '@/lib/action/subscribe.action';
 import { toast } from 'react-hot-toast';
 
-const Subscribe = () => {
+interface SubscribeProps {
+  variant?: 'default' | 'compact';
+  title?: string;
+  description?: string;
+}
+
+const Subscribe = ({ variant = 'default', title, description }: SubscribeProps) => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
@@ -25,6 +31,56 @@ const Subscribe = () => {
       toast.error(result.error ?? 'Failed to subscribe.');
     }
   };
+
+  if (variant === 'compact') {
+    return (
+      <section className="rounded-xl bg-[#f4f5f4] p-4 dark:bg-[#1a231e] sm:rounded-2xl sm:p-7">
+        <div className="grid items-center gap-5 lg:grid-cols-[1fr_1.2fr]">
+          <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:items-start sm:gap-4 sm:text-left">
+            <span className="material-symbols-outlined text-3xl text-primary sm:mt-0.5 sm:text-4xl" aria-hidden="true">
+              mail
+            </span>
+            <div>
+              <h2 className="text-base font-black text-[#121714] dark:text-white sm:text-2xl">
+                {title || 'Stay Updated with QAAM'}
+              </h2>
+              <p className="mt-1 text-[10px] leading-[1.5] text-[#667069] dark:text-white/60 sm:text-sm sm:leading-6">
+                {description || 'Subscribe for the latest deals, new arrivals and exclusive offers.'}
+              </p>
+            </div>
+          </div>
+
+          {subscribed ? (
+            <div className="flex min-h-12 items-center justify-center gap-2 rounded-lg bg-primary/10 px-5 font-bold text-primary">
+              <span className="material-symbols-outlined" aria-hidden="true">check_circle</span>
+              You are subscribed. Thank you!
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex">
+              <label htmlFor="about-subscribe-email" className="sr-only">Email address</label>
+              <input
+                id="about-subscribe-email"
+                className="h-10 min-w-0 flex-1 rounded-l-md border border-black/10 bg-white px-3 text-[10px] text-[#121714] outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/10 sm:h-12 sm:rounded-l-lg sm:px-4 sm:text-sm dark:border-white/10 dark:bg-[#101713] dark:text-white"
+                placeholder="Enter your email address"
+                required
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                disabled={loading}
+              />
+              <button
+                className="h-10 shrink-0 rounded-r-md bg-primary px-4 text-[10px] font-extrabold text-white transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60 sm:h-12 sm:rounded-r-lg sm:px-8 sm:text-sm"
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? 'Subscribing...' : 'Subscribe'}
+              </button>
+            </form>
+          )}
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-8 sm:py-12 lg:py-16">

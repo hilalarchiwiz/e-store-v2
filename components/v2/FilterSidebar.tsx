@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 interface FilterSectionProps {
@@ -49,13 +49,15 @@ interface FilterNode {
 interface FilterSidebarProps {
   categories?: FilterNode[];
   brands?: FilterNode[];
+  generations?: number[];
   minPrice?: number;
   maxPrice?: number;
 }
 
-const FilterSidebar: React.FC<FilterSidebarProps> = ({
+const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
   categories = [],
   brands = [],
+  generations = [],
   minPrice = 0,
   maxPrice = 1000,
 }) => {
@@ -67,6 +69,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
   const minParamStr = searchParams.get("minPrice") || "";
   const maxParamStr = searchParams.get("maxPrice") || "";
   const sortParamStr = searchParams.get("sort") || "";
+  const generationParamStr = searchParams.get("generation") || "";
 
   const [selectedCategories, setSelectedCategories] = useState<number[]>(
     categoryParamStr ? categoryParamStr.split(",").map(Number) : []
@@ -78,17 +81,11 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
     minParamStr && maxParamStr ? [Number(minParamStr), Number(maxParamStr)] : [minPrice, maxPrice]
   );
   const [sort, setSort] = useState<string>(sortParamStr || "newest");
-
-  useEffect(() => {
-    setSelectedCategories(categoryParamStr ? categoryParamStr.split(",").map(Number) : []);
-    setSelectedBrands(brandParamStr ? brandParamStr.split(",").map(Number) : []);
-    if (minParamStr && maxParamStr) {
-      setPriceRange([Number(minParamStr), Number(maxParamStr)]);
-    } else {
-      setPriceRange([minPrice, maxPrice]);
-    }
-    setSort(sortParamStr || "newest");
-  }, [categoryParamStr, brandParamStr, minParamStr, maxParamStr, sortParamStr, minPrice, maxPrice]);
+  const [selectedGenerations, setSelectedGenerations] = useState<number[]>(
+    generationParamStr
+      ? Array.from(new Set(generationParamStr.split(",").map(Number)))
+      : [],
+  );
 
   const scrollToProducts = () => {
     const el = document.getElementById("shop-products-section");
@@ -102,6 +99,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
     newBrands?: number[],
     newPrice?: [number, number],
     newSort?: string,
+    newGenerations?: number[],
   ) => {
     const params = new URLSearchParams(searchParams.toString());
 
@@ -131,6 +129,17 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
     const s = newSort !== undefined ? newSort : sort;
     params.set("sort", s);
 
+    // Generation (available only for the Laptop category)
+    const gens =
+      newGenerations !== undefined
+        ? newGenerations
+        : selectedGenerations;
+    if (gens.length > 0) {
+      params.set("generation", Array.from(new Set(gens)).join(","));
+    } else {
+      params.delete("generation");
+    }
+
     params.set("page", "1");
 
     router.push(`/shop?${params.toString()}`, { scroll: false });
@@ -145,7 +154,23 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
       newCategories = [...selectedCategories, id];
     }
     setSelectedCategories(newCategories);
-    applyFilters(newCategories, undefined, undefined, undefined);
+    setSelectedGenerations([]);
+    applyFilters(newCategories, undefined, undefined, undefined, []);
+  };
+
+  const handleGenerationChange = (generation: number) => {
+    const newGenerations = selectedGenerations.includes(generation)
+      ? selectedGenerations.filter((item) => item !== generation)
+      : [...selectedGenerations, generation];
+
+    setSelectedGenerations(newGenerations);
+    applyFilters(
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      newGenerations,
+    );
   };
 
   const handleBrandChange = (id: number) => {
@@ -183,13 +208,14 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
   const handleCleanAll = () => {
     setSelectedCategories([]);
     setSelectedBrands([]);
+    setSelectedGenerations([]);
     setPriceRange([minPrice, maxPrice]);
     setSort("newest");
     router.push("/shop", { scroll: false });
   };
 
   return (
-    <aside className="w-full lg:w-72 flex flex-col gap-4 shrink-0">
+    <aside className="hidden w-full min-w-0 max-w-full shrink-0 flex-col gap-4 lg:flex lg:w-72">
       {/* Active Filters Summary */}
       <div className="bg-white dark:bg-[#1a251d] px-5 py-4 rounded-xl border border-[#e5e9e6] dark:border-[#2a3a30] shadow-[0_2px_4px_rgba(0,0,0,0.02)] flex justify-between items-center transition-colors">
         <h3 className="text-[#1a2b21] dark:text-white text-base font-bold">
@@ -228,6 +254,40 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
           </label>
         ))}
       </FilterSection>
+
+      {generations.length > 0 && (
+        <FilterSection
+          title="Generation"
+          defaultOpen={selectedGenerations.length > 0}
+        >
+          {generations.map((generation) => (
+            <label
+              key={generation}
+              className="group flex cursor-pointer items-center gap-3"
+            >
+              <input
+                checked={selectedGenerations.includes(generation)}
+                onChange={() => handleGenerationChange(generation)}
+                className="h-4 w-4 cursor-pointer rounded border-[#dce5df] text-primary transition-colors focus:ring-primary"
+                type="checkbox"
+              />
+              <span className="text-sm text-[#4a5550] transition-colors group-hover:text-primary dark:text-[#f6f8f7]">
+                {generation}
+                {generation % 100 >= 11 && generation % 100 <= 13
+                  ? "th"
+                  : generation % 10 === 1
+                    ? "st"
+                    : generation % 10 === 2
+                      ? "nd"
+                      : generation % 10 === 3
+                        ? "rd"
+                        : "th"}{" "}
+                Generation
+              </span>
+            </label>
+          ))}
+        </FilterSection>
+      )}
 
       <FilterSection title="Brand">
         {brands.map((item) => (
@@ -352,6 +412,17 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
         </div>
       </div>
     </aside>
+  );
+};
+
+const FilterSidebar: React.FC<FilterSidebarProps> = (props) => {
+  const searchParams = useSearchParams();
+
+  return (
+    <FilterSidebarContent
+      key={`${searchParams.toString()}-${props.minPrice}-${props.maxPrice}`}
+      {...props}
+    />
   );
 };
 

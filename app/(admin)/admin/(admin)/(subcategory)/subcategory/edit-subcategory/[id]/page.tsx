@@ -72,7 +72,12 @@ export default async function EditSubCategoryPage({ params }: { params: Promise<
                         defaultValue={subCategory.description || ''}
                     />
 
-                    <FileUpload defaultImageUrl={subCategory.img || ''} />
+                    <FileUpload
+                        title="Subcategory image"
+                        defaultImageUrl={subCategory.img || ''}
+                        aspectRatio={1}
+                        allowAspectSelection={false}
+                    />
                 </FormWrapper>
             </Card>
         </RoleGuard>

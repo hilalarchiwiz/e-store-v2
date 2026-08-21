@@ -93,6 +93,12 @@ export async function updateSettings(key: string, path: string, prevState: any, 
         }
 
         revalidatePath(path);
+        if (key.startsWith('about_') || key === 'team') {
+            revalidatePath('/about');
+        }
+        if (key === 'shop_banner') {
+            revalidatePath('/shop');
+        }
         return { success: true, message: "Settings updated successfully" };
     } catch (error) {
         const err = error as Error;

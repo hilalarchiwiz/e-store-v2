@@ -71,7 +71,12 @@ export default async function UpdateBannerPage({ params }: { params: { id: strin
                             name="bgColor"
                             defaultValue={banner?.bgColor}
                         />
-                        <FileUpload defaultImageUrl={banner?.imageUrl} />
+                        <FileUpload
+                            title="Banner image"
+                            defaultImageUrl={banner?.imageUrl}
+                            aspectRatio={16 / 5}
+                            allowAspectSelection={false}
+                        />
 
                         <div className="mb-6">
                             <label className="block text-sm font-semibold text-gray-700 mb-2">

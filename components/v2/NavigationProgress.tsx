@@ -84,11 +84,11 @@ function ProgressBar() {
     return () => document.removeEventListener("click", handleClick);
   }, [pathname]);
 
-  // Complete bar and scroll to top when route finishes loading
+  // Complete the bar when route data finishes loading. Do not scroll here:
+  // server actions can refresh route data without an actual navigation (for
+  // example, adding to or removing from the cart), and those refreshes should
+  // preserve the user's current scroll position.
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
     const animationFrame = window.requestAnimationFrame(() => completeProgress());
     return () => window.cancelAnimationFrame(animationFrame);
   }, [pathname, searchParams]);

@@ -13,19 +13,22 @@ const RecentlyViewedPage = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchProducts = async () => {
-    setIsLoading(true);
-    const res = await getRecentlyViewedProducts(session?.user?.id);
-    if (res?.success) {
-      setProducts(res.products);
-    }
-    setIsLoading(false);
-  };
-
   useEffect(() => {
-    if (!sessionPending) {
-      fetchProducts();
-    }
+    if (sessionPending) return;
+
+    let isActive = true;
+
+    void getRecentlyViewedProducts(session?.user?.id)
+      .then((res) => {
+        if (isActive && res?.success) setProducts(res.products);
+      })
+      .finally(() => {
+        if (isActive) setIsLoading(false);
+      });
+
+    return () => {
+      isActive = false;
+    };
   }, [session?.user?.id, sessionPending]);
 
   const handleClear = async () => {
@@ -100,6 +103,7 @@ const RecentlyViewedPage = () => {
                 category={product.category?.title || "Uncategorized"}
                 rating={4.5}
                 reviews={10}
+                quantity={product.quantity}
               />
             ))}
           </div>

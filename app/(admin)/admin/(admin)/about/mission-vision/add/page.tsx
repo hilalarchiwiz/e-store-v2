@@ -1,7 +1,7 @@
 import FormWrapper from '@/components/Admin/Form/FormWrapper'
 import FormInput from '@/components/Admin/Form/Input'
 import FormTextarea from '@/components/Admin/Form/Textarea'
-import IconPicker from '@/components/Admin/Form/IconPicker'
+import FileUpload from '@/components/Admin/FileUpload'
 import { createWhatWeDo } from '../../what-we-do/actions/whatwedo.action'
 
 const page = () => {
@@ -14,13 +14,13 @@ const page = () => {
                     successMessage="About Mission Vision create successfully"
                     href="/admin/about/mission-vision"
                 >
-                    <IconPicker />
+                    <FileUpload title="Mission or vision image" />
                     <input type="hidden" name='type' value={'mission_vision'} readOnly />
                     <FormInput
                         label="Enter Title"
                         required
                         name="title"
-                        placeholder="Enter Who we are Title"
+                        placeholder="Our Mission"
 
                     />
                     <FormTextarea

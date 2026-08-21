@@ -1,8 +1,8 @@
-import { getCategories, getProducts } from '@/lib/action/home.action';
+import prisma from '@/lib/prisma';
 import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://qaam.com";
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://qaam.pk";
 
     // 1. Static Routes
     const staticRoutes = [
@@ -20,19 +20,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
     // 2. Dynamic Product Routes
-    const { products } = await getProducts({});
-    const productRoutes = (products || []).map((product: any) => ({
+    const products = await prisma.product.findMany({
+        where: { status: 'active' },
+        select: { id: true, updatedAt: true },
+    });
+    const productRoutes = products.map((product) => ({
         url: `${baseUrl}/product/${product.id}`,
-        lastModified: new Date(product.updatedAt || new Date()),
+        lastModified: product.updatedAt,
         changeFrequency: 'weekly' as const,
         priority: 0.7,
     }));
 
     // 3. Dynamic Category Routes
-    const { categories } = await getCategories();
-    const categoryRoutes = (categories || []).map((category: any) => ({
+    const categories = await prisma.category.findMany({
+        where: { status: 'active' },
+        select: { id: true, updatedAt: true },
+    });
+    const categoryRoutes = categories.map((category) => ({
         url: `${baseUrl}/shop?category=${category.id}`,
-        lastModified: new Date(),
+        lastModified: category.updatedAt,
         changeFrequency: 'weekly' as const,
         priority: 0.6,
     }));

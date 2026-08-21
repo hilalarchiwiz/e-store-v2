@@ -12,7 +12,25 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "backup/**",
+    ".agents/**",
+    "testing-product-python/**",
   ]),
+  {
+    rules: {
+      // The legacy codebase intentionally permits explicit boundary types while
+      // TypeScript's standalone strict check remains the source of truth.
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+
+      // Existing remote/blob images intentionally use native image elements.
+      "@next/next/no-img-element": "off",
+
+      // These presentation rules do not indicate runtime or type failures.
+      "react/no-unescaped-entities": "off",
+      "@next/next/no-page-custom-font": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

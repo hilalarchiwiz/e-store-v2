@@ -35,7 +35,25 @@ export default function AddressesPage() {
     setIsLoading(false);
   }, []);
 
-  useEffect(() => { fetchAddresses(); }, [fetchAddresses]);
+  useEffect(() => {
+    let isActive = true;
+
+    void getAddresses()
+      .then((res) => {
+        if (!isActive) return;
+        setAddresses((res.addresses as Address[]) ?? []);
+      })
+      .catch(() => {
+        if (isActive) toast.error("Failed to load addresses");
+      })
+      .finally(() => {
+        if (isActive) setIsLoading(false);
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
 
   const handleAddNew = () => {
     setSelectedAddress(null);

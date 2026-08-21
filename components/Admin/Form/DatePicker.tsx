@@ -1,26 +1,23 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { parseISO, isValid } from 'date-fns'; // Helpful for string conversion
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const DatePickerCalender = ({ defaultValue }: any) => {
-  const [startDate, setStartDate] = useState<Date | null>(null);
+interface DatePickerCalenderProps {
+  defaultValue?: string | Date | null;
+}
 
-  useEffect(() => {
-    console.log(defaultValue);
-    if (defaultValue) {
-      const parsedDate = typeof defaultValue === 'string'
-        ? parseISO(defaultValue)
-        : defaultValue;
+const parseInitialDate = (value: DatePickerCalenderProps['defaultValue']) => {
+  if (!value) return null;
+  const parsedDate = typeof value === 'string' ? parseISO(value) : value;
+  return isValid(parsedDate) ? parsedDate : null;
+};
 
-      if (isValid(parsedDate)) {
-        setStartDate(parsedDate);
-      }
-    }
-  }, [defaultValue]);
+const DatePickerCalender = ({ defaultValue }: DatePickerCalenderProps) => {
+  const [startDate, setStartDate] = useState<Date | null>(() => parseInitialDate(defaultValue));
 
   return (
     <div className="relative group w-full">

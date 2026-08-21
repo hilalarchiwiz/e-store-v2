@@ -8,6 +8,7 @@ const SettingSidebar = () => {
     const menuItems = [
         { id: 'general', label: 'General Setting', active: true, href: '/admin/setting/general' },
         { id: 'logo', label: 'Logo and Favicon', active: false, href: '/admin/setting/logo' },
+        { id: 'shop-banner', label: 'Shop Page Banner', active: false, href: '/admin/setting/shop-banner' },
         { id: 'contact-info', label: 'Contact Information', active: false, href: '/admin/setting/contact-info' },
         { id: 'social-info', label: 'Social Information', active: false, href: '/admin/setting/social-info' },
     ];

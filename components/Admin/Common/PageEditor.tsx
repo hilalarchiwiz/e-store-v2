@@ -25,6 +25,7 @@ import {
     Settings, Eye, Save, Palette, Grid3X3, Upload,
 } from 'lucide-react'
 import { Video } from '@/lib/tiptap-video'
+import ImageCropModal from '@/components/Admin/ImageCropModal'
 
 // Custom Image Extension with Resizing and Alignment
 const CustomImage = Image.extend({
@@ -114,6 +115,7 @@ const PageEditor = ({ initialContent = "", name = "content", uploadToAzure }) =>
     const [showBlockMenu, setShowBlockMenu] = useState(false)
     const [showSettings, setShowSettings] = useState(false)
     const [uploading, setUploading] = useState(false)
+    const [pendingImage, setPendingImage] = useState<File | null>(null)
 
     const editor = useEditor({
         extensions: [
@@ -178,10 +180,14 @@ const PageEditor = ({ initialContent = "", name = "content", uploadToAzure }) =>
         },
     })
 
-    const handleImageUpload = async (e) => {
+    const handleImageSelection = (e) => {
         const file = e.target.files?.[0]
-        if (!file) return
+        if (file) setPendingImage(file)
+        e.target.value = ''
+    }
 
+    const handleImageUpload = async (file: File) => {
+        setPendingImage(null)
         setUploading(true)
         try {
             const result = await uploadToAzure(file)
@@ -287,7 +293,7 @@ const PageEditor = ({ initialContent = "", name = "content", uploadToAzure }) =>
                 type="file"
                 id="image-upload"
                 accept="image/*"
-                onChange={handleImageUpload}
+                onChange={handleImageSelection}
                 className="hidden"
             />
             <input
@@ -297,6 +303,17 @@ const PageEditor = ({ initialContent = "", name = "content", uploadToAzure }) =>
                 onChange={handleVideoUpload}
                 className="hidden"
             />
+
+            {pendingImage && (
+                <ImageCropModal
+                    file={pendingImage}
+                    title="Crop content image"
+                    initialAspect={16 / 9}
+                    outputWidth={1200}
+                    onCancel={() => setPendingImage(null)}
+                    onComplete={handleImageUpload}
+                />
+            )}
 
             {/* Top Bar */}
             <div className="bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 sticky top-0 shadow-sm z-50">

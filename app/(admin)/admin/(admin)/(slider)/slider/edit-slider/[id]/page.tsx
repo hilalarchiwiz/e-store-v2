@@ -54,7 +54,12 @@ export default async function UpdateSliderPage({ params }: { params: { id: strin
                         required
                     />
 
-                    <FileUpload defaultImageUrl={slider?.img} />
+                    <FileUpload
+                        title="Slider image"
+                        defaultImageUrl={slider?.img}
+                        aspectRatio={16 / 5}
+                        allowAspectSelection={false}
+                    />
 
                     <FormInput
                         label='Slider Link'

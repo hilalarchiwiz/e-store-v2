@@ -169,7 +169,7 @@ export async function updateTeam(id: number | undefined, prevData: any, formData
             data: updateData
         });
         revalidatePath('/admin/about/team');
-        revalidatePath('/');
+        revalidatePath('/about');
 
         return {
             success: true,
@@ -201,6 +201,7 @@ export async function deleteTeam(id: string): Promise<void | BrandResponse> {
             }
         });
         revalidatePath('/admin/about/team')
+        revalidatePath('/about')
         return {
             success: true,
             message: 'team deleted successfully',

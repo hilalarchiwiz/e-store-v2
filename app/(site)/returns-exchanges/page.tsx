@@ -1,5 +1,6 @@
 import React from 'react';
 import Breadcrumbs from '@/components/v2/Breadcrumbs';
+import Link from 'next/link';
 
 const ReturnsExchangesPage = () => {
   return (
@@ -85,9 +86,9 @@ const ReturnsExchangesPage = () => {
           <p className="text-gray-500 dark:text-gray-400 mb-6">
             Our customer service team is always ready to assist you with your qaam.pk orders.
           </p>
-          <a href="/contact" className="inline-block bg-primary text-white font-bold px-8 py-3 rounded-xl hover:bg-primary-dark transition-colors shadow-lg active:scale-95">
+          <Link href="/contact" className="inline-block bg-primary text-white font-bold px-8 py-3 rounded-xl hover:bg-primary-dark transition-colors shadow-lg active:scale-95">
             Contact Support
-          </a>
+          </Link>
         </div>
       </div>
     </main>

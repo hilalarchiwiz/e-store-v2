@@ -37,7 +37,12 @@ export default async function UpdateProfilePage() {
                         name="name"
                         defaultValue={user?.name}
                     />
-                    <FileUpload defaultImageUrl={user?.image} />
+                    <FileUpload
+                        title="Profile image"
+                        defaultImageUrl={user?.image}
+                        aspectRatio={1}
+                        allowAspectSelection={false}
+                    />
                 </FormWrapper>
             </Card>
         </div>

@@ -85,7 +85,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                     <div className="relative bg-gradient-to-br bg-emerald-50 min-h-screen">
                         <div className="flex items-start">
                             <Sidebar permissions={userPermissions} />
-                            <section className="w-full lg:ml-72">
+                            <section className="min-w-0 flex-1 lg:ml-72">
                                 <Header />
                                 <main className="mt-6">
                                     {children}

@@ -33,7 +33,12 @@ export default async function UpdateBlogPost({ params }: { params: { id: string 
 
                     {/* ADMIN SIDEBAR (25%) */}
                     <aside className="w-full lg:w-80 border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6  space-y-8">
-                        <FileUpload defaultImageUrl={blog?.image} />
+                        <FileUpload
+                            title="Blog cover image"
+                            defaultImageUrl={blog?.image}
+                            aspectRatio={16 / 9}
+                            allowAspectSelection={false}
+                        />
 
                         <FormInput
                             name="tag"

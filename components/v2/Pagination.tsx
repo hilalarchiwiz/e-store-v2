@@ -18,7 +18,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
     if (page < 1 || page > totalPages || page === currentPage) return;
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", page.toString());
-    router.push(`/shop?${params.toString()}`);
+    router.push(`/shop?${params.toString()}`, { scroll: true });
   };
 
   const getPageNumbers = (): (number | "...")[] => {

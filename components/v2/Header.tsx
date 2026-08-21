@@ -7,6 +7,7 @@ import ThemeToggle from "./ThemeToggle";
 import { useAppSelector } from "@/redux/store";
 import { useDebounce } from "use-debounce";
 import { useSession } from "@/lib/auth-client";
+import { useHydrated } from "@/hooks/useHydrated";
 
 interface HeaderProps {
   logo?: { logo?: string; dark_logo?: string; favicon?: string };
@@ -28,11 +29,19 @@ const NAV_LINKS = [
 
 const Header = ({ logo }: HeaderProps) => {
   const { data: session } = useSession();
-  const isAdmin = (session?.user as any)?.roleName && (session?.user as any)?.roleName !== "user";
-  const cartCount = useAppSelector((state) =>
+  const hydrated = useHydrated();
+  const roleName = (
+    session?.user as { roleName?: string } | undefined
+  )?.roleName;
+  const isAdmin = Boolean(roleName && roleName !== "user");
+  const storedCartCount = useAppSelector((state) =>
     state.cartReducer.items.reduce((sum, item) => sum + item.quantity, 0),
   );
-  const wishlistCount = useAppSelector((state) => state.wishlistReducer.count);
+  const storedWishlistCount = useAppSelector(
+    (state) => state.wishlistReducer.count,
+  );
+  const cartCount = hydrated ? storedCartCount : 0;
+  const wishlistCount = hydrated ? storedWishlistCount : 0;
   const pathname = usePathname();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -106,9 +115,9 @@ const Header = ({ logo }: HeaderProps) => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white dark:bg-background-dark border-b border-solid border-[#f1f4f2] dark:border-[#2a3a2f] px-6 md:px-10 py-4">
-        <div className="max-w-400 mx-auto flex items-center justify-between gap-8">
-          <div className="flex items-center gap-10">
+      <header className="sticky top-0 z-50 bg-white dark:bg-background-dark border-b border-solid border-[#f1f4f2] dark:border-[#2a3a2f] px-3 py-3 sm:px-6 sm:py-4 md:px-10">
+        <div className="max-w-400 mx-auto flex items-center justify-between gap-2 sm:gap-8">
+          <div className="flex min-w-0 items-center gap-4 sm:gap-10">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 text-primary">
               {logo?.logo || logo?.dark_logo ? (
@@ -117,14 +126,14 @@ const Header = ({ logo }: HeaderProps) => {
                     <img
                       src={logo.logo}
                       alt="Logo (White)"
-                      className={`h-9 w-auto object-contain ${logo.dark_logo ? "hidden dark:block" : ""}`}
+                      className={`h-7 max-w-[112px] w-auto object-contain sm:h-9 sm:max-w-none ${logo.dark_logo ? "hidden dark:block" : ""}`}
                     />
                   )}
                   {logo.dark_logo && (
                     <img
                       src={logo.dark_logo}
                       alt="Logo (Black)"
-                      className={`h-9 w-auto object-contain ${logo.logo ? "dark:hidden block" : ""}`}
+                      className={`h-7 max-w-[112px] w-auto object-contain sm:h-9 sm:max-w-none ${logo.logo ? "dark:hidden block" : ""}`}
                     />
                   )}
                 </>
@@ -163,7 +172,7 @@ const Header = ({ logo }: HeaderProps) => {
             </nav>
           </div>
 
-          <div className="flex flex-1 justify-end items-center gap-4">
+          <div className="flex flex-1 justify-end items-center gap-1 sm:gap-4">
             {/* Desktop Search */}
             <div className="hidden md:block flex-1 max-w-md relative" ref={searchRef}>
               <form
@@ -263,13 +272,13 @@ const Header = ({ logo }: HeaderProps) => {
               )}
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-1 sm:gap-2">
               <ThemeToggle />
 
               {/* Wishlist */}
               <Link
                 href="/wishlist"
-                className="relative size-10 flex items-center justify-center rounded-lg bg-[#f1f4f2] dark:bg-[#2a3a2f] text-[#121714] dark:text-white hover:bg-primary/20 transition-colors"
+                className="relative flex size-9 items-center justify-center rounded-lg bg-[#f1f4f2] text-[#121714] transition-colors hover:bg-primary/20 dark:bg-[#2a3a2f] dark:text-white sm:size-10"
               >
                 <span className="material-symbols-outlined">favorite</span>
                 {wishlistCount > 0 && (
@@ -282,7 +291,7 @@ const Header = ({ logo }: HeaderProps) => {
               {/* Cart */}
               <Link
                 href="/cart"
-                className="relative size-10 flex items-center justify-center rounded-lg bg-[#f1f4f2] dark:bg-[#2a3a2f] text-[#121714] dark:text-white hover:bg-primary/20 transition-colors"
+                className="relative flex size-9 items-center justify-center rounded-lg bg-[#f1f4f2] text-[#121714] transition-colors hover:bg-primary/20 dark:bg-[#2a3a2f] dark:text-white sm:size-10"
               >
                 <span className="material-symbols-outlined">shopping_cart</span>
                 {cartCount > 0 && (
@@ -295,7 +304,7 @@ const Header = ({ logo }: HeaderProps) => {
               {/* Account */}
               <Link
                 href={isAdmin ? "/admin" : "/dashboard"}
-                className="size-10 flex items-center justify-center rounded-lg bg-primary text-white hover:bg-primary-dark transition-colors"
+                className="hidden size-10 items-center justify-center rounded-lg bg-primary text-white transition-colors hover:bg-primary-dark sm:flex"
               >
                 <span className="material-symbols-outlined">person</span>
               </Link>
@@ -304,7 +313,7 @@ const Header = ({ logo }: HeaderProps) => {
               <button
                 onClick={() => setMobileOpen((o) => !o)}
                 aria-label="Toggle navigation menu"
-                className="lg:hidden size-10 flex items-center justify-center rounded-lg bg-[#f1f4f2] dark:bg-[#2a3a2f] text-[#121714] dark:text-white hover:bg-primary/20 transition-colors"
+                className="flex size-9 items-center justify-center rounded-lg bg-[#f1f4f2] text-[#121714] transition-colors hover:bg-primary/20 dark:bg-[#2a3a2f] dark:text-white sm:size-10 lg:hidden"
               >
                 <span
                   className={`material-symbols-outlined transition-transform duration-300 ${mobileOpen ? "rotate-90" : ""}`}

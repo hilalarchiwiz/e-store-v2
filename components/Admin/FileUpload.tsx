@@ -1,126 +1,186 @@
 "use client";
 
-import { Package } from 'lucide-react';
-import Image from 'next/image';
-import React, { useState, useEffect, useRef } from 'react';
+import Image from "next/image";
+import { ImagePlus } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import ImageCropModal, { type CropAspectOption } from "./ImageCropModal";
 
-const FileUpload = ({ defaultImageUrl, title = "Add Image", name = "image" }: any) => {
-    console.log(defaultImageUrl);
-    const [preview, setPreview] = useState(defaultImageUrl);
-    const [isDragging, setIsDragging] = useState(false);
-    const fileInputRef = useRef<HTMLInputElement>(null);
+interface FileUploadProps {
+  defaultImageUrl?: string | null;
+  title?: string;
+  name?: string;
+  aspectRatio?: number;
+  allowAspectSelection?: boolean;
+  cropOutputWidth?: number;
+}
 
-    useEffect(() => {
-        if (defaultImageUrl) setPreview(defaultImageUrl);
-    }, [defaultImageUrl]);
+const ASPECT_OPTIONS: CropAspectOption[] = [
+  { label: "Free crop", value: null },
+  { label: "Square (1:1)", value: 1 },
+  { label: "Landscape (4:3)", value: 4 / 3 },
+  { label: "Portrait (3:4)", value: 3 / 4 },
+  { label: "Wide (16:9)", value: 16 / 9 },
+  { label: "Story (9:16)", value: 9 / 16 },
+  { label: "Banner (16:5)", value: 16 / 5 },
+];
 
-    // Helper to handle file selection
-    const handleFile = (file: any) => {
-        if (file && file.type.startsWith('image/')) {
-            const objectUrl = URL.createObjectURL(file);
-            setPreview(objectUrl);
+const FileUpload = ({
+  defaultImageUrl,
+  title = "Add Image",
+  name = "image",
+  aspectRatio = 1,
+  allowAspectSelection = true,
+  cropOutputWidth = 1200,
+}: FileUploadProps) => {
+  const [preview, setPreview] = useState(defaultImageUrl || "");
+  const [previewObjectUrl, setPreviewObjectUrl] = useState<string | null>(null);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const selectedFileRef = useRef<File | null>(null);
 
-            // Manually sync the file to the hidden input if dropped
-            if (fileInputRef.current) {
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(file);
-                fileInputRef.current.files = dataTransfer.files;
-            }
-        }
-    };
+  useEffect(
+    () => () => {
+      if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
+    },
+    [previewObjectUrl],
+  );
 
-    const onDragOver = (e) => {
-        e.preventDefault();
-        setIsDragging(true);
-    };
+  const beginCrop = (file?: File) => {
+    if (file?.type.startsWith("image/")) setPendingFile(file);
+  };
 
-    const onDragLeave = () => {
-        setIsDragging(false);
-    };
+  const useCroppedImage = (croppedFile: File) => {
+    if (fileInputRef.current) {
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(croppedFile);
+      fileInputRef.current.files = dataTransfer.files;
+    }
+    selectedFileRef.current = croppedFile;
 
-    const onDrop = (e) => {
-        e.preventDefault();
-        setIsDragging(false);
-        const file = e.dataTransfer.files?.[0];
-        handleFile(file);
-    };
+    if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
+    const nextPreviewUrl = URL.createObjectURL(croppedFile);
+    setPreviewObjectUrl(nextPreviewUrl);
+    setPreview(nextPreviewUrl);
+    setPendingFile(null);
+  };
 
-    const handleFileChange = (e) => {
-        const file = e.target.files?.[0];
-        handleFile(file);
-    };
+  const cancelCrop = () => {
+    setPendingFile(null);
+    if (fileInputRef.current) {
+      if (selectedFileRef.current) {
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(selectedFileRef.current);
+        fileInputRef.current.files = dataTransfer.files;
+      } else {
+        fileInputRef.current.value = "";
+      }
+    }
+  };
 
-    return (
-        <div className="w-full">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-                {title}
-            </label>
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(false);
+    beginCrop(event.dataTransfer.files?.[0]);
+  };
 
-            <div
-                onDragOver={onDragOver}
-                onDragLeave={onDragLeave}
-                onDrop={onDrop}
-                onClick={() => fileInputRef.current?.click()}
-                className={`border-2 border-dashed border-gray-300 rounded-md p-8 text-center hover:border-emerald-400 transition-colors
-                    ${isDragging ? "border-green-500 bg-green-50" : "border-gray-300 bg-white"}`}
-            >
-                {/* Hidden File Input */}
-                <input
-                    type="file"
-                    name={name}
-                    accept="image/*"
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                    className="hidden"
-                />
+  const lockedAspectLabel =
+    ASPECT_OPTIONS.find(
+      (option) =>
+        option.value !== null && Math.abs(option.value - aspectRatio) < 0.001,
+    )?.label ?? `Custom (${aspectRatio.toFixed(2)}:1)`;
+  const lockedAspectOptions = [
+    { label: lockedAspectLabel, value: aspectRatio },
+  ];
 
-                {preview ? (
-                    <div className="relative w-full h-full flex flex-col items-center">
-                        <Image
-                            unoptimized
-                            width={300}
-                            height={300}
-                            src={preview}
-                            alt="Preview"
-                            className="w-[500px] h-[300px] object-contain"
-                        />
-                        <p className="mt-2 text-xs text-gray-500 font-medium">Click or drag to replace</p>
-                        <div className="absolute top-0 right-1 bg-green-600 text-white text-[10px] uppercase font-bold px-2 py-1 rounded">
-                            {preview === defaultImageUrl ? "Current" : "New"}
-                        </div>
-                    </div>
-                ) : (
-                    // <div className="flex flex-col items-center justify-center py-6">
-                    //     <svg className="w-10 h-10 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    //         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                    //     </svg>
-                    //     <p className="text-sm text-gray-600">
-                    //         <span className="font-semibold">Click to upload</span> or drag and drop
-                    //     </p>
-                    //     <p className="text-xs text-gray-500 mt-1">PNG, JPG or WebP (MAX. 800x400px)</p>
-                    // </div>
+  return (
+    <div className="w-full">
+      <label className="mb-2 block text-sm font-semibold text-gray-700">
+        {title}
+      </label>
 
-                    <div>
+      <div
+        role="button"
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            fileInputRef.current?.click();
+          }
+        }}
+        onDragOver={(event) => {
+          event.preventDefault();
+          setIsDragging(true);
+        }}
+        onDragLeave={() => setIsDragging(false)}
+        onDrop={handleDrop}
+        onClick={() => fileInputRef.current?.click()}
+        className={`cursor-pointer rounded-xl border-2 border-dashed p-5 text-center transition-colors sm:p-8 ${
+          isDragging
+            ? "border-emerald-500 bg-emerald-50"
+            : "border-gray-300 bg-white hover:border-emerald-400 hover:bg-emerald-50/30"
+        }`}
+      >
+        <input
+          type="file"
+          name={name}
+          accept="image/*"
+          ref={fileInputRef}
+          onChange={(event) => beginCrop(event.target.files?.[0])}
+          className="hidden"
+        />
 
-                        <div className="flex flex-col items-center gap-3">
-                            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
-                                <Package className="w-8 h-8 text-gray-400" />
-                            </div>
-                            <div>
-                                <button type="button" className="text-emerald-600 font-medium hover:text-emerald-700">
-                                    Click to upload
-                                </button>
-                                <span className="text-gray-500"> or drag and drop</span>
-                            </div>
-                            <p className="text-xs text-gray-500">
-                                PNG, JPG or WEBP (max. 2MB)
-                            </p>
-                        </div>
-                    </div>
-                )}
+        {preview ? (
+          <div className="relative flex w-full flex-col items-center">
+            <div className="relative h-56 w-full max-w-2xl overflow-hidden rounded-xl border border-gray-200 bg-[#f4f6f5] sm:h-72">
+              <Image
+                unoptimized
+                fill
+                src={preview}
+                alt={`${title} preview`}
+                className="object-contain p-2"
+              />
             </div>
-        </div>
-    );
+            <p className="mt-3 text-xs font-medium text-gray-500">
+              Click or drag an image to replace and crop it
+            </p>
+            <span className="absolute right-2 top-2 rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-bold uppercase text-white shadow-sm">
+              {previewObjectUrl ? "Cropped" : "Current"}
+            </span>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center gap-3 py-3">
+            <span className="flex size-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+              <ImagePlus size={30} />
+            </span>
+            <div>
+              <span className="font-semibold text-emerald-600">
+                Click to upload
+              </span>
+              <span className="text-gray-500"> or drag and drop</span>
+            </div>
+            <p className="text-xs text-gray-500">
+              PNG, JPG or WEBP. A crop editor opens before upload.
+            </p>
+          </div>
+        )}
+      </div>
+
+      {pendingFile && (
+        <ImageCropModal
+          file={pendingFile}
+          title={`Crop ${title}`}
+          initialAspect={aspectRatio}
+          aspectOptions={
+            allowAspectSelection ? ASPECT_OPTIONS : lockedAspectOptions
+          }
+          outputWidth={cropOutputWidth}
+          onCancel={cancelCrop}
+          onComplete={useCroppedImage}
+        />
+      )}
+    </div>
+  );
 };
 
 export default FileUpload;

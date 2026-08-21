@@ -59,7 +59,11 @@ export default async function AddSubCategoryPage() {
 
                     <FormTextarea label="Sub-Category Description" />
 
-                    <FileUpload />
+                    <FileUpload
+                        title="Subcategory image"
+                        aspectRatio={1}
+                        allowAspectSelection={false}
+                    />
                 </FormWrapper>
             </Card>
         </RoleGuard>

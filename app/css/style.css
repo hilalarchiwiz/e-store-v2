@@ -1,9 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @variant dark (&:where(.dark, .dark *));
 
 button {
   @apply cursor-pointer;
+}
+
+/* Keep every About-page text block centered on phones and small devices. */
+@media (max-width: 767px) {
+
+  .about-page h1,
+  .about-page h2,
+  .about-page h3,
+  .about-page h4,
+  .about-page p {
+    text-align: center !important;
+  }
+
+  .about-page article>div,
+  .about-page section>div {
+    text-align: center;
+  }
 }
 
 /* Add this to your globals.css */
@@ -14,7 +33,7 @@ button {
 }
 
 /* Style the resize handles provided by the extension */
-.prose .resizable-image > div > div {
+.prose .resizable-image>div>div {
   border: 2px solid #10b981 !important;
   /* Emerald-500 */
   background-color: white !important;
@@ -348,11 +367,11 @@ button {
   --shadow-input: inset 0 0 0 2px #182c1f;
 
   /* V2 Theme Additions - Dark mode configured via @variant dark above */
-  --color-primary: #25a752;
+  --color-primary: #1B974B;
   --color-primary-dark: #1a7339;
   --color-background-light: #f6f8f7;
   --color-background-dark: #132017;
-  --font-display: var(--font-manrope), "Manrope", sans-serif;
+  --font-display: var(--font-manrope), "Inter", sans-serif;
   --radius-default: 0.25rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
@@ -409,6 +428,7 @@ button {
 }
 
 @layer utilities {
+
   /* Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
     display: none;

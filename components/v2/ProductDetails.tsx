@@ -49,6 +49,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   const dispatch = useDispatch<AppDispatch>();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const maxQty = product.quantity ?? 99;
+  const isOutOfStock = maxQty <= 0;
 
   const [selectedImage, setSelectedImage] = useState(
     product.images[0] || "/images/placeholder-product.jpg",
@@ -62,6 +63,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
     product.reviewsList || [],
   );
   const [cartLoading, setCartLoading] = useState(false);
+  const [cartBlockedLabel, setCartBlockedLabel] = useState<string | null>(null);
+  const cartRequestPending = useRef(false);
   const [buyLoading, setBuyLoading] = useState(false);
   const [showShare, setShowShare] = useState(false);
   const [zoomed, setZoomed] = useState(false);
@@ -86,27 +89,45 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   const hasDiscount = !!discountPercent;
 
   const handleAddToCart = async () => {
+    if (
+      cartLoading ||
+      isOutOfStock ||
+      cartBlockedLabel ||
+      cartRequestPending.current
+    )
+      return;
+    cartRequestPending.current = true;
     setCartLoading(true);
-    const result = await addToCart(product.id, quantity);
-    setCartLoading(false);
-    if (result.success) {
-      dispatch(
-        addItemToCart({
-          id: product.id,
-          title: product.title,
-          price: product.price,
-          discountedPrice: product.discountedPrice ?? product.price,
-          quantity,
-          images: product.images,
-        }),
-      );
-      toast.success("Added to cart!");
-    } else {
-      toast.error(result.error ?? "Failed to add to cart");
+    try {
+      const result = await addToCart(product.id, quantity);
+      if (result.success) {
+        dispatch(
+          addItemToCart({
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            discountedPrice: product.discountedPrice ?? product.price,
+            quantity,
+            images: product.images,
+          }),
+        );
+        toast.success("Added to cart!");
+      } else {
+        if (/out of stock/i.test(result.error ?? "")) {
+          setCartBlockedLabel("Out of Stock");
+        } else if (/maximum available stock/i.test(result.error ?? "")) {
+          setCartBlockedLabel("Limit Reached");
+        }
+        toast.error(result.error ?? "Failed to add to cart");
+      }
+    } finally {
+      cartRequestPending.current = false;
+      setCartLoading(false);
     }
   };
 
   const handleBuyNow = async () => {
+    if (buyLoading || isOutOfStock) return;
     setBuyLoading(true);
     const result = await addToCart(product.id, quantity);
     setBuyLoading(false);
@@ -362,7 +383,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             <div className="flex items-center border border-gray-200 dark:border-white/10 rounded-xl px-2.5 py-1.5 sm:px-3 sm:py-2 bg-white dark:bg-black/20 shrink-0">
               <button
                 onClick={() => setQuantity((p) => Math.max(1, p - 1))}
-                className="size-8 sm:size-9 flex items-center justify-center text-gray-500 hover:text-primary transition-colors"
+                disabled={isOutOfStock || quantity <= 1}
+                className="size-8 sm:size-9 flex items-center justify-center text-gray-500 hover:text-primary transition-colors disabled:cursor-not-allowed disabled:opacity-30"
               >
                 <span className="material-symbols-outlined text-base sm:text-xl">remove</span>
               </button>
@@ -371,7 +393,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               </span>
               <button
                 onClick={() => setQuantity((p) => Math.min(maxQty, p + 1))}
-                disabled={quantity >= maxQty}
+                disabled={isOutOfStock || quantity >= maxQty}
                 className="size-8 sm:size-9 flex items-center justify-center text-gray-500 hover:text-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <span className="material-symbols-outlined text-base sm:text-xl">add</span>
@@ -383,8 +405,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               className="flex-1 rounded-xl py-3 sm:py-3.5 text-xs sm:text-base font-bold min-w-[130px]"
               onClick={handleAddToCart}
               isLoading={cartLoading}
+              disabled={isOutOfStock || Boolean(cartBlockedLabel)}
             >
-              Add to Cart
+              {isOutOfStock ? "Out of Stock" : cartBlockedLabel || "Add to Cart"}
             </Button>
             <button
               onClick={() => toggleWishlist(product.id)}
@@ -408,8 +431,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               className="rounded-xl h-12 sm:h-14 text-xs sm:text-sm font-bold flex-1"
               onClick={handleBuyNow}
               isLoading={buyLoading}
+              disabled={isOutOfStock}
             >
-              Buy Now
+              {isOutOfStock ? "Out of Stock" : "Buy Now"}
             </Button>
 
             {/* Share */}
@@ -682,6 +706,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 category={p.category?.title || "Uncategorized"}
                 rating={5}
                 reviews={12}
+                quantity={p.quantity}
               />
             ))}
           </div>

@@ -78,16 +78,23 @@ const WhatWeDoPage = async ({
             href="/admin/about/team"
           >
             <FormInput
-              label="Enter title"
+              label="Section label"
+              required
+              name="eyebrow"
+              placeholder="OUR TEAM"
+              defaultValue={setting?.eyebrow}
+            />
+            <FormInput
+              label="Section title"
               required
               name="title"
-              placeholder="Enter title"
+              placeholder="The People Behind QAAM Working for You."
               defaultValue={setting?.title}
             />
             <FormTextarea
-              label="Enter Banner Short Description"
-              required
-              placeholder="Enter Banner Short Description"
+              label="Section description (optional)"
+              name="description"
+              placeholder="Introduce your team"
               defaultValue={setting?.description}
             />
           </FormWrapper>

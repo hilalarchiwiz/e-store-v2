@@ -20,7 +20,7 @@ export async function generateMetadata({ searchParams }: BlogPageProps): Promise
   const tag = params.tag;
 
   let title = "Blog | Qaam.pk";
-  let description = "Read our latest news and updates.";
+  const description = "Read our latest news and updates.";
 
   if (search) {
     title = `Search results for "${search}" | Blog | Qaam.pk`;

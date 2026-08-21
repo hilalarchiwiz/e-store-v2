@@ -21,6 +21,7 @@ import {
   getWhatWeDo,
 } from "../what-we-do/actions/whatwedo.action";
 import { RoleGuard } from "@/components/Admin/Common/RoleGuard";
+import DynamicIcon from "@/components/v2/DynamicIcon";
 const MissionVisionPage = async ({
   searchParams,
 }: {
@@ -42,21 +43,11 @@ const MissionVisionPage = async ({
     { header: "Name", accessor: (item: any) => item.title },
     { header: "Description", accessor: (item: any) => item.description },
     {
-      header: "Icon",
+      header: "Image",
       accessor: (whatwedo: any) => {
-        const Icon = (
-          Icons as unknown as Record<string, React.ElementType | undefined>
-        )[whatwedo?.icon];
-
         return (
-          <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-            {Icon ? (
-              React.createElement(Icon, {
-                className: "w-6 h-6 text-emerald-500",
-              })
-            ) : (
-              <Icons.HelpCircle className="w-6 h-6 text-slate-400" />
-            )}
+          <div className="w-16 h-12 overflow-hidden flex items-center justify-center rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+            <DynamicIcon name={whatwedo?.icon} fallback="Image" size={36} className="text-emerald-500" />
           </div>
         );
       },

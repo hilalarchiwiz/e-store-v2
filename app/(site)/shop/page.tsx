@@ -16,7 +16,24 @@ interface ShopPageProps {
     maxPrice?: string;
     sort?: string;
     search?: string;
+    generation?: string;
   }>;
+}
+
+function getLaptopGeneration(title: string): number {
+  const patterns = [
+    /\b(\d{1,2})(?:st|nd|rd|th)?\s*(?:gen|generation)\b/i,
+    /\b(?:gen|generation)\s*[:#-]?\s*(\d{1,2})\b/i,
+    /\b(?:core\s*)?i[3579]\b[^0-9]{0,12}\b(\d{1,2})(?:st|nd|rd|th)\b/i,
+  ];
+
+  for (const pattern of patterns) {
+    const match = title.match(pattern);
+    const generation = match ? Number(match[1]) : 0;
+    if (generation >= 1 && generation <= 20) return generation;
+  }
+
+  return 0;
 }
 
 export async function generateMetadata({ searchParams }: ShopPageProps): Promise<Metadata> {
@@ -141,33 +158,144 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
   if (categoryIds.length > 0) where.categoryId = { in: categoryIds };
   if (brandIds.length > 0) where.brandId = { in: brandIds };
 
+  const selectedCategory =
+    categoryIds.length === 1
+      ? await prisma.category.findUnique({
+        where: { id: categoryIds[0] },
+        select: { title: true },
+      })
+      : null;
+  const selectedCategoryName = selectedCategory?.title.trim().toLowerCase();
+  const isLaptopCategory =
+    selectedCategoryName === "laptop" || selectedCategoryName === "laptops";
+
+  const laptopGenerationCandidates = isLaptopCategory
+    ? await prisma.product.findMany({
+      where: { categoryId: categoryIds[0], status: "active" },
+      select: { id: true, title: true },
+    })
+    : [];
+  const laptopGenerations = Array.from(
+    new Set(
+      laptopGenerationCandidates
+        .map((product) => getLaptopGeneration(product.title))
+        .filter((generation) => generation > 0),
+    ),
+  ).sort((a, b) => b - a);
+  const selectedGenerations = Array.from(
+    new Set(
+      (resolvedSearchParams.generation || "")
+        .split(",")
+        .map(Number)
+        .filter((generation) => laptopGenerations.includes(generation)),
+    ),
+  );
+
+  if (isLaptopCategory && selectedGenerations.length > 0) {
+    where.id = {
+      in: laptopGenerationCandidates
+        .filter((product) =>
+          selectedGenerations.includes(getLaptopGeneration(product.title)),
+        )
+        .map((product) => product.id),
+    };
+  }
+
+  const shouldSortByLaptopGeneration =
+    isLaptopCategory && sort === "newest";
+
   let orderBy: any = { createdAt: "desc" };
   if (sort === "price_asc") orderBy = { price: "asc" };
   if (sort === "price_desc") orderBy = { price: "desc" };
   if (sort === "oldest") orderBy = { createdAt: "asc" };
 
-  const [totalProducts, productsData, categoriesData, brandsData, priceStats] =
-    await Promise.all([
-      prisma.product.count({ where }),
-      prisma.product.findMany({
+  const loadProducts = async () => {
+    const include = { category: true, reviews: true } as const;
+
+    if (!shouldSortByLaptopGeneration) {
+      return prisma.product.findMany({
         where,
-        include: { category: true, reviews: true },
+        include,
         take: PAGE_SIZE,
         skip,
         orderBy,
-      }),
+      });
+    }
+
+    const laptopCandidates = await prisma.product.findMany({
+      where,
+      select: { id: true, title: true, createdAt: true },
+    });
+
+    const pageProductIds = laptopCandidates
+      .sort((a, b) => {
+        const generationDifference =
+          getLaptopGeneration(b.title) - getLaptopGeneration(a.title);
+
+        if (generationDifference !== 0) return generationDifference;
+        return b.createdAt.getTime() - a.createdAt.getTime();
+      })
+      .slice(skip, skip + PAGE_SIZE)
+      .map((product) => product.id);
+
+    if (pageProductIds.length === 0) return [];
+
+    const pageProducts = await prisma.product.findMany({
+      where: { id: { in: pageProductIds } },
+      include,
+    });
+    const productsById = new Map(
+      pageProducts.map((product) => [product.id, product]),
+    );
+
+    return pageProductIds.flatMap((id) => {
+      const product = productsById.get(id);
+      return product ? [product] : [];
+    });
+  };
+
+  const [
+    totalProducts,
+    productsData,
+    categoriesData,
+    brandsData,
+    priceStats,
+    fallbackBanner,
+    shopBannerSettingRecord,
+  ] =
+    await Promise.all([
+      prisma.product.count({ where }),
+      loadProducts(),
       prisma.category.findMany({
-        where: { status: "active" },
+        where: {
+          status: "active",
+          products: {
+            some: {
+              status: "active"
+            }
+          },
+        },
         include: {
           _count: {
             select: {
-              products: { where: { status: "active" } },
+              products: {
+                where: {
+                  status: "active"
+                }
+              },
             },
           },
         },
+        orderBy: { order_number: "asc" },
       }),
       prisma.brand.findMany({
-        where: { status: "active" },
+        where: {
+          status: "active", products: {
+            some: {
+              status: "active"
+            }
+          },
+        },
         include: {
           _count: {
             select: {
@@ -180,12 +308,50 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
         where: { status: "active" },
         _max: { price: true },
       }),
+      prisma.banner.findFirst({
+        where: { isActive: true },
+        orderBy: { order: "asc" },
+      }),
+      prisma.setting.findUnique({
+        where: { key: "shop_banner" },
+      }),
     ]);
+
+  let shopBannerSetting: {
+    image?: string;
+    title?: string;
+    link?: string;
+    bgColor?: string;
+  } = {};
+
+  if (shopBannerSettingRecord?.value) {
+    try {
+      shopBannerSetting = JSON.parse(shopBannerSettingRecord.value);
+    } catch {
+      shopBannerSetting = {};
+    }
+  }
+
+  const shopBannerImage =
+    shopBannerSetting.image || fallbackBanner?.imageUrl || "";
+  const shopBanner = shopBannerImage
+    ? {
+        title:
+          shopBannerSetting.title || fallbackBanner?.title || "Shop banner",
+        description: fallbackBanner?.description || null,
+        buttonText: fallbackBanner?.buttonText || null,
+        link: shopBannerSetting.link || fallbackBanner?.link || "/shop",
+        imageUrl: shopBannerImage,
+        bgColor:
+          shopBannerSetting.bgColor || fallbackBanner?.bgColor || "#F2F3F2",
+      }
+    : null;
 
   const categories = categoriesData.map((c) => ({
     id: c.id,
     title: c.title,
     count: c._count.products,
+    image: c.img || "/images/categories/categories-01.png",
   }));
 
   const brands = brandsData.map((b) => ({
@@ -200,11 +366,13 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
     const avgRating =
       product.reviews.length > 0
         ? product.reviews.reduce((acc, r) => acc + r.rating, 0) /
-          product.reviews.length
+        product.reviews.length
         : 0;
     const isNew =
+      // This is a request-time server component; the current time is not used in a client render.
+      // eslint-disable-next-line react-hooks/purity
       (Date.now() - new Date(product.createdAt).getTime()) /
-        (1000 * 3600 * 24) <
+      (1000 * 3600 * 24) <
       7;
 
     let badge: { text: string; variant: "primary" | "secondary" } | undefined;
@@ -234,6 +402,7 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
       description: product.description,
       rating: avgRating,
       reviews: product.reviews.length,
+      quantity: product.quantity,
       badge,
     };
   });
@@ -241,7 +410,7 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
   const totalPages = Math.ceil(totalProducts / PAGE_SIZE);
 
   return (
-    <main className="flex-1 max-w-400 mx-auto w-full px-6 md:px-10  py-6 md:py-10 flex flex-col gap-8">
+    <main className="mx-auto flex w-full max-w-400 flex-1 flex-col gap-8 overflow-x-clip px-4 py-6 sm:px-6 md:px-10 md:py-10">
       <Breadcrumbs
         items={[
           { label: "Home", href: "/" },
@@ -250,10 +419,11 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
         ]}
       />
 
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex w-full min-w-0 max-w-full flex-col gap-8 lg:flex-row">
         <FilterSidebar
           categories={categories}
           brands={brands}
+          generations={laptopGenerations}
           minPrice={0}
           maxPrice={dbMaxPrice}
         />
@@ -263,6 +433,13 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
           totalProducts={totalProducts}
           currentPage={currentPage}
           totalPages={totalPages}
+          banner={shopBanner}
+          categories={categories}
+          selectedCategoryIds={categoryIds}
+          brands={brands}
+          generations={laptopGenerations}
+          minPrice={0}
+          maxPrice={dbMaxPrice}
         />
       </div>
 

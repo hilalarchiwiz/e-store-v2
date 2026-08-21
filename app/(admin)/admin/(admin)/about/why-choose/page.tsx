@@ -21,11 +21,13 @@ import {
   getWhatWeDo,
 } from "../what-we-do/actions/whatwedo.action";
 import { RoleGuard } from "@/components/Admin/Common/RoleGuard";
+import FileUpload from "@/components/Admin/FileUpload";
 const MissionVisionPage = async ({
   searchParams,
 }: {
   searchParams: Promise<{ search?: string; page?: string; limit?: string }>;
 }) => {
+  const { setting } = await getSetting("about_why_choose");
   const params = await searchParams;
   const { whatwedoes, totalPages, totalCount } = await getWhatWeDo(
     params,
@@ -79,6 +81,24 @@ const MissionVisionPage = async ({
   return (
     <RoleGuard permission="about_view">
       <div className="w-full">
+        <div className="md:-mt-4 mt-1">
+          <FormWrapper
+            action={updateSettings.bind(null, "about_why_choose", "/admin/about/why-choose")}
+            buttonTitle="Update Why Choose Section"
+            successMessage="Why Choose section updated successfully"
+            href="/admin/about/why-choose"
+          >
+            <FormInput label="Section label" required name="eyebrow" placeholder="WHY CHOOSE QAAM?" defaultValue={setting?.eyebrow} />
+            <FormInput label="Section title" required name="title" placeholder="Technology You Can Trust. Service You Can Count On." defaultValue={setting?.title} />
+            <FormTextarea label="Section description" required name="description" placeholder="Explain why customers can buy with confidence" defaultValue={setting?.description} />
+            <div className="grid gap-6 md:grid-cols-2">
+              <FormInput label="Button text" required name="buttonText" placeholder="Shop With Confidence" defaultValue={setting?.buttonText} />
+              <FormInput label="Button link" required name="link" placeholder="/shop" defaultValue={setting?.link} />
+            </div>
+            <FormInput label="Video URL (optional)" name="videoUrl" type="url" placeholder="https://youtube.com/..." defaultValue={setting?.videoUrl} />
+            <FileUpload title="Quality and support video cover" defaultImageUrl={setting?.image} />
+          </FormWrapper>
+        </div>
         <Title
           title="Manage Why Choose "
           breadcrumbs={[
@@ -88,7 +108,7 @@ const MissionVisionPage = async ({
         />
         <div className="px-4 py-6">
           <AddButton
-            title="Add Mission Vision"
+            title="Add Customer Benefit"
             url="/admin/about/why-choose/add"
           />
           <div className="bg-white rounded-lg overflow-hidden">

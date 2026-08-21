@@ -52,7 +52,11 @@ export default async function CategoryPage() {
             defaultValue="0"
           />
 
-          <FileUpload />
+          <FileUpload
+            title="Category image"
+            aspectRatio={1}
+            allowAspectSelection={false}
+          />
 
           <Specification />
         </FormWrapper>

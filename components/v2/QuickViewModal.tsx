@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
@@ -27,6 +27,7 @@ interface QuickViewModalProps {
   onClose: () => void;
   isInWishlist?: boolean;
   onToggleWishlist?: () => void;
+  wishlistLoading?: boolean;
 }
 
 export default function QuickViewModal({
@@ -34,9 +35,8 @@ export default function QuickViewModal({
   onClose,
   isInWishlist = false,
   onToggleWishlist,
+  wishlistLoading = false,
 }: QuickViewModalProps) {
-  console.log(product);
-
   const dispatch = useDispatch<AppDispatch>();
 
   const [activeIdx, setActiveIdx] = useState(0);
@@ -44,12 +44,17 @@ export default function QuickViewModal({
   const [quantity, setQuantity] = useState(1);
   const [maxQty, setMaxQty] = useState<number>(1);
   const [stockLoaded, setStockLoaded] = useState(false);
+  const [cartLoading, setCartLoading] = useState(false);
+  const [cartLimitReached, setCartLimitReached] = useState(false);
+  const cartRequestPending = useRef(false);
 
   const images =
     product.images.length > 0
       ? product.images
       : ["/images/placeholder-product.jpg"];
   const inStock = product.inStock ?? true;
+  const stockAvailable = inStock && (!stockLoaded || maxQty > 0);
+  const cartDisabled = cartLoading || !stockAvailable || cartLimitReached;
 
   const salePrice =
     product.discountedPrice &&
@@ -71,7 +76,7 @@ export default function QuickViewModal({
         setMaxQty(stock);
         setStockLoaded(true);
         // Clamp current quantity if needed
-        setQuantity((q) => Math.min(q, stock));
+        setQuantity((q) => (stock > 0 ? Math.min(q, stock) : 1));
       }
     });
     return () => { cancelled = true; };
@@ -91,32 +96,46 @@ export default function QuickViewModal({
   }, [onClose]);
 
   const handleAddToCart = async () => {
-    const result = await addToCart(product.id, quantity);
-    if (result.success) {
-      dispatch(
-        addItemToCart({
-          id: product.id,
-          title: product.name,
-          price: product.price,
-          discountedPrice: salePrice ?? product.price,
-          quantity,
-          images,
-        }),
-      );
-      toast.success("Added to cart");
-    } else {
-      // Parse stock limit from error message like "Only 3 more units available (stock: 3)"
-      const stockMatch = result.error?.match(/stock:\s*(\d+)/);
-      const availableMatch = result.error?.match(/Only (\d+) more/);
-      if (stockMatch) {
-        const stockLimit = parseInt(stockMatch[1]);
-        setMaxQty(stockLimit);
-        setQuantity((q) => Math.min(q, stockLimit));
-      } else if (availableMatch) {
-        const alreadyInCart = quantity - parseInt(availableMatch[1]);
-        setMaxQty(alreadyInCart > 0 ? alreadyInCart : 1);
+    if (cartDisabled || cartRequestPending.current) return;
+
+    cartRequestPending.current = true;
+    setCartLoading(true);
+    try {
+      const result = await addToCart(product.id, quantity);
+      if (result.success) {
+        dispatch(
+          addItemToCart({
+            id: product.id,
+            title: product.name,
+            price: product.price,
+            discountedPrice: salePrice ?? product.price,
+            quantity,
+            images,
+          }),
+        );
+        toast.success("Added to cart");
+      } else {
+        // Parse stock limit from errors such as
+        // "Only 3 more units available (stock: 3)".
+        const stockMatch = result.error?.match(/stock:\s*(\d+)/);
+        const availableMatch = result.error?.match(/Only (\d+) more/);
+        if (/out of stock/i.test(result.error ?? "")) {
+          setMaxQty(0);
+        } else if (/maximum available stock/i.test(result.error ?? "")) {
+          setCartLimitReached(true);
+        } else if (stockMatch) {
+          const stockLimit = parseInt(stockMatch[1]);
+          setMaxQty(stockLimit);
+          setQuantity((q) => Math.min(q, stockLimit));
+        } else if (availableMatch) {
+          const alreadyInCart = quantity - parseInt(availableMatch[1]);
+          setMaxQty(alreadyInCart > 0 ? alreadyInCart : 1);
+        }
+        toast.error(result.error ?? "Failed to add to cart");
       }
-      toast.error(result.error ?? "Failed to add to cart");
+    } finally {
+      cartRequestPending.current = false;
+      setCartLoading(false);
     }
   };
 
@@ -226,12 +245,12 @@ export default function QuickViewModal({
               </span>
             </div>
             <span
-              className={`flex items-center gap-1 text-sm font-medium ${inStock ? "text-green-600" : "text-red-500"}`}
+              className={`flex items-center gap-1 text-sm font-medium ${stockAvailable ? "text-green-600" : "text-red-500"}`}
             >
               <span className="material-symbols-outlined text-[16px]">
-                {inStock ? "check_circle" : "cancel"}
+                {stockAvailable ? "check_circle" : "cancel"}
               </span>
-              {inStock ? "In Stock" : "Out of Stock"}
+              {stockAvailable ? "In Stock" : "Out of Stock"}
             </span>
           </div>
 
@@ -266,7 +285,8 @@ export default function QuickViewModal({
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="size-9 rounded-lg border border-gray-200 dark:border-[#3a4a3f] flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#2a3a2f] transition-colors"
+                  disabled={!stockAvailable || quantity <= 1}
+                  className="size-9 rounded-lg border border-gray-200 dark:border-[#3a4a3f] flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#2a3a2f] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <span className="material-symbols-outlined text-[18px]">
                     remove
@@ -277,7 +297,7 @@ export default function QuickViewModal({
                 </span>
                 <button
                   onClick={() => setQuantity((q) => Math.min(maxQty, q + 1))}
-                  disabled={!stockLoaded || quantity >= maxQty}
+                  disabled={!stockLoaded || !stockAvailable || quantity >= maxQty}
                   className="size-9 rounded-lg border border-gray-200 dark:border-[#3a4a3f] flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#2a3a2f] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <span className="material-symbols-outlined text-[18px]">
@@ -298,10 +318,20 @@ export default function QuickViewModal({
           <div className="flex flex-col gap-3 mt-1">
             <button
               onClick={handleAddToCart}
-              disabled={!inStock}
-              className="w-full bg-[#1a1a2e] dark:bg-[#121714] text-white py-3 rounded-xl font-bold hover:bg-[#2a2a3e] dark:hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={cartDisabled}
+              aria-busy={cartLoading}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#1a1a2e] py-3 font-bold text-white transition-colors hover:bg-[#2a2a3e] disabled:cursor-not-allowed disabled:bg-[#929b95] dark:bg-[#121714] dark:hover:bg-black"
             >
-              Add to Cart
+              {cartLoading && (
+                <span className="size-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+              )}
+              {cartLoading
+                ? "Adding..."
+                : !stockAvailable
+                  ? "Out of Stock"
+                  : cartLimitReached
+                    ? "Limit Reached"
+                    : "Add to Cart"}
             </button>
 
             <a
@@ -323,18 +353,28 @@ export default function QuickViewModal({
 
             <button
               onClick={onToggleWishlist}
-              className={`w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors ${
+              disabled={wishlistLoading}
+              aria-busy={wishlistLoading}
+              className={`w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors disabled:cursor-wait disabled:opacity-70 ${
                 isInWishlist
                   ? "bg-red-500 text-white hover:bg-red-600"
                   : "bg-[#1a2744] dark:bg-[#2a3a2f] text-white hover:bg-[#243060] dark:hover:bg-[#3a4a3f]"
               }`}
             >
-              <span
-                className={`material-symbols-outlined text-[18px] ${isInWishlist ? "fill-1" : ""}`}
-              >
-                favorite
-              </span>
-              {isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
+              {wishlistLoading ? (
+                <span className="size-[18px] animate-spin rounded-full border-2 border-current/30 border-t-current" />
+              ) : (
+                <span
+                  className={`material-symbols-outlined text-[18px] ${isInWishlist ? "fill-1" : ""}`}
+                >
+                  favorite
+                </span>
+              )}
+              {wishlistLoading
+                ? "Updating..."
+                : isInWishlist
+                  ? "Remove from Wishlist"
+                  : "Add to Wishlist"}
             </button>
           </div>
 

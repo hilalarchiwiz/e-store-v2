@@ -1,49 +1,42 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useHydrated } from '@/hooks/useHydrated';
+
+type Theme = 'light' | 'dark';
+
+const getSavedTheme = (): Theme => {
+  if (typeof window === 'undefined') return 'light';
+  return localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
+};
 
 const ThemeToggle = () => {
-  const [theme, setTheme] = useState<'light' | 'dark' | null>(null);
+  const hydrated = useHydrated();
+  const [theme, setTheme] = useState<Theme>(getSavedTheme);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    const initialTheme = savedTheme || systemTheme;
-    setTheme(initialTheme);
-    
-    // Apply theme to document
-    if (initialTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, []);
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
-    
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+
   };
 
-  // Prevent hydration mismatch by not rendering the icon until client-side theme is determined
-  if (theme === null) {
+  if (!hydrated) {
     return (
-      <div className="size-10 flex items-center justify-center rounded-lg bg-[#f1f4f2] dark:bg-[#2a3a2f]">
+      <div className="flex size-9 items-center justify-center rounded-lg bg-[#f1f4f2] dark:bg-[#2a3a2f] sm:size-10">
         <div className="size-4 animate-pulse bg-gray-300 dark:bg-gray-600 rounded-full"></div>
       </div>
     );
   }
 
   return (
-    <button 
+    <button
       onClick={toggleTheme}
-      className={`size-10 flex items-center justify-center rounded-lg bg-[#f1f4f2] dark:bg-[#2a3a2f] text-[#121714] dark:text-white hover:bg-primary/20 transition-all duration-300 group`}
+      className="group flex size-9 items-center justify-center rounded-lg bg-[#f1f4f2] text-[#121714] transition-all duration-300 hover:bg-primary/20 dark:bg-[#2a3a2f] dark:text-white sm:size-10"
       aria-label="Toggle Theme"
     >
       <span className="material-symbols-outlined transition-transform duration-500 group-hover:rotate-12">

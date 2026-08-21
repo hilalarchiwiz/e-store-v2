@@ -1,7 +1,7 @@
 'use client'
 
 import { permissionModules } from '@/lib/constant';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface Props {
     initialPermissions?: string[];
@@ -10,13 +10,6 @@ interface Props {
 export default function PermissionSelector({ initialPermissions = [] }: Props) {
     // Initialize state with the permissions passed from the server
     const [selected, setSelected] = useState<string[]>(initialPermissions);
-
-    // Update state if the initialPermissions prop changes (useful for transitions)
-    useEffect(() => {
-        if (initialPermissions.length > 0) {
-            setSelected(initialPermissions);
-        }
-    }, [initialPermissions]);
 
     const allAvailablePermissions = permissionModules.flatMap(m => m.permissions);
 

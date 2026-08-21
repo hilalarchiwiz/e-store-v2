@@ -51,7 +51,11 @@ export default async function AddSliderPage() {
                         required
                     />
 
-                    <FileUpload />
+                    <FileUpload
+                        title="Slider image"
+                        aspectRatio={16 / 5}
+                        allowAspectSelection={false}
+                    />
 
                     <FormInput
                         label='Slider Link'

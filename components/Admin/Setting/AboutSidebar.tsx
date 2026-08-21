@@ -6,11 +6,12 @@ import { usePathname } from "next/navigation";
 const AboutSidebar = () => {
     const pathname = usePathname();
     const menuItems = [
-        { id: 'About Banner', label: 'About Banner', active: true, href: '/admin/about/about-banner' },
-        { id: 'logo', label: 'Who we are', active: false, href: '/admin/about/who-we-are' },
-        { id: 'contact-info', label: 'What we do', active: false, href: '/admin/about/what-we-do' },
-        { id: 'social-info', label: 'Mission Vision', active: false, href: '/admin/about/mission-vision' },
-        { id: 'why-choose', label: 'Why Choose', active: false, href: '/admin/about/why-choose' },
+        { id: 'About Banner', label: 'Hero & Newsletter', active: true, href: '/admin/about/about-banner' },
+        { id: 'logo', label: 'Who We Are', active: false, href: '/admin/about/who-we-are' },
+        { id: 'stats', label: 'Stats', active: false, href: '/admin/about/stats' },
+        { id: 'contact-info', label: 'What We Do', active: false, href: '/admin/about/what-we-do' },
+        { id: 'social-info', label: 'Mission & Vision', active: false, href: '/admin/about/mission-vision' },
+        { id: 'why-choose', label: 'Why Choose QAAM', active: false, href: '/admin/about/why-choose' },
         { id: 'team', label: 'Team', active: false, href: '/admin/about/team' },
     ];
     return (

@@ -64,7 +64,14 @@ export type HeroSlide = {
 
 export default async function V2HomePage() {
   const categoriesData = await prisma.category.findMany({
-    where: { status: "active" },
+    where: {
+      status: "active",
+      products: {
+        some: {
+          status: "active"
+        }
+      }
+    },
     orderBy: [
       { order_number: "asc" }, // nulls will sort last by default in most DBs
     ],

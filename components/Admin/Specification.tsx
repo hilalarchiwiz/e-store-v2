@@ -3,7 +3,7 @@
 'use client'
 
 import { Plus, X } from 'lucide-react'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 // Define the shape of a single specification object
 interface ProductSpecification {
@@ -13,9 +13,8 @@ interface ProductSpecification {
 
 // Define props for the component
 interface SpecificationProps {
-  // We are setting the type to 'any' here, as the input might be an object or an array
-  defaultSpecs?: any;
-  onSpecChange?: (specs: any) => void; // Add this
+  defaultSpecs?: unknown;
+  onSpecChange?: (specs: ProductSpecification[]) => void;
 }
 
 // Helper to convert an object of specs into the array format
@@ -28,7 +27,7 @@ const convertObjectToArray = (obj: { [key: string]: string }): ProductSpecificat
 
 
 // Helper to ensure an array is never empty, adding a placeholder if needed
-const ensureMinimumSpec = (specs: any): ProductSpecification[] => {
+const ensureMinimumSpec = (specs: unknown): ProductSpecification[] => {
   let normalizedSpecs: ProductSpecification[] = [];
 
   if (!specs) {
@@ -36,10 +35,14 @@ const ensureMinimumSpec = (specs: any): ProductSpecification[] => {
     normalizedSpecs = [];
   } else if (Array.isArray(specs)) {
     // Case 2: Input is already an array (for new products, or if DB stores as array)
-    normalizedSpecs = specs;
+    normalizedSpecs = specs
+      .filter((spec): spec is Partial<ProductSpecification> => typeof spec === 'object' && spec !== null)
+      .map((spec) => ({ key: String(spec.key ?? ''), value: String(spec.value ?? '') }));
   } else if (typeof specs === 'object' && specs !== null) {
     // Case 3: Input is a plain object (your current data structure)
-    normalizedSpecs = convertObjectToArray(specs);
+    normalizedSpecs = convertObjectToArray(
+      Object.fromEntries(Object.entries(specs).map(([key, value]) => [key, String(value ?? '')]))
+    );
   }
 
   // Ensure there's at least one empty row for editing/adding
@@ -58,20 +61,6 @@ const Specification = ({ defaultSpecs, onSpecChange }: SpecificationProps) => {
   const [specifications, setSpecifications] = useState<ProductSpecification[]>(
     ensureMinimumSpec(defaultSpecs)
   );
-
-  // NOTE: You might want to use a useEffect to update state if defaultSpecs changes
-  // after the initial render (e.g., if you fetch the product data after the component mounts).
-  /*
-  useEffect(() => {
-      setSpecifications(ensureMinimumSpec(defaultSpecs));
-  }, [defaultSpecs]);
-  */
-
-  useEffect(() => {
-    if (defaultSpecs && Object.keys(defaultSpecs).length > 0) {
-      setSpecifications(ensureMinimumSpec(defaultSpecs));
-    }
-  }, [defaultSpecs]);
 
   const handleAddSpecification = () => {
     setSpecifications([...specifications, { key: '', value: '' }]);
