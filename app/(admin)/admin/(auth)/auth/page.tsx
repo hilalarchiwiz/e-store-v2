@@ -54,14 +54,25 @@ export default function Pages() {
                 setError(res.error.message || "Something went wrong.");
                 setLoading(false);
             } else {
+                // const userRole = (res.data?.user as any)?.role || (res.data?.user as any)?.roleName;
+                // if (userRole === "admin") {
+                //     router.push("/admin");
+                // } else {
+                //     setError("Access denied. Admin only.");
+                //     await signOut();
+                //     setLoading(false);
+                // }
+
                 const userRole = (res.data?.user as any)?.role || (res.data?.user as any)?.roleName;
-                if (userRole === "admin") {
+                const allowedRoles = ["admin", "Super Admin", "superadmin"];
+                if (userRole && allowedRoles.includes(userRole)) {
                     router.push("/admin");
                 } else {
                     setError("Access denied. Admin only.");
                     await signOut();
                     setLoading(false);
                 }
+
             }
         } catch (err) {
             setError("An unexpected error occurred.");
