@@ -182,7 +182,11 @@ const PageEditor = ({ initialContent = "", name = "content", uploadToAzure }) =>
 
     const handleImageSelection = (e) => {
         const file = e.target.files?.[0]
-        if (file) setPendingImage(file)
+        if (file) {
+            // Cropping commented out as requested
+            // setPendingImage(file)
+            handleImageUpload(file)
+        }
         e.target.value = ''
     }
 
@@ -304,6 +308,7 @@ const PageEditor = ({ initialContent = "", name = "content", uploadToAzure }) =>
                 className="hidden"
             />
 
+            {/* ImageCropModal commented out as requested
             {pendingImage && (
                 <ImageCropModal
                     file={pendingImage}
@@ -314,6 +319,7 @@ const PageEditor = ({ initialContent = "", name = "content", uploadToAzure }) =>
                     onComplete={handleImageUpload}
                 />
             )}
+            */}
 
             {/* Top Bar */}
             <div className="bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 sticky top-0 shadow-sm z-50">

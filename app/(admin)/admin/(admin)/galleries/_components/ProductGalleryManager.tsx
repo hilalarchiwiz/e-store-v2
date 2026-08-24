@@ -84,6 +84,7 @@ export default function ProductGalleryManager({
                 lastModified: Date.now(),
             });
 
+            /*
             setProgress({ percent: 10, message: 'Starting background removal' });
             const transparentFile = await removeProductBackground(sourceFile, (workerProgress) => {
                 setProgress({
@@ -91,6 +92,8 @@ export default function ProductGalleryManager({
                     message: workerProgress.message,
                 });
             });
+            */
+            const transparentFile = sourceFile;
 
             setProgress({ percent: 91, message: 'Replacing the same Azure image' });
             const formData = new FormData();

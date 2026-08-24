@@ -96,6 +96,8 @@ const UploadMultipleFiles = ({ defaultImages, onImagesChange }: UploadMultipleFi
         try {
             for (let index = 0; index < imageFiles.length; index++) {
                 const file = imageFiles[index];
+                /* 
+                // Background removal disabled/commented out
                 const preparedFile = await removeProductBackground(file, ({ percent, message }) => {
                     const overallPercent = Math.round(
                         ((index + percent / 100) / imageFiles.length) * 100,
@@ -109,6 +111,8 @@ const UploadMultipleFiles = ({ defaultImages, onImagesChange }: UploadMultipleFi
                     });
                 });
                 preparedFiles.push(preparedFile);
+                */
+                preparedFiles.push(file);
             }
 
             handleFileUpload(preparedFiles);
@@ -313,7 +317,7 @@ const UploadMultipleFiles = ({ defaultImages, onImagesChange }: UploadMultipleFi
                             onClick={() => handleRemoveImage(index)}
                             // Display loading state during deletion
                             disabled={isDeleting}
-                            className="absolute top-2 right-2 p-1 bg-red-600 hover:bg-red-700 text-white rounded-full transition-opacity 
+                            className="absolute top-2 right-2 p-1 bg-red-600 hover:bg-red-700 text-white rounded-full transition-opacity
                                         opacity-0 group-hover:opacity-100 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {/* Show spinner on the delete button */}
@@ -397,16 +401,14 @@ function ImageProcessingProgress({ progress }: { progress: ProcessingProgress })
 
                         return (
                             <div key={step.label} className="text-center">
-                                <span className={`mx-auto flex size-7 items-center justify-center rounded-full text-xs font-bold ${
-                                    completed || active
+                                <span className={`mx-auto flex size-7 items-center justify-center rounded-full text-xs font-bold ${completed || active
                                         ? 'bg-emerald-600 text-white'
                                         : 'bg-gray-100 text-gray-400'
-                                }`}>
+                                    }`}>
                                     {completed ? '✓' : index + 1}
                                 </span>
-                                <span className={`mt-1.5 block text-[10px] font-semibold sm:text-xs ${
-                                    active ? 'text-emerald-700' : 'text-gray-500'
-                                }`}>
+                                <span className={`mt-1.5 block text-[10px] font-semibold sm:text-xs ${active ? 'text-emerald-700' : 'text-gray-500'
+                                    }`}>
                                     {step.label}
                                 </span>
                             </div>

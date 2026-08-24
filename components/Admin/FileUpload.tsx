@@ -47,7 +47,15 @@ const FileUpload = ({
   );
 
   const beginCrop = (file?: File) => {
-    if (file?.type.startsWith("image/")) setPendingFile(file);
+    if (file?.type.startsWith("image/")) {
+      // Cropping functionality commented out as requested
+      // setPendingFile(file);
+      selectedFileRef.current = file;
+      if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
+      const nextPreviewUrl = URL.createObjectURL(file);
+      setPreviewObjectUrl(nextPreviewUrl);
+      setPreview(nextPreviewUrl);
+    }
   };
 
   const useCroppedImage = (croppedFile: File) => {
@@ -166,6 +174,7 @@ const FileUpload = ({
         )}
       </div>
 
+      {/* Crop Modal commented out as requested
       {pendingFile && (
         <ImageCropModal
           file={pendingFile}
@@ -179,6 +188,7 @@ const FileUpload = ({
           onComplete={useCroppedImage}
         />
       )}
+      */}
     </div>
   );
 };
