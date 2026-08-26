@@ -187,6 +187,7 @@ export default async function V2HomePage() {
         product.images.length > 0
           ? product.images
           : ["/images/placeholder-product.jpg"],
+      inStock: product.quantity > 0,
       isNew:
         (new Date().getTime() - new Date(product.createdAt).getTime()) /
         (1000 * 3600 * 24) <
