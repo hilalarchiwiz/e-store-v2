@@ -25,7 +25,7 @@ interface NewArrivalsProps {
 
 const NewArrivals: React.FC<NewArrivalsProps> = ({ products = [] }) => {
   return (
-    <section className="px-6 py-10 bg-[#f1f4f2] dark:bg-[#1a251d] rounded-[2rem] ">
+    <section className="px-2 py-10 bg-[#f1f4f2] dark:bg-[#1a251d] rounded-[2rem] ">
       <div className="max-w-400 mx-auto">
         {/* Header */}
         <div className="flex justify-between items-end sm:items-center mb-6 sm:mb-10 gap-2">

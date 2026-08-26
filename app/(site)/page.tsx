@@ -114,8 +114,8 @@ export default async function V2HomePage() {
       ? product.price - (product.price * discountPercent) / 100
       : product.price;
 
-    const rating = product.reviews.length > 0 
-      ? product.reviews.reduce((acc, curr) => acc + curr.rating, 0) / product.reviews.length 
+    const rating = product.reviews.length > 0
+      ? product.reviews.reduce((acc, curr) => acc + curr.rating, 0) / product.reviews.length
       : 0;
 
     return {
@@ -168,9 +168,9 @@ export default async function V2HomePage() {
     const finalPrice = discountPercent
       ? product.price - (product.price * discountPercent) / 100
       : product.price;
-      
-    const rating = product.reviews.length > 0 
-      ? product.reviews.reduce((acc, curr) => acc + curr.rating, 0) / product.reviews.length 
+
+    const rating = product.reviews.length > 0
+      ? product.reviews.reduce((acc, curr) => acc + curr.rating, 0) / product.reviews.length
       : 0;
 
     return {
@@ -211,7 +211,7 @@ export default async function V2HomePage() {
   }));
 
   return (
-    <main className="max-w-400 mx-auto pb-20 md:px-10 px-6">
+    <main className="max-w-400 mx-auto pb-20 md:px-10 px-2">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
