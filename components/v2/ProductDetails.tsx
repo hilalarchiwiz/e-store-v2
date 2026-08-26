@@ -28,7 +28,7 @@ interface Product {
   reviews: number;
   reviewsList?: any[];
   quantity?: number;
-  category?: { id?: number | null; title: string } | null;
+  category?: { id?: number | null; slug?: string | null; title: string } | null;
   grading?: {
     id: number;
     title: string;
@@ -280,7 +280,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           {/* Category badge */}
           {product.category && (
             <Link
-              href={`/shop?category=${product.category.id ?? ""}`}
+              href={`/shop?category=${(product.category.slug || product.category.id) ?? ""}`}
               className="inline-flex w-fit items-center gap-1.5 bg-primary/10 text-primary text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full hover:bg-primary/20 transition-colors"
             >
               <span className="material-symbols-outlined text-[14px]">
@@ -334,20 +334,21 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
 
           {/* Warranty */}
           {product.warranty && (
-            <div className="flex items-center gap-3 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 rounded-2xl px-4 py-3">
-              <span className="material-symbols-outlined text-amber-500">
+            <div className="flex items-center gap-3 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 rounded-2xl px-4 py-3">
+              <span className="material-symbols-outlined text-blue-500">
                 verified
               </span>
               <div>
-                <p className="text-[10px] font-black text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-0.5">
+                <p className="text-[10px] font-black text-blue-700 dark:text-blue-400 uppercase tracking-wider mb-0.5">
                   Warranty
                 </p>
-                <p className="text-xs sm:text-sm font-semibold text-amber-800 dark:text-amber-300">
+                <p className="text-xs sm:text-sm font-semibold text-blue-800 dark:text-blue-300">
                   {product.warranty}
                 </p>
               </div>
             </div>
           )}
+
           {product.grading && (
             <div className="flex items-center gap-2">
               <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs sm:text-sm font-semibold">

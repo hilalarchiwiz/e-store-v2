@@ -8,20 +8,23 @@ import Script from "next/script";
 
 interface PageProps {
   params: Promise<{
-    id: string;
+    slug: string;
   }>;
 }
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { id } = await params;
-  const productId = parseInt(id);
+  const { slug } = await params;
+  const numericId = !isNaN(Number(slug)) ? Number(slug) : undefined;
 
-  if (isNaN(productId)) return {};
-
-  const product = await prisma.product.findUnique({
-    where: { id: productId },
+  const product = await prisma.product.findFirst({
+    where: {
+      OR: [
+        { slug: slug },
+        ...(numericId ? [{ id: numericId }] : []),
+      ],
+    },
     include: { category: true, grading: true },
   });
 
@@ -31,6 +34,7 @@ export async function generateMetadata({
   const description =
     product.description?.substring(0, 160) ||
     `Buy ${product.title} at Qaam.pk. Discover high-performance tech and premium PC gear.`;
+  const canonicalSlug = product.slug || product.id.toString();
 
   return {
     title,
@@ -38,7 +42,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      url: `https://qaam.pk/product/${id}`,
+      url: `https://qaam.pk/product/${canonicalSlug}`,
       siteName: "Qaam.pk",
       images: [
         {
@@ -58,15 +62,16 @@ export async function generateMetadata({
 }
 
 export default async function ProductPage({ params }: PageProps) {
-  const { id } = await params;
-  const productId = parseInt(id);
+  const { slug } = await params;
+  const numericId = !isNaN(Number(slug)) ? Number(slug) : undefined;
 
-  if (isNaN(productId)) {
-    return notFound();
-  }
-
-  const product = await prisma.product.findUnique({
-    where: { id: productId },
+  const product = await prisma.product.findFirst({
+    where: {
+      OR: [
+        { slug: slug },
+        ...(numericId ? [{ id: numericId }] : []),
+      ],
+    },
     include: {
       category: true,
       reviews: true,
@@ -82,7 +87,7 @@ export default async function ProductPage({ params }: PageProps) {
   const relatedProducts = await prisma.product.findMany({
     where: {
       categoryId: product.categoryId,
-      id: { not: productId },
+      id: { not: product.id },
       status: "active",
     },
     take: 4,
@@ -90,6 +95,8 @@ export default async function ProductPage({ params }: PageProps) {
       category: true,
     },
   });
+
+  const categorySlugOrId = product.category?.slug || product.category?.id;
 
   return (
     <main className="max-w-400 mx-auto w-full px-6 py-6 md:py-10 md:px-10 flex flex-col gap-8">
@@ -99,7 +106,7 @@ export default async function ProductPage({ params }: PageProps) {
           { label: "Shop", href: "/shop" },
           {
             label: product.category?.title || "Uncategorized",
-            href: `/shop?category=${product.category?.id}`,
+            href: categorySlugOrId ? `/shop?category=${categorySlugOrId}` : "/shop",
           },
           { label: product.title },
         ]}
@@ -140,7 +147,7 @@ export default async function ProductPage({ params }: PageProps) {
             },
             offers: {
               "@type": "Offer",
-              url: `https://qaam.pk/product/${id}`,
+              url: `https://qaam.pk/product/${product.slug || product.id}`,
               priceCurrency: "PKR",
               price: product.discountedPrice || product.price,
               availability:

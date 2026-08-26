@@ -18,25 +18,19 @@ export const metadata: Metadata = {
 };
 
 export default async function ContactPage() {
-  const { contactInfo, generalSetting } = await getSiteSettings();
+  const { contactInfo, generalSetting, socialInfo } = await getSiteSettings();
 
   return (
-    <main className="flex-1 max-w-400 mx-auto w-full px-6 md:px-10 py-10 md:py-16 flex flex-col gap-10">
+    <main className="max-w-400 mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex flex-col gap-8">
       <Breadcrumbs
         items={[{ label: "Home", href: "/" }, { label: "Contact Us" }]}
       />
 
-      <div className="text-center max-w-2xl mx-auto mb-4">
-        <h1 className="text-4xl md:text-5xl font-black text-[#121714] dark:text-white mb-4">
-          Get in Touch
-        </h1>
-        <p className="text-gray-500 dark:text-gray-400">
-          Have questions about our premium computing products? We&apos;re here to help
-          you find the perfect tech solution for your home or office.
-        </p>
-      </div>
-
-      <ContactForm contactInfo={contactInfo} generalSetting={generalSetting} />
+      <ContactForm
+        contactInfo={contactInfo}
+        generalSetting={generalSetting}
+        socialInfo={socialInfo}
+      />
     </main>
   );
 }

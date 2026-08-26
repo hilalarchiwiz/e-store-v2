@@ -112,7 +112,14 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
     categoryIds = [...numeric];
     if (strings.length > 0) {
       const found = await prisma.category.findMany({
-        where: { OR: strings.map(s => ({ title: { equals: s, mode: 'insensitive' } })) },
+        where: {
+          OR: strings.map(s => ({
+            OR: [
+              { slug: { equals: s, mode: 'insensitive' as const } },
+              { title: { equals: s, mode: 'insensitive' as const } },
+            ]
+          }))
+        },
         select: { id: true }
       });
       categoryIds.push(...found.map(f => f.id));
@@ -349,6 +356,7 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
 
   const categories = categoriesData.map((c) => ({
     id: c.id,
+    slug: c.slug ?? undefined,
     title: c.title,
     count: c._count.products,
     image: c.img || "/images/categories/categories-01.png",
@@ -390,6 +398,7 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
 
     return {
       id: product.id,
+      slug: product.slug ?? undefined,
       name: product.title,
       price: finalPrice,
       oldPrice: discountPercent ? product.price : undefined,

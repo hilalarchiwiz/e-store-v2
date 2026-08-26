@@ -98,6 +98,11 @@ export default async function V2HomePage() {
     where: { status: "active" },
     orderBy: { createdAt: "desc" },
     take: 8,
+    include: {
+      reviews: {
+        select: { rating: true }
+      }
+    }
   });
 
   const newArrivals = newArrivalsData.map((product) => {
@@ -108,6 +113,11 @@ export default async function V2HomePage() {
     const finalPrice = discountPercent
       ? product.price - (product.price * discountPercent) / 100
       : product.price;
+
+    const rating = product.reviews.length > 0 
+      ? product.reviews.reduce((acc, curr) => acc + curr.rating, 0) / product.reviews.length 
+      : 0;
+
     return {
       id: product.id,
       name: product.title,
@@ -125,8 +135,8 @@ export default async function V2HomePage() {
         (new Date().getTime() - new Date(product.createdAt).getTime()) /
         (1000 * 3600 * 24) <
         7,
-      rating: 0,
-      reviews: 0,
+      rating: rating,
+      reviews: product.reviews.length,
     };
   });
 
@@ -140,6 +150,14 @@ export default async function V2HomePage() {
     where: { status: "active" },
     orderBy: { orderItems: { _count: "desc" } },
     take: 12,
+    include: {
+      reviews: {
+        select: { rating: true }
+      },
+      _count: {
+        select: { orderItems: true }
+      }
+    }
   });
 
   const bestSellers = bestSellersData.map((product) => {
@@ -150,6 +168,11 @@ export default async function V2HomePage() {
     const finalPrice = discountPercent
       ? product.price - (product.price * discountPercent) / 100
       : product.price;
+      
+    const rating = product.reviews.length > 0 
+      ? product.reviews.reduce((acc, curr) => acc + curr.rating, 0) / product.reviews.length 
+      : 0;
+
     return {
       id: product.id,
       name: product.title,
@@ -166,9 +189,9 @@ export default async function V2HomePage() {
         (new Date().getTime() - new Date(product.createdAt).getTime()) /
         (1000 * 3600 * 24) <
         7,
-      rating: 5,
-      reviews: 12,
-      soldCount: 120,
+      rating: rating,
+      reviews: product.reviews.length,
+      soldCount: product._count.orderItems,
     };
   });
 

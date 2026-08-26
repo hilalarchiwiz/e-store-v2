@@ -22,6 +22,7 @@ import { useHydrated } from "@/hooks/useHydrated";
 
 interface ProductCardProps {
   id: number;
+  slug?: string;
   name: string;
   price: number;
   oldPrice?: number;
@@ -65,6 +66,7 @@ const StarRating = ({
 
 const ProductCard: React.FC<ProductCardProps> = ({
   id,
+  slug,
   name,
   price,
   oldPrice,
@@ -195,7 +197,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     return (
       <>
         <Link
-          href={`/product/${id}`}
+          href={`/product/${slug || id}`}
           className="group bg-white dark:bg-[#1a251d] rounded-2xl border border-[#dce5df] dark:border-[#2a3a30] overflow-hidden flex flex-row shadow-sm hover:shadow-xl transition-all duration-300"
         >
           {/* Image */}
@@ -325,7 +327,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <>
       <Link
-        href={`/product/${id}`}
+        href={`/product/${slug || id}`}
         className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#d9e3dd] bg-white shadow-[0_2px_7px_rgba(18,23,20,0.10)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_12px_30px_rgba(18,23,20,0.14)] dark:border-[#2a3a30] dark:bg-[#1a251d]"
       >
         <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#f1f5f3] dark:bg-[#243129]">

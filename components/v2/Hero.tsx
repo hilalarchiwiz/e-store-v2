@@ -126,31 +126,31 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
         </p>
 
         {/* CTAs */}
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-row flex-nowrap md:flex-wrap gap-2 md:gap-4 w-full md:w-auto">
           {slide.link ? (
             <Link
               href={slide.link}
-              className="px-8 h-13 inline-flex items-center gap-2 bg-primary text-white rounded-xl font-bold text-base hover:bg-primary/90 transition-all shadow-lg shadow-primary/30 group"
+              className="flex-1 md:flex-none justify-center px-4 md:px-8 h-13 inline-flex items-center gap-1 md:gap-2 bg-primary text-white rounded-xl font-bold text-[13px] md:text-base hover:bg-primary/90 transition-all shadow-lg shadow-primary/30 group whitespace-nowrap"
             >
               Shop Now
-              <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">
+              <span className="material-symbols-outlined text-base md:text-lg group-hover:translate-x-1 transition-transform">
                 arrow_forward
               </span>
             </Link>
           ) : (
             <Link
               href="/shop"
-              className="px-8 h-13 inline-flex items-center gap-2 bg-primary text-white rounded-xl font-bold text-base hover:bg-primary/90 transition-all shadow-lg shadow-primary/30 group"
+              className="flex-1 md:flex-none justify-center px-4 md:px-8 h-13 inline-flex items-center gap-1 md:gap-2 bg-primary text-white rounded-xl font-bold text-[13px] md:text-base hover:bg-primary/90 transition-all shadow-lg shadow-primary/30 group whitespace-nowrap"
             >
-              Shop All Products
-              <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">
+              Shop All
+              <span className="material-symbols-outlined text-base md:text-lg group-hover:translate-x-1 transition-transform">
                 arrow_forward
               </span>
             </Link>
           )}
           <Link
             href="/contact"
-            className="px-8 h-13 inline-flex items-center bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-xl font-bold text-base hover:bg-white/20 transition-all"
+            className="flex-1 md:flex-none justify-center px-4 md:px-8 h-13 inline-flex items-center bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-xl font-bold text-[13px] md:text-base hover:bg-white/20 transition-all whitespace-nowrap"
           >
             Contact Us
           </Link>
@@ -184,7 +184,7 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
           <button
             onClick={handlePrev}
             aria-label="Previous slide"
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-white hover:bg-primary hover:border-primary transition-all shadow-lg"
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 hidden md:flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-white hover:bg-primary hover:border-primary transition-all shadow-lg"
           >
             <span className="material-symbols-outlined text-xl">
               chevron_left
@@ -193,7 +193,7 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
           <button
             onClick={handleNext}
             aria-label="Next slide"
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-white hover:bg-primary hover:border-primary transition-all shadow-lg"
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 hidden md:flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-white hover:bg-primary hover:border-primary transition-all shadow-lg"
           >
             <span className="material-symbols-outlined text-xl">
               chevron_right

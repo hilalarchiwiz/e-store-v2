@@ -5,6 +5,7 @@ import { withPermission } from "@/lib/action-utils"
 import { uploadImage } from '@/lib/action/FileUpload'
 import { PAGE_SIZE } from '@/lib/constant'
 import prisma from '@/lib/prisma'
+import { slugify } from "@/lib/helper";
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
 
@@ -90,9 +91,11 @@ export async function createCategory(prevData: any, formData: FormData) {
         }
 
         console.log("Processed Specifications:", specifications);
+        const generatedSlug = slugify(title);
         await prisma.category.create({
             data: {
                 title,
+                slug: generatedSlug,
                 status: 'active',
                 description: description ?? '',
                 order_number: order_number,
@@ -190,6 +193,7 @@ export async function updateCategory(categoryId: number | undefined, prevData: a
 
         const updateData: any = {
             title,
+            slug: slugify(title),
             description: description ?? '',
             status: 'active',
             order_number: order_number,

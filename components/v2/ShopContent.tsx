@@ -13,6 +13,7 @@ import {
 
 interface Product {
   id: number;
+  slug?: string;
   name: string;
   price: number;
   oldPrice?: number;
@@ -42,6 +43,7 @@ interface ShopContentProps {
   } | null;
   categories: {
     id: number;
+    slug?: string;
     title: string;
     image: string;
     count: number;

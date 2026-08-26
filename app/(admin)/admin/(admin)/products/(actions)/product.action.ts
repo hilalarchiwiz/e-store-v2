@@ -3,6 +3,7 @@
 import { deleteMultipleImages } from "@/lib/action/FileUpload";
 import { PAGE_SIZE } from "@/lib/constant";
 import prisma from "@/lib/prisma";
+import { slugify } from "@/lib/helper";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { withPermission } from "@/lib/action-utils";
 import { ProductSchema } from "../validations/product";
@@ -12,6 +13,7 @@ import { ProductStatus } from "@prisma/client";
 
 interface ProductUpdateData {
     title: string;
+    slug: string;
     titleFont: string;
     description: string;
     warranty: string;
@@ -60,7 +62,10 @@ function extractAndValidateProductData(formData: FormData): ProductUpdateData {
     }
 
     return {
-        title, description, warranty,
+        title,
+        slug: slugify(title),
+        description,
+        warranty,
         price: Number(priceString),
         discountedPrice: discountedPriceString ? Number(discountedPriceString) : undefined,
         brandId: parseInt(brandIdString),

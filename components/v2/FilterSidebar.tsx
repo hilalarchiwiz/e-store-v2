@@ -42,6 +42,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
 interface FilterNode {
   id: number;
+  slug?: string;
   title: string;
   count?: number;
 }
@@ -71,8 +72,8 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
   const sortParamStr = searchParams.get("sort") || "";
   const generationParamStr = searchParams.get("generation") || "";
 
-  const [selectedCategories, setSelectedCategories] = useState<number[]>(
-    categoryParamStr ? categoryParamStr.split(",").map(Number) : []
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    categoryParamStr ? categoryParamStr.split(",") : []
   );
   const [selectedBrands, setSelectedBrands] = useState<number[]>(
     brandParamStr ? brandParamStr.split(",").map(Number) : []
@@ -95,7 +96,7 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
   };
 
   const applyFilters = (
-    newCategories?: number[],
+    newCategories?: string[],
     newBrands?: number[],
     newPrice?: [number, number],
     newSort?: string,
@@ -146,12 +147,12 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
     scrollToProducts();
   };
 
-  const handleCategoryChange = (id: number) => {
+  const handleCategoryChange = (key: string) => {
     let newCategories;
-    if (selectedCategories.includes(id)) {
-      newCategories = selectedCategories.filter((c) => c !== id);
+    if (selectedCategories.includes(key)) {
+      newCategories = selectedCategories.filter((c) => c !== key);
     } else {
-      newCategories = [...selectedCategories, id];
+      newCategories = [...selectedCategories, key];
     }
     setSelectedCategories(newCategories);
     setSelectedGenerations([]);
@@ -230,29 +231,32 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
       </div>
 
       <FilterSection title="Category">
-        {categories.map((item) => (
-          <label
-            key={item.id}
-            className="flex items-center justify-between cursor-pointer group"
-          >
-            <div className="flex items-center gap-3">
-              <input
-                checked={selectedCategories.includes(item.id)}
-                onChange={() => handleCategoryChange(item.id)}
-                className="rounded border-[#dce5df] text-primary focus:ring-primary h-4 w-4 transition-colors cursor-pointer"
-                type="checkbox"
-              />
-              <span className="text-sm text-[#4a5550] dark:text-[#f6f8f7] group-hover:text-primary transition-colors">
-                {item.title}
-              </span>
-            </div>
-            {item.count !== undefined && (
-              <span className="text-xs bg-[#f0f4f2] dark:bg-[#1a2e22] text-[#648770] px-2 py-0.5 rounded-full font-bold">
-                {item.count}
-              </span>
-            )}
-          </label>
-        ))}
+        {categories.map((item) => {
+          const key = item.slug || item.id.toString();
+          return (
+            <label
+              key={item.id}
+              className="flex items-center justify-between cursor-pointer group"
+            >
+              <div className="flex items-center gap-3">
+                <input
+                  checked={selectedCategories.includes(key)}
+                  onChange={() => handleCategoryChange(key)}
+                  className="rounded border-[#dce5df] text-primary focus:ring-primary h-4 w-4 transition-colors cursor-pointer"
+                  type="checkbox"
+                />
+                <span className="text-sm text-[#4a5550] dark:text-[#f6f8f7] group-hover:text-primary transition-colors">
+                  {item.title}
+                </span>
+              </div>
+              {item.count !== undefined && (
+                <span className="text-xs bg-[#f0f4f2] dark:bg-[#1a2e22] text-[#648770] px-2 py-0.5 rounded-full font-bold">
+                  {item.count}
+                </span>
+              )}
+            </label>
+          );
+        })}
       </FilterSection>
 
       {generations.length > 0 && (
@@ -385,12 +389,14 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
               />
             </div>
           </div>
-          {/* <button
+          <button
+            type="button"
             onClick={handlePriceCommit}
-            className="w-full bg-primary text-white py-2 rounded-lg font-bold text-sm hover:bg-primary-dark transition-colors shadow-lg shadow-primary/20"
+            className="w-full bg-primary text-white py-2 rounded-xl font-bold text-sm hover:bg-primary/90 transition-all shadow-md active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            Apply Price
-          </button> */}
+            <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>filter_alt</span>
+            Filter Price
+          </button>
         </div>
       </FilterSection>
 

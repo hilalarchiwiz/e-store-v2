@@ -20,35 +20,29 @@ function CategoryCard({ cat }: { cat: Category }) {
   return (
     <Link
       href={`/shop?category=${encodeURIComponent(cat.name)}`}
-      className="flex flex-col items-center w-36 lg:w-48 shrink-0 group gap-4 cursor-pointer"
+      className="group relative flex h-27 w-34 sm:h-30 sm:w-40 lg:h-36 lg:w-48 shrink-0 snap-start flex-col items-center justify-between overflow-hidden rounded-lg border border-[#dfe4e1] bg-white px-3 pb-2.5 pt-3 shadow-[0_2px_7px_rgba(15,23,42,0.10)] transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md dark:border-[#2a3a30] dark:bg-[#1a251d]"
     >
-      <div className="relative w-36 h-36 lg:w-48 lg:h-48 rounded-full bg-white dark:bg-[#1a201c]  dark:border-white/5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)] dark:shadow-none group-hover:bg-gray-50 dark:group-hover:bg-[#252d28] group-hover:scale-[1.03] transition-all duration-300 flex items-center justify-center overflow-hidden">
-        {/* Image */}
-        {!imgError && (
-          <div className="absolute inset-0 p-1">
-            <div className="relative w-full h-full rounded-full overflow-hidden">
-              <Image
-                src={cat.image}
-                alt={cat.name}
-                fill
-                sizes="(max-width: 1024px) 144px, 192px"
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-                onError={() => setImgError(true)}
-              />
-            </div>
+      <div className="relative min-h-0 w-full flex-1">
+        {!imgError ? (
+          <Image
+            src={cat.image}
+            alt={cat.name}
+            fill
+            unoptimized
+            sizes="160px"
+            className="object-contain transition-transform duration-300 group-hover:scale-105"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <span className="material-symbols-outlined text-4xl text-gray-400 dark:text-white/20">
+              category
+            </span>
           </div>
         )}
-
-        {/* Fallback Icon */}
-        {imgError && (
-          <span className="material-symbols-outlined text-4xl text-gray-400 dark:text-white/20">
-            category
-          </span>
-        )}
       </div>
-
-      <div className="text-center px-1">
-        <h3 className="text-gray-900 dark:text-[#f8faf9] text-sm lg:text-base font-medium leading-snug group-hover:text-primary transition-colors">
+      <div className="mt-1 flex max-w-full items-center gap-1.5">
+        <h3 className="truncate text-center text-xs lg:text-sm font-semibold text-[#101512] transition-colors group-hover:text-primary dark:text-white">
           {cat.name}
         </h3>
       </div>
