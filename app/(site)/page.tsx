@@ -120,6 +120,7 @@ export default async function V2HomePage() {
 
     return {
       id: product.id,
+      slug: product.slug ?? undefined,
       name: product.title,
       price: finalPrice,
       oldPrice: discountPercent ? product.price : undefined,
@@ -175,6 +176,7 @@ export default async function V2HomePage() {
 
     return {
       id: product.id,
+      slug: product.slug ?? undefined,
       name: product.title,
       price: finalPrice,
       oldPrice: discountPercent ? product.price : undefined,

@@ -6,6 +6,7 @@ import ProductCard from "./ProductCard";
 
 interface Product {
   id: number;
+  slug?: string;
   name: string;
   price: number;
   oldPrice?: number;
@@ -55,6 +56,7 @@ const BestSellers: React.FC<BestSellersProps> = ({ products = [] }) => {
           <ProductCard
             key={product.id}
             id={product.id}
+            slug={product.slug}
             name={product.name}
             price={product.price}
             oldPrice={product.oldPrice}

@@ -93,6 +93,7 @@ export default async function ProductPage({ params }: PageProps) {
     take: 4,
     include: {
       category: true,
+      reviews: { select: { rating: true } },
     },
   });
 

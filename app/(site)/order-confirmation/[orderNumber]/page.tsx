@@ -89,10 +89,10 @@ export default async function OrderConfirmationPage({
                       {item.product.title}
                     </Link>
                     <p className="text-xs text-gray-400 mt-1">Qty: {item.quantity}</p>
-                    <p className="text-xs text-gray-400">Unit price: Rs.{Number(item.price).toFixed(2)}</p>
+                    <p className="text-xs text-gray-400">Unit price: Rs.{Number(item.price).toLocaleString()}</p>
                   </div>
                   <p className="font-black text-[#121714] dark:text-white">
-                    Rs.{Number(item.subtotal).toFixed(2)}
+                    Rs.{Number(item.subtotal).toLocaleString()}
                   </p>
                 </div>
               ))}
@@ -151,23 +151,23 @@ export default async function OrderConfirmationPage({
             <div className="space-y-3 text-sm font-bold">
               <div className="flex justify-between">
                 <span className="text-gray-500">Subtotal</span>
-                <span className="text-[#121714] dark:text-white">Rs.{Number(order.subtotal).toFixed(2)}</span>
+                <span className="text-[#121714] dark:text-white">Rs.{Number(order.subtotal).toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500">Shipping</span>
                 <span className={order.shippingFee === 0 ? "text-green-500" : "text-[#121714] dark:text-white"}>
-                  {order.shippingFee === 0 ? "FREE" : `Rs.${Number(order.shippingFee).toFixed(2)}`}
+                  {order.shippingFee === 0 ? "FREE" : `Rs.${Number(order.shippingFee).toLocaleString()}`}
                 </span>
               </div>
               {order.discount > 0 && (
                 <div className="flex justify-between text-green-600">
                   <span>Discount{order.couponCode ? ` (${order.couponCode})` : ""}</span>
-                  <span>-Rs.{Number(order.discount).toFixed(2)}</span>
+                  <span>-Rs.{Number(order.discount).toLocaleString()}</span>
                 </div>
               )}
               <div className="pt-4 border-t border-gray-100 dark:border-white/5 flex justify-between items-center">
                 <span className="text-lg font-black text-[#121714] dark:text-white">Total</span>
-                <span className="text-2xl font-black text-primary">Rs.{Number(order.total).toFixed(2)}</span>
+                <span className="text-2xl font-black text-primary">Rs.{Number(order.total).toLocaleString()}</span>
               </div>
             </div>
           </div>

@@ -49,18 +49,18 @@ const SHIPPING_OPTIONS = [
     desc: "5-7 business days",
     price: 0,
   },
-  {
-    value: "FEDEX",
-    label: "FedEx Express",
-    desc: "2-3 business days",
-    price: 10.99,
-  },
-  {
-    value: "DHL",
-    label: "DHL Priority",
-    desc: "1-2 business days",
-    price: 12.5,
-  },
+  // {
+  //   value: "FEDEX",
+  //   label: "FedEx Express",
+  //   desc: "2-3 business days",
+  //   price: 10.99,
+  // },
+  // {
+  //   value: "DHL",
+  //   label: "DHL Priority",
+  //   desc: "1-2 business days",
+  //   price: 12.5,
+  // },
 ] as const;
 
 const PAYMENT_OPTIONS = [
@@ -237,17 +237,17 @@ export default function CheckoutPage() {
         addressData:
           showNewForm || addresses.length === 0
             ? {
-                firstName: newAddress.firstName,
-                lastName: newAddress.lastName,
-                company: newAddress.company || undefined,
-                country: newAddress.country,
-                streetAddress: newAddress.streetAddress,
-                apartment: newAddress.apartment || undefined,
-                city: newAddress.city,
-                state: newAddress.state || undefined,
-                phone: newAddress.phone,
-                email: newAddress.email,
-              }
+              firstName: newAddress.firstName,
+              lastName: newAddress.lastName,
+              company: newAddress.company || undefined,
+              country: newAddress.country,
+              streetAddress: newAddress.streetAddress,
+              apartment: newAddress.apartment || undefined,
+              city: newAddress.city,
+              state: newAddress.state || undefined,
+              phone: newAddress.phone,
+              email: newAddress.email,
+            }
             : undefined,
         shippingMethod,
         paymentMethod,
@@ -331,11 +331,10 @@ export default function CheckoutPage() {
                       setSelectedAddressId(addr.id);
                       setShowNewForm(false);
                     }}
-                    className={`w-full text-left p-4 rounded-2xl border-2 transition-all ${
-                      selectedAddressId === addr.id && !showNewForm
+                    className={`w-full text-left p-4 rounded-2xl border-2 transition-all ${selectedAddressId === addr.id && !showNewForm
                         ? "border-primary bg-primary/5"
                         : "border-gray-200 dark:border-white/10 hover:border-primary/50"
-                    }`}
+                      }`}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div>
@@ -360,11 +359,10 @@ export default function CheckoutPage() {
                         </p>
                       </div>
                       <div
-                        className={`size-5 rounded-full border-2 shrink-0 mt-1 flex items-center justify-center ${
-                          selectedAddressId === addr.id && !showNewForm
+                        className={`size-5 rounded-full border-2 shrink-0 mt-1 flex items-center justify-center ${selectedAddressId === addr.id && !showNewForm
                             ? "border-primary"
                             : "border-gray-300"
-                        }`}
+                          }`}
                       >
                         {selectedAddressId === addr.id && !showNewForm && (
                           <div className="size-2.5 rounded-full bg-primary" />
@@ -380,11 +378,10 @@ export default function CheckoutPage() {
                     setShowNewForm(true);
                     setSelectedAddressId(null);
                   }}
-                  className={`w-full text-left p-4 rounded-2xl border-2 transition-all flex items-center gap-3 ${
-                    showNewForm
+                  className={`w-full text-left p-4 rounded-2xl border-2 transition-all flex items-center gap-3 ${showNewForm
                       ? "border-primary bg-primary/5"
                       : "border-dashed border-gray-300 dark:border-white/20 hover:border-primary/50"
-                  }`}
+                    }`}
                 >
                   <span className="material-symbols-outlined text-primary">
                     add_circle
@@ -502,19 +499,17 @@ export default function CheckoutPage() {
                   key={option.value}
                   type="button"
                   onClick={() => setShippingMethod(option.value)}
-                  className={`w-full text-left p-5 rounded-2xl border-2 transition-all flex items-center justify-between ${
-                    shippingMethod === option.value
+                  className={`w-full text-left p-5 rounded-2xl border-2 transition-all flex items-center justify-between ${shippingMethod === option.value
                       ? "border-primary bg-primary/5"
                       : "border-gray-200 dark:border-white/10 hover:border-primary/50"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center gap-4">
                     <div
-                      className={`size-5 rounded-full border-2 flex items-center justify-center ${
-                        shippingMethod === option.value
+                      className={`size-5 rounded-full border-2 flex items-center justify-center ${shippingMethod === option.value
                           ? "border-primary"
                           : "border-gray-300"
-                      }`}
+                        }`}
                     >
                       {shippingMethod === option.value && (
                         <div className="size-2.5 rounded-full bg-primary" />
@@ -532,7 +527,7 @@ export default function CheckoutPage() {
                   >
                     {option.price === 0
                       ? "FREE"
-                      : `Rs.${option.price.toFixed(2)}`}
+                      : `Rs.${(option.price as number).toLocaleString()}`}
                   </span>
                 </button>
               ))}
@@ -556,18 +551,16 @@ export default function CheckoutPage() {
                   key={option.value}
                   type="button"
                   onClick={() => setPaymentMethod(option.value)}
-                  className={`w-full text-left p-5 rounded-2xl border-2 transition-all flex items-center gap-4 ${
-                    paymentMethod === option.value
+                  className={`w-full text-left p-5 rounded-2xl border-2 transition-all flex items-center gap-4 ${paymentMethod === option.value
                       ? "border-primary bg-primary/5"
                       : "border-gray-200 dark:border-white/10 hover:border-primary/50"
-                  }`}
+                    }`}
                 >
                   <div
-                    className={`size-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                      paymentMethod === option.value
+                    className={`size-5 rounded-full border-2 flex items-center justify-center shrink-0 ${paymentMethod === option.value
                         ? "border-primary"
                         : "border-gray-300"
-                    }`}
+                      }`}
                   >
                     {paymentMethod === option.value && (
                       <div className="size-2.5 rounded-full bg-primary" />
@@ -639,7 +632,7 @@ export default function CheckoutPage() {
                     {couponApplied.code}
                   </p>
                   <p className="text-xs text-green-600 dark:text-green-500">
-                    -Rs.{couponApplied.discount.toFixed(2)} discount
+                    -Rs.{couponApplied.discount.toLocaleString()} discount
                   </p>
                 </div>
                 <button
@@ -709,11 +702,11 @@ export default function CheckoutPage() {
                       </p>
                       <div className="flex items-baseline gap-1.5 mt-0.5">
                         <span className="text-xs font-black text-primary">
-                          Rs.{(finalPrice * item.quantity).toFixed(2)}
+                          Rs.{(finalPrice * item.quantity).toLocaleString()}
                         </span>
                         {hasDiscount ? (
                           <span className="text-[10px] text-gray-400 line-through">
-                            Rs.{(item.product.price * item.quantity).toFixed(2)}
+                            Rs.{(item.product.price * item.quantity).toLocaleString()}
                           </span>
                         ) : null}
                       </div>
@@ -731,7 +724,7 @@ export default function CheckoutPage() {
                   items)
                 </span>
                 <span className="text-[#121714] dark:text-white">
-                  Rs.{subtotal.toFixed(2)}
+                  Rs.{subtotal.toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between items-center">
@@ -743,13 +736,13 @@ export default function CheckoutPage() {
                       : "text-[#121714] dark:text-white"
                   }
                 >
-                  {shippingFee === 0 ? "FREE" : `Rs.${shippingFee.toFixed(2)}`}
+                  {shippingFee === 0 ? "FREE" : `Rs.${shippingFee.toLocaleString()}`}
                 </span>
               </div>
               {discount > 0 && (
                 <div className="flex justify-between items-center text-green-600">
                   <span>Discount ({couponApplied?.code})</span>
-                  <span>-Rs.{discount.toFixed(2)}</span>
+                  <span>-Rs.{discount.toLocaleString()}</span>
                 </div>
               )}
               <div className="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-white/5">
@@ -757,7 +750,7 @@ export default function CheckoutPage() {
                   Total
                 </span>
                 <span className="text-2xl font-black text-primary">
-                  Rs.{total.toFixed(2)}
+                  Rs.{total.toLocaleString()}
                 </span>
               </div>
             </div>
@@ -780,7 +773,7 @@ export default function CheckoutPage() {
                   <span className="material-symbols-outlined text-xl">
                     check_circle
                   </span>
-                  Place Order — Rs.{total.toFixed(2)}
+                  Place Order - Rs.{total.toLocaleString()}
                 </>
               )}
             </button>

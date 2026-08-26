@@ -144,7 +144,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
       );
       router.push("/checkout");
     } else if (result.error?.toLowerCase().includes("maximum")) {
-      // Item is already in cart at max stock — navigate to checkout anyway
+      // Item is already in cart at max stock â€” navigate to checkout anyway
       router.push("/checkout");
     } else {
       toast.error(result.error ?? "Failed to add to cart");
@@ -676,6 +676,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
         </div>
       </div>
 
+
       {/* Related Products */}
       {relatedProducts.length > 0 && (
         <div className="flex flex-col gap-8 border-t border-gray-100 dark:border-white/10 pt-12">
@@ -695,6 +696,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               <ProductCard
                 key={idx}
                 id={p.id}
+                slug={p.slug ?? undefined}
                 name={p.title}
                 price={p.price}
                 image={p.images[0] || "/images/placeholder-product.jpg"}
@@ -705,8 +707,12 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 }
                 description={p.description}
                 category={p.category?.title || "Uncategorized"}
-                rating={5}
-                reviews={12}
+                rating={
+                  p.reviews?.length > 0
+                    ? p.reviews.reduce((acc: number, r: { rating: number }) => acc + r.rating, 0) / p.reviews.length
+                    : 0
+                }
+                reviews={p.reviews?.length ?? 0}
                 quantity={p.quantity}
               />
             ))}
