@@ -134,7 +134,7 @@ export default function CheckoutPage() {
     (sum, item) => sum + getItemPrice(item.product) * item.quantity,
     0,
   );
-  const shippingFee =
+  const shippingFee: number =
     SHIPPING_OPTIONS.find((o) => o.value === shippingMethod)?.price ?? 0;
   const discount = couponApplied?.discount ?? 0;
   const total = subtotal + shippingFee - discount;
