@@ -67,9 +67,9 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
           <button
             type="button"
             onClick={onOpenFilters}
-            className="relative flex h-11 min-w-0 items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-[#dce5df] bg-white px-3 text-sm font-bold text-[#111713] shadow-sm transition-colors hover:border-primary hover:text-primary dark:border-[#2a3a30] dark:bg-[#142019] dark:text-white min-[430px]:min-w-28"
+            className="relative flex h-11 min-w-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-[#dce5df] bg-white px-2 text-xs font-bold text-[#111713] shadow-sm transition-colors hover:border-primary hover:text-primary dark:border-[#2a3a30] dark:bg-[#142019] dark:text-white min-[430px]:min-w-28 min-[430px]:gap-2 min-[430px]:px-3 min-[430px]:text-sm"
           >
-            <span className="material-symbols-outlined text-[19px] text-primary">
+            <span className="material-symbols-outlined text-[17px] min-[430px]:text-[19px] text-primary">
               tune
             </span>
             Filters
@@ -82,10 +82,10 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
           <button
             type="button"
             onClick={onOpenSort}
-            className="flex h-11 min-w-0 items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-[#dce5df] bg-white px-3 text-sm font-bold text-[#111713] shadow-sm transition-colors hover:border-primary hover:text-primary dark:border-[#2a3a30] dark:bg-[#142019] dark:text-white min-[430px]:min-w-28"
+            className="flex h-11 min-w-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-[#dce5df] bg-white px-2 text-xs font-bold text-[#111713] shadow-sm transition-colors hover:border-primary hover:text-primary dark:border-[#2a3a30] dark:bg-[#142019] dark:text-white min-[430px]:min-w-28 min-[430px]:gap-2 min-[430px]:px-3 min-[430px]:text-sm"
           >
-            Sort By
-            <span className="material-symbols-outlined text-[19px] text-primary">
+            <span>Sort<span className="hidden min-[375px]:inline"> By</span></span>
+            <span className="material-symbols-outlined text-[17px] min-[430px]:text-[19px] text-primary">
               swap_vert
             </span>
           </button>
