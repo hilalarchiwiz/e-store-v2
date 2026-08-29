@@ -1,6 +1,14 @@
+import Hero from "@/components/v2/Hero";
+import CategorySlider from "@/components/v2/CategorySlider";
+import NewArrivals from "@/components/v2/NewArrivals";
+import Banners from "@/components/v2/Banners";
+import BestSellers from "@/components/v2/BestSellers";
+import Countdown from "@/components/v2/Countdown";
+import Feedback from "@/components/v2/Feedback";
+import Subscribe from "@/components/v2/Subscribe";
 import prisma from "@/lib/prisma";
+import { getLatestReviews } from "@/lib/action/review.action";
 import { Metadata } from "next";
-import ProductCard from "@/components/v2/ProductCard";
 
 export const metadata: Metadata = {
   title: "Qaam.pk | Premium Laptops, Tablets & PC Essentials",
@@ -46,27 +54,66 @@ export const metadata: Metadata = {
   },
 };
 
+export type HeroSlide = {
+  id: number;
+  title: string;
+  description: string;
+  img: string;
+  link: string | null;
+};
+
 export default async function V2HomePage() {
-  // Fetch all active products in the Laptop category
-  const laptopsData = await prisma.product.findMany({
+  const categoriesData = await prisma.category.findMany({
+    where: {
+      status: "active",
+      products: {
+        some: {
+          status: "active"
+        }
+      }
+    },
+    orderBy: [
+      { order_number: "asc" }, // nulls will sort last by default in most DBs
+    ],
+    include: {
+      _count: {
+        select: {
+          products: {
+            where: { status: "active" },
+          },
+        },
+      },
+    },
+  });
+
+  const categories = categoriesData
+    .sort((a, b) => (a.order_number ?? Infinity) - (b.order_number ?? Infinity))
+    .map((cat) => ({
+      name: cat.title,
+      order_number: cat.order_number,
+      count: cat._count.products,
+      image: cat.img || "/images/categories/categories-01.png",
+    }));
+  const newArrivalsData = await prisma.product.findMany({
     where: {
       status: "active",
       category: {
         title: {
-          contains: "Laptop",
+          equals: "Laptop",
           mode: "insensitive",
         },
       },
     },
     orderBy: { createdAt: "desc" },
+    take: 8,
     include: {
       reviews: {
-        select: { rating: true },
-      },
-    },
+        select: { rating: true }
+      }
+    }
   });
 
-  const laptops = laptopsData.map((product) => {
+  const newArrivals = newArrivalsData.map((product) => {
     const discountPercent =
       product.discountedPrice && product.discountedPrice > 0
         ? product.discountedPrice
@@ -75,11 +122,73 @@ export default async function V2HomePage() {
       ? product.price - (product.price * discountPercent) / 100
       : product.price;
 
-    const rating =
-      product.reviews.length > 0
-        ? product.reviews.reduce((acc, curr) => acc + curr.rating, 0) /
-          product.reviews.length
-        : 0;
+    const rating = product.reviews.length > 0
+      ? product.reviews.reduce((acc, curr) => acc + curr.rating, 0) / product.reviews.length
+      : 0;
+
+    return {
+      id: product.id,
+      slug: product.slug ?? undefined,
+      name: product.title,
+      price: finalPrice,
+      oldPrice: discountPercent ? product.price : undefined,
+      discountedPrice: product.discountedPrice ?? null,
+      description: product.description,
+      images:
+        product.images.length > 0
+          ? product.images
+          : ["/images/placeholder-product.jpg"],
+      image: product.images[0] || "/images/placeholder-product.jpg",
+      inStock: product.quantity > 0,
+      isNew:
+        (new Date().getTime() - new Date(product.createdAt).getTime()) /
+        (1000 * 3600 * 24) <
+        7,
+      rating: rating,
+      reviews: product.reviews.length,
+    };
+  });
+
+  const banners = await prisma.banner.findMany({
+    where: { isActive: true },
+    orderBy: { order: "asc" },
+    take: 3,
+  });
+
+  const bestSellersData = await prisma.product.findMany({
+    where: {
+      status: "active",
+      category: {
+        title: {
+          equals: "Laptop",
+          mode: "insensitive",
+        },
+      },
+    },
+    orderBy: { orderItems: { _count: "desc" } },
+    take: 12,
+    include: {
+      reviews: {
+        select: { rating: true }
+      },
+      _count: {
+        select: { orderItems: true }
+      }
+    }
+  });
+
+  const bestSellers = bestSellersData.map((product) => {
+    const discountPercent =
+      product.discountedPrice && product.discountedPrice > 0
+        ? product.discountedPrice
+        : null;
+    const finalPrice = discountPercent
+      ? product.price - (product.price * discountPercent) / 100
+      : product.price;
+
+    const rating = product.reviews.length > 0
+      ? product.reviews.reduce((acc, curr) => acc + curr.rating, 0) / product.reviews.length
+      : 0;
 
     return {
       id: product.id,
@@ -97,12 +206,28 @@ export default async function V2HomePage() {
       inStock: product.quantity > 0,
       isNew:
         (new Date().getTime() - new Date(product.createdAt).getTime()) /
-          (1000 * 3600 * 24) <
+        (1000 * 3600 * 24) <
         7,
-      rating,
+      rating: rating,
       reviews: product.reviews.length,
+      soldCount: product._count.orderItems,
     };
   });
+
+  const latestReviews = await getLatestReviews(8);
+
+  const slidersData = await prisma.slider.findMany({
+    where: { status: "active" },
+    orderBy: { createdAt: "asc" },
+  });
+
+  const slides: HeroSlide[] = slidersData.map((s) => ({
+    id: s.id,
+    title: s.title,
+    description: s.description,
+    img: s.img,
+    link: s.link ?? null,
+  }));
 
   return (
     <main className="max-w-400 mx-auto pb-20 md:px-10 px-2">
@@ -122,69 +247,31 @@ export default async function V2HomePage() {
           }),
         }}
       />
-
-      {/* Laptops Section */}
-      <section className="py-12">
-        {/* Header */}
-        <div className="flex justify-between items-end sm:items-center mb-6 sm:mb-10 gap-2">
-          <div>
-            <p className="text-primary text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-1 sm:mb-2">
-              Our Collection
-            </p>
-            <h1 className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-[#121714] dark:text-white">
-              Laptops
-            </h1>
-            <div className="w-8 sm:w-12 h-0.75 bg-primary rounded-full mt-2 sm:mt-3" />
-          </div>
-          <span className="text-sm text-gray-500 dark:text-gray-400 shrink-0 pb-1">
-            {laptops.length} product{laptops.length !== 1 ? "s" : ""}
-          </span>
-        </div>
-
-        {/* Grid */}
-        {laptops.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
-            {laptops.map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                slug={product.slug}
-                name={product.name}
-                price={product.price}
-                oldPrice={product.oldPrice}
-                discountedPrice={product.discountedPrice ?? undefined}
-                image={product.image}
-                images={product.images}
-                description={product.description}
-                category="Laptop"
-                rating={product.rating}
-                reviews={product.reviews}
-                quantity={product.inStock ? 1 : 0}
-                badge={
-                  product.isNew
-                    ? { text: "New", variant: "secondary" }
-                    : product.oldPrice
-                    ? { text: "Sale", variant: "primary" }
-                    : undefined
-                }
-                layout="grid"
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-24 text-center">
-            <span className="material-symbols-outlined text-5xl text-gray-300 dark:text-gray-600 mb-4">
-              laptop
-            </span>
-            <p className="text-gray-500 dark:text-gray-400 text-lg font-medium">
-              No laptops available right now.
-            </p>
-            <p className="text-gray-400 dark:text-gray-500 text-sm mt-1">
-              Check back soon for new arrivals.
-            </p>
-          </div>
-        )}
-      </section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "qaam.pk",
+            url: "https://qaam.pk",
+            logo: "https://qaam.pk/logo.png",
+            contactPoint: {
+              "@type": "ContactPoint",
+              telephone: "+92-300-1234567",
+              contactType: "customer service",
+            },
+          }),
+        }}
+      />
+      <Hero slides={slides} />
+      <CategorySlider categories={categories} />
+      <NewArrivals products={newArrivals} />
+      <Banners banners={banners} />
+      <BestSellers products={bestSellers} />
+      <Countdown />
+      <Feedback reviews={latestReviews} />
+      <Subscribe />
     </main>
   );
 }
