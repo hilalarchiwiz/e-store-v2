@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { saveOrderRecipients } from "@/app/(admin)/admin/(admin)/orders/actions/order.action";
+import { checkOrderEmailConnection, saveOrderRecipients } from "@/app/(admin)/admin/(admin)/orders/actions/order.action";
 
 export default function OrderNotificationRecipients({ initialRecipients }: { initialRecipients: string[] }) {
     const [value, setValue] = useState(initialRecipients.join("\n"));
     const [saving, setSaving] = useState(false);
+    const [checking, setChecking] = useState(false);
+    const [connectionResult, setConnectionResult] = useState<{ success: boolean; message: string } | null>(null);
     const router = useRouter();
 
     return (
@@ -38,6 +40,21 @@ export default function OrderNotificationRecipients({ initialRecipients }: { ini
             <button type="submit" disabled={saving} className="mt-3 rounded-lg bg-blue-600 px-4 py-2 font-medium text-white disabled:opacity-50">
                 {saving ? "Saving..." : "Save recipients"}
             </button>
+            <button type="button" disabled={saving || checking} className="ml-3 mt-3 rounded-lg border border-gray-300 px-4 py-2 font-medium disabled:opacity-50"
+                onClick={async () => {
+                    setChecking(true);
+                    setConnectionResult(null);
+                    try {
+                        setConnectionResult(await checkOrderEmailConnection());
+                    } catch {
+                        setConnectionResult({ success: false, message: "Unable to check the connection. Please try again." });
+                    } finally {
+                        setChecking(false);
+                    }
+                }}>
+                {checking ? "Checking..." : "Check email connection"}
+            </button>
+            {connectionResult && <p role="status" className={`mt-3 text-sm ${connectionResult.success ? "text-green-700" : "text-red-700"}`}>{connectionResult.message}</p>}
         </form>
     );
 }

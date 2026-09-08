@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { sendEmail } from "@/lib/mailer";
+import { describeEmailError, sendEmail } from "@/lib/mailer";
 import { parseOrderRecipients } from "@/lib/order-notification-validation";
 
 export const ORDER_RECIPIENTS_KEY = "order_notification_recipients";
@@ -22,7 +22,8 @@ export async function getOrderRecipients(): Promise<string[]> {
 export async function sendOrderNotification(message: { subject: string; html: string }) {
     const recipients = await getOrderRecipients();
     const results = await Promise.allSettled(recipients.map(to => sendEmail({ ...message, to })));
-    if (results.some(result => result.status === "rejected")) {
-        throw new Error("One or more order notification emails could not be sent.");
+    const failures = results.filter(result => result.status === "rejected");
+    if (failures.length) {
+        throw new Error(`${failures.length} of ${recipients.length} order notifications failed. ${describeEmailError(failures[0].reason)}`);
     }
 }

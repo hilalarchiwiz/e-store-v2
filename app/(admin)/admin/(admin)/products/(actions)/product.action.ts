@@ -4,7 +4,7 @@ import { deleteMultipleImages } from "@/lib/action/FileUpload";
 import { PAGE_SIZE } from "@/lib/constant";
 import prisma from "@/lib/prisma";
 import { slugify } from "@/lib/helper";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { withPermission } from "@/lib/action-utils";
 import { ProductSchema } from "../validations/product";
 import { ProductStatus } from "@prisma/client";
@@ -223,9 +223,9 @@ export async function createProduct(prevData: any, formData: FormData) {
         revalidatePath('/admin/products');
         revalidatePath('/shop');
         revalidatePath('/');
-        (revalidateTag as any)('products');
-        (revalidateTag as any)('categories');
-        (revalidateTag as any)('brands');
+        updateTag('products');
+        updateTag('categories');
+        updateTag('brands');
         return { success: true, id: product.id };
     });
 }
@@ -247,7 +247,7 @@ export async function updateProduct(productId: number | undefined, prevData: any
         }
         const oldProduct = await prisma.product.findUnique({
             where: { id: productId },
-            select: { images: true, id: true }
+            select: { images: true, id: true, slug: true }
         });
 
         const data = extractAndValidateProductData(formData);
@@ -267,11 +267,12 @@ export async function updateProduct(productId: number | undefined, prevData: any
         }
 
         revalidatePath('/admin/products');
-        revalidatePath(`/product/${oldProduct?.id}`);
+        revalidatePath(`/product/${oldProduct?.slug}`);
+        revalidatePath('/shop');
         revalidatePath('/');
-        (revalidateTag as any)('products');
-        (revalidateTag as any)('categories');
-        (revalidateTag as any)('brands');
+        updateTag('products');
+        updateTag('categories');
+        updateTag('brands');
         return { success: true, message: "Product updated successfully." };
     });
 }
@@ -286,14 +287,14 @@ export async function deleteProduct(productId: string) {
 
         if (!product) throw new Error('Product not found.');
 
-        await deleteMultipleImages(product.images);
         await prisma.product.delete({ where: { id } });
+        await deleteMultipleImages(product.images);
 
         revalidatePath('/admin/products');
         revalidatePath('/');
-        (revalidateTag as any)('products');
-        (revalidateTag as any)('categories');
-        (revalidateTag as any)('brands');
+        updateTag('products');
+        updateTag('categories');
+        updateTag('brands');
         return { success: true, message: 'Product deleted successfully.' };
     });
 }
@@ -410,7 +411,7 @@ export async function updateProductPrice(productId: number, price: number, disco
         });
 
         revalidatePath('/admin/products');
-        (revalidateTag as any)('products');
+        updateTag('products');
         return { success: true, message: "Price updated successfully." };
     });
 }
@@ -457,7 +458,7 @@ export async function updateProductGrading(productId: number, gradingId: number 
         });
 
         revalidatePath('/admin/products');
-        (revalidateTag as any)('products');
+        updateTag('products');
         return { success: true, message: "Grading assigned successfully." };
     });
 }

@@ -3,7 +3,7 @@ import imageCompression from 'browser-image-compression';
 import { Plus, X, UploadCloud, Loader2, WandSparkles } from 'lucide-react'
 import React, { useState, useRef, useTransition, useEffect } from 'react'
 import Image from 'next/image'
-import { uploadMultipleImages, deleteImageFromBlob } from '@/lib/action/FileUpload'; // Assume deleteImageFromBlob is imported
+import { uploadMultipleImages } from '@/lib/action/FileUpload';
 import { removeProductBackground } from '@/lib/client/remove-product-background';
 
 // Define the component props to accept default images (for Edit mode)
@@ -40,7 +40,6 @@ const UploadMultipleFiles = ({ defaultImages, onImagesChange }: UploadMultipleFi
 
     // Use Next.js useTransition for client-side loading state
     const [isPending, startTransition] = useTransition();
-    const [isDeleting, startDeleteTransition] = useTransition(); // New transition for delete operation
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [processingProgress, setProcessingProgress] = useState<ProcessingProgress | null>(null);
@@ -56,32 +55,11 @@ const UploadMultipleFiles = ({ defaultImages, onImagesChange }: UploadMultipleFi
         }
     };
 
-    // --- Handlers for Image Deletion ---
+    // --- Draft image removal ---
 
     const handleRemoveImage = (index: number) => {
-        const imageUrlToDelete = images[index];
-
-        // 2. Start delete transition
-        startDeleteTransition(async () => {
-            if (imageUrlToDelete.startsWith('https://')) { // Check if it's a remote/blob URL (not a local preview blob)
-                console.log(`Attempting to delete image from server: ${imageUrlToDelete}`);
-
-                // Call the new server action to delete from blob storage
-                const { error } = await deleteImageFromBlob(imageUrlToDelete);
-
-                if (error) {
-                    console.error("Server Delete Error:", error);
-                    // Decide if you want to proceed with local removal even if server failed.
-                    // For safety, you might want to stop here and notify the user.
-                    alert(`Failed to delete image on server. Please try again. Error: ${error}`);
-                    return;
-                }
-            }
-
-            // If deletion was successful (or if it was a local URL that didn't need server deletion),
-            // proceed to remove it from the local state.
-            setImages(images.filter((_, i) => i !== index));
-        });
+        // Only edit the draft. The save action cleans up removed images after DB success.
+        setImages(current => current.filter((_, i) => i !== index));
     };
 
     // --- Handlers for File Upload ---
@@ -246,7 +224,7 @@ const UploadMultipleFiles = ({ defaultImages, onImagesChange }: UploadMultipleFi
                     type="button"
                     onClick={handleAddImageUrl}
                     className="flex items-center gap-1 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors disabled:bg-emerald-400"
-                    disabled={!urlInput.trim() || isDeleting}
+                    disabled={!urlInput.trim()}
                 >
                     <Plus className="w-5 h-5" />
                     Add URL
@@ -284,8 +262,9 @@ const UploadMultipleFiles = ({ defaultImages, onImagesChange }: UploadMultipleFi
 
 
             {/* Image Previews */}
+            <p className="text-sm text-gray-500">Image removals take effect after you save the product.</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {images.length === 0 && !isPending && !isDeleting && (
+                {images.length === 0 && !isPending && (
                     <p className="col-span-4 text-center text-gray-500">No images added yet.</p>
                 )}
 
@@ -315,17 +294,11 @@ const UploadMultipleFiles = ({ defaultImages, onImagesChange }: UploadMultipleFi
                         <button
                             type="button"
                             onClick={() => handleRemoveImage(index)}
-                            // Display loading state during deletion
-                            disabled={isDeleting}
+                            aria-label={`Remove image ${index + 1} from draft`}
                             className="absolute top-2 right-2 p-1 bg-red-600 hover:bg-red-700 text-white rounded-full transition-opacity
                                         opacity-0 group-hover:opacity-100 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {/* Show spinner on the delete button */}
-                            {isDeleting ? (
-                                <Loader2 className="w-4 h-4 animate-spin" />
-                            ) : (
-                                <X className="w-4 h-4" />
-                            )}
+                            <X className="w-4 h-4" />
                         </button>
                     </div>
                 ))}

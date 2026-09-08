@@ -6,7 +6,7 @@ import { uploadImage } from '@/lib/action/FileUpload'
 import { PAGE_SIZE } from '@/lib/constant'
 import prisma from '@/lib/prisma'
 import { slugify } from "@/lib/helper";
-import { revalidatePath, revalidateTag } from 'next/cache'
+import { revalidatePath, updateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 // 1. Get All Categories
@@ -106,7 +106,7 @@ export async function createCategory(prevData: any, formData: FormData) {
 
         revalidatePath('/admin/category');
         revalidatePath('/');
-        (revalidateTag as any)('categories');
+        updateTag('categories');
         return { success: true, message: "Category created successfully" };
     });
 
@@ -209,7 +209,7 @@ export async function updateCategory(categoryId: number | undefined, prevData: a
 
         revalidatePath('/admin/category');
         revalidatePath('/');
-        (revalidateTag as any)('categories');
+        updateTag('categories');
         return { success: true, message: "Category updated successfully" };
     });
 }
@@ -230,7 +230,7 @@ export async function deleteCategory(categoryId: string) {
 
         revalidatePath('/admin/category');
         revalidatePath('/');
-        (revalidateTag as any)('categories');
+        updateTag('categories');
         return { success: true, message: "Category deleted successfully" };
     });
 }

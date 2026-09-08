@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 export default function Error({ error, reset }) {
   const router = useRouter();
+  const staleAction = /failed to find server action|server action.*not found/i.test(error?.message || "");
   const errorId = useId().replaceAll(':', '').toUpperCase();
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
@@ -56,15 +57,19 @@ export default function Error({ error, reset }) {
           <div className="space-y-3">
             {/* Option A: Try to refresh the current failing page */}
             <button
-              onClick={() =>
+              onClick={() => {
+                if (staleAction) {
+                  window.location.reload();
+                  return;
+                }
                 startTransition(() => {
                   router.refresh();
                   reset();
-                })
-              }
+                });
+              }}
               className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg"
             >
-              Try again
+              {staleAction ? "Reload latest version" : "Try again"}
             </button>
 
             {/* Option B: Redirect to the last successful page */}

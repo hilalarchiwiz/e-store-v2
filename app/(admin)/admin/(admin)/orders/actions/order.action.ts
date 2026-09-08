@@ -6,7 +6,8 @@ import { revalidatePath } from "next/cache";
 import { withPermission } from "@/lib/action-utils";
 
 import { parseOrderRecipients } from "@/lib/order-notification-validation";
-import { ORDER_RECIPIENTS_KEY } from "@/lib/order-notifications";
+import { verifyEmailConnection } from "@/lib/mailer";
+import { getOrderRecipients, ORDER_RECIPIENTS_KEY } from "@/lib/order-notifications";
 
 interface SaveInvoiceInput {
     orderId: string;
@@ -308,5 +309,15 @@ export async function saveOrderRecipients(input: string) {
         });
         revalidatePath("/admin/orders");
         return { success: true, message: "Order notification recipients saved.", recipients };
+    });
+}
+
+export async function checkOrderEmailConnection() {
+    return withPermission("settings_update", async () => {
+        const recipients = await getOrderRecipients();
+        if (!recipients.length) {
+            return { success: false, message: "No notification recipients are saved. Save at least one email address first." };
+        }
+        return verifyEmailConnection();
     });
 }

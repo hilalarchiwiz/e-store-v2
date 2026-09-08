@@ -1,7 +1,19 @@
 import type { NextConfig } from "next";
+import { execFileSync } from "node:child_process";
+
+function getDeploymentId(): string | undefined {
+  const configured = process.env.NEXT_DEPLOYMENT_ID || process.env.BUILD_BUILDID || process.env.GITHUB_RUN_ID;
+  if (configured) return configured;
+  try {
+    return execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  } catch {
+    return undefined;
+  }
+}
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
+  deploymentId: getDeploymentId(),
   experimental: {
     authInterrupts: true,
     serverActions: {

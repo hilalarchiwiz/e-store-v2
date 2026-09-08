@@ -31,7 +31,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { getPendingOrdersCount } from '@/lib/action/v2-order.action';
 import { useEffect } from 'react';
 
 const menuItems = [
@@ -82,17 +81,25 @@ export default function Sidebar({ permissions }) {
     const router = useRouter();
 
     useEffect(() => {
+        if (!Array.isArray(permissions) || !permissions.includes('order_view')) return;
+        const controller = new AbortController();
         const fetchCount = async () => {
-            const res = await getPendingOrdersCount();
-            if (res.success) {
-                setPendingCount(res.count);
+            try {
+                const response = await fetch('/api/admin/orders/pending-count', {
+                    cache: 'no-store', signal: controller.signal,
+                });
+                if (!response.ok) return;
+                const result = await response.json();
+                if (!controller.signal.aborted && result.success) setPendingCount(result.count);
+            } catch {
+                // Keep the last count on transient network errors; retry on the next interval.
             }
         };
-        fetchCount();
-        // Refresh count every 2 minutes
+        void fetchCount();
         const interval = setInterval(fetchCount, 120000);
-        return () => clearInterval(interval);
-    }, []);
+        return () => { controller.abort(); clearInterval(interval); };
+    }, [permissions]);
+
     const visibleMenuItems = menuItems.filter(item => {
         if (item.permission === 'yes') return true;
         return Array.isArray(permissions) && permissions.includes(item.permission);

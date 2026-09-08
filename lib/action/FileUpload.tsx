@@ -2,6 +2,7 @@
 
 import { BlobServiceClient } from "@azure/storage-blob";
 import sharp from "sharp";
+import prisma from "@/lib/prisma";
 
 const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
 const CONTAINER_NAME = process.env.AZURE_STORAGE_CONTAINER_NAME || "images";
@@ -129,7 +130,11 @@ export async function deleteMultipleImages(imageUrls: string[]): Promise<void> {
         const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
         try {
-            // Check if the blob exists before trying to delete
+            // A URL may be shared by multiple products. Keep any still in use.
+            const referenced = await prisma.product.findFirst({
+                where: { images: { has: url } }, select: { id: true },
+            });
+            if (referenced) return;
             if (await blockBlobClient.exists()) {
                 await blockBlobClient.delete();
                 console.log(`Successfully deleted blob: ${blobName}`);
@@ -149,30 +154,7 @@ export async function deleteMultipleImages(imageUrls: string[]): Promise<void> {
  * @param imageUrl The public URL of the image to delete.
  */
 export async function deleteImageFromBlob(imageUrl: string): Promise<{ success: boolean, error?: string }> {
-    // 1. Get the blob name using the existing helper function
-    const blobName = getBlobNameFromUrl(imageUrl);
-
-    if (!blobName) {
-        console.warn(`Could not extract blob name from URL: ${imageUrl}. Skipping deletion.`);
-        return { success: false, error: 'Invalid or unexpected image URL format.' };
-    }
-
-    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-
-    try {
-        // 2. Check existence and delete
-        if (await blockBlobClient.exists()) {
-            await blockBlobClient.delete();
-            console.log(`Successfully deleted blob: ${blobName}`);
-            return { success: true };
-        } else {
-            // Treat non-existence as a successful deletion from the client's perspective
-            console.warn(`Blob not found: ${blobName}. Treating as successfully removed.`);
-            return { success: true, error: 'Blob was not found on the server, but the operation succeeded.' };
-        }
-
-    } catch (error) {
-        console.error(`Error deleting blob ${blobName} from Azure:`, error);
-        return { success: false, error: `Failed to delete image: ${error instanceof Error ? error.message : String(error)}` };
-    }
+    // Old browser tabs may still call this action. Never delete a persisted image
+    // independently of the record update that removes its URL.
+    return { success: false, error: "Remove the image in the edit form and save the product to apply the change." };
 }
