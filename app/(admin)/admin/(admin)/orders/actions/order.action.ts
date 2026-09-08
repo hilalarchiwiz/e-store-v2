@@ -5,6 +5,9 @@ import { OrderStatus, PaymentStatus, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { withPermission } from "@/lib/action-utils";
 
+import { parseOrderRecipients } from "@/lib/order-notification-validation";
+import { ORDER_RECIPIENTS_KEY } from "@/lib/order-notifications";
+
 interface SaveInvoiceInput {
     orderId: string;
     status: string;
@@ -273,5 +276,37 @@ export async function recordOrderPayment(input: RecordPaymentInput) {
             message: "Payment recorded successfully.",
             payment,
         };
+    });
+}
+
+export async function deleteOrder(orderId: string) {
+    return withPermission("order_delete", async () => {
+        if (typeof orderId !== "string" || !orderId.trim()) {
+            return { success: false, message: "Order ID is required." };
+        }
+
+        // Order items cascade; customer accounts and addresses are retained.
+        await prisma.order.delete({ where: { id: orderId } });
+        revalidatePath("/admin");
+        revalidatePath("/admin/orders");
+        revalidatePath(`/admin/orders/${orderId}/invoice`);
+        revalidatePath("/dashboard/orders");
+        return { success: true, message: "Order deleted successfully." };
+    });
+}
+
+export async function saveOrderRecipients(input: string) {
+    return withPermission("settings_update", async () => {
+        if (typeof input !== "string" || input.length > 16000) {
+            return { success: false, message: "Enter a valid list of email addresses." };
+        }
+        const recipients = parseOrderRecipients(input);
+        await prisma.setting.upsert({
+            where: { key: ORDER_RECIPIENTS_KEY },
+            create: { key: ORDER_RECIPIENTS_KEY, value: JSON.stringify(recipients) },
+            update: { value: JSON.stringify(recipients) },
+        });
+        revalidatePath("/admin/orders");
+        return { success: true, message: "Order notification recipients saved.", recipients };
     });
 }

@@ -1,10 +1,4 @@
-import { sendEmail } from "@/lib/mailer";
-
-const ADMIN_ORDER_NOTIFICATION_RECIPIENTS = [
-  "sanaan.arshad@archiwiz.com",
-  "Sanankhanktk99@gmail.com",
-  "abraiz.khan@archiwiz.com",
-];
+import { sendOrderNotification } from "@/lib/order-notifications";
 
 interface AdminOrderNotificationInput {
   orderNumber: string;
@@ -41,8 +35,7 @@ export async function sendAdminOrderNotification({
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
   const adminOrdersUrl = escapeHtml(`${siteUrl}/admin/orders`);
 
-  await sendEmail({
-    to: ADMIN_ORDER_NOTIFICATION_RECIPIENTS,
+  await sendOrderNotification({
     subject: `New Order Received: ${orderNumber}`,
     html: `
       <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">

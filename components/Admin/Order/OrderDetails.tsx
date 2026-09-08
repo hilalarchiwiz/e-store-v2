@@ -1,7 +1,8 @@
 'use client'
 import { useState } from 'react';
-import { Eye, Package, Truck, CheckCircle, XCircle, Clock, AlertCircle, Printer, Save, Loader2, Banknote } from 'lucide-react';
-import { recordOrderPayment, saveInvoice } from '@/app/(admin)/admin/(admin)/orders/actions/order.action';
+import { Eye, Package, Truck, CheckCircle, XCircle, Clock, AlertCircle, Printer, Save, Loader2, Banknote, Trash2 } from 'lucide-react';
+import ConfirmDialog from "../ConfirmDialog";
+import { deleteOrder, recordOrderPayment, saveInvoice } from '@/app/(admin)/admin/(admin)/orders/actions/order.action';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
@@ -23,6 +24,7 @@ type AdminOrder = Prisma.OrderGetPayload<{
 }>;
 
 interface OrderDetailsProps {
+    canDelete?: boolean;
     orders?: AdminOrder[];
     totalPages?: number;
     currentPage: number;
@@ -76,7 +78,7 @@ const parseDiscountInput = (value: string, amountBeforeDiscount: number) => {
     };
 };
 
-const OrderDetails = ({ orders, totalPages, currentPage, limit, totalCount, params }: OrderDetailsProps) => {
+const OrderDetails = ({ canDelete = false, orders, totalPages, currentPage, limit, totalCount, params }: OrderDetailsProps) => {
     const [selectedOrder, setSelectedOrder] = useState<AdminOrder | null>(null);
     const [showModal, setShowModal] = useState(false);
     const [draftStatus, setDraftStatus] = useState("");
@@ -86,7 +88,34 @@ const OrderDetails = ({ orders, totalPages, currentPage, limit, totalCount, para
     const [showPaymentModal, setShowPaymentModal] = useState(false);
     const [paymentAmount, setPaymentAmount] = useState("");
     const [isSavingPayment, setIsSavingPayment] = useState(false);
+    const [orderToDelete, setOrderToDelete] = useState<AdminOrder | null>(null);
+    const [isDeleting, setIsDeleting] = useState(false);
     const router = useRouter();
+
+    const handleDeleteOrder = async () => {
+        if (!orderToDelete || isDeleting) return;
+        setIsDeleting(true);
+        try {
+            const result = await deleteOrder(orderToDelete.id);
+            if (!result.success) {
+                toast.error(result.message || "Unable to delete the order.");
+                return;
+            }
+            if (selectedOrder?.id === orderToDelete.id) closeModal();
+            setOrderToDelete(null);
+            toast.success(result.message);
+            if (orders?.length === 1 && currentPage > 1) {
+                const query = new URLSearchParams(params as Record<string, string>);
+                query.set("page", String(currentPage - 1));
+                router.replace(`/admin/orders?${query.toString()}`);
+            }
+            router.refresh();
+        } catch {
+            toast.error("Unable to delete the order. Please try again.");
+        } finally {
+            setIsDeleting(false);
+        }
+    };
 
     const formatDate = (date: Date | string) => {
         return new Date(date).toLocaleDateString('en-US', {
@@ -340,6 +369,13 @@ const OrderDetails = ({ orders, totalPages, currentPage, limit, totalCount, para
                         <Printer size={16} />
                         Print
                     </Link>
+                    {canDelete && (
+                        <button type="button" onClick={() => setOrderToDelete(order)}
+                            className="text-red-700 hover:text-red-900 flex items-center gap-1 text-sm font-medium bg-red-50 px-3 py-1.5 rounded-md"
+                            aria-label={`Delete order ${order.orderNumber}`}>
+                            <Trash2 size={16} /> Delete
+                        </button>
+                    )}
                 </div>
             ),
         },
@@ -347,6 +383,16 @@ const OrderDetails = ({ orders, totalPages, currentPage, limit, totalCount, para
 
     return (
         <div className="">
+            <ConfirmDialog
+                isOpen={orderToDelete !== null}
+                onClose={() => { if (!isDeleting) setOrderToDelete(null); }}
+                onConfirm={handleDeleteOrder}
+                title={`Delete order ${orderToDelete?.orderNumber || ""}`}
+                message="This permanently deletes the order, its items, and invoice. This cannot be undone and does not issue a payment refund."
+                confirmText={isDeleting ? "Deleting..." : "Delete order"}
+                isConfirmDisabled={isDeleting}
+                isCancelDisabled={isDeleting}
+            />
             <div className="">
                 <Title
                     title='Order management'

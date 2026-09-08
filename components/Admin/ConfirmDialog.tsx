@@ -52,10 +52,10 @@ export default function ConfirmDialog({
                     </div>
                     {/* Content */}
                     <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                        Confirm Delete
+                        {title}
                     </h3>
                     <p className="text-slate-500 dark:text-slate-400 mb-8">
-                        Are you sure you want to delete this item? This data will be loss and not return .
+                        {message}
                     </p>
 
                     {/* Actions */}
