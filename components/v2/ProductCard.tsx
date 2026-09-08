@@ -330,7 +330,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         href={`/product/${slug || id}`}
         className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#d9e3dd] bg-white shadow-[0_2px_7px_rgba(18,23,20,0.10)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_12px_30px_rgba(18,23,20,0.14)] dark:border-[#2a3a30] dark:bg-[#1a251d]"
       >
-        <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#f1f5f3] dark:bg-[#243129]">
+        <div className="relative aspect-[12/9] w-full overflow-hidden bg-[#f1f5f3] dark:bg-[#243129]">
           {imageError ? (
             <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-[#87958c] dark:text-[#9aa89f]">
               <span className="material-symbols-outlined text-4xl sm:text-5xl">

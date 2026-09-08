@@ -99,7 +99,7 @@ export default async function V2HomePage() {
       status: "active",
       category: {
         title: {
-          equals: "Laptop",
+          equals: "Laptops",
           mode: "insensitive",
         },
       },
@@ -160,7 +160,7 @@ export default async function V2HomePage() {
       status: "active",
       category: {
         title: {
-          equals: "Laptop",
+          equals: "Laptops",
           mode: "insensitive",
         },
       },
