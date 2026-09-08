@@ -5,7 +5,8 @@ import generateSession from "@/lib/generate-session";
 import { getOrCreateAnonymousId } from "@/lib/session";
 import { discountPrice } from "@/lib/helper";
 import { revalidatePath } from "next/cache";
-import { sendEmail } from "@/lib/mailer";
+import { after } from "next/server";
+import { sendAdminOrderNotification } from "@/lib/order-notification";
 
 export interface AddressInput {
   firstName: string;
@@ -182,29 +183,19 @@ export async function placeOrder(input: PlaceOrderInput) {
       return newOrder;
     });
 
-    // Send email to admin (Moved OUTSIDE transaction to prevent timeout)
-    try {
-      await sendEmail({
-        to: "qaamdotpk@gmail.com",
-        subject: `New Order Received: ${order.orderNumber}`,
-        html: `
-          <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-            <h2 style="color: #16a34a;">New Order Alert!</h2>
-            <p>A new order has been placed on Ecomare.</p>
-            <hr style="border: 0; border-top: 1px solid #eee;" />
-            <p><strong>Order Number:</strong> ${order.orderNumber}</p>
-            <p><strong>Total Amount:</strong> PKR ${total.toLocaleString()}</p>
-            <p><strong>Payment Method:</strong> ${input.paymentMethod}</p>
-            <p><strong>Customer Email:</strong> ${input.addressData?.email || "N/A"}</p>
-            <hr style="border: 0; border-top: 1px solid #eee;" />
-            <p>Please log in to the admin dashboard to process this order.</p>
-            <a href="${process.env.NEXT_PUBLIC_SITE_URL}/admin/orders" style="display: inline-block; background: #16a34a; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">View Order</a>
-          </div>
-        `,
-      });
-    } catch (emailError) {
-      console.error("Failed to send admin email notification:", emailError);
-    }
+    // Run SMTP after the order response so email latency never slows checkout.
+    after(async () => {
+      try {
+        await sendAdminOrderNotification({
+          orderNumber: order.orderNumber,
+          total,
+          paymentMethod: input.paymentMethod,
+          customerEmail: input.addressData?.email || session.user.email,
+        });
+      } catch (emailError) {
+        console.error("Failed to send admin email notification:", emailError);
+      }
+    });
 
     revalidatePath("/cart");
     revalidatePath("/checkout");

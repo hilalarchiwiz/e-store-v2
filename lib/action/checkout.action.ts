@@ -1,12 +1,13 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { sendEmail } from "../mailer";
+import { after } from "next/server";
 import { redirect } from "next/navigation";
 import prisma from "../prisma";
 import { discountPrice } from "../helper";
 import generateSession from "../generate-session";
 import { createPayFastPayload } from "../payfast";
 import { initiateAPS } from "../payments/aps";
+import { sendAdminOrderNotification } from "../order-notification";
 
 // Types
 interface BillingAddressInput {
@@ -249,29 +250,20 @@ export async function processCheckout(input: CheckoutInput) {
             return newOrder;
         });
 
-        // Send email to admin (Moved OUTSIDE transaction to prevent timeout)
-        try {
-            await sendEmail({
-                to: "qaamdotpk@gmail.com",
-                subject: `New Order Received (Legacy): ${order.orderNumber}`,
-                html: `
-                    <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-                        <h2 style="color: #16a34a;">New Order Alert!</h2>
-                        <p>A new order has been placed on Ecomare (via Legacy Checkout).</p>
-                        <hr style="border: 0; border-top: 1px solid #eee;" />
-                        <p><strong>Order Number:</strong> ${order.orderNumber}</p>
-                        <p><strong>Total Amount:</strong> PKR ${total.toLocaleString()}</p>
-                        <p><strong>Payment Method:</strong> ${input.paymentMethod}</p>
-                        <p><strong>Customer Email:</strong> ${input.billingAddress?.email || "N/A"}</p>
-                        <hr style="border: 0; border-top: 1px solid #eee;" />
-                        <p>Please log in to the admin dashboard to process this order.</p>
-                        <a href="${process.env.NEXT_PUBLIC_SITE_URL}/admin/orders" style="display: inline-block; background: #16a34a; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">View Order</a>
-                    </div>
-                `,
-            });
-        } catch (emailError) {
-            console.error("Failed to send admin email notification:", emailError);
-        }
+        // Run SMTP after the order response so email latency never slows checkout.
+        after(async () => {
+            try {
+                await sendAdminOrderNotification({
+                    orderNumber: order.orderNumber,
+                    total,
+                    paymentMethod: input.paymentMethod,
+                    customerEmail: input.billingAddress.email,
+                    isLegacyCheckout: true,
+                });
+            } catch (emailError) {
+                console.error("Failed to send admin email notification:", emailError);
+            }
+        });
 
         let checkoutUrl;
         let data;
