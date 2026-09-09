@@ -47,6 +47,7 @@ export default function QuickViewModal({
   const [cartLoading, setCartLoading] = useState(false);
   const [cartLimitReached, setCartLimitReached] = useState(false);
   const cartRequestPending = useRef(false);
+  const thumbnailTrack = useRef<HTMLDivElement>(null);
 
   const images =
     product.images.length > 0
@@ -67,6 +68,27 @@ export default function QuickViewModal({
     salePrice && product.price > 0
       ? Math.round((1 - salePrice / product.price) * 100)
       : null;
+
+  // Center the selection within the strip to reveal neighboring images.
+  useEffect(() => {
+    const track = thumbnailTrack.current;
+    if (!track) return;
+    const centerThumbnail = () => {
+      const thumbnail = track.children[activeIdx] as HTMLElement | undefined;
+      if (!thumbnail) return;
+      const trackBounds = track.getBoundingClientRect();
+      const thumbnailBounds = thumbnail.getBoundingClientRect();
+      track.scrollTo({
+        left: track.scrollLeft + thumbnailBounds.left - trackBounds.left
+          - (track.clientWidth - thumbnailBounds.width) / 2,
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+      });
+    };
+    centerThumbnail();
+    const observer = new ResizeObserver(centerThumbnail);
+    observer.observe(track);
+    return () => observer.disconnect();
+  }, [activeIdx]);
 
   // Fetch real stock quantity when modal opens
   useEffect(() => {
@@ -186,7 +208,7 @@ export default function QuickViewModal({
             )}
           </div>
 
-          <div className="flex gap-3 sm:gap-5 overflow-x-auto pb-1 no-scrollbar">
+          <div ref={thumbnailTrack} role="group" aria-label="Product images" className="flex gap-3 sm:gap-5 overflow-x-auto overscroll-x-contain pb-1 no-scrollbar">
             {images.map((src, i) => (
               <button
                 key={i}
@@ -218,6 +240,33 @@ export default function QuickViewModal({
               </button>
             ))}
           </div>
+          {images.length > 1 && (
+            <div className="flex items-center justify-between gap-3">
+              <p aria-live="polite" aria-atomic="true" className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                Image {activeIdx + 1} of {images.length}
+              </p>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setActiveIdx((index) => Math.max(0, index - 1))}
+                  disabled={activeIdx === 0}
+                  aria-label="Previous product image"
+                  className="flex size-9 items-center justify-center rounded-full border border-gray-200 text-gray-600 transition-colors hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-30 dark:border-[#404040] dark:text-white"
+                >
+                  <span aria-hidden="true" className="material-symbols-outlined text-xl">chevron_left</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveIdx((index) => Math.min(images.length - 1, index + 1))}
+                  disabled={activeIdx === images.length - 1}
+                  aria-label="Next product image"
+                  className="flex size-9 items-center justify-center rounded-full border border-gray-200 text-gray-600 transition-colors hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-30 dark:border-[#404040] dark:text-white"
+                >
+                  <span aria-hidden="true" className="material-symbols-outlined text-xl">chevron_right</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* ── Right: Product info ── */}
