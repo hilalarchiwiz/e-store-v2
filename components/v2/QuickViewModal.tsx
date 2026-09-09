@@ -149,79 +149,81 @@ export default function QuickViewModal({
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-[#171717] rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto no-scrollbar flex flex-col md:flex-row relative"
+        className="bg-white dark:bg-[#171717] rounded-3xl shadow-2xl w-full max-w-5xl max-h-[90dvh] overflow-y-auto overscroll-contain no-scrollbar grid grid-cols-1 md:grid-cols-2 gap-7 md:gap-10 lg:gap-16 p-5 pt-16 sm:p-8 sm:pt-16 md:p-10 md:pt-16 lg:p-12 lg:pt-16 relative"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 size-9 bg-gray-100 dark:bg-[#262626] rounded-full flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-600 dark:text-white transition-colors"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 size-10 sm:size-11 bg-gray-100 dark:bg-[#262626] rounded-full flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-600 dark:text-white transition-colors"
           aria-label="Close"
         >
           <span className="material-symbols-outlined text-[20px]">close</span>
         </button>
 
-        {/* ── Left: Image gallery ── */}
-        <div className="flex flex-row md:flex-col gap-2 p-4 md:w-[140px] overflow-x-auto md:overflow-y-auto no-scrollbar shrink-0">
-          {images.map((src, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveIdx(i)}
-              className={`relative shrink-0 size-[80px] md:size-[90px] rounded-xl overflow-hidden border-2 transition-colors ${
-                activeIdx === i
-                  ? "border-primary"
-                  : "border-transparent hover:border-gray-300"
-              }`}
-            >
-              {!imgErrors[i] ? (
-                <Image
-                  src={src}
-                  alt={`${product.name} ${i + 1}`}
-                  fill
-                  sizes="90px"
-                  className="object-contain p-1"
-                  onError={() => setImgErrors((p) => ({ ...p, [i]: true }))}
-                />
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-[#262626]">
-                  <span className="material-symbols-outlined text-2xl text-gray-300">
-                    image_not_supported
-                  </span>
-                </div>
-              )}
-            </button>
-          ))}
-        </div>
+        {/* Image gallery: main image with thumbnails below */}
+        <div className="flex min-w-0 flex-col gap-4 sm:gap-6">
+          <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-[#f7f8f9] dark:bg-[#262626] flex items-center justify-center">
+            {salePercent && (
+              <span className="absolute top-3 left-3 z-10 flex size-16 flex-col items-center justify-center rounded-full bg-green-500 text-white text-[10px] font-bold leading-tight text-center">
+                <span className="text-sm">SALE</span>
+                {salePercent}% OFF
+              </span>
+            )}
+            {!imgErrors[activeIdx] ? (
+              <Image
+                src={images[activeIdx]}
+                alt={product.name}
+                fill
+                sizes="(max-width: 768px) 90vw, 440px"
+                className="object-contain p-6"
+                onError={() => setImgErrors((p) => ({ ...p, [activeIdx]: true }))}
+              />
+            ) : (
+              <span className="material-symbols-outlined text-8xl text-gray-200 dark:text-white/10">
+                image_not_supported
+              </span>
+            )}
+          </div>
 
-        {/* ── Center: Main image ── */}
-        <div className="relative flex-1 min-h-[300px] md:min-h-[420px] bg-[#f7f8f9] dark:bg-[#262626] flex items-center justify-center">
-          {!imgErrors[activeIdx] ? (
-            <Image
-              src={images[activeIdx]}
-              alt={product.name}
-              fill
-              sizes="(max-width: 768px) 100vw, 500px"
-              className="object-contain p-6"
-              onError={() => setImgErrors((p) => ({ ...p, [activeIdx]: true }))}
-            />
-          ) : (
-            <span className="material-symbols-outlined text-8xl text-gray-200 dark:text-white/10">
-              image_not_supported
-            </span>
-          )}
+          <div className="flex gap-3 sm:gap-5 overflow-x-auto pb-1 no-scrollbar">
+            {images.map((src, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveIdx(i)}
+                aria-label={`View product image ${i + 1}`}
+                aria-pressed={activeIdx === i}
+                className={`relative shrink-0 w-[calc((100%_-_1.5rem)/3)] sm:w-[calc((100%_-_2.5rem)/3)] aspect-square bg-[#f7f8f9] dark:bg-[#262626] rounded-lg overflow-hidden border-2 transition-colors ${
+                  activeIdx === i
+                    ? "border-primary"
+                    : "border-transparent hover:border-gray-300"
+                }`}
+              >
+                {!imgErrors[i] ? (
+                  <Image
+                    src={src}
+                    alt={`${product.name} ${i + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 28vw, 130px"
+                    className="object-contain p-1"
+                    onError={() => setImgErrors((p) => ({ ...p, [i]: true }))}
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-[#262626]">
+                    <span className="material-symbols-outlined text-2xl text-gray-300">
+                      image_not_supported
+                    </span>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* ── Right: Product info ── */}
-        <div className="md:w-[500px] shrink-0 p-6 flex flex-col gap-4">
-          {/* Sale badge */}
-          {salePercent && (
-            <span className="self-start bg-green-500 text-white text-xs font-bold px-3 py-1 rounded">
-              SALE {salePercent}% OFF
-            </span>
-          )}
-
+        <div className="min-w-0 flex flex-col gap-5 md:py-1">
           {/* Name */}
-          <h2 className="text-xl font-bold text-[#121714] dark:text-white leading-snug">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#121714] dark:text-white leading-snug break-words">
             {product.name}
           </h2>
 
@@ -253,13 +255,6 @@ export default function QuickViewModal({
               {stockAvailable ? "In Stock" : "Out of Stock"}
             </span>
           </div>
-
-          {/* Description */}
-          {product.description && (
-            <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-3">
-              {product.description}
-            </p>
-          )}
 
           {/* Price + Quantity */}
           <div className="flex items-end justify-between gap-4 flex-wrap">
@@ -314,13 +309,20 @@ export default function QuickViewModal({
             </div>
           </div>
 
+          {/* Description */}
+          {product.description && (
+            <p className="text-sm leading-relaxed text-gray-500 dark:text-gray-400 line-clamp-3">
+              {product.description}
+            </p>
+          )}
+
           {/* Action buttons */}
-          <div className="flex flex-col gap-3 mt-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1">
             <button
               onClick={handleAddToCart}
               disabled={cartDisabled}
               aria-busy={cartLoading}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#1a1a2e] py-3 font-bold text-white transition-colors hover:bg-[#2a2a3e] disabled:cursor-not-allowed disabled:bg-[#929b95] dark:bg-[#0a0a0a] dark:hover:bg-black"
+              className="flex w-full sm:col-span-2 items-center justify-center gap-2 rounded-full bg-[#1a1a2e] py-3 font-bold text-white transition-colors hover:bg-[#2a2a3e] disabled:cursor-not-allowed disabled:bg-[#929b95] dark:bg-[#0a0a0a] dark:hover:bg-black"
             >
               {cartLoading && (
                 <span className="size-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
@@ -338,7 +340,7 @@ export default function QuickViewModal({
               href={`https://wa.me/?text=${whatsappMsg}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full bg-green-500 text-white py-3 rounded-xl font-bold hover:bg-green-600 transition-colors flex items-center justify-center gap-2"
+              className="w-full bg-green-500 text-white py-3 px-3 rounded-full text-sm font-bold hover:bg-green-600 transition-colors flex items-center justify-center gap-2"
             >
               {/* WhatsApp SVG icon */}
               <svg
@@ -355,7 +357,7 @@ export default function QuickViewModal({
               onClick={onToggleWishlist}
               disabled={wishlistLoading}
               aria-busy={wishlistLoading}
-              className={`w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors disabled:cursor-wait disabled:opacity-70 ${
+              className={`w-full py-3 px-3 rounded-full text-sm font-bold flex items-center justify-center gap-2 transition-colors disabled:cursor-wait disabled:opacity-70 ${
                 isInWishlist
                   ? "bg-red-500 text-white hover:bg-red-600"
                   : "bg-[#1a2744] dark:bg-[#262626] text-white hover:bg-[#243060] dark:hover:bg-[#404040]"
