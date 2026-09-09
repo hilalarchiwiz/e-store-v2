@@ -260,7 +260,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
         {/* Image Gallery */}
         <div className="flex flex-col gap-3 sm:gap-4">
           <div
-            className="relative aspect-square bg-[#f1f4f2] dark:bg-[#2a3a2f] rounded-2xl sm:rounded-3xl overflow-hidden border border-gray-100 dark:border-white/5 select-none"
+            className="relative aspect-square bg-[#f1f4f2] dark:bg-[#262626] rounded-2xl sm:rounded-3xl overflow-hidden border border-gray-100 dark:border-white/5 select-none"
             onMouseEnter={() => setZoomed(true)}
             onMouseLeave={() => setZoomed(false)}
             onMouseMove={handleMouseMove}
@@ -290,7 +290,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               <button
                 key={idx}
                 onClick={() => setSelectedImage(img)}
-                className={`size-16 sm:size-24 rounded-lg sm:rounded-xl border-2 shrink-0 overflow-hidden p-1.5 sm:p-2 transition-all ${selectedImage === img ? "border-primary bg-primary/5" : "border-transparent bg-[#f1f4f2] dark:bg-[#2a3a2f]"}`}
+                className={`size-16 sm:size-24 rounded-lg sm:rounded-xl border-2 shrink-0 overflow-hidden p-1.5 sm:p-2 transition-all ${selectedImage === img ? "border-primary bg-primary/5" : "border-transparent bg-[#f1f4f2] dark:bg-[#262626]"}`}
               >
                 <img
                   src={img}
@@ -479,9 +479,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               </button>
 
               {showShare && (
-                <div className="absolute bottom-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-56 bg-white dark:bg-[#1a2a1f] border border-gray-100 dark:border-white/10 rounded-2xl shadow-2xl shadow-black/10 p-2 z-50">
+                <div className="absolute bottom-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-56 bg-white dark:bg-[#1c1c1c] border border-gray-100 dark:border-white/10 rounded-2xl shadow-2xl shadow-black/10 p-2 z-50">
                   {/* Arrow */}
-                  <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white dark:bg-[#1a2a1f] border-r border-b border-gray-100 dark:border-white/10 rotate-45" />
+                  <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white dark:bg-[#1c1c1c] border-r border-b border-gray-100 dark:border-white/10 rotate-45" />
 
                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400 px-3 pt-2 pb-1">
                     Share this product
@@ -648,7 +648,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 Object.entries(product.specifications).map(([key, value]) => (
                   <div
                     key={key}
-                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 bg-[#f1f4f2] dark:bg-[#2a3a2f] rounded-2xl border border-transparent hover:border-primary/10 transition-all group"
+                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 bg-[#f1f4f2] dark:bg-[#262626] rounded-2xl border border-transparent hover:border-primary/10 transition-all group"
                   >
                     <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] shrink-0">
                       {key.replace(/([A-Z])/g, " $1").trim()}
@@ -659,7 +659,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                   </div>
                 ))}
               {!product.specifications && (
-                <div className="col-span-full py-12 flex flex-col items-center justify-center text-gray-400 bg-[#f1f4f2] dark:bg-[#2a3a2f] rounded-3xl border-2 border-dashed border-gray-200 dark:border-white/5">
+                <div className="col-span-full py-12 flex flex-col items-center justify-center text-gray-400 bg-[#f1f4f2] dark:bg-[#262626] rounded-3xl border-2 border-dashed border-gray-200 dark:border-white/5">
                   <span className="material-symbols-outlined text-4xl mb-2">
                     inventory_2
                   </span>
@@ -685,7 +685,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                       {reviewsList.map((review: any) => (
                         <div
                           key={review.id}
-                          className="bg-[#f1f4f2] dark:bg-[#2a3a2f] p-6 rounded-2xl flex flex-col gap-3"
+                          className="bg-[#f1f4f2] dark:bg-[#262626] p-6 rounded-2xl flex flex-col gap-3"
                         >
                           <div className="flex justify-between items-start">
                             <div>
@@ -717,7 +717,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center py-10 text-center gap-4">
-                      <div className="size-20 bg-[#f1f4f2] dark:bg-[#2a3a2f] rounded-full flex items-center justify-center text-gray-400">
+                      <div className="size-20 bg-[#f1f4f2] dark:bg-[#262626] rounded-full flex items-center justify-center text-gray-400">
                         <span className="material-symbols-outlined text-4xl">
                           rate_review
                         </span>

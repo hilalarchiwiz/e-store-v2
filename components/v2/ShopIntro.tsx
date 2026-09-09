@@ -57,7 +57,7 @@ export default function ShopIntro({
         <section aria-label="Featured shop promotion">
           <Link
             href={banner.link || "/shop"}
-            className="group block w-full overflow-hidden rounded-xl border border-[#dfe4e1] bg-[#f2f3f2] shadow-sm dark:border-[#2a3a30] dark:bg-[#18201b]"
+            className="group block w-full overflow-hidden rounded-xl border border-[#dfe4e1] bg-[#f2f3f2] shadow-sm dark:border-[#303030] dark:bg-[#171717]"
             style={{ backgroundColor: banner.bgColor || undefined }}
           >
             {/* Keep the uploaded banner's natural aspect ratio. This supports
@@ -80,7 +80,7 @@ export default function ShopIntro({
             type="button"
             onClick={() => scrollCategories("left")}
             aria-label="Previous categories"
-            className="absolute -left-2 top-1/2 z-10 hidden size-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#dfe4e1] bg-white text-[#4f5d54] shadow-md transition-colors hover:border-primary hover:bg-primary hover:text-white sm:flex dark:border-[#2a3a30] dark:bg-[#1a251d] dark:text-white dark:hover:bg-primary"
+            className="absolute -left-2 top-1/2 z-10 hidden size-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#dfe4e1] bg-white text-[#4f5d54] shadow-md transition-colors hover:border-primary hover:bg-primary hover:text-white sm:flex dark:border-[#303030] dark:bg-[#171717] dark:text-white dark:hover:bg-primary"
           >
             <span className="material-symbols-outlined text-xl">
               chevron_left
@@ -101,10 +101,10 @@ export default function ShopIntro({
                   onClick={() => selectCategory(category.id)}
                   aria-current={isSelected ? "page" : undefined}
                   aria-label={`${category.title}, ${category.count} products`}
-                  className={`group relative flex h-27 w-34 shrink-0 snap-start flex-col items-center justify-between overflow-hidden rounded-lg border bg-white px-3 pb-2.5 pt-3 shadow-[0_2px_7px_rgba(15,23,42,0.10)] transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md dark:bg-[#1a251d] sm:h-30 sm:w-40 ${
+                  className={`group relative flex h-27 w-34 shrink-0 snap-start flex-col items-center justify-between overflow-hidden rounded-lg border bg-white px-3 pb-2.5 pt-3 shadow-[0_2px_7px_rgba(15,23,42,0.10)] transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md dark:bg-[#171717] sm:h-30 sm:w-40 ${
                     isSelected
                       ? "border-primary ring-1 ring-primary/20"
-                      : "border-[#dfe4e1] dark:border-[#2a3a30]"
+                      : "border-[#dfe4e1] dark:border-[#303030]"
                   }`}
                 >
                   <div className="relative min-h-0 w-full flex-1">
@@ -131,7 +131,7 @@ export default function ShopIntro({
             type="button"
             onClick={() => scrollCategories("right")}
             aria-label="Next categories"
-            className="absolute -right-2 top-1/2 z-10 hidden size-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#dfe4e1] bg-white text-[#4f5d54] shadow-md transition-colors hover:border-primary hover:bg-primary hover:text-white sm:flex dark:border-[#2a3a30] dark:bg-[#1a251d] dark:text-white dark:hover:bg-primary"
+            className="absolute -right-2 top-1/2 z-10 hidden size-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#dfe4e1] bg-white text-[#4f5d54] shadow-md transition-colors hover:border-primary hover:bg-primary hover:text-white sm:flex dark:border-[#303030] dark:bg-[#171717] dark:text-white dark:hover:bg-primary"
           >
             <span className="material-symbols-outlined text-xl">
               chevron_right

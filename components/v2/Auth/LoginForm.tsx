@@ -86,7 +86,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-[#1a251d] border border-primary/10 shadow-2xl rounded-3xl p-8 md:p-10">
+    <div className="bg-white dark:bg-[#171717] border border-primary/10 shadow-2xl rounded-3xl p-8 md:p-10">
       <div className="text-center mb-10">
         <div className="inline-flex items-center justify-center size-16 bg-primary/10 rounded-2xl text-primary mb-6">
           <span className="material-symbols-outlined !text-4xl">login</span>
@@ -135,7 +135,7 @@ const LoginForm = () => {
           <div className="w-full border-t border-gray-100 dark:border-white/5"></div>
         </div>
         <div className="relative flex justify-center text-xs uppercase tracking-widest font-bold">
-          <span className="bg-white dark:bg-[#1a251d] px-4 text-gray-400">
+          <span className="bg-white dark:bg-[#171717] px-4 text-gray-400">
             Or use email
           </span>
         </div>

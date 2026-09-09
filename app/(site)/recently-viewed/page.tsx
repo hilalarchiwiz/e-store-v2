@@ -76,7 +76,7 @@ const RecentlyViewedPage = () => {
             <div className="size-12 border-4 border-primary border-t-transparent animate-spin rounded-full"></div>
           </div>
         ) : isEmpty ? (
-          <div className="py-24 flex flex-col items-center text-center bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl">
+          <div className="py-24 flex flex-col items-center text-center bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl">
             <div className="size-32 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-8">
               <span className="material-symbols-outlined !text-6xl">history</span>
             </div>

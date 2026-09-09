@@ -110,11 +110,11 @@ export default function AddressesPage() {
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {[1, 2].map((i) => (
-            <div key={i} className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-8 h-56 animate-pulse" />
+            <div key={i} className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 h-56 animate-pulse" />
           ))}
         </div>
       ) : addresses.length === 0 ? (
-        <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-12 text-center">
+        <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-12 text-center">
           <div className="size-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
             <span className="material-symbols-outlined text-3xl!">location_off</span>
           </div>
@@ -131,7 +131,7 @@ export default function AddressesPage() {
           {addresses.map((address) => (
             <div
               key={address.id}
-              className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-8 relative flex flex-col group hover:border-primary/20 transition-all"
+              className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 relative flex flex-col group hover:border-primary/20 transition-all"
             >
               {address.isDefault && (
                 <span className="absolute top-6 right-8 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">

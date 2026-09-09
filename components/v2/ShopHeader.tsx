@@ -53,7 +53,7 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-stretch gap-3 rounded-2xl border border-[#dce5df] bg-white p-3 shadow-sm transition-colors dark:border-[#2a3a30] dark:bg-[#1a251d] sm:p-4 lg:flex-row lg:items-center">
+    <div className="flex flex-col items-stretch gap-3 rounded-2xl border border-[#dce5df] bg-white p-3 shadow-sm transition-colors dark:border-[#303030] dark:bg-[#171717] sm:p-4 lg:flex-row lg:items-center">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between lg:hidden">
         <div className="flex items-baseline gap-2 whitespace-nowrap px-0.5">
           <span className="text-2xl font-black leading-none text-[#111713] dark:text-white">
@@ -67,14 +67,14 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
           <button
             type="button"
             onClick={onOpenFilters}
-            className="relative flex h-11 min-w-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-[#dce5df] bg-white px-2 text-xs font-bold text-[#111713] shadow-sm transition-colors hover:border-primary hover:text-primary dark:border-[#2a3a30] dark:bg-[#142019] dark:text-white sm:min-w-28 sm:gap-2 sm:px-3 sm:text-sm"
+            className="relative flex h-11 min-w-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-[#dce5df] bg-white px-2 text-xs font-bold text-[#111713] shadow-sm transition-colors hover:border-primary hover:text-primary dark:border-[#303030] dark:bg-[#111111] dark:text-white sm:min-w-28 sm:gap-2 sm:px-3 sm:text-sm"
           >
             <span className="material-symbols-outlined text-[17px] sm:text-[19px] text-primary">
               tune
             </span>
             Filters
             {activeFilterCount > 0 && (
-              <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full border-2 border-white bg-primary text-[9px] text-white dark:border-[#142019]">
+              <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full border-2 border-white bg-primary text-[9px] text-white dark:border-[#111111]">
                 {activeFilterCount}
               </span>
             )}
@@ -82,7 +82,7 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
           <button
             type="button"
             onClick={onOpenSort}
-            className="flex h-11 min-w-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-[#dce5df] bg-white px-2 text-xs font-bold text-[#111713] shadow-sm transition-colors hover:border-primary hover:text-primary dark:border-[#2a3a30] dark:bg-[#142019] dark:text-white sm:min-w-28 sm:gap-2 sm:px-3 sm:text-sm"
+            className="flex h-11 min-w-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-[#dce5df] bg-white px-2 text-xs font-bold text-[#111713] shadow-sm transition-colors hover:border-primary hover:text-primary dark:border-[#303030] dark:bg-[#111111] dark:text-white sm:min-w-28 sm:gap-2 sm:px-3 sm:text-sm"
           >
             <span>Sort<span className="hidden min-[375px]:inline"> By</span></span>
             <span className="material-symbols-outlined text-[17px] sm:text-[19px] text-primary">
@@ -95,7 +95,7 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
       {/* Search */}
       <form
         onSubmit={handleSearch}
-        className="flex min-h-11 flex-1 items-center gap-2 rounded-xl border border-transparent bg-[#f1f4f2] px-3.5 py-2.5 transition-colors focus-within:border-primary/30 dark:bg-[#111c14]"
+        className="flex min-h-11 flex-1 items-center gap-2 rounded-xl border border-transparent bg-[#f1f4f2] px-3.5 py-2.5 transition-colors focus-within:border-primary/30 dark:bg-[#0a0a0a]"
       >
         <span className="material-symbols-outlined text-[#648770] text-xl shrink-0">
           search
@@ -130,14 +130,14 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
           </span>
         </div>
 
-        <div className="flex border border-[#dce5df] dark:border-[#2a3a30] rounded-xl overflow-hidden">
+        <div className="flex border border-[#dce5df] dark:border-[#303030] rounded-xl overflow-hidden">
           <button
             onClick={() => onViewModeChange("grid")}
             title="Grid view"
-            className={`p-2.5 border-r border-[#dce5df] dark:border-[#2a3a30] transition-colors ${
+            className={`p-2.5 border-r border-[#dce5df] dark:border-[#303030] transition-colors ${
               viewMode === "grid"
                 ? "bg-primary/10 text-primary"
-                : "text-[#648770] hover:bg-[#f0f4f2] dark:hover:bg-[#1a2e22]"
+                : "text-[#648770] hover:bg-[#f0f4f2] dark:hover:bg-[#262626]"
             }`}
           >
             <span className="material-symbols-outlined text-xl">grid_view</span>
@@ -148,7 +148,7 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
             className={`p-2.5 transition-colors ${
               viewMode === "list"
                 ? "bg-primary/10 text-primary"
-                : "text-[#648770] hover:bg-[#f0f4f2] dark:hover:bg-[#1a2e22]"
+                : "text-[#648770] hover:bg-[#f0f4f2] dark:hover:bg-[#262626]"
             }`}
           >
             <span className="material-symbols-outlined text-xl">view_list</span>

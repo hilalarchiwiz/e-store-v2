@@ -78,7 +78,7 @@ const WishlistPage = () => {
         items={[{ label: "Home", href: "/" }, { label: "My Wishlist" }]}
       />
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#dce5df] dark:border-[#2a3a30]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#dce5df] dark:border-[#303030]">
         <div className="flex items-center gap-4">
           <div className="size-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
             <span className="material-symbols-outlined text-3xl fill-1">
@@ -109,12 +109,12 @@ const WishlistPage = () => {
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className="bg-white dark:bg-[#1a251d] border border-[#dce5df] dark:border-[#2a3a30] rounded-2xl p-4 h-28 animate-pulse"
+              className="bg-white dark:bg-[#171717] border border-[#dce5df] dark:border-[#303030] rounded-2xl p-4 h-28 animate-pulse"
             />
           ))}
         </div>
       ) : items.length === 0 ? (
-        <div className="py-20 flex flex-col items-center text-center bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl">
+        <div className="py-20 flex flex-col items-center text-center bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl">
           <div className="size-32 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-8 animate-bounce">
             <span className="material-symbols-outlined !text-6xl">
               favorite
@@ -146,12 +146,12 @@ const WishlistPage = () => {
             return (
               <div
                 key={item.id}
-                className="group bg-white dark:bg-[#1a251d] border border-[#dce5df] dark:border-[#2a3a30] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300"
+                className="group bg-white dark:bg-[#171717] border border-[#dce5df] dark:border-[#303030] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300"
               >
                 {/* Image */}
                 <Link
                   href={`/product/${product.id}`}
-                  className="size-24 sm:size-32 rounded-xl sm:rounded-2xl overflow-hidden flex-shrink-0 bg-[#f1f4f2] dark:bg-[#2a3a2f] relative"
+                  className="size-24 sm:size-32 rounded-xl sm:rounded-2xl overflow-hidden flex-shrink-0 bg-[#f1f4f2] dark:bg-[#262626] relative"
                 >
                   <Image
                     src={product.images[0] || "/images/placeholder-product.jpg"}

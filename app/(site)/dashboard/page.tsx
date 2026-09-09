@@ -81,7 +81,7 @@ export default function DashboardPage() {
           {[...Array(4)].map((_, i) => (
             <div
               key={i}
-              className="bg-white dark:bg-[#1a251d] p-6 rounded-3xl border border-primary/5 shadow-xl animate-pulse"
+              className="bg-white dark:bg-[#171717] p-6 rounded-3xl border border-primary/5 shadow-xl animate-pulse"
             >
               <div className="size-12 bg-gray-200 dark:bg-white/10 rounded-2xl mb-4" />
               <div className="h-3 bg-gray-200 dark:bg-white/10 rounded w-20 mb-2" />
@@ -89,7 +89,7 @@ export default function DashboardPage() {
             </div>
           ))}
         </div>
-        <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
+        <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
@@ -123,7 +123,7 @@ export default function DashboardPage() {
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className="bg-white dark:bg-[#1a251d] p-6 rounded-3xl border border-primary/5 shadow-xl group hover:border-primary/20 transition-all"
+            className="bg-white dark:bg-[#171717] p-6 rounded-3xl border border-primary/5 shadow-xl group hover:border-primary/20 transition-all"
           >
             <div
               className={`size-12 ${stat.color} text-white rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform`}
@@ -141,7 +141,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Recent Orders */}
-      <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
+      <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
         <div className="p-8 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
           <h2 className="text-xl font-black text-[#121714] dark:text-white">
             Recent Orders
@@ -261,7 +261,7 @@ export default function DashboardPage() {
           <Link
             key={item.href}
             href={item.href}
-            className="bg-white dark:bg-[#1a251d] p-5 rounded-2xl border border-primary/5 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all flex items-center gap-4 group"
+            className="bg-white dark:bg-[#171717] p-5 rounded-2xl border border-primary/5 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all flex items-center gap-4 group"
           >
             <div
               className={`size-11 rounded-xl flex items-center justify-center ${item.color} shrink-0`}

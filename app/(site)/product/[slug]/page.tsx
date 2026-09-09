@@ -113,7 +113,7 @@ export default async function ProductPage({ params }: PageProps) {
         ]}
       />
 
-      <div className="bg-white dark:bg-[#1a251d] rounded-2xl sm:rounded-3xl p-4 sm:p-8 md:p-12 dark:border-white/5">
+      <div className="bg-white dark:bg-[#171717] rounded-2xl sm:rounded-3xl p-4 sm:p-8 md:p-12 dark:border-white/5">
         <ProductDetails
           product={{
             ...product,

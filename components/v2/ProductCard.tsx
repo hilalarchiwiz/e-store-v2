@@ -198,10 +198,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <>
         <Link
           href={`/product/${slug || id}`}
-          className="group bg-white dark:bg-[#1a251d] rounded-2xl border border-[#dce5df] dark:border-[#2a3a30] overflow-hidden flex flex-row shadow-sm hover:shadow-xl transition-all duration-300"
+          className="group bg-white dark:bg-[#171717] rounded-2xl border border-[#dce5df] dark:border-[#303030] overflow-hidden flex flex-row shadow-sm hover:shadow-xl transition-all duration-300"
         >
           {/* Image */}
-          <div className="relative w-40 shrink-0 overflow-hidden bg-[#f1f4f2] dark:bg-[#2a3a2f]">
+          <div className="relative w-40 shrink-0 overflow-hidden bg-[#f1f4f2] dark:bg-[#262626]">
             {imageError ? (
               <div className="flex h-full w-full flex-col items-center justify-center gap-1 text-[#8a9990]">
                 <span className="material-symbols-outlined text-3xl">
@@ -257,7 +257,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   onClick={openQuickView}
                   data-no-progress
                   title="Quick View"
-                  className="p-2 rounded-xl flex items-center border border-[#dce5df] dark:border-[#2a3a30] text-[#648770] hover:text-primary hover:border-primary transition-all"
+                  className="p-2 rounded-xl flex items-center border border-[#dce5df] dark:border-[#303030] text-[#648770] hover:text-primary hover:border-primary transition-all"
                 >
                   <span className="material-symbols-outlined text-lg">
                     visibility
@@ -270,7 +270,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   title={
                     isWishlisted ? "Remove from wishlist" : "Add to wishlist"
                   }
-                  className={`p-2 rounded-xl flex items-center border transition-all hover:scale-105 active:scale-95 disabled:cursor-wait disabled:scale-100 disabled:opacity-70 ${isWishlisted ? "border-primary/30 bg-primary/5 text-primary" : "border-[#dce5df] dark:border-[#2a3a30] text-[#648770] hover:text-primary hover:border-primary/30"}`}
+                  className={`p-2 rounded-xl flex items-center border transition-all hover:scale-105 active:scale-95 disabled:cursor-wait disabled:scale-100 disabled:opacity-70 ${isWishlisted ? "border-primary/30 bg-primary/5 text-primary" : "border-[#dce5df] dark:border-[#303030] text-[#648770] hover:text-primary hover:border-primary/30"}`}
                 >
                   {wishlistLoading ? (
                     <span className="size-[18px] animate-spin rounded-full border-2 border-current/30 border-t-current" />
@@ -328,11 +328,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
     <>
       <Link
         href={`/product/${slug || id}`}
-        className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#d9e3dd] bg-white shadow-[0_2px_7px_rgba(18,23,20,0.10)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_12px_30px_rgba(18,23,20,0.14)] dark:border-[#2a3a30] dark:bg-[#1a251d]"
+        className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#d9e3dd] bg-white shadow-[0_2px_7px_rgba(18,23,20,0.10)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_12px_30px_rgba(18,23,20,0.14)] dark:border-[#303030] dark:bg-[#171717]"
       >
-        <div className="relative aspect-[12/9] w-full overflow-hidden bg-[#f1f5f3] dark:bg-[#243129]">
+        <div className="relative aspect-[12/9] w-full overflow-hidden bg-[#f1f5f3] dark:bg-[#242424]">
           {imageError ? (
-            <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-[#87958c] dark:text-[#9aa89f]">
+            <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-[#87958c] dark:text-[#a3a3a3]">
               <span className="material-symbols-outlined text-4xl sm:text-5xl">
                 image_not_supported
               </span>
@@ -354,7 +354,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
             disabled={wishlistLoading}
             aria-busy={wishlistLoading}
-            className={`absolute right-3 top-3 z-10 flex size-8 items-center justify-center rounded-full transition-all hover:scale-110 active:scale-95 disabled:cursor-wait disabled:scale-100 disabled:opacity-70 ${isWishlisted ? "text-primary" : "text-[#717b74] hover:bg-white/70 hover:text-primary dark:text-[#a9b2ac] dark:hover:bg-black/20"}`}
+            className={`absolute right-3 top-3 z-10 flex size-8 items-center justify-center rounded-full transition-all hover:scale-110 active:scale-95 disabled:cursor-wait disabled:scale-100 disabled:opacity-70 ${isWishlisted ? "text-primary" : "text-[#717b74] hover:bg-white/70 hover:text-primary dark:text-[#b3b3b3] dark:hover:bg-black/20"}`}
             onClick={handleAddToWishlist}
             title={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
           >
@@ -374,7 +374,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             onClick={openQuickView}
             data-no-progress
             title="Quick View"
-            className="absolute bottom-3 left-1/2 hidden translate-y-2 -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-gray-100 bg-white px-3 py-1.5 text-[11px] font-bold text-[#111713] opacity-0 shadow-lg transition-all duration-300 hover:border-primary hover:bg-primary hover:text-white group-hover:translate-y-0 group-hover:opacity-100 dark:border-white/10 dark:bg-[#1a251d] dark:text-white sm:flex"
+            className="absolute bottom-3 left-1/2 hidden translate-y-2 -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-gray-100 bg-white px-3 py-1.5 text-[11px] font-bold text-[#111713] opacity-0 shadow-lg transition-all duration-300 hover:border-primary hover:bg-primary hover:text-white group-hover:translate-y-0 group-hover:opacity-100 dark:border-white/10 dark:bg-[#171717] dark:text-white sm:flex"
           >
             <span className="material-symbols-outlined text-[16px]">
               visibility

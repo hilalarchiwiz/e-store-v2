@@ -87,7 +87,7 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
             name="search"
             defaultValue={search || ""}
             placeholder="Search blogs..."
-            className="flex-1 md:w-64 border-[#dce5df] dark:border-[#2a3a30] dark:bg-[#1a2e22] text-[#121714] dark:text-white rounded-lg focus:ring-primary focus:border-primary outline-none px-4 py-2"
+            className="flex-1 md:w-64 border-[#dce5df] dark:border-[#303030] dark:bg-[#262626] text-[#121714] dark:text-white rounded-lg focus:ring-primary focus:border-primary outline-none px-4 py-2"
           />
           <button type="submit" className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
             Search
@@ -99,8 +99,8 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogs.map((blog: any) => (
             <Link href={`/blog/${blog.slug}`} key={blog.id} className="group">
-              <div className="bg-white dark:bg-[#1a251d] rounded-xl border border-[#e5e9e6] dark:border-[#2a3a30] overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col">
-                <div className="relative h-48 w-full bg-gray-100 dark:bg-[#121714]">
+              <div className="bg-white dark:bg-[#171717] rounded-xl border border-[#e5e9e6] dark:border-[#303030] overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                <div className="relative h-48 w-full bg-gray-100 dark:bg-[#0a0a0a]">
                   <Image
                     src={blog.image || "/images/placeholder-product.jpg"}
                     alt={blog.title}
@@ -137,7 +137,7 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
           ))}
         </div>
       ) : (
-        <div className="text-center py-20 bg-white dark:bg-[#1a251d] rounded-xl border border-[#e5e9e6] dark:border-[#2a3a30]">
+        <div className="text-center py-20 bg-white dark:bg-[#171717] rounded-xl border border-[#e5e9e6] dark:border-[#303030]">
           <span className="material-symbols-outlined text-6xl text-gray-300 dark:text-gray-700 mb-4">
             search_off
           </span>
@@ -154,7 +154,7 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
             <Link
               key={p}
               href={`/blog?page=${p}${tag ? `&tag=${tag}` : ""}${search ? `&search=${search}` : ""}`}
-              className={`px-4 py-2 rounded-lg ${p === currentPage ? "bg-primary text-white font-bold" : "bg-white dark:bg-[#1a251d] text-[#121714] dark:text-white border border-[#e5e9e6] dark:border-[#2a3a30] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"}`}
+              className={`px-4 py-2 rounded-lg ${p === currentPage ? "bg-primary text-white font-bold" : "bg-white dark:bg-[#171717] text-[#121714] dark:text-white border border-[#e5e9e6] dark:border-[#303030] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"}`}
             >
               {p}
             </Link>

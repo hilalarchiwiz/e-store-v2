@@ -111,7 +111,7 @@ export default function Cart() {
       />
 
       {/* Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#dce5df] dark:border-[#2a3a30]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#dce5df] dark:border-[#303030]">
         <div className="flex items-center gap-4">
           <div className="size-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
             <span className="material-symbols-outlined text-3xl">
@@ -142,12 +142,12 @@ export default function Cart() {
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className="bg-white dark:bg-[#1a251d] border border-[#dce5df] dark:border-[#2a3a30] rounded-2xl p-6 h-32 animate-pulse"
+              className="bg-white dark:bg-[#171717] border border-[#dce5df] dark:border-[#303030] rounded-2xl p-6 h-32 animate-pulse"
             />
           ))}
         </div>
       ) : items.length === 0 ? (
-        <div className="py-24 flex flex-col items-center text-center bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl">
+        <div className="py-24 flex flex-col items-center text-center bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl">
           <div className="size-32 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-8">
             <span className="material-symbols-outlined text-6xl">
               shopping_basket
@@ -168,7 +168,7 @@ export default function Cart() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           {/* Cart Items */}
           <div className="lg:col-span-8 flex flex-col gap-6">
-            <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
+            <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
               {/* Table header */}
               <div className="hidden md:grid grid-cols-12 gap-4 px-8 py-4 bg-[#f1f4f2] dark:bg-white/5 border-b border-gray-100 dark:border-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
                 <div className="col-span-6">Product</div>
@@ -195,7 +195,7 @@ export default function Cart() {
                     >
                       {/* Product Info */}
                       <div className="md:col-span-6 flex items-center gap-5">
-                        <div className="size-24 rounded-2xl overflow-hidden bg-[#f1f4f2] dark:bg-[#2a3a2f] shrink-0 relative">
+                        <div className="size-24 rounded-2xl overflow-hidden bg-[#f1f4f2] dark:bg-[#262626] shrink-0 relative">
                           <Image
                             src={
                               item.product.images[0] ||
@@ -315,7 +315,7 @@ export default function Cart() {
 
           {/* Order Summary */}
           <div className="lg:col-span-4">
-            <div className="bg-white dark:bg-[#1a251d] rounded-2xl border border-primary/5 shadow-xl p-6 sm:p-7">
+            <div className="bg-white dark:bg-[#171717] rounded-2xl border border-primary/5 shadow-xl p-6 sm:p-7">
               <h2 className="text-xl font-bold text-[#121714] dark:text-white mb-5">
                 Order Summary
               </h2>

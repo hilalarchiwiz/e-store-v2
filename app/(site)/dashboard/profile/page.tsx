@@ -108,7 +108,7 @@ export default function ProfilePage() {
           <div className="h-8 w-48 bg-gray-200 dark:bg-white/10 rounded-xl animate-pulse mb-2" />
           <div className="h-4 w-72 bg-gray-100 dark:bg-white/5 rounded-lg animate-pulse" />
         </div>
-        <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10 h-64 animate-pulse" />
+        <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10 h-64 animate-pulse" />
       </div>
     );
   }
@@ -124,7 +124,7 @@ export default function ProfilePage() {
         </p>
       </div>
 
-      <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
+      <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
         <div className="flex flex-col md:flex-row gap-10">
           {/* Avatar */}
           <div className="flex flex-col items-center gap-4">

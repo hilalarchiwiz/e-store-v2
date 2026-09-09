@@ -12,7 +12,7 @@ interface BreadcrumbsProps {
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
   return (
-    <div className="flex flex-wrap gap-2 px-5 py-3 bg-white dark:bg-[#1a251d] rounded-xl shadow-sm border border-[#dce5df] dark:border-[#2a3a30] transition-colors">
+    <div className="flex flex-wrap gap-2 px-5 py-3 bg-white dark:bg-[#171717] rounded-xl shadow-sm border border-[#dce5df] dark:border-[#303030] transition-colors">
       {items.map((item, index) => (
         <React.Fragment key={index}>
           {item.href ? (

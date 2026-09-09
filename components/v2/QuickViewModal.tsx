@@ -149,13 +149,13 @@ export default function QuickViewModal({
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-[#1a251d] rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto no-scrollbar flex flex-col md:flex-row relative"
+        className="bg-white dark:bg-[#171717] rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto no-scrollbar flex flex-col md:flex-row relative"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 size-9 bg-gray-100 dark:bg-[#2a3a2f] rounded-full flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-600 dark:text-white transition-colors"
+          className="absolute top-4 right-4 z-20 size-9 bg-gray-100 dark:bg-[#262626] rounded-full flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-600 dark:text-white transition-colors"
           aria-label="Close"
         >
           <span className="material-symbols-outlined text-[20px]">close</span>
@@ -183,7 +183,7 @@ export default function QuickViewModal({
                   onError={() => setImgErrors((p) => ({ ...p, [i]: true }))}
                 />
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-[#2a3a2f]">
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-[#262626]">
                   <span className="material-symbols-outlined text-2xl text-gray-300">
                     image_not_supported
                   </span>
@@ -194,7 +194,7 @@ export default function QuickViewModal({
         </div>
 
         {/* ── Center: Main image ── */}
-        <div className="relative flex-1 min-h-[300px] md:min-h-[420px] bg-[#f7f8f9] dark:bg-[#2a3a2f] flex items-center justify-center">
+        <div className="relative flex-1 min-h-[300px] md:min-h-[420px] bg-[#f7f8f9] dark:bg-[#262626] flex items-center justify-center">
           {!imgErrors[activeIdx] ? (
             <Image
               src={images[activeIdx]}
@@ -286,7 +286,7 @@ export default function QuickViewModal({
                 <button
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                   disabled={!stockAvailable || quantity <= 1}
-                  className="size-9 rounded-lg border border-gray-200 dark:border-[#3a4a3f] flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#2a3a2f] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="size-9 rounded-lg border border-gray-200 dark:border-[#404040] flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#262626] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <span className="material-symbols-outlined text-[18px]">
                     remove
@@ -298,7 +298,7 @@ export default function QuickViewModal({
                 <button
                   onClick={() => setQuantity((q) => Math.min(maxQty, q + 1))}
                   disabled={!stockLoaded || !stockAvailable || quantity >= maxQty}
-                  className="size-9 rounded-lg border border-gray-200 dark:border-[#3a4a3f] flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#2a3a2f] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="size-9 rounded-lg border border-gray-200 dark:border-[#404040] flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#262626] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <span className="material-symbols-outlined text-[18px]">
                     add
@@ -320,7 +320,7 @@ export default function QuickViewModal({
               onClick={handleAddToCart}
               disabled={cartDisabled}
               aria-busy={cartLoading}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#1a1a2e] py-3 font-bold text-white transition-colors hover:bg-[#2a2a3e] disabled:cursor-not-allowed disabled:bg-[#929b95] dark:bg-[#121714] dark:hover:bg-black"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#1a1a2e] py-3 font-bold text-white transition-colors hover:bg-[#2a2a3e] disabled:cursor-not-allowed disabled:bg-[#929b95] dark:bg-[#0a0a0a] dark:hover:bg-black"
             >
               {cartLoading && (
                 <span className="size-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
@@ -358,7 +358,7 @@ export default function QuickViewModal({
               className={`w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors disabled:cursor-wait disabled:opacity-70 ${
                 isInWishlist
                   ? "bg-red-500 text-white hover:bg-red-600"
-                  : "bg-[#1a2744] dark:bg-[#2a3a2f] text-white hover:bg-[#243060] dark:hover:bg-[#3a4a3f]"
+                  : "bg-[#1a2744] dark:bg-[#262626] text-white hover:bg-[#243060] dark:hover:bg-[#404040]"
               }`}
             >
               {wishlistLoading ? (

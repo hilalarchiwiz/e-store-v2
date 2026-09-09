@@ -154,7 +154,7 @@ export default function OrderDetailsPage() {
 
       {/* Progress Tracker */}
       {!isCancelled && (
-      <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-6 md:p-6">
+      <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-6 md:p-6">
           <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-0">
             <div className="absolute top-[35%] left-0 w-full h-1 bg-gray-100 dark:bg-white/5 -translate-y-1/2 hidden md:block" />
             {TRACK_STEPS.map((step, index) => {
@@ -193,7 +193,7 @@ export default function OrderDetailsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         {/* Order Items */}
         <div className="lg:col-span-8 space-y-6">
-          <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
+          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
             <div className="p-4 border-b border-gray-100 dark:border-white/5">
               <h2 className="text-lg font-black text-[#121714] dark:text-white">
                 Order Items
@@ -207,7 +207,7 @@ export default function OrderDetailsPage() {
                     className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
                   >
                     <div className="flex items-center gap-4 flex-1 min-w-0">
-                      <div className="size-20 sm:size-24 rounded-2xl overflow-hidden bg-[#f1f4f2] dark:bg-[#2a3a2f] shrink-0 border border-gray-100 dark:border-white/5">
+                      <div className="size-20 sm:size-24 rounded-2xl overflow-hidden bg-[#f1f4f2] dark:bg-[#262626] shrink-0 border border-gray-100 dark:border-white/5">
                         <img
                           src={item.product.images?.[0] ?? "/placeholder.jpg"}
                           alt={item.product.title}
@@ -242,7 +242,7 @@ export default function OrderDetailsPage() {
         {/* Sidebar */}
         <div className="lg:col-span-4 space-y-6">
           {/* Address & Payment */}
-          <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-4 space-y-8">
+          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-4 space-y-8">
             <div>
               <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-4">
                 Delivery Address
@@ -293,7 +293,7 @@ export default function OrderDetailsPage() {
           </div>
 
           {/* Cost Summary */}
-          <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-4">
+          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-4">
             <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-6">
               Total Summary
             </h3>
@@ -338,7 +338,7 @@ export default function OrderDetailsPage() {
           </div>
 
           {order.notes && (
-            <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-4">
+            <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-4">
               <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-3">
                 Order Notes
               </h3>
@@ -352,7 +352,7 @@ export default function OrderDetailsPage() {
 
       {showItemsModal && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-white dark:bg-[#1a251d] rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+          <div className="bg-white dark:bg-[#171717] rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-white/5">
               <h3 className="text-lg font-black text-[#121714] dark:text-white">
                 All Order Items
@@ -370,7 +370,7 @@ export default function OrderDetailsPage() {
                   key={item.id}
                   className="flex items-center gap-4 border-b border-gray-100 dark:border-white/5 pb-4 last:border-0 last:pb-0"
                 >
-                  <div className="size-16 rounded-xl overflow-hidden bg-[#f1f4f2] dark:bg-[#2a3a2f] shrink-0">
+                  <div className="size-16 rounded-xl overflow-hidden bg-[#f1f4f2] dark:bg-[#262626] shrink-0">
                     <img
                       src={item.product.images?.[0] ?? "/placeholder.jpg"}
                       alt={item.product.title}

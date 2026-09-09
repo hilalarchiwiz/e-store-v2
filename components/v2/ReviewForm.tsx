@@ -59,7 +59,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-[#f1f4f2] dark:bg-[#2a3a2f] p-6 rounded-2xl flex flex-col gap-4 animate-in fade-in zoom-in-95 duration-300"
+      className="bg-[#f1f4f2] dark:bg-[#262626] p-6 rounded-2xl flex flex-col gap-4 animate-in fade-in zoom-in-95 duration-300"
     >
       <h3 className="font-bold text-lg">Write a Review</h3>
 

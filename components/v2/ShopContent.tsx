@@ -155,7 +155,7 @@ const ShopContent: React.FC<ShopContentProps> = ({
 
       {products.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-28 gap-6 text-center">
-          <div className="size-24 rounded-full bg-[#f1f4f2] dark:bg-[#2a3a2f] flex items-center justify-center text-[#648770]">
+          <div className="size-24 rounded-full bg-[#f1f4f2] dark:bg-[#262626] flex items-center justify-center text-[#648770]">
             <span className="material-symbols-outlined text-5xl">
               search_off
             </span>

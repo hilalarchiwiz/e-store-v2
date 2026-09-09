@@ -370,7 +370,7 @@ button {
   --color-primary: #1B974B;
   --color-primary-dark: #1a7339;
   --color-background-light: #f6f8f7;
-  --color-background-dark: #132017;
+  --color-background-dark: #000000;
   --font-display: var(--font-manrope), "Inter", sans-serif;
   --radius-default: 0.25rem;
   --radius-lg: 0.5rem;

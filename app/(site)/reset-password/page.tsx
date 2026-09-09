@@ -77,7 +77,7 @@ const ResetPasswordForm = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-[#1a251d] border border-primary/10 shadow-2xl rounded-3xl p-8 md:p-10">
+    <div className="bg-white dark:bg-[#171717] border border-primary/10 shadow-2xl rounded-3xl p-8 md:p-10">
       <div className="text-center mb-10">
         <div className="inline-flex items-center justify-center size-16 bg-primary/10 rounded-2xl text-primary mb-6">
           <span className="material-symbols-outlined !text-4xl">lock_open</span>

@@ -32,7 +32,7 @@ export default function OrdersPage() {
           <div className="h-8 bg-gray-200 dark:bg-white/10 rounded-xl w-40 mb-3 animate-pulse" />
           <div className="h-4 bg-gray-200 dark:bg-white/10 rounded-xl w-72 animate-pulse" />
         </div>
-        <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
+        <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="px-8 py-6 border-b border-gray-100 dark:border-white/5 flex items-center gap-6">
               <div className="h-4 bg-gray-200 dark:bg-white/10 rounded-lg w-28 animate-pulse" />
@@ -54,7 +54,7 @@ export default function OrdersPage() {
           <h1 className="text-3xl font-black text-[#121714] dark:text-white mb-2">My Orders</h1>
           <p className="text-gray-500 dark:text-gray-400">Manage your past and current orders effortlessly.</p>
         </div>
-        <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-16 text-center">
+        <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-16 text-center">
           <div className="size-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <span className="material-symbols-outlined text-4xl text-primary">receipt_long</span>
           </div>
@@ -81,7 +81,7 @@ export default function OrdersPage() {
         </p>
       </div>
 
-      <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
+      <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
         <div className="overflow-x-auto no-scrollbar">
           <table className="w-full text-left min-w-[650px] sm:min-w-0">
             <thead>

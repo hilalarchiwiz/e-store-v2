@@ -19,7 +19,7 @@ const TrackOrderPage = () => {
           Waiting for your eco-friendly goodies from <strong>qaam.pk</strong>? We know you're excited! Enter your order number and email address below to see the current status of your delivery.
         </p>
 
-        <div className="bg-white dark:bg-[#1a251d] p-8 md:p-10 rounded-3xl border border-[#f1f4f2] dark:border-[#2a3a2f] shadow-xl">
+        <div className="bg-white dark:bg-[#171717] p-8 md:p-10 rounded-3xl border border-[#f1f4f2] dark:border-[#262626] shadow-xl">
           <form className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
               <label htmlFor="orderId" className="text-sm font-bold text-[#121714] dark:text-white">
@@ -29,7 +29,7 @@ const TrackOrderPage = () => {
                 type="text"
                 id="orderId"
                 placeholder="e.g. QAAM-123456"
-                className="w-full bg-[#f1f4f2] dark:bg-[#2a3a2f] border-transparent focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3 text-[#121714] dark:text-white placeholder:text-gray-400 outline-none transition-all"
+                className="w-full bg-[#f1f4f2] dark:bg-[#262626] border-transparent focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3 text-[#121714] dark:text-white placeholder:text-gray-400 outline-none transition-all"
               />
             </div>
             
@@ -41,7 +41,7 @@ const TrackOrderPage = () => {
                 type="email"
                 id="email"
                 placeholder="Email address used during checkout"
-                className="w-full bg-[#f1f4f2] dark:bg-[#2a3a2f] border-transparent focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3 text-[#121714] dark:text-white placeholder:text-gray-400 outline-none transition-all"
+                className="w-full bg-[#f1f4f2] dark:bg-[#262626] border-transparent focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3 text-[#121714] dark:text-white placeholder:text-gray-400 outline-none transition-all"
               />
             </div>
 

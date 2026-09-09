@@ -115,7 +115,7 @@ const Header = ({ logo }: HeaderProps) => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white dark:bg-background-dark border-b border-solid border-[#f1f4f2] dark:border-[#2a3a2f] px-3 py-3 sm:px-6 sm:py-4 md:px-10">
+      <header className="sticky top-0 z-50 bg-white dark:bg-background-dark border-b border-solid border-[#f1f4f2] dark:border-[#262626] px-3 py-3 sm:px-6 sm:py-4 md:px-10">
         <div className="max-w-400 mx-auto flex items-center justify-between gap-2 sm:gap-8">
           <div className="flex min-w-0 items-center gap-4 sm:gap-10">
             {/* Logo */}
@@ -177,7 +177,7 @@ const Header = ({ logo }: HeaderProps) => {
             <div className="hidden md:block flex-1 max-w-md relative" ref={searchRef}>
               <form
                 onSubmit={handleSearch}
-                className="flex items-stretch rounded-lg h-10 bg-[#f1f4f2] dark:bg-[#2a3a2f] border border-transparent focus-within:border-primary transition-all"
+                className="flex items-stretch rounded-lg h-10 bg-[#f1f4f2] dark:bg-[#262626] border border-transparent focus-within:border-primary transition-all"
               >
                 <div className="flex items-center justify-center pl-4 text-[#668571]">
                   {isSearching ? (
@@ -205,7 +205,7 @@ const Header = ({ logo }: HeaderProps) => {
 
               {/* Autocomplete Dropdown */}
               {showDropdown && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-[#1a251e] rounded-xl shadow-2xl border border-[#f1f4f2] dark:border-[#2a3a2f] overflow-hidden z-50 max-h-[400px] overflow-y-auto">
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-[#171717] rounded-xl shadow-2xl border border-[#f1f4f2] dark:border-[#262626] overflow-hidden z-50 max-h-[400px] overflow-y-auto">
                   {isSearching && searchResults.length === 0 ? (
                     <div className="p-4 text-center text-sm text-[#668571] flex items-center justify-center gap-2">
                       <div className="size-4 border-2 border-primary border-t-transparent animate-spin rounded-full" />
@@ -221,7 +221,7 @@ const Header = ({ logo }: HeaderProps) => {
                             setShowDropdown(false);
                             setSearchQuery("");
                           }}
-                          className="flex items-center gap-4 px-4 py-3 hover:bg-[#f1f4f2] dark:hover:bg-[#2a3a2f] transition-colors group"
+                          className="flex items-center gap-4 px-4 py-3 hover:bg-[#f1f4f2] dark:hover:bg-[#262626] transition-colors group"
                         >
                           <div className="size-12 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0">
                             {product.images?.[0] ? (
@@ -278,7 +278,7 @@ const Header = ({ logo }: HeaderProps) => {
               {/* Wishlist */}
               <Link
                 href="/wishlist"
-                className="relative flex size-9 items-center justify-center rounded-lg bg-[#f1f4f2] text-[#121714] transition-colors hover:bg-primary/20 dark:bg-[#2a3a2f] dark:text-white sm:size-10"
+                className="relative flex size-9 items-center justify-center rounded-lg bg-[#f1f4f2] text-[#121714] transition-colors hover:bg-primary/20 dark:bg-[#262626] dark:text-white sm:size-10"
               >
                 <span className="material-symbols-outlined">favorite</span>
                 {wishlistCount > 0 && (
@@ -291,7 +291,7 @@ const Header = ({ logo }: HeaderProps) => {
               {/* Cart */}
               <Link
                 href="/cart"
-                className="relative flex size-9 items-center justify-center rounded-lg bg-[#f1f4f2] text-[#121714] transition-colors hover:bg-primary/20 dark:bg-[#2a3a2f] dark:text-white sm:size-10"
+                className="relative flex size-9 items-center justify-center rounded-lg bg-[#f1f4f2] text-[#121714] transition-colors hover:bg-primary/20 dark:bg-[#262626] dark:text-white sm:size-10"
               >
                 <span className="material-symbols-outlined">shopping_cart</span>
                 {cartCount > 0 && (
@@ -313,7 +313,7 @@ const Header = ({ logo }: HeaderProps) => {
               <button
                 onClick={() => setMobileOpen((o) => !o)}
                 aria-label="Toggle navigation menu"
-                className="flex size-9 items-center justify-center rounded-lg bg-[#f1f4f2] text-[#121714] transition-colors hover:bg-primary/20 dark:bg-[#2a3a2f] dark:text-white sm:size-10 lg:hidden"
+                className="flex size-9 items-center justify-center rounded-lg bg-[#f1f4f2] text-[#121714] transition-colors hover:bg-primary/20 dark:bg-[#262626] dark:text-white sm:size-10 lg:hidden"
               >
                 <span
                   className={`material-symbols-outlined transition-transform duration-300 ${mobileOpen ? "rotate-90" : ""}`}
@@ -338,12 +338,12 @@ const Header = ({ logo }: HeaderProps) => {
 
       {/* Drawer panel */}
       <aside
-        className={`fixed top-0 left-0 z-50 h-full w-[300px] bg-white dark:bg-[#0c120e] shadow-2xl flex flex-col transition-transform duration-300 ease-in-out lg:hidden ${
+        className={`fixed top-0 left-0 z-50 h-full w-[300px] bg-white dark:bg-[#000000] shadow-2xl flex flex-col transition-transform duration-300 ease-in-out lg:hidden ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         {/* Drawer top bar */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-[#f1f4f2] dark:border-[#2a3a2f]">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-[#f1f4f2] dark:border-[#262626]">
           <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 text-primary">
             {logo?.logo || logo?.dark_logo ? (
               <>
@@ -364,17 +364,17 @@ const Header = ({ logo }: HeaderProps) => {
           <button
             onClick={() => setMobileOpen(false)}
             aria-label="Close menu"
-            className="size-9 rounded-full flex items-center justify-center bg-[#f1f4f2] dark:bg-[#2a3a2f] text-[#121714] dark:text-white hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-500 transition-all"
+            className="size-9 rounded-full flex items-center justify-center bg-[#f1f4f2] dark:bg-[#262626] text-[#121714] dark:text-white hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-500 transition-all"
           >
             <span className="material-symbols-outlined text-[20px]">close</span>
           </button>
         </div>
 
         {/* Mobile Search */}
-        <div className="px-4 py-4 border-b border-[#f1f4f2] dark:border-[#2a3a2f]">
+        <div className="px-4 py-4 border-b border-[#f1f4f2] dark:border-[#262626]">
           <form
             onSubmit={handleSearch}
-            className="flex items-center rounded-xl h-11 bg-[#f1f4f2] dark:bg-[#2a3a2f] border border-transparent focus-within:border-primary transition-all px-4 gap-3"
+            className="flex items-center rounded-xl h-11 bg-[#f1f4f2] dark:bg-[#262626] border border-transparent focus-within:border-primary transition-all px-4 gap-3"
           >
             <span className="material-symbols-outlined text-[#668571]">search</span>
             <input
@@ -403,7 +403,7 @@ const Header = ({ logo }: HeaderProps) => {
                 className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl font-semibold text-sm transition-all duration-200 group ${
                   isActive
                     ? "bg-primary text-white shadow-lg shadow-primary/30"
-                    : "text-[#121714] dark:text-white hover:bg-[#f1f4f2] dark:hover:bg-[#2a3a2f] hover:text-primary"
+                    : "text-[#121714] dark:text-white hover:bg-[#f1f4f2] dark:hover:bg-[#262626] hover:text-primary"
                 }`}
               >
                 <span
@@ -423,7 +423,7 @@ const Header = ({ logo }: HeaderProps) => {
             );
           })}
 
-          <div className="h-px bg-[#f1f4f2] dark:bg-[#2a3a2f] my-4" />
+          <div className="h-px bg-[#f1f4f2] dark:bg-[#262626] my-4" />
           <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] px-3 mb-2">
             Account
           </p>
@@ -431,7 +431,7 @@ const Header = ({ logo }: HeaderProps) => {
           <Link
             href={isAdmin ? "/admin" : "/dashboard"}
             onClick={() => setMobileOpen(false)}
-            className="flex items-center gap-4 px-4 py-3.5 rounded-2xl font-semibold text-sm text-[#121714] dark:text-white hover:bg-[#f1f4f2] dark:hover:bg-[#2a3a2f] hover:text-primary transition-all group"
+            className="flex items-center gap-4 px-4 py-3.5 rounded-2xl font-semibold text-sm text-[#121714] dark:text-white hover:bg-[#f1f4f2] dark:hover:bg-[#262626] hover:text-primary transition-all group"
           >
             <span className="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-transform">
               {isAdmin ? "admin_panel_settings" : "person"}
@@ -445,7 +445,7 @@ const Header = ({ logo }: HeaderProps) => {
           <Link
             href="/wishlist"
             onClick={() => setMobileOpen(false)}
-            className="flex items-center gap-4 px-4 py-3.5 rounded-2xl font-semibold text-sm text-[#121714] dark:text-white hover:bg-[#f1f4f2] dark:hover:bg-[#2a3a2f] hover:text-primary transition-all group"
+            className="flex items-center gap-4 px-4 py-3.5 rounded-2xl font-semibold text-sm text-[#121714] dark:text-white hover:bg-[#f1f4f2] dark:hover:bg-[#262626] hover:text-primary transition-all group"
           >
             <span className="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-transform">
               favorite
@@ -461,7 +461,7 @@ const Header = ({ logo }: HeaderProps) => {
           <Link
             href="/cart"
             onClick={() => setMobileOpen(false)}
-            className="flex items-center gap-4 px-4 py-3.5 rounded-2xl font-semibold text-sm text-[#121714] dark:text-white hover:bg-[#f1f4f2] dark:hover:bg-[#2a3a2f] hover:text-primary transition-all group"
+            className="flex items-center gap-4 px-4 py-3.5 rounded-2xl font-semibold text-sm text-[#121714] dark:text-white hover:bg-[#f1f4f2] dark:hover:bg-[#262626] hover:text-primary transition-all group"
           >
             <span className="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-transform">
               shopping_cart

@@ -17,10 +17,10 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="bg-white dark:bg-[#1a251d] rounded-xl border border-[#e5e9e6] dark:border-[#2a3a30] shadow-[0_2px_4px_rgba(0,0,0,0.02)] overflow-hidden transition-colors">
+    <div className="bg-white dark:bg-[#171717] rounded-xl border border-[#e5e9e6] dark:border-[#303030] shadow-[0_2px_4px_rgba(0,0,0,0.02)] overflow-hidden transition-colors">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-5 py-4 flex justify-between items-center border-b border-[#f0f2f1] dark:border-[#2a3a30] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+        className="w-full px-5 py-4 flex justify-between items-center border-b border-[#f0f2f1] dark:border-[#303030] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
       >
         <span className="text-[#1a2b21] dark:text-white font-bold">
           {title}
@@ -218,7 +218,7 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
   return (
     <aside className="hidden w-full min-w-0 max-w-full shrink-0 flex-col gap-4 lg:flex lg:w-72">
       {/* Active Filters Summary */}
-      <div className="bg-white dark:bg-[#1a251d] px-5 py-4 rounded-xl border border-[#e5e9e6] dark:border-[#2a3a30] shadow-[0_2px_4px_rgba(0,0,0,0.02)] flex justify-between items-center transition-colors">
+      <div className="bg-white dark:bg-[#171717] px-5 py-4 rounded-xl border border-[#e5e9e6] dark:border-[#303030] shadow-[0_2px_4px_rgba(0,0,0,0.02)] flex justify-between items-center transition-colors">
         <h3 className="text-[#1a2b21] dark:text-white text-base font-bold">
           Filters
         </h3>
@@ -245,12 +245,12 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
                   className="rounded border-[#dce5df] text-primary focus:ring-primary h-4 w-4 transition-colors cursor-pointer"
                   type="checkbox"
                 />
-                <span className="text-sm text-[#4a5550] dark:text-[#f6f8f7] group-hover:text-primary transition-colors">
+                <span className="text-sm text-[#4a5550] dark:text-[#fafafa] group-hover:text-primary transition-colors">
                   {item.title}
                 </span>
               </div>
               {item.count !== undefined && (
-                <span className="text-xs bg-[#f0f4f2] dark:bg-[#1a2e22] text-[#648770] px-2 py-0.5 rounded-full font-bold">
+                <span className="text-xs bg-[#f0f4f2] dark:bg-[#262626] text-[#648770] px-2 py-0.5 rounded-full font-bold">
                   {item.count}
                 </span>
               )}
@@ -275,7 +275,7 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
                 className="h-4 w-4 cursor-pointer rounded border-[#dce5df] text-primary transition-colors focus:ring-primary"
                 type="checkbox"
               />
-              <span className="text-sm text-[#4a5550] transition-colors group-hover:text-primary dark:text-[#f6f8f7]">
+              <span className="text-sm text-[#4a5550] transition-colors group-hover:text-primary dark:text-[#fafafa]">
                 {generation}
                 {generation % 100 >= 11 && generation % 100 <= 13
                   ? "th"
@@ -306,12 +306,12 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
                 className="rounded border-[#dce5df] text-primary focus:ring-primary h-4 w-4 transition-colors cursor-pointer"
                 type="checkbox"
               />
-              <span className="text-sm text-[#4a5550] dark:text-[#f6f8f7] group-hover:text-primary transition-colors">
+              <span className="text-sm text-[#4a5550] dark:text-[#fafafa] group-hover:text-primary transition-colors">
                 {item.title}
               </span>
             </div>
             {item.count !== undefined && (
-              <span className="text-xs bg-[#f0f4f2] dark:bg-[#1a2e22] text-[#648770] px-2 py-0.5 rounded-full font-bold">
+              <span className="text-xs bg-[#f0f4f2] dark:bg-[#262626] text-[#648770] px-2 py-0.5 rounded-full font-bold">
                 {item.count}
               </span>
             )}
@@ -337,7 +337,7 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
               className="rounded-full border-[#dce5df] text-primary focus:ring-primary h-4 w-4 cursor-pointer"
               type="radio"
             />
-            <span className="text-sm text-[#4a5550] dark:text-[#f6f8f7] group-hover:text-primary">
+            <span className="text-sm text-[#4a5550] dark:text-[#fafafa] group-hover:text-primary">
               {item.name}
             </span>
           </label>
@@ -348,7 +348,7 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <input
-              className="w-full accent-primary h-1.5 bg-[#f0f4f2] dark:bg-[#1a2e22] rounded-lg appearance-none cursor-pointer"
+              className="w-full accent-primary h-1.5 bg-[#f0f4f2] dark:bg-[#262626] rounded-lg appearance-none cursor-pointer"
               max={maxPrice}
               min={minPrice}
               type="range"
@@ -368,7 +368,7 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
                 Rs{" "}
               </span>
               <input
-                className="w-full ml-2 pl-6 pr-2 py-2 text-sm border-[#dce5df] dark:border-[#2a3a30] dark:bg-[#1a2e22] rounded-lg focus:ring-primary focus:border-primary outline-none"
+                className="w-full ml-2 pl-6 pr-2 py-2 text-sm border-[#dce5df] dark:border-[#303030] dark:bg-[#262626] rounded-lg focus:ring-primary focus:border-primary outline-none"
                 placeholder="Min"
                 type="text"
                 value={priceRange[0]}
@@ -381,7 +381,7 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
                 Rs{" "}
               </span>
               <input
-                className="w-full ml-2 pl-6 pr-2 py-2 text-sm border-[#dce5df] dark:border-[#2a3a30] dark:bg-[#1a2e22] rounded-lg focus:ring-primary focus:border-primary outline-none"
+                className="w-full ml-2 pl-6 pr-2 py-2 text-sm border-[#dce5df] dark:border-[#303030] dark:bg-[#262626] rounded-lg focus:ring-primary focus:border-primary outline-none"
                 placeholder="Max"
                 type="text"
                 value={priceRange[1]}

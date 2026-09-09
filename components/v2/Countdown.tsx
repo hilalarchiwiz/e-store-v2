@@ -21,7 +21,7 @@ const Countdown = ({ sale, initialRemaining }: { sale: FlashSaleSettings; initia
 
   return (
     <section className="py-8 sm:py-12">
-      <div className="bg-primary-dark rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-10 md:p-16 text-center text-white relative overflow-hidden shadow-2xl shadow-primary-dark/40">
+      <div className="bg-primary-dark dark:bg-[#171717] rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-10 md:p-16 text-center text-white relative overflow-hidden shadow-2xl shadow-primary-dark/40 dark:shadow-black/40">
         <div className="absolute top-0 right-0 p-6 sm:p-12 opacity-10 pointer-events-none">
           <span className="material-symbols-outlined text-[120px] sm:text-[200px]">eco</span>
         </div>

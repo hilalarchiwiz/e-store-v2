@@ -76,7 +76,7 @@ export default function SecurityPage() {
       </div>
 
       <div className="w-full">
-        <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
+        <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
           <div className="flex items-center gap-4 mb-8">
             <div className="size-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center">
               <span className="material-symbols-outlined">key</span>

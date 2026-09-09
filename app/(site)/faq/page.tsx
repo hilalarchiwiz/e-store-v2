@@ -77,7 +77,7 @@ const FAQPage = async () => {
           { title: "Shipping", icon: "local_shipping", desc: "Learn about our fast and reliable delivery methods." },
           { title: "Technical Support", icon: "settings", desc: "Deep dive into product specifications and setup guides." }
         ].map((cat, i) => (
-          <div key={i} className="p-8 rounded-[2rem] bg-white dark:bg-[#1a251d] border border-primary/5 shadow-xl hover:shadow-2xl transition-all group">
+          <div key={i} className="p-8 rounded-[2rem] bg-white dark:bg-[#171717] border border-primary/5 shadow-xl hover:shadow-2xl transition-all group">
             <div className="size-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-500">
               <span className="material-symbols-outlined text-3xl">{cat.icon}</span>
             </div>

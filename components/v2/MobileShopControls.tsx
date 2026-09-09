@@ -159,9 +159,9 @@ export function MobileFilterModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="mobile-filter-title"
-        className="flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-[#f7f9f8] shadow-2xl dark:bg-[#111a14] sm:max-w-lg sm:rounded-3xl"
+        className="flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-[#f7f9f8] shadow-2xl dark:bg-[#0a0a0a] sm:max-w-lg sm:rounded-3xl"
       >
-        <div className="flex items-center justify-between border-b border-black/5 bg-white px-5 py-4 dark:border-white/10 dark:bg-[#1a251d]">
+        <div className="flex items-center justify-between border-b border-black/5 bg-white px-5 py-4 dark:border-white/10 dark:bg-[#171717]">
           <div>
             <p className="text-xs font-semibold text-primary">Refine your search</p>
             <h2
@@ -275,7 +275,7 @@ export function MobileFilterModal({
             ))}
           </FilterCard>
 
-          <div className="rounded-2xl border border-[#dce4df] bg-white p-4 shadow-sm dark:border-white/10 dark:bg-[#1a251d]">
+          <div className="rounded-2xl border border-[#dce4df] bg-white p-4 shadow-sm dark:border-white/10 dark:bg-[#171717]">
             <h3 className="text-base font-black text-[#111713] dark:text-white">
               Price Range
             </h3>
@@ -327,7 +327,7 @@ export function MobileFilterModal({
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 border-t border-black/5 bg-white p-4 dark:border-white/10 dark:bg-[#1a251d]">
+        <div className="grid grid-cols-2 gap-3 border-t border-black/5 bg-white p-4 dark:border-white/10 dark:bg-[#171717]">
           <button
             type="button"
             onClick={clearFilters}
@@ -356,7 +356,7 @@ function FilterCard({
   children: ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-[#dce4df] bg-white p-4 shadow-sm dark:border-white/10 dark:bg-[#1a251d]">
+    <div className="rounded-2xl border border-[#dce4df] bg-white p-4 shadow-sm dark:border-white/10 dark:bg-[#171717]">
       <h3 className="mb-3 text-base font-black text-[#111713] dark:text-white">
         {title}
       </h3>
@@ -398,7 +398,7 @@ export function MobileSortModal({ onClose }: MobileSortModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="mobile-sort-title"
-        className="w-full max-w-md overflow-hidden rounded-2xl border border-[#dce4df] bg-white p-3 shadow-2xl dark:border-white/10 dark:bg-[#1a251d]"
+        className="w-full max-w-md overflow-hidden rounded-2xl border border-[#dce4df] bg-white p-3 shadow-2xl dark:border-white/10 dark:bg-[#171717]"
       >
         <div className="flex items-center justify-between px-2 pb-2 pt-1">
           <h2

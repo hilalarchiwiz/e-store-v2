@@ -28,7 +28,7 @@ const FaqAccordion: React.FC<FaqAccordionProps> = ({ faqs }) => {
           className={`
             group rounded-3xl border transition-all duration-300
             ${activeIndex === index 
-              ? 'bg-white dark:bg-[#1a251d] border-primary shadow-xl scale-[1.01]' 
+              ? 'bg-white dark:bg-[#171717] border-primary shadow-xl scale-[1.01]'
               : 'bg-[#f1f4f2] dark:bg-white/5 border-transparent hover:border-gray-200 dark:hover:border-white/10 shadow-none'
             }
           `}

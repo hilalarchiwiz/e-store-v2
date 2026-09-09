@@ -44,13 +44,13 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
         <div className="flex gap-2 shrink-0 pb-1">
           <button
             onClick={() => scroll("left")}
-            className="size-8 sm:size-10 rounded-full border border-[#f1f4f2] dark:border-[#2a3a2f] flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
+            className="size-8 sm:size-10 rounded-full border border-[#f1f4f2] dark:border-[#262626] flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
           >
             <span className="material-symbols-outlined text-base sm:text-xl">chevron_left</span>
           </button>
           <button
             onClick={() => scroll("right")}
-            className="size-8 sm:size-10 rounded-full border border-[#f1f4f2] dark:border-[#2a3a2f] flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
+            className="size-8 sm:size-10 rounded-full border border-[#f1f4f2] dark:border-[#262626] flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
           >
             <span className="material-symbols-outlined text-base sm:text-xl">chevron_right</span>
           </button>
@@ -71,7 +71,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
                 className={`min-w-[270px] xs:min-w-87.5 md:min-w-100 p-5 sm:p-8 rounded-2xl shadow-sm border transition-shadow ${
                   isHighlight
                     ? "bg-primary text-white shadow-xl shadow-primary/20 border-transparent"
-                    : "bg-white dark:bg-[#2a3a2f] border-[#f1f4f2] dark:border-[#2a3a2f] hover:shadow-md"
+                    : "bg-white dark:bg-[#262626] border-[#f1f4f2] dark:border-[#262626] hover:shadow-md"
                 }`}
               >
                 <div className="flex items-center gap-4 mb-6">
@@ -109,8 +109,8 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
             );
           })
         ) : (
-          <div className="w-full min-h-[250px] flex flex-col items-center justify-center py-12 bg-gray-50 dark:bg-[#2a3a2f]/30 rounded-2xl border-2 border-dashed border-[#f1f4f2] dark:border-[#2a3a2f]">
-            <div className="size-16 rounded-full bg-white dark:bg-[#2a3a2f] shadow-sm flex items-center justify-center mb-4">
+          <div className="w-full min-h-[250px] flex flex-col items-center justify-center py-12 bg-gray-50 dark:bg-[#262626]/30 rounded-2xl border-2 border-dashed border-[#f1f4f2] dark:border-[#262626]">
+            <div className="size-16 rounded-full bg-white dark:bg-[#262626] shadow-sm flex items-center justify-center mb-4">
               <span className="material-symbols-outlined text-3xl text-primary opacity-40">
                 rate_review
               </span>

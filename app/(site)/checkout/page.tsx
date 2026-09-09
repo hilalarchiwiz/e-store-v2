@@ -310,7 +310,7 @@ export default function CheckoutPage() {
         {/* ── Left: Checkout Form ── */}
         <div className="lg:col-span-8 space-y-8">
           {/* Delivery Address */}
-          <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
+          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
             <div className="flex items-center gap-3 border-b border-gray-100 dark:border-white/5 pb-6 mb-8">
               <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
                 <span className="material-symbols-outlined">location_on</span>
@@ -481,7 +481,7 @@ export default function CheckoutPage() {
           </div>
 
           {/* Shipping Method */}
-          <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
+          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
             <div className="flex items-center gap-3 border-b border-gray-100 dark:border-white/5 pb-6 mb-8">
               <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
                 <span className="material-symbols-outlined">
@@ -535,7 +535,7 @@ export default function CheckoutPage() {
           </div>
 
           {/* Payment Method */}
-          <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
+          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
             <div className="flex items-center gap-3 border-b border-gray-100 dark:border-white/5 pb-6 mb-8">
               <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
                 <span className="material-symbols-outlined">credit_card</span>
@@ -593,7 +593,7 @@ export default function CheckoutPage() {
           </div>
 
           {/* Order Notes */}
-          <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
+          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
             <div className="flex items-center gap-3 border-b border-gray-100 dark:border-white/5 pb-6 mb-8">
               <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
                 <span className="material-symbols-outlined">note</span>
@@ -618,7 +618,7 @@ export default function CheckoutPage() {
         {/* ── Right: Order Summary ── */}
         <div className="lg:col-span-4 space-y-6">
           {/* Coupon */}
-          <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-6">
+          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-6">
             <h3 className="font-black text-[#121714] dark:text-white mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-primary text-xl">
                 local_offer
@@ -672,7 +672,7 @@ export default function CheckoutPage() {
           </div>
 
           {/* Order Summary */}
-          <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-6 sticky top-32">
+          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-6 sticky top-32">
             <h2 className="text-xl font-black text-[#121714] dark:text-white mb-6">
               Order Summary
             </h2>
@@ -686,7 +686,7 @@ export default function CheckoutPage() {
                   item.product.discountedPrice > 0;
                 return (
                   <div key={item.id} className="flex items-center gap-3">
-                    <div className="size-16 rounded-xl overflow-hidden bg-[#f1f4f2] dark:bg-[#2a3a2f] shrink-0">
+                    <div className="size-16 rounded-xl overflow-hidden bg-[#f1f4f2] dark:bg-[#262626] shrink-0">
                       <img
                         src={item.product.images[0] || "/placeholder.jpg"}
                         alt={item.product.title}

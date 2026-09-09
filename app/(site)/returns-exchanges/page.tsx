@@ -21,7 +21,7 @@ const ReturnsExchangesPage = () => {
         </p>
 
         <div className="grid gap-8">
-          <div className="bg-white dark:bg-[#1a251d] p-8 rounded-3xl border border-[#f1f4f2] dark:border-[#2a3a2f] shadow-sm">
+          <div className="bg-white dark:bg-[#171717] p-8 rounded-3xl border border-[#f1f4f2] dark:border-[#262626] shadow-sm">
             <div className="flex items-center gap-4 mb-4">
               <div className="size-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
                 <span className="material-symbols-outlined">restart_alt</span>
@@ -48,7 +48,7 @@ const ReturnsExchangesPage = () => {
             </ul>
           </div>
 
-          <div className="bg-white dark:bg-[#1a251d] p-8 rounded-3xl border border-[#f1f4f2] dark:border-[#2a3a2f] shadow-sm">
+          <div className="bg-white dark:bg-[#171717] p-8 rounded-3xl border border-[#f1f4f2] dark:border-[#262626] shadow-sm">
             <div className="flex items-center gap-4 mb-4">
               <div className="size-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
                 <span className="material-symbols-outlined">swap_horiz</span>
@@ -66,7 +66,7 @@ const ReturnsExchangesPage = () => {
             </ol>
           </div>
 
-          <div className="bg-white dark:bg-[#1a251d] p-8 rounded-3xl border border-[#f1f4f2] dark:border-[#2a3a2f] shadow-sm">
+          <div className="bg-white dark:bg-[#171717] p-8 rounded-3xl border border-[#f1f4f2] dark:border-[#262626] shadow-sm">
             <div className="flex items-center gap-4 mb-4">
               <div className="size-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
                 <span className="material-symbols-outlined">account_balance</span>
@@ -81,7 +81,7 @@ const ReturnsExchangesPage = () => {
           </div>
         </div>
 
-        <div className="mt-12 text-center p-8 bg-[#f1f4f2] dark:bg-[#2a3a2f] rounded-3xl">
+        <div className="mt-12 text-center p-8 bg-[#f1f4f2] dark:bg-[#262626] rounded-3xl">
           <h3 className="text-xl font-bold text-[#121714] dark:text-white mb-2">Still need help?</h3>
           <p className="text-gray-500 dark:text-gray-400 mb-6">
             Our customer service team is always ready to assist you with your qaam.pk orders.

@@ -233,7 +233,7 @@ export default async function AboutPage() {
   }));
 
   return (
-    <main className="about-page bg-white text-[#121714] transition-colors dark:bg-[#101713] dark:text-white">
+    <main className="about-page bg-white text-[#121714] transition-colors dark:bg-[#0a0a0a] dark:text-white">
       <div className="mx-auto hidden w-full max-w-[1600px] px-4 pb-2 pt-5 sm:block sm:px-6 lg:px-10">
         <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
       </div>
@@ -272,7 +272,7 @@ export default async function AboutPage() {
           </div>
         </section>
 
-        <section className="overflow-hidden rounded-xl bg-[#f4f5f4] p-4 dark:bg-[#1a231e] sm:rounded-2xl sm:p-8 lg:p-10">
+        <section className="overflow-hidden rounded-xl bg-[#f4f5f4] p-4 dark:bg-[#171717] sm:rounded-2xl sm:p-8 lg:p-10">
           <div className="grid items-center gap-5 sm:gap-8 lg:grid-cols-[.78fr_1.22fr] lg:gap-12">
             <div className="text-center sm:text-left">
               <SectionLabel>{whoWeAre.eyebrow || 'Who we are'}</SectionLabel>
@@ -296,7 +296,7 @@ export default async function AboutPage() {
           </div>
         </section>
 
-        <section aria-label="QAAM at a glance" className="rounded-xl border border-black/5 bg-white px-1 py-3 shadow-[0_8px_30px_rgba(0,0,0,.10)] dark:border-white/10 dark:bg-[#18211c] sm:rounded-2xl sm:p-6">
+        <section aria-label="QAAM at a glance" className="rounded-xl border border-black/5 bg-white px-1 py-3 shadow-[0_8px_30px_rgba(0,0,0,.10)] dark:border-white/10 dark:bg-[#171717] sm:rounded-2xl sm:p-6">
           <div className="grid grid-cols-4 gap-0">
             {stats.map((stat, index) => (
               <div key={`${stat.label}-${index}`} className="flex min-w-0 flex-col items-center justify-center gap-1 border-r border-black/10 px-1 text-center last:border-r-0 dark:border-white/10 sm:flex-row sm:gap-3 sm:px-4 sm:text-left lg:px-7">
@@ -323,7 +323,7 @@ export default async function AboutPage() {
           )}
           <div className="mt-5 grid grid-cols-2 gap-2.5 text-center sm:mt-8 sm:gap-5 sm:text-left lg:grid-cols-4">
             {services.map((service: any, index: number) => (
-              <article key={`${service.title}-${index}`} className="group overflow-hidden rounded-lg border border-black/10 bg-white p-2 shadow-[0_3px_12px_rgba(0,0,0,.08)] transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-[#18211c] sm:rounded-xl sm:p-3">
+              <article key={`${service.title}-${index}`} className="group overflow-hidden rounded-lg border border-black/10 bg-white p-2 shadow-[0_3px_12px_rgba(0,0,0,.08)] transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-[#171717] sm:rounded-xl sm:p-3">
                 <div className="h-28 overflow-hidden rounded-md bg-[#f4f5f4] sm:h-52 sm:rounded-lg">
                   <img src={service.image} alt={service.title} className="h-full w-full object-contain p-1 transition duration-500 group-hover:scale-105" />
                 </div>
@@ -338,7 +338,7 @@ export default async function AboutPage() {
 
         <section className="grid gap-4 sm:gap-6 xl:grid-cols-2">
           {missionCards.map((card: any, index: number) => (
-            <article key={`${card.title}-${index}`} className="grid overflow-hidden rounded-lg bg-[#f4f5f4] dark:bg-[#1a231e] sm:grid-cols-[.88fr_1.12fr] sm:rounded-xl">
+            <article key={`${card.title}-${index}`} className="grid overflow-hidden rounded-lg bg-[#f4f5f4] dark:bg-[#171717] sm:grid-cols-[.88fr_1.12fr] sm:rounded-xl">
               <img src={card.image} alt={card.title} className="h-64 w-full object-cover sm:h-full sm:min-h-[300px]" />
               <div className="flex flex-col justify-center p-4 text-center sm:p-9 sm:text-left">
                 <h3 className="text-xl font-black sm:text-3xl">{card.title}</h3>
@@ -392,7 +392,7 @@ export default async function AboutPage() {
         </section>
 
         {teams.length > 0 && (
-          <section className="overflow-hidden rounded-xl bg-[#f4f5f4] p-4 dark:bg-[#1a231e] sm:rounded-2xl sm:p-8 lg:p-10">
+          <section className="overflow-hidden rounded-xl bg-[#f4f5f4] p-4 dark:bg-[#171717] sm:rounded-2xl sm:p-8 lg:p-10">
             <div className="grid gap-5 sm:gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-start">
               <div className="text-center sm:text-left">
                 <SectionLabel>{teamSetting.eyebrow || 'Our team'}</SectionLabel>
@@ -403,7 +403,7 @@ export default async function AboutPage() {
               </div>
               <div className="-mx-4 flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 xl:grid-cols-4">
                 {teams.map((member: any) => (
-                  <article key={member.id} className="w-[44%] shrink-0 snap-start overflow-hidden rounded-lg bg-white text-center shadow-[0_3px_14px_rgba(0,0,0,.13)] dark:bg-[#101713] sm:w-auto sm:rounded-xl">
+                  <article key={member.id} className="w-[44%] shrink-0 snap-start overflow-hidden rounded-lg bg-white text-center shadow-[0_3px_14px_rgba(0,0,0,.13)] dark:bg-[#0a0a0a] sm:w-auto sm:rounded-xl">
                     <img src={member.image} alt={member.name} className="h-32 w-full object-cover object-top sm:h-44" />
                     <div className="p-2.5 sm:p-4">
                       <h3 className="text-[11px] font-black sm:text-base">{member.name}</h3>

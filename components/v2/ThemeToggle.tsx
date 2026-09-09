@@ -27,7 +27,7 @@ const ThemeToggle = () => {
 
   if (!hydrated) {
     return (
-      <div className="flex size-9 items-center justify-center rounded-lg bg-[#f1f4f2] dark:bg-[#2a3a2f] sm:size-10">
+      <div className="flex size-9 items-center justify-center rounded-lg bg-[#f1f4f2] dark:bg-[#262626] sm:size-10">
         <div className="size-4 animate-pulse bg-gray-300 dark:bg-gray-600 rounded-full"></div>
       </div>
     );
@@ -36,7 +36,7 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="group flex size-9 items-center justify-center rounded-lg bg-[#f1f4f2] text-[#121714] transition-all duration-300 hover:bg-primary/20 dark:bg-[#2a3a2f] dark:text-white sm:size-10"
+      className="group flex size-9 items-center justify-center rounded-lg bg-[#f1f4f2] text-[#121714] transition-all duration-300 hover:bg-primary/20 dark:bg-[#262626] dark:text-white sm:size-10"
       aria-label="Toggle Theme"
     >
       <span className="material-symbols-outlined transition-transform duration-500 group-hover:rotate-12">

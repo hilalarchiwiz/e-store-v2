@@ -52,7 +52,7 @@ export default async function OrderConfirmationPage({
         <p className="text-gray-500 dark:text-gray-400 mb-4 font-medium">
           Thank you for your purchase. Your order has been received.
         </p>
-        <div className="inline-flex items-center gap-2 bg-white dark:bg-[#1a251d] border border-primary/20 px-6 py-3 rounded-2xl">
+        <div className="inline-flex items-center gap-2 bg-white dark:bg-[#171717] border border-primary/20 px-6 py-3 rounded-2xl">
           <span className="text-xs font-black uppercase tracking-widest text-gray-500">Order Number</span>
           <span className="text-primary font-black text-lg">{order.orderNumber}</span>
         </div>
@@ -62,7 +62,7 @@ export default async function OrderConfirmationPage({
         {/* Left: Items */}
         <div className="lg:col-span-8 space-y-8">
           {/* Order Items */}
-          <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
+          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
             <div className="p-8 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
               <h2 className="text-xl font-black text-[#121714] dark:text-white">
                 Order Items ({order.orderItems.length})
@@ -74,7 +74,7 @@ export default async function OrderConfirmationPage({
             <div className="divide-y divide-gray-100 dark:divide-white/5">
               {order.orderItems.map((item: any) => (
                 <div key={item.id} className="p-6 flex items-center gap-5">
-                  <div className="size-20 rounded-2xl overflow-hidden bg-[#f1f4f2] dark:bg-[#2a3a2f] shrink-0">
+                  <div className="size-20 rounded-2xl overflow-hidden bg-[#f1f4f2] dark:bg-[#262626] shrink-0">
                     <img
                       src={item.product.images?.[0] ?? "/placeholder.jpg"}
                       alt={item.product.title}
@@ -100,7 +100,7 @@ export default async function OrderConfirmationPage({
           </div>
 
           {/* Delivery Address */}
-          <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-8">
+          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8">
             <h2 className="text-xl font-black text-[#121714] dark:text-white mb-6 flex items-center gap-2">
               <span className="material-symbols-outlined text-primary">location_on</span>
               Delivery Address
@@ -120,7 +120,7 @@ export default async function OrderConfirmationPage({
         {/* Right: Summary */}
         <div className="lg:col-span-4 space-y-6">
           {/* Order Info */}
-          <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-6 space-y-5">
+          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-6 space-y-5">
             <h2 className="text-xl font-black text-[#121714] dark:text-white">Order Details</h2>
 
             <div className="space-y-4 text-sm">
@@ -146,7 +146,7 @@ export default async function OrderConfirmationPage({
           </div>
 
           {/* Cost Summary */}
-          <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-6">
+          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-6">
             <h2 className="text-xl font-black text-[#121714] dark:text-white mb-5">Cost Summary</h2>
             <div className="space-y-3 text-sm font-bold">
               <div className="flex justify-between">
@@ -183,7 +183,7 @@ export default async function OrderConfirmationPage({
             </Link>
             <Link
               href="/shop"
-              className="w-full bg-white dark:bg-[#1a251d] text-[#121714] dark:text-white font-black py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-white/5 transition-all border border-gray-200 dark:border-white/10"
+              className="w-full bg-white dark:bg-[#171717] text-[#121714] dark:text-white font-black py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-white/5 transition-all border border-gray-200 dark:border-white/10"
             >
               <span className="material-symbols-outlined text-xl">storefront</span>
               Continue Shopping

@@ -46,7 +46,7 @@ const ForgotPasswordPage = () => {
   return (
     <main className="flex-1 flex items-center justify-center py-12 px-6">
       <section className="w-full max-w-xl">
-        <div className="bg-white dark:bg-[#1a251d] border border-primary/10 shadow-2xl rounded-3xl p-8 md:p-10">
+        <div className="bg-white dark:bg-[#171717] border border-primary/10 shadow-2xl rounded-3xl p-8 md:p-10">
           {!submitted ? (
             <>
               <div className="text-center mb-10">

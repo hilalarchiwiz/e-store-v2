@@ -40,7 +40,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[#f1f4f2] bg-white pb-6 pt-10 dark:border-[#2a3a2f] dark:bg-[#0c120e] sm:pb-8 sm:pt-16">
+    <footer className="border-t border-[#f1f4f2] bg-white pb-6 pt-10 dark:border-[#262626] dark:bg-[#000000] sm:pb-8 sm:pt-16">
       <div className="max-w-400 mx-auto px-4 sm:px-6 lg:px-10">
         <div className="mb-10 grid grid-cols-1 gap-8 text-center md:mb-16 md:grid-cols-2 md:gap-12 md:text-left lg:grid-cols-4">
           {/* Brand */}
@@ -89,7 +89,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                     href={url as string}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="size-10 bg-[#f1f4f2] dark:bg-[#2a3a2f] rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
+                    className="size-10 bg-[#f1f4f2] dark:bg-[#262626] rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                     title={key.replace("_url", "")}
                   >
                     {key === "facebook_url" ? (
@@ -121,7 +121,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
             ) : (
               <div className="flex justify-center gap-3 md:justify-start">
                 <a
-                  className="size-10 bg-[#f1f4f2] dark:bg-[#2a3a2f] rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
+                  className="size-10 bg-[#f1f4f2] dark:bg-[#262626] rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                   href="#"
                 >
                   <span className="material-symbols-outlined text-lg">
@@ -129,7 +129,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                   </span>
                 </a>
                 <a
-                  className="size-10 bg-[#f1f4f2] dark:bg-[#2a3a2f] rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
+                  className="size-10 bg-[#f1f4f2] dark:bg-[#262626] rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                   href="#"
                 >
                   <span className="material-symbols-outlined text-lg">
@@ -137,7 +137,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                   </span>
                 </a>
                 <a
-                  className="size-10 bg-[#f1f4f2] dark:bg-[#2a3a2f] rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
+                  className="size-10 bg-[#f1f4f2] dark:bg-[#262626] rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                   href="#"
                 >
                   <span className="material-symbols-outlined text-lg">
@@ -300,7 +300,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col items-center justify-center gap-4 border-t border-[#f1f4f2] pt-6 text-center text-[10px] text-[#121714]/40 dark:border-[#2a3a2f] dark:text-white/40 sm:gap-6 sm:pt-8 sm:text-sm md:flex-row">
+        <div className="flex flex-col items-center justify-center gap-4 border-t border-[#f1f4f2] pt-6 text-center text-[10px] text-[#121714]/40 dark:border-[#262626] dark:text-white/40 sm:gap-6 sm:pt-8 sm:text-sm md:flex-row">
           <p>
             {generalSetting?.footer_text
               ? generalSetting.footer_text

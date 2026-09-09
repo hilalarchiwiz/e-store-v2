@@ -34,7 +34,7 @@ const Subscribe = ({ variant = 'default', title, description }: SubscribeProps) 
 
   if (variant === 'compact') {
     return (
-      <section className="rounded-xl bg-[#f4f5f4] p-4 dark:bg-[#1a231e] sm:rounded-2xl sm:p-7">
+      <section className="rounded-xl bg-[#f4f5f4] p-4 dark:bg-[#171717] sm:rounded-2xl sm:p-7">
         <div className="grid items-center gap-5 lg:grid-cols-[1fr_1.2fr]">
           <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:items-start sm:gap-4 sm:text-left">
             <span className="material-symbols-outlined text-3xl text-primary sm:mt-0.5 sm:text-4xl" aria-hidden="true">
@@ -60,7 +60,7 @@ const Subscribe = ({ variant = 'default', title, description }: SubscribeProps) 
               <label htmlFor="about-subscribe-email" className="sr-only">Email address</label>
               <input
                 id="about-subscribe-email"
-                className="h-10 min-w-0 flex-1 rounded-l-md border border-black/10 bg-white px-3 text-[10px] text-[#121714] outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/10 sm:h-12 sm:rounded-l-lg sm:px-4 sm:text-sm dark:border-white/10 dark:bg-[#101713] dark:text-white"
+                className="h-10 min-w-0 flex-1 rounded-l-md border border-black/10 bg-white px-3 text-[10px] text-[#121714] outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/10 sm:h-12 sm:rounded-l-lg sm:px-4 sm:text-sm dark:border-white/10 dark:bg-[#0a0a0a] dark:text-white"
                 placeholder="Enter your email address"
                 required
                 type="email"

@@ -96,7 +96,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose, address, o
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="w-full max-w-2xl bg-white dark:bg-[#1a251d] rounded-[2.5rem] shadow-2xl pointer-events-auto border border-primary/10 max-h-[90vh] overflow-y-auto no-scrollbar"
+              className="w-full max-w-2xl bg-white dark:bg-[#171717] rounded-[2.5rem] shadow-2xl pointer-events-auto border border-primary/10 max-h-[90vh] overflow-y-auto no-scrollbar"
             >
               <div className="p-8 md:p-10">
                 {/* Header */}

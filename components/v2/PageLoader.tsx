@@ -14,13 +14,13 @@ export default function PageLoader({
 
   return (
     <div
-      className="fixed inset-0 z-[100000] flex min-h-screen items-center justify-center overflow-hidden bg-white px-6 text-[#121714] dark:bg-[#101713] dark:text-white"
+      className="fixed inset-0 z-[100000] flex min-h-screen items-center justify-center overflow-hidden bg-white px-6 text-[#121714] dark:bg-[#0a0a0a] dark:text-white"
       role="status"
       aria-live="polite"
       aria-label="Page is loading"
     >
-      <div className="absolute -left-24 top-1/4 h-72 w-72 rounded-full bg-emerald-200/30 blur-3xl dark:bg-emerald-900/20" />
-      <div className="absolute -right-24 bottom-1/4 h-80 w-80 rounded-full bg-teal-200/25 blur-3xl dark:bg-teal-900/20" />
+      <div className="absolute -left-24 top-1/4 h-72 w-72 rounded-full bg-emerald-200/30 blur-3xl dark:bg-white/5" />
+      <div className="absolute -right-24 bottom-1/4 h-80 w-80 rounded-full bg-teal-200/25 blur-3xl dark:bg-white/5" />
 
       <div className="relative flex w-full max-w-md flex-col items-center text-center">
         <div className="relative mb-7 flex h-24 w-24 items-center justify-center">
@@ -29,7 +29,7 @@ export default function PageLoader({
           <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-white shadow-xl shadow-emerald-600/25">
             <Laptop className="h-8 w-8" strokeWidth={1.8} aria-hidden="true" />
           </div>
-          <span className="absolute right-0 top-2 h-3 w-3 rounded-full bg-emerald-400 ring-4 ring-white motion-safe:animate-pulse dark:ring-[#101713]" />
+          <span className="absolute right-0 top-2 h-3 w-3 rounded-full bg-emerald-400 ring-4 ring-white motion-safe:animate-pulse dark:ring-[#0a0a0a]" />
         </div>
 
         <p className="text-xs font-extrabold uppercase tracking-[0.35em] text-primary">
@@ -42,7 +42,7 @@ export default function PageLoader({
           {message}
         </p>
 
-        <div className="mt-7 h-1.5 w-full max-w-xs overflow-hidden rounded-full bg-emerald-100 dark:bg-emerald-950">
+        <div className="mt-7 h-1.5 w-full max-w-xs overflow-hidden rounded-full bg-emerald-100 dark:bg-neutral-900">
           {hasProgress ? (
             <div
               className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-primary to-teal-400 transition-[width] duration-300 ease-out"

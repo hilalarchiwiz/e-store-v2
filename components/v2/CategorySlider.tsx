@@ -20,7 +20,7 @@ function CategoryCard({ cat }: { cat: Category }) {
   return (
     <Link
       href={`/shop?category=${encodeURIComponent(cat.name)}`}
-      className="group relative flex h-27 w-34 sm:h-30 sm:w-40 lg:h-36 lg:w-48 shrink-0 snap-start flex-col items-center justify-between overflow-hidden rounded-lg border border-[#dfe4e1] bg-white px-3 pb-2.5 pt-3 shadow-[0_2px_7px_rgba(15,23,42,0.10)] transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md dark:border-[#2a3a30] dark:bg-[#1a251d]"
+      className="group relative flex h-27 w-34 sm:h-30 sm:w-40 lg:h-36 lg:w-48 shrink-0 snap-start flex-col items-center justify-between overflow-hidden rounded-lg border border-[#dfe4e1] bg-white px-3 pb-2.5 pt-3 shadow-[0_2px_7px_rgba(15,23,42,0.10)] transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md dark:border-[#303030] dark:bg-[#171717]"
     >
       <div className="relative min-h-0 w-full flex-1">
         {!imgError ? (
@@ -82,7 +82,7 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ categories = [] }) => {
           <button
             onClick={() => scroll("left")}
             aria-label="Scroll left"
-            className="size-10 rounded-full border border-gray-300 dark:border-[#2a3a2f] dark:bg-[#151a17] flex items-center justify-center hover:bg-primary hover:border-primary hover:text-white dark:hover:bg-primary dark:hover:border-primary dark:text-white transition-all duration-200"
+            className="size-10 rounded-full border border-gray-300 dark:border-[#262626] dark:bg-[#111111] flex items-center justify-center hover:bg-primary hover:border-primary hover:text-white dark:hover:bg-primary dark:hover:border-primary dark:text-white transition-all duration-200"
           >
             <span className="material-symbols-outlined text-[20px]">
               chevron_left
@@ -91,7 +91,7 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ categories = [] }) => {
           <button
             onClick={() => scroll("right")}
             aria-label="Scroll right"
-            className="size-10 rounded-full border border-gray-300 dark:border-[#2a3a2f] dark:bg-[#151a17] flex items-center justify-center hover:bg-primary hover:border-primary hover:text-white dark:hover:bg-primary dark:hover:border-primary dark:text-white transition-all duration-200"
+            className="size-10 rounded-full border border-gray-300 dark:border-[#262626] dark:bg-[#111111] flex items-center justify-center hover:bg-primary hover:border-primary hover:text-white dark:hover:bg-primary dark:hover:border-primary dark:text-white transition-all duration-200"
           >
             <span className="material-symbols-outlined text-[20px]">
               chevron_right
