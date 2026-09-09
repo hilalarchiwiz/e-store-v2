@@ -78,7 +78,7 @@ const WishlistPage = () => {
         items={[{ label: "Home", href: "/" }, { label: "My Wishlist" }]}
       />
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#dce5df] dark:border-[#303030]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-outline dark:border-outline">
         <div className="flex items-center gap-4">
           <div className="size-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
             <span className="material-symbols-outlined text-3xl fill-1">
@@ -89,7 +89,7 @@ const WishlistPage = () => {
             <p className="text-primary text-xs font-bold uppercase tracking-widest mb-0.5">
               Saved Items
             </p>
-            <h1 className="text-3xl md:text-4xl font-black text-[#121714] dark:text-white leading-tight">
+            <h1 className="text-3xl md:text-4xl font-black text-foreground dark:text-foreground leading-tight">
               My Wishlist
             </h1>
           </div>
@@ -109,21 +109,21 @@ const WishlistPage = () => {
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className="bg-white dark:bg-[#171717] border border-[#dce5df] dark:border-[#303030] rounded-2xl p-4 h-28 animate-pulse"
+              className="bg-surface dark:bg-surface border border-outline dark:border-outline rounded-2xl p-4 h-28 animate-pulse"
             />
           ))}
         </div>
       ) : items.length === 0 ? (
-        <div className="py-20 flex flex-col items-center text-center bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl">
+        <div className="py-20 flex flex-col items-center text-center bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl">
           <div className="size-32 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-8 animate-bounce">
             <span className="material-symbols-outlined !text-6xl">
               favorite
             </span>
           </div>
-          <h2 className="text-2xl font-bold text-[#121714] dark:text-white mb-2">
+          <h2 className="text-2xl font-bold text-foreground dark:text-foreground mb-2">
             No favorites yet
           </h2>
-          <p className="text-gray-500 dark:text-gray-400 max-w-sm mb-10 leading-relaxed px-6">
+          <p className="text-muted dark:text-muted max-w-sm mb-10 leading-relaxed px-6">
             Tap the heart icon on any product to save it here.
           </p>
           <Button variant="primary" icon="explore">
@@ -146,12 +146,12 @@ const WishlistPage = () => {
             return (
               <div
                 key={item.id}
-                className="group bg-white dark:bg-[#171717] border border-[#dce5df] dark:border-[#303030] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300"
+                className="group bg-surface dark:bg-surface border border-outline dark:border-outline rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300"
               >
                 {/* Image */}
                 <Link
                   href={`/product/${product.id}`}
-                  className="size-24 sm:size-32 rounded-xl sm:rounded-2xl overflow-hidden flex-shrink-0 bg-[#f1f4f2] dark:bg-[#262626] relative"
+                  className="size-24 sm:size-32 rounded-xl sm:rounded-2xl overflow-hidden flex-shrink-0 bg-icon-surface dark:bg-icon-surface relative"
                 >
                   <Image
                     src={product.images[0] || "/images/placeholder-product.jpg"}
@@ -171,7 +171,7 @@ const WishlistPage = () => {
                   <div className="flex flex-col gap-1.5 sm:gap-2 max-w-xl">
                     <Link
                       href={`/product/${product.id}`}
-                      className="text-base sm:text-lg md:text-xl font-bold text-[#121714] dark:text-white hover:text-primary transition-colors leading-tight line-clamp-2"
+                      className="text-base sm:text-lg md:text-xl font-bold text-foreground dark:text-foreground hover:text-primary transition-colors leading-tight line-clamp-2"
                     >
                       {product.title}
                     </Link>
@@ -186,21 +186,21 @@ const WishlistPage = () => {
                         {inStock ? "In Stock" : "Out of Stock"}
                       </span>
                       {product.category && (
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-100 dark:bg-white/5 px-2.5 py-0.5 sm:py-1 rounded-full">
+                        <span className="text-[10px] font-bold text-muted uppercase tracking-widest bg-surface dark:bg-white/5 px-2.5 py-0.5 sm:py-1 rounded-full">
                           {product.category.title}
                         </span>
                       )}
                     </div>
                   </div>
 
-                  <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between md:justify-end gap-3 sm:gap-6 md:gap-10 w-full md:w-auto pt-3 md:pt-0 border-t md:border-0 border-gray-100 dark:border-white/5">
+                  <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between md:justify-end gap-3 sm:gap-6 md:gap-10 w-full md:w-auto pt-3 md:pt-0 border-t md:border-0 border-outline dark:border-white/5">
                     {/* Price */}
                     <div className="flex items-center xs:flex-col xs:items-start md:items-end gap-2 xs:gap-0">
                       <p className="text-lg sm:text-xl font-black text-primary whitespace-nowrap">
                         Rs. {Number(finalPrice).toLocaleString()}
                       </p>
                       {!!product.discountedPrice && product.discountedPrice > 0 && (
-                        <p className="text-xs sm:text-sm text-gray-400 line-through font-medium whitespace-nowrap">
+                        <p className="text-xs sm:text-sm text-muted line-through font-medium whitespace-nowrap">
                           Rs. {Number(product.price).toLocaleString()}
                         </p>
                       )}

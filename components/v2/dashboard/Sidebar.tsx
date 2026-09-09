@@ -40,9 +40,9 @@ const DashboardSidebar = () => {
 
   return (
     <aside className="w-full lg:w-92 shrink-0">
-      <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl overflow-hidden sticky top-24">
+      <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl overflow-hidden sticky top-24">
         {/* User Info */}
-        <div className="p-8 border-b border-gray-100 dark:border-white/5">
+        <div className="p-8 border-b border-outline dark:border-white/5">
           <div className="flex items-center gap-4">
             <div className="size-16 rounded-2xl overflow-hidden border-2 border-primary/20 shrink-0">
               {avatar ? (
@@ -60,10 +60,10 @@ const DashboardSidebar = () => {
               )}
             </div>
             <div className="min-w-0">
-              <h3 className="font-black text-[#121714] dark:text-white truncate">
+              <h3 className="font-black text-foreground dark:text-foreground truncate">
                 {name}
               </h3>
-              <p className="text-xs text-gray-400 font-medium truncate">
+              <p className="text-xs text-muted font-medium truncate">
                 {email}
               </p>
             </div>
@@ -82,7 +82,7 @@ const DashboardSidebar = () => {
                     className={`flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold ${
                       isActive
                         ? "bg-primary text-white shadow-lg shadow-primary/20"
-                        : "text-[#648770] hover:bg-primary/5 hover:text-primary"
+                        : "text-muted hover:bg-primary/5 hover:text-primary"
                     }`}
                   >
                     <span className="material-symbols-outlined">
@@ -97,7 +97,7 @@ const DashboardSidebar = () => {
         </nav>
 
         {/* Logout */}
-        <div className="p-4 border-t border-gray-100 dark:border-white/5">
+        <div className="p-4 border-t border-outline dark:border-white/5">
           <button
             onClick={() => setIsLogoutModalOpen(true)}
             disabled={loggingOut}

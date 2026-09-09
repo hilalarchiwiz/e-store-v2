@@ -101,17 +101,17 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-[#171717] border border-primary/10 shadow-2xl rounded-3xl p-8 md:p-10">
+    <div className="bg-surface dark:bg-surface border border-primary/10 shadow-2xl rounded-3xl p-8 md:p-10">
       <div className="text-center mb-10">
         <div className="inline-flex items-center justify-center size-16 bg-primary/10 rounded-2xl text-primary mb-6">
           <span className="material-symbols-outlined text-4xl!">
             person_add
           </span>
         </div>
-        <h1 className="text-3xl font-black text-[#121714] dark:text-white mb-3">
+        <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-3">
           Create Account
         </h1>
-        <p className="text-gray-500 dark:text-gray-400 text-sm">
+        <p className="text-muted dark:text-muted text-sm">
           Join the community for a greener planet
         </p>
       </div>
@@ -120,7 +120,7 @@ const RegisterForm = () => {
         type="button"
         onClick={handleGoogleLogin}
         disabled={googleLoading}
-        className="w-full bg-white dark:bg-transparent border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-200 font-bold py-3.5 rounded-xl transition-all flex items-center justify-center gap-3 mb-8 px-6 shadow-sm active:scale-[0.98] disabled:opacity-50"
+        className="w-full bg-white dark:bg-transparent border border-outline dark:border-white/10 hover:bg-surface dark:hover:bg-white/5 text-foreground dark:text-muted font-bold py-3.5 rounded-xl transition-all flex items-center justify-center gap-3 mb-8 px-6 shadow-sm active:scale-[0.98] disabled:opacity-50"
       >
         {googleLoading ? (
           <span className="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
@@ -149,10 +149,10 @@ const RegisterForm = () => {
 
       <div className="relative mb-8">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-100 dark:border-white/5"></div>
+          <div className="w-full border-t border-outline dark:border-white/5"></div>
         </div>
         <div className="relative flex justify-center text-xs uppercase tracking-widest font-bold">
-          <span className="bg-white dark:bg-[#171717] px-4 text-gray-400">
+          <span className="bg-surface dark:bg-surface px-4 text-muted">
             Or use email
           </span>
         </div>
@@ -202,7 +202,7 @@ const RegisterForm = () => {
         />
 
         <div className="space-y-4">
-          <p className="text-[10px] text-gray-400 text-center leading-relaxed">
+          <p className="text-[10px] text-muted text-center leading-relaxed">
             By creating an account, you agree to our
             <Link href="#" className="underline hover:text-primary mx-1">
               Terms of Service
@@ -225,7 +225,7 @@ const RegisterForm = () => {
       </form>
 
       <div className="mt-8 text-center">
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm text-muted dark:text-muted">
           Already have an account?
           <Link
             href="/login"

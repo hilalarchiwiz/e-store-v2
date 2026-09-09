@@ -14,7 +14,7 @@ export default function PageLoader({
 
   return (
     <div
-      className="fixed inset-0 z-[100000] flex min-h-screen items-center justify-center overflow-hidden bg-white px-6 text-[#121714] dark:bg-[#0a0a0a] dark:text-white"
+      className="fixed inset-0 z-[100000] flex min-h-screen items-center justify-center overflow-hidden bg-surface px-6 text-foreground dark:bg-page dark:text-foreground"
       role="status"
       aria-live="polite"
       aria-label="Page is loading"
@@ -38,7 +38,7 @@ export default function PageLoader({
         <h1 className="mt-3 text-2xl font-black tracking-tight sm:text-3xl">
           Loading your experience
         </h1>
-        <p className="mt-2 max-w-sm text-sm leading-6 text-gray-500 dark:text-gray-400">
+        <p className="mt-2 max-w-sm text-sm leading-6 text-muted dark:text-muted">
           {message}
         </p>
 

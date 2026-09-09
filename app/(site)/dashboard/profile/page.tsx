@@ -105,10 +105,10 @@ export default function ProfilePage() {
     return (
       <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
         <div>
-          <div className="h-8 w-48 bg-gray-200 dark:bg-white/10 rounded-xl animate-pulse mb-2" />
-          <div className="h-4 w-72 bg-gray-100 dark:bg-white/5 rounded-lg animate-pulse" />
+          <div className="h-8 w-48 bg-surface dark:bg-white/10 rounded-xl animate-pulse mb-2" />
+          <div className="h-4 w-72 bg-surface dark:bg-white/5 rounded-lg animate-pulse" />
         </div>
-        <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10 h-64 animate-pulse" />
+        <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10 h-64 animate-pulse" />
       </div>
     );
   }
@@ -116,15 +116,15 @@ export default function ProfilePage() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
       <div>
-        <h1 className="text-3xl font-black text-[#121714] dark:text-white mb-2">
+        <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-2">
           Account Details
         </h1>
-        <p className="text-gray-500 dark:text-gray-400">
+        <p className="text-muted dark:text-muted">
           Keep your personal information up to date.
         </p>
       </div>
 
-      <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
+      <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
         <div className="flex flex-col md:flex-row gap-10">
           {/* Avatar */}
           <div className="flex flex-col items-center gap-4">
@@ -154,7 +154,7 @@ export default function ProfilePage() {
               className="hidden"
               onChange={handleImageChange}
             />
-            <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest">
+            <p className="text-[10px] text-muted font-black uppercase tracking-widest">
               {isUploading ? "Uploading..." : "Change Photo"}
             </p>
           </div>
@@ -184,7 +184,7 @@ export default function ProfilePage() {
                   readOnly
                   className="opacity-60 cursor-not-allowed"
                 />
-                <p className="text-[10px] text-gray-400 mt-1.5 ml-1">
+                <p className="text-[10px] text-muted mt-1.5 ml-1">
                   Email address cannot be changed here.
                 </p>
               </div>

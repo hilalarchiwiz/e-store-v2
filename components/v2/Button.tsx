@@ -25,9 +25,9 @@ const Button: React.FC<ButtonProps> = ({
     primary:
       "bg-primary text-white hover:bg-primary-dark shadow-lg shadow-primary/20 p-4",
     secondary:
-      "bg-[#f1f4f2] dark:bg-[#262626] text-[#121714] dark:text-white hover:bg-primary/20 p-4",
+      "bg-surface dark:bg-surface text-foreground dark:text-foreground hover:bg-primary/20 p-4",
     outline:
-      "bg-transparent border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 py-3 px-6",
+      "bg-transparent border border-outline dark:border-white/10 text-foreground dark:text-muted hover:bg-surface dark:hover:bg-white/5 py-3 px-6",
     ghost: "bg-transparent hover:bg-primary/10 text-primary p-4",
   }[variant]; // Simplified access
 

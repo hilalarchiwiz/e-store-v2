@@ -261,7 +261,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
         {/* Image Gallery */}
         <div className="flex flex-col gap-3 sm:gap-4">
           <div
-            className="relative aspect-square bg-[#f1f4f2] dark:bg-[#262626] rounded-2xl sm:rounded-3xl overflow-hidden border border-gray-100 dark:border-white/5 select-none"
+            className="relative aspect-square bg-surface dark:bg-surface rounded-2xl sm:rounded-3xl overflow-hidden border border-outline dark:border-white/5 select-none"
             onMouseEnter={() => setZoomed(true)}
             onMouseLeave={() => setZoomed(false)}
             onMouseMove={handleMouseMove}
@@ -291,7 +291,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               <button
                 key={idx}
                 onClick={() => setSelectedImage(img)}
-                className={`size-16 sm:size-24 rounded-lg sm:rounded-xl border-2 shrink-0 overflow-hidden p-1.5 sm:p-2 transition-all ${selectedImage === img ? "border-primary bg-primary/5" : "border-transparent bg-[#f1f4f2] dark:bg-[#262626]"}`}
+                className={`size-16 sm:size-24 rounded-lg sm:rounded-xl border-2 shrink-0 overflow-hidden p-1.5 sm:p-2 transition-all ${selectedImage === img ? "border-primary bg-primary/5" : "border-transparent bg-icon-surface dark:bg-icon-surface"}`}
               >
                 <img
                   src={img}
@@ -328,12 +328,12 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 {i < Math.floor(product.rating || 0) ? "star" : "star_border"}
               </span>
             ))}
-            <span className="text-xs sm:text-sm text-gray-500 font-medium ml-2">
+            <span className="text-xs sm:text-sm text-muted font-medium ml-2">
               ({product.reviews || 0} reviews)
             </span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#121714] dark:text-white leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-foreground dark:text-foreground leading-tight">
             {product.title}
           </h1>
 
@@ -341,7 +341,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
             <div className="flex flex-col">
               {hasDiscount && (
-                <span className="text-xs sm:text-sm text-gray-400 line-through font-medium whitespace-nowrap">
+                <span className="text-xs sm:text-sm text-muted line-through font-medium whitespace-nowrap">
                   PKR {Number(product.price).toLocaleString()}
                 </span>
               )}
@@ -356,7 +356,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             )}
           </div>
 
-          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
+          <p className="text-sm sm:text-base text-muted dark:text-muted leading-relaxed font-medium">
             {product.description.substring(0, 200)}...
           </p>
 
@@ -385,7 +385,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
 
               {product.grading.description && (
                 <div className="relative group">
-                  <span className="material-symbols-outlined text-gray-400 text-[18px] cursor-help">
+                  <span className="material-symbols-outlined text-muted text-[18px] cursor-help">
                     info
                   </span>
 
@@ -405,15 +405,15 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             </div>
           )}
 
-          <div className="h-px bg-gray-100 dark:bg-white/10 w-full"></div>
+          <div className="h-px bg-surface dark:bg-white/10 w-full"></div>
 
           {/* Qty + Add to Cart + Wishlist */}
           <div className="flex flex-wrap sm:flex-nowrap gap-3 items-center">
-            <div className="flex items-center border border-gray-200 dark:border-white/10 rounded-xl px-2.5 py-1.5 sm:px-3 sm:py-2 bg-white dark:bg-black/20 shrink-0">
+            <div className="flex items-center border border-outline dark:border-white/10 rounded-xl px-2.5 py-1.5 sm:px-3 sm:py-2 bg-white dark:bg-surface shrink-0">
               <button
                 onClick={() => setQuantity((p) => Math.max(1, p - 1))}
                 disabled={isOutOfStock || quantity <= 1}
-                className="size-8 sm:size-9 flex items-center justify-center text-gray-500 hover:text-primary transition-colors disabled:cursor-not-allowed disabled:opacity-30"
+                className="size-8 sm:size-9 flex items-center justify-center text-muted hover:text-primary transition-colors disabled:cursor-not-allowed disabled:opacity-30"
               >
                 <span className="material-symbols-outlined text-base sm:text-xl">remove</span>
               </button>
@@ -423,7 +423,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               <button
                 onClick={() => setQuantity((p) => Math.min(maxQty, p + 1))}
                 disabled={isOutOfStock || quantity >= maxQty}
-                className="size-8 sm:size-9 flex items-center justify-center text-gray-500 hover:text-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                className="size-8 sm:size-9 flex items-center justify-center text-muted hover:text-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <span className="material-symbols-outlined text-base sm:text-xl">add</span>
               </button>
@@ -441,7 +441,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             <button
               onClick={() => toggleWishlist(product.id)}
               title={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
-              className={`size-11 sm:size-12 shrink-0 rounded-xl border-2 flex items-center justify-center transition-all ${inWishlist ? "border-red-400 bg-red-50 dark:bg-red-500/10 text-red-500" : "border-gray-200 dark:border-white/10 text-gray-400 hover:border-red-300 hover:text-red-500"}`}
+              className={`size-11 sm:size-12 shrink-0 rounded-xl border-2 flex items-center justify-center transition-all ${inWishlist ? "border-red-400 bg-red-50 dark:bg-red-500/10 text-red-500" : "border-outline dark:border-white/10 text-muted hover:border-red-300 hover:text-red-500"}`}
             >
               <span
                 className={`material-symbols-outlined ${inWishlist ? "fill-1" : ""}`}
@@ -472,7 +472,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 className={`w-full h-12 sm:h-14 flex items-center justify-center gap-2 border-2 font-black rounded-xl transition-all active:scale-[0.98] text-xs sm:text-sm uppercase tracking-widest
         ${showShare
                     ? "border-primary bg-primary/10 text-primary"
-                    : "border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 text-gray-700 dark:text-gray-200 hover:border-primary/50 hover:text-primary"
+                    : "border-outline dark:border-white/10 bg-white dark:bg-white/5 text-foreground dark:text-muted hover:border-primary/50 hover:text-primary"
                   }`}
               >
                 <span className="material-symbols-outlined text-[18px]">share</span>
@@ -480,11 +480,11 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               </button>
 
               {showShare && (
-                <div className="absolute bottom-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-56 bg-white dark:bg-[#1c1c1c] border border-gray-100 dark:border-white/10 rounded-2xl shadow-2xl shadow-black/10 p-2 z-50">
+                <div className="absolute bottom-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-56 bg-surface dark:bg-surface border border-outline dark:border-white/10 rounded-2xl shadow-2xl shadow-black/10 p-2 z-50">
                   {/* Arrow */}
-                  <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white dark:bg-[#1c1c1c] border-r border-b border-gray-100 dark:border-white/10 rotate-45" />
+                  <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-surface dark:bg-surface border-r border-b border-outline dark:border-white/10 rotate-45" />
 
-                  <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400 px-3 pt-2 pb-1">
+                  <p className="text-[9px] font-black uppercase tracking-[0.2em] text-muted px-3 pt-2 pb-1">
                     Share this product
                   </p>
 
@@ -498,20 +498,20 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                       </svg>
                     </div>
-                    <span className="text-sm font-bold text-gray-700 dark:text-gray-200">Facebook</span>
+                    <span className="text-sm font-bold text-foreground dark:text-muted">Facebook</span>
                   </button>
 
                   {/* X / Twitter */}
                   <button
                     onClick={() => handleShare("twitter")}
-                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface dark:hover:bg-white/10 transition-colors"
                   >
                     <div className="size-8 rounded-lg bg-black/5 dark:bg-white/10 flex items-center justify-center shrink-0">
                       <svg className="w-4 h-4 fill-black dark:fill-white" viewBox="0 0 24 24">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.258 5.63 5.906-5.63Zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                       </svg>
                     </div>
-                    <span className="text-sm font-bold text-gray-700 dark:text-gray-200">X (Twitter)</span>
+                    <span className="text-sm font-bold text-foreground dark:text-muted">X (Twitter)</span>
                   </button>
 
                   {/* WhatsApp */}
@@ -524,20 +524,20 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                       </svg>
                     </div>
-                    <span className="text-sm font-bold text-gray-700 dark:text-gray-200">WhatsApp</span>
+                    <span className="text-sm font-bold text-foreground dark:text-muted">WhatsApp</span>
                   </button>
 
-                  <div className="h-px bg-gray-100 dark:bg-white/10 mx-3 my-1" />
+                  <div className="h-px bg-surface dark:bg-white/10 mx-3 my-1" />
 
                   {/* Copy Link */}
                   <button
                     onClick={() => handleShare("copy")}
-                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface dark:hover:bg-white/10 transition-colors"
                   >
-                    <div className="size-8 rounded-lg bg-gray-100 dark:bg-white/10 flex items-center justify-center shrink-0">
-                      <span className="material-symbols-outlined text-[16px] text-gray-500 dark:text-gray-300">link</span>
+                    <div className="size-8 rounded-lg bg-icon-surface dark:bg-white/10 flex items-center justify-center shrink-0">
+                      <span className="material-symbols-outlined text-[16px] text-muted dark:text-muted">link</span>
                     </div>
-                    <span className="text-sm font-bold text-gray-700 dark:text-gray-200">Copy link</span>
+                    <span className="text-sm font-bold text-foreground dark:text-muted">Copy link</span>
                   </button>
                 </div>
               )}
@@ -562,10 +562,10 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 <span className="material-symbols-outlined">request_quote</span>
               </div>
               <div>
-                <h2 className="text-sm sm:text-base font-black text-[#121714] dark:text-white">
+                <h2 className="text-sm sm:text-base font-black text-foreground dark:text-foreground">
                   Make a Custom Offer
                 </h2>
-                <p className="mt-0.5 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                <p className="mt-0.5 text-xs sm:text-sm text-muted dark:text-muted">
                   Write your offer or question and send it directly to us on WhatsApp.
                 </p>
               </div>
@@ -581,11 +581,11 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               maxLength={500}
               rows={3}
               placeholder="Example: Can you offer a better price for this item?"
-              className="w-full resize-none rounded-xl border border-gray-200 bg-white px-3.5 py-3 text-sm text-[#121714] outline-none transition-colors placeholder:text-gray-400 focus:border-[#25D366] focus:ring-2 focus:ring-[#25D366]/15 dark:border-white/10 dark:bg-black/20 dark:text-white"
+              className="w-full resize-none rounded-xl border border-outline bg-white px-3.5 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted focus:border-[#25D366] focus:ring-2 focus:ring-[#25D366]/15 dark:border-white/10 dark:bg-surface dark:text-foreground"
             />
 
             <div className="mt-3 flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <span className="text-[11px] font-medium text-gray-400">
+              <span className="text-[11px] font-medium text-muted">
                 Product details and selected quantity are added automatically.
               </span>
               <button
@@ -602,7 +602,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 text-xs sm:text-sm text-gray-500 font-medium">
+          <div className="flex flex-col gap-2 text-xs sm:text-sm text-muted font-medium">
             <div className="flex items-center gap-3">
               <div className="size-7 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0">
                 <span className="material-symbols-outlined text-[16px]">
@@ -625,12 +625,12 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
 
       {/* Tabs Section */}
       <div className="flex flex-col gap-6 sm:gap-8">
-        <div className="flex border-b border-gray-100 dark:border-white/10 overflow-x-auto no-scrollbar">
+        <div className="flex border-b border-outline dark:border-white/10 overflow-x-auto no-scrollbar">
           {["description", "specifications", "reviews"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab as any)}
-              className={`px-4 sm:px-8 py-3 sm:py-4 font-bold text-xs sm:text-sm uppercase tracking-widest border-b-2 transition-all whitespace-nowrap ${activeTab === tab ? "border-primary text-primary" : "border-transparent text-gray-400 hover:text-[#121714] dark:hover:text-white"}`}
+              className={`px-4 sm:px-8 py-3 sm:py-4 font-bold text-xs sm:text-sm uppercase tracking-widest border-b-2 transition-all whitespace-nowrap ${activeTab === tab ? "border-primary text-primary" : "border-transparent text-muted hover:text-foreground dark:hover:text-white"}`}
             >
               {tab}
             </button>
@@ -639,7 +639,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
 
         <div className="py-6 animate-in fade-in duration-500">
           {activeTab === "description" && (
-            <div className="prose prose-lg dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+            <div className="prose prose-lg dark:prose-invert max-w-none text-muted dark:text-muted">
               {product.description}
             </div>
           )}
@@ -663,14 +663,14 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                       {reviewsList.map((review: any) => (
                         <div
                           key={review.id}
-                          className="bg-[#f1f4f2] dark:bg-[#262626] p-6 rounded-2xl flex flex-col gap-3"
+                          className="bg-surface dark:bg-surface p-6 rounded-2xl flex flex-col gap-3"
                         >
                           <div className="flex justify-between items-start">
                             <div>
-                              <span className="font-bold text-[#121714] dark:text-white">
+                              <span className="font-bold text-foreground dark:text-foreground">
                                 {review.name || "Anonymous"}
                               </span>
-                              <p className="text-xs text-gray-500">
+                              <p className="text-xs text-muted">
                                 {new Date(
                                   review.createdAt,
                                 ).toLocaleDateString()}
@@ -687,7 +687,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                               ))}
                             </div>
                           </div>
-                          <p className="text-gray-600 dark:text-gray-300">
+                          <p className="text-muted dark:text-muted">
                             {review.comment}
                           </p>
                         </div>
@@ -695,13 +695,13 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center py-10 text-center gap-4">
-                      <div className="size-20 bg-[#f1f4f2] dark:bg-[#262626] rounded-full flex items-center justify-center text-gray-400">
+                      <div className="size-20 bg-icon-surface dark:bg-icon-surface rounded-full flex items-center justify-center text-muted">
                         <span className="material-symbols-outlined text-4xl">
                           rate_review
                         </span>
                       </div>
                       <h3 className="text-xl font-bold">No Reviews Yet</h3>
-                      <p className="text-gray-500">
+                      <p className="text-muted">
                         Be the first to review this product!
                       </p>
                       <Button
@@ -731,9 +731,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
 
       {/* Related Products */}
       {relatedProducts.length > 0 && (
-        <div className="flex flex-col gap-8 border-t border-gray-100 dark:border-white/10 pt-12">
+        <div className="flex flex-col gap-8 border-t border-outline dark:border-white/10 pt-12">
           <div className="flex items-center justify-between">
-            <h2 className="text-3xl font-black text-[#121714] dark:text-white">
+            <h2 className="text-3xl font-black text-foreground dark:text-foreground">
               Related Products
             </h2>
             <Link

@@ -58,7 +58,7 @@ export default function ContactForm({
       {/* Section 1: GET IN TOUCH Info + Contact Form Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
         {/* Left Column: Get In Touch Info */}
-        <div className="lg:col-span-6 bg-white dark:bg-[#171717] p-6 sm:p-8 rounded-2xl border border-neutral-200/80 dark:border-neutral-800 flex flex-col justify-between gap-8 shadow-[0_2px_10px_rgba(0,0,0,0.03)]">
+        <div className="lg:col-span-6 bg-surface dark:bg-surface p-6 sm:p-8 rounded-2xl border border-neutral-200/80 dark:border-neutral-800 flex flex-col justify-between gap-8 shadow-[0_2px_10px_rgba(0,0,0,0.03)]">
           <div className="flex flex-col gap-3">
             <span className="text-green-600 dark:text-emerald-400 text-sm font-bold tracking-wider uppercase">
               GET IN TOUCH
@@ -74,7 +74,7 @@ export default function ContactForm({
           {/* 4 Info Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Call Center */}
-            <div className="p-4 rounded-xl border border-neutral-200/70 dark:border-neutral-800 bg-neutral-50/50 dark:bg-[#111111] flex items-start gap-3.5 shadow-2xs transition-all hover:border-green-500/40">
+            <div className="p-4 rounded-xl border border-neutral-200/70 dark:border-neutral-800 bg-neutral-50/50 dark:bg-surface flex items-start gap-3.5 shadow-2xs transition-all hover:border-green-500/40">
               <div className="size-10 rounded-lg bg-green-600/10 text-green-600 flex items-center justify-center shrink-0 mt-0.5">
                 <span className="material-symbols-outlined !text-xl">call</span>
               </div>
@@ -92,7 +92,7 @@ export default function ContactForm({
             </div>
 
             {/* Our Location */}
-            <div className="p-4 rounded-xl border border-neutral-200/70 dark:border-neutral-800 bg-neutral-50/50 dark:bg-[#111111] flex items-start gap-3.5 shadow-2xs transition-all hover:border-green-500/40">
+            <div className="p-4 rounded-xl border border-neutral-200/70 dark:border-neutral-800 bg-neutral-50/50 dark:bg-surface flex items-start gap-3.5 shadow-2xs transition-all hover:border-green-500/40">
               <div className="size-10 rounded-lg bg-green-600/10 text-green-600 flex items-center justify-center shrink-0 mt-0.5">
                 <span className="material-symbols-outlined !text-xl">location_on</span>
               </div>
@@ -107,7 +107,7 @@ export default function ContactForm({
             </div>
 
             {/* Email */}
-            <div className="p-4 rounded-xl border border-neutral-200/70 dark:border-neutral-800 bg-neutral-50/50 dark:bg-[#111111] flex items-start gap-3.5 shadow-2xs transition-all hover:border-green-500/40">
+            <div className="p-4 rounded-xl border border-neutral-200/70 dark:border-neutral-800 bg-neutral-50/50 dark:bg-surface flex items-start gap-3.5 shadow-2xs transition-all hover:border-green-500/40">
               <div className="size-10 rounded-lg bg-green-600/10 text-green-600 flex items-center justify-center shrink-0 mt-0.5">
                 <span className="material-symbols-outlined !text-xl">mail</span>
               </div>
@@ -128,7 +128,7 @@ export default function ContactForm({
             </div>
 
             {/* Social Network */}
-            <div className="p-4 rounded-xl border border-neutral-200/70 dark:border-neutral-800 bg-neutral-50/50 dark:bg-[#111111] flex items-start gap-3.5 shadow-2xs transition-all hover:border-green-500/40">
+            <div className="p-4 rounded-xl border border-neutral-200/70 dark:border-neutral-800 bg-neutral-50/50 dark:bg-surface flex items-start gap-3.5 shadow-2xs transition-all hover:border-green-500/40">
               <div className="size-10 rounded-lg bg-green-600/10 text-green-600 flex items-center justify-center shrink-0 mt-0.5">
                 <span className="material-symbols-outlined !text-xl">share</span>
               </div>
@@ -221,7 +221,7 @@ export default function ContactForm({
         </div>
 
         {/* Right Column: Send Us A Message Form */}
-        <div className="lg:col-span-6 bg-white dark:bg-[#171717] p-6 sm:p-8 rounded-2xl border border-neutral-200/80 dark:border-neutral-800 shadow-[0px_0px_10px_0px_rgba(0,0,0,0.15)] flex flex-col justify-between">
+        <div className="lg:col-span-6 bg-surface dark:bg-surface p-6 sm:p-8 rounded-2xl border border-neutral-200/80 dark:border-neutral-800 shadow-[0px_0px_10px_0px_rgba(0,0,0,0.15)] flex flex-col justify-between">
           {submitted ? (
             <div className="flex flex-col items-center justify-center my-auto py-12 text-center gap-5">
               <div className="size-16 bg-green-600/10 rounded-full flex items-center justify-center text-green-600">
@@ -273,7 +273,7 @@ export default function ContactForm({
 
                 <div className="flex flex-col gap-3.5">
                   {/* Name Input */}
-                  <div className="px-3.5 py-3 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#111111] flex items-center gap-3 focus-within:border-green-600 transition-colors">
+                  <div className="px-3.5 py-3 rounded-md border border-neutral-300 dark:border-neutral-700 bg-surface dark:bg-surface flex items-center gap-3 focus-within:border-green-600 transition-colors">
                     <span className="material-symbols-outlined text-green-600 dark:text-emerald-400 !text-xl shrink-0">
                       person
                     </span>
@@ -287,7 +287,7 @@ export default function ContactForm({
                   </div>
 
                   {/* Email Input */}
-                  <div className="px-3.5 py-3 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#111111] flex items-center gap-3 focus-within:border-green-600 transition-colors">
+                  <div className="px-3.5 py-3 rounded-md border border-neutral-300 dark:border-neutral-700 bg-surface dark:bg-surface flex items-center gap-3 focus-within:border-green-600 transition-colors">
                     <span className="material-symbols-outlined text-green-600 dark:text-emerald-400 !text-xl shrink-0">
                       mail
                     </span>
@@ -301,7 +301,7 @@ export default function ContactForm({
                   </div>
 
                   {/* Phone Input */}
-                  <div className="px-3.5 py-3 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#111111] flex items-center gap-3 focus-within:border-green-600 transition-colors">
+                  <div className="px-3.5 py-3 rounded-md border border-neutral-300 dark:border-neutral-700 bg-surface dark:bg-surface flex items-center gap-3 focus-within:border-green-600 transition-colors">
                     <span className="material-symbols-outlined text-green-600 dark:text-emerald-400 !text-xl shrink-0">
                       call
                     </span>
@@ -315,7 +315,7 @@ export default function ContactForm({
                   </div>
 
                   {/* Subject Input */}
-                  <div className="px-3.5 py-3 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#111111] flex items-center gap-3 focus-within:border-green-600 transition-colors">
+                  <div className="px-3.5 py-3 rounded-md border border-neutral-300 dark:border-neutral-700 bg-surface dark:bg-surface flex items-center gap-3 focus-within:border-green-600 transition-colors">
                     <span className="material-symbols-outlined text-green-600 dark:text-emerald-400 !text-xl shrink-0">
                       topic
                     </span>
@@ -333,7 +333,7 @@ export default function ContactForm({
                     <label className="text-xs font-bold text-neutral-900 dark:text-white">
                       Message
                     </label>
-                    <div className="p-3 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#111111] flex items-start gap-3 focus-within:border-green-600 transition-colors">
+                    <div className="p-3 rounded-md border border-neutral-300 dark:border-neutral-700 bg-surface dark:bg-surface flex items-start gap-3 focus-within:border-green-600 transition-colors">
                       <textarea
                         name="message"
                         required
@@ -373,7 +373,7 @@ export default function ContactForm({
       </div>
 
       {/* Section 3: Live Chat & WhatsApp Banner */}
-      <div className="w-full bg-[#f4f9f5] dark:bg-[#171717] border border-emerald-200/60 dark:border-emerald-900/40 rounded-2xl p-6 sm:p-8 lg:p-10 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-sm relative overflow-hidden">
+      <div className="w-full bg-[#f4f9f5] dark:bg-surface border border-emerald-200/60 dark:border-emerald-900/40 rounded-2xl p-6 sm:p-8 lg:p-10 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-sm relative overflow-hidden">
         {/* Left Side: Circular Badge & Content */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center lg:items-start gap-6 flex-1">
           {/* Headset Multi-Ring Badge */}
@@ -389,7 +389,7 @@ export default function ContactForm({
 
           <div className="flex flex-col gap-3 flex-1">
             {/* Live Chat Available Tag */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl border border-green-600/40 bg-white/60 dark:bg-black/20 text-green-600 dark:text-emerald-400 text-sm font-semibold w-fit">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl border border-green-600/40 bg-white/60 dark:bg-surface text-green-600 dark:text-emerald-400 text-sm font-semibold w-fit">
               <span className="relative flex size-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full size-2 bg-green-500"></span>
@@ -426,15 +426,15 @@ export default function ContactForm({
 
               {/* Feature Pills */}
               <div className="flex flex-wrap items-center gap-2">
-                <div className="px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#111111] border border-neutral-200/80 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm font-semibold flex items-center gap-2 shadow-2xs">
+                <div className="px-3.5 py-2.5 rounded-lg bg-surface dark:bg-surface border border-neutral-200/80 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm font-semibold flex items-center gap-2 shadow-2xs">
                   <span className="material-symbols-outlined text-green-600 !text-base">verified</span>
                   Expert Advice
                 </div>
-                <div className="px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#111111] border border-neutral-200/80 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm font-semibold flex items-center gap-2 shadow-2xs">
+                <div className="px-3.5 py-2.5 rounded-lg bg-surface dark:bg-surface border border-neutral-200/80 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm font-semibold flex items-center gap-2 shadow-2xs">
                   <span className="material-symbols-outlined text-green-600 !text-base">bolt</span>
                   Fast Response
                 </div>
-                <div className="px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#111111] border border-neutral-200/80 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm font-semibold flex items-center gap-2 shadow-2xs">
+                <div className="px-3.5 py-2.5 rounded-lg bg-surface dark:bg-surface border border-neutral-200/80 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm font-semibold flex items-center gap-2 shadow-2xs">
                   <span className="material-symbols-outlined text-green-600 !text-base">mood</span>
                   Friendly support
                 </div>

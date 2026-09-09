@@ -17,16 +17,16 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="bg-white dark:bg-[#171717] rounded-xl border border-[#e5e9e6] dark:border-[#303030] shadow-[0_2px_4px_rgba(0,0,0,0.02)] overflow-hidden transition-colors">
+    <div className="bg-surface dark:bg-surface rounded-xl border border-outline dark:border-outline shadow-[0_2px_4px_rgba(0,0,0,0.02)] overflow-hidden transition-colors">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-5 py-4 flex justify-between items-center border-b border-[#f0f2f1] dark:border-[#303030] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+        className="w-full px-5 py-4 flex justify-between items-center border-b border-[#f0f2f1] dark:border-outline hover:bg-surface dark:hover:bg-white/5 transition-colors"
       >
-        <span className="text-[#1a2b21] dark:text-white font-bold">
+        <span className="text-foreground dark:text-foreground font-bold">
           {title}
         </span>
         <span
-          className={`material-symbols-outlined text-gray-400 text-sm transition-transform duration-300 ${isOpen ? "" : "rotate-180"}`}
+          className={`material-symbols-outlined text-muted text-sm transition-transform duration-300 ${isOpen ? "" : "rotate-180"}`}
         >
           expand_less
         </span>
@@ -218,13 +218,13 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
   return (
     <aside className="hidden w-full min-w-0 max-w-full shrink-0 flex-col gap-4 lg:flex lg:w-72">
       {/* Active Filters Summary */}
-      <div className="bg-white dark:bg-[#171717] px-5 py-4 rounded-xl border border-[#e5e9e6] dark:border-[#303030] shadow-[0_2px_4px_rgba(0,0,0,0.02)] flex justify-between items-center transition-colors">
-        <h3 className="text-[#1a2b21] dark:text-white text-base font-bold">
+      <div className="bg-surface dark:bg-surface px-5 py-4 rounded-xl border border-outline dark:border-outline shadow-[0_2px_4px_rgba(0,0,0,0.02)] flex justify-between items-center transition-colors">
+        <h3 className="text-foreground dark:text-foreground text-base font-bold">
           Filters
         </h3>
         <button
           onClick={handleCleanAll}
-          className="text-[#648770] hover:text-primary text-sm font-medium transition-colors underline decoration-dotted underline-offset-4"
+          className="text-muted hover:text-primary text-sm font-medium transition-colors underline decoration-dotted underline-offset-4"
         >
           Clean All
         </button>
@@ -242,15 +242,15 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
                 <input
                   checked={selectedCategories.includes(key)}
                   onChange={() => handleCategoryChange(key)}
-                  className="rounded border-[#dce5df] text-primary focus:ring-primary h-4 w-4 transition-colors cursor-pointer"
+                  className="rounded border-outline text-primary focus:ring-primary h-4 w-4 transition-colors cursor-pointer"
                   type="checkbox"
                 />
-                <span className="text-sm text-[#4a5550] dark:text-[#fafafa] group-hover:text-primary transition-colors">
+                <span className="text-sm text-muted dark:text-foreground group-hover:text-primary transition-colors">
                   {item.title}
                 </span>
               </div>
               {item.count !== undefined && (
-                <span className="text-xs bg-[#f0f4f2] dark:bg-[#262626] text-[#648770] px-2 py-0.5 rounded-full font-bold">
+                <span className="text-xs bg-surface dark:bg-surface text-muted px-2 py-0.5 rounded-full font-bold">
                   {item.count}
                 </span>
               )}
@@ -272,10 +272,10 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
               <input
                 checked={selectedGenerations.includes(generation)}
                 onChange={() => handleGenerationChange(generation)}
-                className="h-4 w-4 cursor-pointer rounded border-[#dce5df] text-primary transition-colors focus:ring-primary"
+                className="h-4 w-4 cursor-pointer rounded border-outline text-primary transition-colors focus:ring-primary"
                 type="checkbox"
               />
-              <span className="text-sm text-[#4a5550] transition-colors group-hover:text-primary dark:text-[#fafafa]">
+              <span className="text-sm text-muted transition-colors group-hover:text-primary dark:text-foreground">
                 {generation}
                 {generation % 100 >= 11 && generation % 100 <= 13
                   ? "th"
@@ -303,15 +303,15 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
               <input
                 checked={selectedBrands.includes(item.id)}
                 onChange={() => handleBrandChange(item.id)}
-                className="rounded border-[#dce5df] text-primary focus:ring-primary h-4 w-4 transition-colors cursor-pointer"
+                className="rounded border-outline text-primary focus:ring-primary h-4 w-4 transition-colors cursor-pointer"
                 type="checkbox"
               />
-              <span className="text-sm text-[#4a5550] dark:text-[#fafafa] group-hover:text-primary transition-colors">
+              <span className="text-sm text-muted dark:text-foreground group-hover:text-primary transition-colors">
                 {item.title}
               </span>
             </div>
             {item.count !== undefined && (
-              <span className="text-xs bg-[#f0f4f2] dark:bg-[#262626] text-[#648770] px-2 py-0.5 rounded-full font-bold">
+              <span className="text-xs bg-surface dark:bg-surface text-muted px-2 py-0.5 rounded-full font-bold">
                 {item.count}
               </span>
             )}
@@ -334,10 +334,10 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
               checked={sort === item.value}
               onChange={() => handleSortChange(item.value)}
               name="sort"
-              className="rounded-full border-[#dce5df] text-primary focus:ring-primary h-4 w-4 cursor-pointer"
+              className="rounded-full border-outline text-primary focus:ring-primary h-4 w-4 cursor-pointer"
               type="radio"
             />
-            <span className="text-sm text-[#4a5550] dark:text-[#fafafa] group-hover:text-primary">
+            <span className="text-sm text-muted dark:text-foreground group-hover:text-primary">
               {item.name}
             </span>
           </label>
@@ -348,7 +348,7 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <input
-              className="w-full accent-primary h-1.5 bg-[#f0f4f2] dark:bg-[#262626] rounded-lg appearance-none cursor-pointer"
+              className="w-full accent-primary h-1.5 bg-surface dark:bg-surface rounded-lg appearance-none cursor-pointer"
               max={maxPrice}
               min={minPrice}
               type="range"
@@ -357,31 +357,31 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
               onMouseUp={handlePriceCommit}
               onTouchEnd={handlePriceCommit}
             />
-            <div className="flex justify-between items-center text-xs text-[#648770] font-bold">
+            <div className="flex justify-between items-center text-xs text-muted font-bold">
               <span>Rs. {minPrice}</span>
               <span>Rs. {maxPrice}+</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <div className="flex-1 relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-[#648770] font-bold">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-muted font-bold">
                 Rs{" "}
               </span>
               <input
-                className="w-full ml-2 pl-6 pr-2 py-2 text-sm border-[#dce5df] dark:border-[#303030] dark:bg-[#262626] rounded-lg focus:ring-primary focus:border-primary outline-none"
+                className="w-full ml-2 pl-6 pr-2 py-2 text-sm border-outline dark:border-outline dark:bg-surface rounded-lg focus:ring-primary focus:border-primary outline-none"
                 placeholder="Min"
                 type="text"
                 value={priceRange[0]}
                 onChange={(e) => handlePriceChange(0, Number(e.target.value))}
               />
             </div>
-            <span className="text-[#648770]">-</span>
+            <span className="text-muted">-</span>
             <div className="flex-1 relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-[#648770] font-bold">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-muted font-bold">
                 Rs{" "}
               </span>
               <input
-                className="w-full ml-2 pl-6 pr-2 py-2 text-sm border-[#dce5df] dark:border-[#303030] dark:bg-[#262626] rounded-lg focus:ring-primary focus:border-primary outline-none"
+                className="w-full ml-2 pl-6 pr-2 py-2 text-sm border-outline dark:border-outline dark:bg-surface rounded-lg focus:ring-primary focus:border-primary outline-none"
                 placeholder="Max"
                 type="text"
                 value={priceRange[1]}

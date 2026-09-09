@@ -54,8 +54,8 @@ const RecentlyViewedPage = () => {
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <h1 className="text-4xl md:text-5xl font-black text-[#121714] dark:text-white mb-4">Recently Viewed</h1>
-            <p className="text-gray-500 dark:text-gray-400">
+            <h1 className="text-4xl md:text-5xl font-black text-foreground dark:text-foreground mb-4">Recently Viewed</h1>
+            <p className="text-muted dark:text-muted">
               {isLoading
                 ? "Loading your recently viewed items..."
                 : isEmpty
@@ -76,12 +76,12 @@ const RecentlyViewedPage = () => {
             <div className="size-12 border-4 border-primary border-t-transparent animate-spin rounded-full"></div>
           </div>
         ) : isEmpty ? (
-          <div className="py-24 flex flex-col items-center text-center bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl">
+          <div className="py-24 flex flex-col items-center text-center bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl">
             <div className="size-32 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-8">
               <span className="material-symbols-outlined !text-6xl">history</span>
             </div>
-            <h2 className="text-2xl font-bold text-[#121714] dark:text-white mb-2">History is empty</h2>
-            <p className="text-gray-500 dark:text-gray-400 max-w-sm mb-10 leading-relaxed px-6">
+            <h2 className="text-2xl font-bold text-foreground dark:text-foreground mb-2">History is empty</h2>
+            <p className="text-muted dark:text-muted max-w-sm mb-10 leading-relaxed px-6">
               Browse our shop to see your recently viewed items here. We make it easy to find what you were looking for.
             </p>
             <Button variant="primary" icon="explore">

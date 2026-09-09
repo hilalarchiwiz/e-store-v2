@@ -69,15 +69,15 @@ export default function OrderDetailsPage() {
   if (loading) {
     return (
       <div className="space-y-8 animate-in fade-in duration-300">
-        <div className="h-8 bg-gray-200 dark:bg-white/10 rounded-xl w-48 animate-pulse" />
-        <div className="h-40 bg-gray-200 dark:bg-white/10 rounded-3xl animate-pulse" />
+        <div className="h-8 bg-surface dark:bg-white/10 rounded-xl w-48 animate-pulse" />
+        <div className="h-40 bg-surface dark:bg-white/10 rounded-3xl animate-pulse" />
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           <div className="lg:col-span-8 space-y-6">
-            <div className="h-64 bg-gray-200 dark:bg-white/10 rounded-3xl animate-pulse" />
+            <div className="h-64 bg-surface dark:bg-white/10 rounded-3xl animate-pulse" />
           </div>
           <div className="lg:col-span-4 space-y-6">
-            <div className="h-48 bg-gray-200 dark:bg-white/10 rounded-3xl animate-pulse" />
-            <div className="h-40 bg-gray-200 dark:bg-white/10 rounded-3xl animate-pulse" />
+            <div className="h-48 bg-surface dark:bg-white/10 rounded-3xl animate-pulse" />
+            <div className="h-40 bg-surface dark:bg-white/10 rounded-3xl animate-pulse" />
           </div>
         </div>
       </div>
@@ -92,10 +92,10 @@ export default function OrderDetailsPage() {
             error
           </span>
         </div>
-        <h2 className="text-2xl font-black text-[#121714] dark:text-white">
+        <h2 className="text-2xl font-black text-foreground dark:text-foreground">
           Order not found
         </h2>
-        <p className="text-gray-500">
+        <p className="text-muted">
           This order doesn't exist or you don't have permission to view it.
         </p>
         <Link
@@ -130,17 +130,17 @@ export default function OrderDetailsPage() {
         <div>
           <Link
             href="/dashboard/orders"
-            className="flex items-center gap-2 text-sm font-bold text-[#648770] hover:text-primary transition-colors mb-4"
+            className="flex items-center gap-2 text-sm font-bold text-muted hover:text-primary transition-colors mb-4"
           >
             <span className="material-symbols-outlined text-base">
               arrow_back
             </span>
             Back to Orders
           </Link>
-          <h1 className="text-3xl font-black text-[#121714] dark:text-white mb-2 underline decoration-primary/30 decoration-4">
+          <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-2 underline decoration-primary/30 decoration-4">
             {order.orderNumber}
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 font-medium">
+          <p className="text-muted dark:text-muted font-medium">
             Placed on {createdAt} · {totalItems} item
             {totalItems !== 1 ? "s" : ""}
           </p>
@@ -154,9 +154,9 @@ export default function OrderDetailsPage() {
 
       {/* Progress Tracker */}
       {!isCancelled && (
-      <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-6 md:p-6">
+      <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-6 md:p-6">
           <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-0">
-            <div className="absolute top-[35%] left-0 w-full h-1 bg-gray-100 dark:bg-white/5 -translate-y-1/2 hidden md:block" />
+            <div className="absolute top-[35%] left-0 w-full h-1 bg-surface dark:bg-white/5 -translate-y-1/2 hidden md:block" />
             {TRACK_STEPS.map((step, index) => {
               const isCompleted = index + 1 <= statusStep;
               const isCurrent = index + 1 === statusStep;
@@ -169,7 +169,7 @@ export default function OrderDetailsPage() {
                     className={`size-14 rounded-2xl flex items-center justify-center transition-all shadow-lg ${
                       isCompleted
                         ? "bg-primary text-white scale-110"
-                        : "bg-[#f1f4f2] dark:bg-white/5 text-gray-400"
+                        : "bg-surface dark:bg-white/5 text-muted"
                     }`}
                   >
                     <span className="material-symbols-outlined text-2xl">
@@ -178,7 +178,7 @@ export default function OrderDetailsPage() {
                   </div>
                   <div className="text-left md:text-center">
                     <p
-                      className={`text-xs font-black uppercase tracking-widest ${isCompleted ? "text-primary" : "text-gray-400"}`}
+                      className={`text-xs font-black uppercase tracking-widest ${isCompleted ? "text-primary" : "text-muted"}`}
                     >
                       {step.label}
                     </p>
@@ -193,9 +193,9 @@ export default function OrderDetailsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         {/* Order Items */}
         <div className="lg:col-span-8 space-y-6">
-          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
-            <div className="p-4 border-b border-gray-100 dark:border-white/5">
-              <h2 className="text-lg font-black text-[#121714] dark:text-white">
+          <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
+            <div className="p-4 border-b border-outline dark:border-white/5">
+              <h2 className="text-lg font-black text-foreground dark:text-foreground">
                 Order Items
               </h2>
             </div>
@@ -207,7 +207,7 @@ export default function OrderDetailsPage() {
                     className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
                   >
                     <div className="flex items-center gap-4 flex-1 min-w-0">
-                      <div className="size-20 sm:size-24 rounded-2xl overflow-hidden bg-[#f1f4f2] dark:bg-[#262626] shrink-0 border border-gray-100 dark:border-white/5">
+                      <div className="size-20 sm:size-24 rounded-2xl overflow-hidden bg-icon-surface dark:bg-icon-surface shrink-0 border border-outline dark:border-white/5">
                         <img
                           src={item.product.images?.[0] ?? "/placeholder.jpg"}
                           alt={item.product.title}
@@ -217,17 +217,17 @@ export default function OrderDetailsPage() {
                       <div className="flex-1 min-w-0">
                         <Link
                           href={`/product/${item.product.id}`}
-                          className="text-sm sm:text-base font-bold text-[#121714] dark:text-white hover:text-primary transition-colors leading-snug block"
+                          className="text-sm sm:text-base font-bold text-foreground dark:text-foreground hover:text-primary transition-colors leading-snug block"
                         >
                           {item.product.title}
                         </Link>
-                        <p className="text-xs font-semibold text-gray-400 mt-1">
+                        <p className="text-xs font-semibold text-muted mt-1">
                           Qty: {item.quantity}
                         </p>
                       </div>
                     </div>
-                    <div className="flex justify-between sm:justify-end items-center pt-2 sm:pt-0 border-t sm:border-0 border-gray-100 dark:border-white/5">
-                      <span className="sm:hidden text-xs text-gray-400 font-medium">Subtotal</span>
+                    <div className="flex justify-between sm:justify-end items-center pt-2 sm:pt-0 border-t sm:border-0 border-outline dark:border-white/5">
+                      <span className="sm:hidden text-xs text-muted font-medium">Subtotal</span>
                       <p className="text-base sm:text-lg font-black text-primary whitespace-nowrap">
                         Rs. {Number(item.subtotal).toLocaleString()}
                       </p>
@@ -242,36 +242,36 @@ export default function OrderDetailsPage() {
         {/* Sidebar */}
         <div className="lg:col-span-4 space-y-6">
           {/* Address & Payment */}
-          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-4 space-y-8">
+          <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-4 space-y-8">
             <div>
-              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-4">
+              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-muted mb-4">
                 Delivery Address
               </h3>
-              <div className="space-y-1 text-sm font-bold text-[#121714] dark:text-white">
+              <div className="space-y-1 text-sm font-bold text-foreground dark:text-foreground">
                 <p>
                   {addr.firstName} {addr.lastName}
                 </p>
                 {addr.company && (
-                  <p className="text-gray-500 font-medium">{addr.company}</p>
+                  <p className="text-muted font-medium">{addr.company}</p>
                 )}
-                <p className="text-gray-500 font-medium">
+                <p className="text-muted font-medium">
                   {addr.streetAddress}
                   {addr.apartment ? `, ${addr.apartment}` : ""}
                 </p>
-                <p className="text-gray-500 font-medium">
+                <p className="text-muted font-medium">
                   {addr.city}
                   {addr.state ? `, ${addr.state}` : ""}
                 </p>
-                <p className="text-gray-500 font-medium">{addr.country}</p>
-                <p className="text-gray-500 font-medium mt-2">{addr.phone}</p>
+                <p className="text-muted font-medium">{addr.country}</p>
+                <p className="text-muted font-medium mt-2">{addr.phone}</p>
               </div>
             </div>
-            <div className="pt-8 border-t border-gray-100 dark:border-white/5">
-              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-4">
+            <div className="pt-8 border-t border-outline dark:border-white/5">
+              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-muted mb-4">
                 Payment & Shipping
               </h3>
               <div className="space-y-3">
-                <div className="flex items-center gap-3 text-sm font-bold text-[#121714] dark:text-white">
+                <div className="flex items-center gap-3 text-sm font-bold text-foreground dark:text-foreground">
                   <span className="material-symbols-outlined text-primary text-lg">
                     payments
                   </span>
@@ -279,7 +279,7 @@ export default function OrderDetailsPage() {
                     {PAYMENT_LABELS[order.paymentMethod] ?? order.paymentMethod}
                   </span>
                 </div>
-                <div className="flex items-center gap-3 text-sm font-bold text-[#121714] dark:text-white">
+                <div className="flex items-center gap-3 text-sm font-bold text-foreground dark:text-foreground">
                   <span className="material-symbols-outlined text-primary text-lg">
                     local_shipping
                   </span>
@@ -293,24 +293,24 @@ export default function OrderDetailsPage() {
           </div>
 
           {/* Cost Summary */}
-          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-4">
-            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-6">
+          <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-4">
+            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-muted mb-6">
               Total Summary
             </h3>
             <div className="space-y-4 font-bold text-sm mb-6">
               <div className="flex justify-between items-center">
-                <span className="text-gray-500">Subtotal</span>
-                <span className="text-[#121714] dark:text-white whitespace-nowrap">
+                <span className="text-muted">Subtotal</span>
+                <span className="text-foreground dark:text-foreground whitespace-nowrap">
                   Rs. {Number(order.subtotal).toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-500">Shipping</span>
+                <span className="text-muted">Shipping</span>
                 <span
                   className={
                     order.shippingFee === 0
                       ? "text-green-500 font-bold whitespace-nowrap"
-                      : "text-[#121714] dark:text-white whitespace-nowrap"
+                      : "text-foreground dark:text-foreground whitespace-nowrap"
                   }
                 >
                   {order.shippingFee === 0
@@ -327,8 +327,8 @@ export default function OrderDetailsPage() {
                 </div>
               )}
             </div>
-            <div className="pt-6 border-t border-gray-100 dark:border-white/5 flex justify-between items-center">
-              <span className="text-sm font-black text-[#121714] dark:text-white whitespace-nowrap">
+            <div className="pt-6 border-t border-outline dark:border-white/5 flex justify-between items-center">
+              <span className="text-sm font-black text-foreground dark:text-foreground whitespace-nowrap">
                 Total Amount
               </span>
               <span className="text-base sm:text-lg font-black text-primary whitespace-nowrap">
@@ -338,11 +338,11 @@ export default function OrderDetailsPage() {
           </div>
 
           {order.notes && (
-            <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-4">
-              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-3">
+            <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-4">
+              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-muted mb-3">
                 Order Notes
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+              <p className="text-sm text-muted dark:text-muted leading-relaxed">
                 {order.notes}
               </p>
             </div>
@@ -352,14 +352,14 @@ export default function OrderDetailsPage() {
 
       {showItemsModal && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-white dark:bg-[#171717] rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-white/5">
-              <h3 className="text-lg font-black text-[#121714] dark:text-white">
+          <div className="bg-surface dark:bg-surface rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-outline dark:border-white/5">
+              <h3 className="text-lg font-black text-foreground dark:text-foreground">
                 All Order Items
               </h3>
               <button
                 onClick={() => setShowItemsModal(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-muted hover:text-muted transition-colors"
               >
                 <span className="material-symbols-outlined">close</span>
               </button>
@@ -368,9 +368,9 @@ export default function OrderDetailsPage() {
               {order.orderItems.map((item: any) => (
                 <div
                   key={item.id}
-                  className="flex items-center gap-4 border-b border-gray-100 dark:border-white/5 pb-4 last:border-0 last:pb-0"
+                  className="flex items-center gap-4 border-b border-outline dark:border-white/5 pb-4 last:border-0 last:pb-0"
                 >
-                  <div className="size-16 rounded-xl overflow-hidden bg-[#f1f4f2] dark:bg-[#262626] shrink-0">
+                  <div className="size-16 rounded-xl overflow-hidden bg-icon-surface dark:bg-icon-surface shrink-0">
                     <img
                       src={item.product.images?.[0] ?? "/placeholder.jpg"}
                       alt={item.product.title}
@@ -378,23 +378,23 @@ export default function OrderDetailsPage() {
                     />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-black text-[#121714] dark:text-white">
+                    <p className="text-sm font-black text-foreground dark:text-foreground">
                       {item.product.title}
                     </p>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-muted">
                       Qty: {item.quantity} 
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-black text-[#121714] dark:text-white">
+                    <p className="text-sm font-black text-foreground dark:text-foreground">
                       Rs.{Number(item.subtotal).toFixed(2)}
                     </p>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="bg-gray-50 dark:bg-white/5 px-6 py-4 flex justify-between items-center border-t border-gray-100 dark:border-white/5">
-              <span className="text-sm font-bold text-gray-500">
+            <div className="bg-surface dark:bg-white/5 px-6 py-4 flex justify-between items-center border-t border-outline dark:border-white/5">
+              <span className="text-sm font-bold text-muted">
                 Total Items: {totalItems}
               </span>
               <span className="text-lg font-black text-primary">

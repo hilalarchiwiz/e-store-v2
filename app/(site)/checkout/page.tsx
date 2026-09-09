@@ -271,14 +271,14 @@ export default function CheckoutPage() {
     return (
       <main className="flex-1 max-w-400 mx-auto w-full px-6 md:px-10 py-16">
         <div className="animate-pulse space-y-6">
-          <div className="h-10 bg-gray-200 dark:bg-white/10 rounded-2xl w-1/3" />
+          <div className="h-10 bg-surface dark:bg-white/10 rounded-2xl w-1/3" />
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
             <div className="lg:col-span-8 space-y-6">
-              <div className="h-80 bg-gray-200 dark:bg-white/10 rounded-3xl" />
-              <div className="h-48 bg-gray-200 dark:bg-white/10 rounded-3xl" />
+              <div className="h-80 bg-surface dark:bg-white/10 rounded-3xl" />
+              <div className="h-48 bg-surface dark:bg-white/10 rounded-3xl" />
             </div>
             <div className="lg:col-span-4">
-              <div className="h-96 bg-gray-200 dark:bg-white/10 rounded-3xl" />
+              <div className="h-96 bg-surface dark:bg-white/10 rounded-3xl" />
             </div>
           </div>
         </div>
@@ -290,7 +290,7 @@ export default function CheckoutPage() {
     <main className="flex-1 max-w-400 mx-auto w-full px-6 md:px-10 py-10 md:py-16">
       {/* Header */}
       <div className="mb-10">
-        <div className="flex items-center gap-2 text-sm font-bold text-[#648770] hover:text-primary transition-colors mb-4 w-fit">
+        <div className="flex items-center gap-2 text-sm font-bold text-muted hover:text-primary transition-colors mb-4 w-fit">
           <Link href="/cart" className="flex items-center gap-2">
             <span className="material-symbols-outlined text-base">
               arrow_back
@@ -298,10 +298,10 @@ export default function CheckoutPage() {
             Back to Cart
           </Link>
         </div>
-        <h1 className="text-4xl font-black text-[#121714] dark:text-white mb-2">
+        <h1 className="text-4xl font-black text-foreground dark:text-foreground mb-2">
           Checkout
         </h1>
-        <p className="text-gray-500 dark:text-gray-400">
+        <p className="text-muted dark:text-muted">
           Review your order and complete your purchase
         </p>
       </div>
@@ -310,12 +310,12 @@ export default function CheckoutPage() {
         {/* ── Left: Checkout Form ── */}
         <div className="lg:col-span-8 space-y-8">
           {/* Delivery Address */}
-          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
-            <div className="flex items-center gap-3 border-b border-gray-100 dark:border-white/5 pb-6 mb-8">
+          <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
+            <div className="flex items-center gap-3 border-b border-outline dark:border-white/5 pb-6 mb-8">
               <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
                 <span className="material-symbols-outlined">location_on</span>
               </div>
-              <h2 className="text-2xl font-black text-[#121714] dark:text-white">
+              <h2 className="text-2xl font-black text-foreground dark:text-foreground">
                 Delivery Address
               </h2>
             </div>
@@ -333,12 +333,12 @@ export default function CheckoutPage() {
                     }}
                     className={`w-full text-left p-4 rounded-2xl border-2 transition-all ${selectedAddressId === addr.id && !showNewForm
                         ? "border-primary bg-primary/5"
-                        : "border-gray-200 dark:border-white/10 hover:border-primary/50"
+                        : "border-outline dark:border-white/10 hover:border-primary/50"
                       }`}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <p className="font-bold text-[#121714] dark:text-white text-sm">
+                        <p className="font-bold text-foreground dark:text-foreground text-sm">
                           {addr.firstName} {addr.lastName}
                           {addr.isDefault && (
                             <span className="ml-2 text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded font-black uppercase tracking-wide">
@@ -346,22 +346,22 @@ export default function CheckoutPage() {
                             </span>
                           )}
                         </p>
-                        <p className="text-xs text-gray-500 mt-0.5">
+                        <p className="text-xs text-muted mt-0.5">
                           {addr.streetAddress}
                           {addr.apartment ? `, ${addr.apartment}` : ""}
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-muted">
                           {addr.city}
                           {addr.state ? `, ${addr.state}` : ""}, {addr.country}
                         </p>
-                        <p className="text-xs text-gray-500 mt-0.5">
+                        <p className="text-xs text-muted mt-0.5">
                           {addr.phone}
                         </p>
                       </div>
                       <div
                         className={`size-5 rounded-full border-2 shrink-0 mt-1 flex items-center justify-center ${selectedAddressId === addr.id && !showNewForm
                             ? "border-primary"
-                            : "border-gray-300"
+                            : "border-outline"
                           }`}
                       >
                         {selectedAddressId === addr.id && !showNewForm && (
@@ -380,13 +380,13 @@ export default function CheckoutPage() {
                   }}
                   className={`w-full text-left p-4 rounded-2xl border-2 transition-all flex items-center gap-3 ${showNewForm
                       ? "border-primary bg-primary/5"
-                      : "border-dashed border-gray-300 dark:border-white/20 hover:border-primary/50"
+                      : "border-dashed border-outline dark:border-white/20 hover:border-primary/50"
                     }`}
                 >
                   <span className="material-symbols-outlined text-primary">
                     add_circle
                   </span>
-                  <span className="font-bold text-sm text-[#121714] dark:text-white">
+                  <span className="font-bold text-sm text-foreground dark:text-foreground">
                     Use a different address
                   </span>
                 </button>
@@ -459,7 +459,7 @@ export default function CheckoutPage() {
                   },
                 ].map(({ field, label, placeholder, col }) => (
                   <div key={field} className={col === 2 ? "md:col-span-2" : ""}>
-                    <label className="block text-xs font-black uppercase tracking-widest text-gray-500 mb-2">
+                    <label className="block text-xs font-black uppercase tracking-widest text-muted mb-2">
                       {label}
                     </label>
                     <input
@@ -472,7 +472,7 @@ export default function CheckoutPage() {
                           [field]: e.target.value,
                         }))
                       }
-                      className="w-full bg-[#f7f8f9] dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm font-medium text-[#121714] dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                      className="w-full bg-surface dark:bg-white/5 border border-outline dark:border-white/10 rounded-xl px-4 py-3 text-sm font-medium text-foreground dark:text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     />
                   </div>
                 ))}
@@ -481,14 +481,14 @@ export default function CheckoutPage() {
           </div>
 
           {/* Shipping Method */}
-          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
-            <div className="flex items-center gap-3 border-b border-gray-100 dark:border-white/5 pb-6 mb-8">
+          <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
+            <div className="flex items-center gap-3 border-b border-outline dark:border-white/5 pb-6 mb-8">
               <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
                 <span className="material-symbols-outlined">
                   local_shipping
                 </span>
               </div>
-              <h2 className="text-2xl font-black text-[#121714] dark:text-white">
+              <h2 className="text-2xl font-black text-foreground dark:text-foreground">
                 Shipping Method
               </h2>
             </div>
@@ -501,14 +501,14 @@ export default function CheckoutPage() {
                   onClick={() => setShippingMethod(option.value)}
                   className={`w-full text-left p-5 rounded-2xl border-2 transition-all flex items-center justify-between ${shippingMethod === option.value
                       ? "border-primary bg-primary/5"
-                      : "border-gray-200 dark:border-white/10 hover:border-primary/50"
+                      : "border-outline dark:border-white/10 hover:border-primary/50"
                     }`}
                 >
                   <div className="flex items-center gap-4">
                     <div
                       className={`size-5 rounded-full border-2 flex items-center justify-center ${shippingMethod === option.value
                           ? "border-primary"
-                          : "border-gray-300"
+                          : "border-outline"
                         }`}
                     >
                       {shippingMethod === option.value && (
@@ -516,14 +516,14 @@ export default function CheckoutPage() {
                       )}
                     </div>
                     <div>
-                      <p className="font-black text-sm text-[#121714] dark:text-white">
+                      <p className="font-black text-sm text-foreground dark:text-foreground">
                         {option.label}
                       </p>
-                      <p className="text-xs text-gray-500">{option.desc}</p>
+                      <p className="text-xs text-muted">{option.desc}</p>
                     </div>
                   </div>
                   <span
-                    className={`font-black text-sm ${option.price === 0 ? "text-green-500" : "text-[#121714] dark:text-white"}`}
+                    className={`font-black text-sm ${option.price === 0 ? "text-green-500" : "text-foreground dark:text-foreground"}`}
                   >
                     {option.price === 0
                       ? "FREE"
@@ -535,12 +535,12 @@ export default function CheckoutPage() {
           </div>
 
           {/* Payment Method */}
-          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
-            <div className="flex items-center gap-3 border-b border-gray-100 dark:border-white/5 pb-6 mb-8">
+          <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
+            <div className="flex items-center gap-3 border-b border-outline dark:border-white/5 pb-6 mb-8">
               <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
                 <span className="material-symbols-outlined">credit_card</span>
               </div>
-              <h2 className="text-2xl font-black text-[#121714] dark:text-white">
+              <h2 className="text-2xl font-black text-foreground dark:text-foreground">
                 Payment Method
               </h2>
             </div>
@@ -553,13 +553,13 @@ export default function CheckoutPage() {
                   onClick={() => setPaymentMethod(option.value)}
                   className={`w-full text-left p-5 rounded-2xl border-2 transition-all flex items-center gap-4 ${paymentMethod === option.value
                       ? "border-primary bg-primary/5"
-                      : "border-gray-200 dark:border-white/10 hover:border-primary/50"
+                      : "border-outline dark:border-white/10 hover:border-primary/50"
                     }`}
                 >
                   <div
                     className={`size-5 rounded-full border-2 flex items-center justify-center shrink-0 ${paymentMethod === option.value
                         ? "border-primary"
-                        : "border-gray-300"
+                        : "border-outline"
                       }`}
                   >
                     {paymentMethod === option.value && (
@@ -572,10 +572,10 @@ export default function CheckoutPage() {
                     </span>
                   </div>
                   <div>
-                    <p className="font-black text-sm text-[#121714] dark:text-white">
+                    <p className="font-black text-sm text-foreground dark:text-foreground">
                       {option.label}
                     </p>
-                    <p className="text-xs text-gray-500">{option.desc}</p>
+                    <p className="text-xs text-muted">{option.desc}</p>
                   </div>
                 </button>
               ))}
@@ -593,16 +593,16 @@ export default function CheckoutPage() {
           </div>
 
           {/* Order Notes */}
-          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
-            <div className="flex items-center gap-3 border-b border-gray-100 dark:border-white/5 pb-6 mb-8">
+          <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
+            <div className="flex items-center gap-3 border-b border-outline dark:border-white/5 pb-6 mb-8">
               <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
                 <span className="material-symbols-outlined">note</span>
               </div>
               <div>
-                <h2 className="text-xl font-black text-[#121714] dark:text-white">
+                <h2 className="text-xl font-black text-foreground dark:text-foreground">
                   Order Notes
                 </h2>
-                <p className="text-xs text-gray-400 font-medium">Optional</p>
+                <p className="text-xs text-muted font-medium">Optional</p>
               </div>
             </div>
             <textarea
@@ -610,7 +610,7 @@ export default function CheckoutPage() {
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={3}
-              className="w-full bg-[#f7f8f9] dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm font-medium text-[#121714] dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
+              className="w-full bg-icon-surface dark:bg-white/5 border border-outline dark:border-white/10 rounded-xl px-4 py-3 text-sm font-medium text-foreground dark:text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
             />
           </div>
         </div>
@@ -618,8 +618,8 @@ export default function CheckoutPage() {
         {/* ── Right: Order Summary ── */}
         <div className="lg:col-span-4 space-y-6">
           {/* Coupon */}
-          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-6">
-            <h3 className="font-black text-[#121714] dark:text-white mb-4 flex items-center gap-2">
+          <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-6">
+            <h3 className="font-black text-foreground dark:text-foreground mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-primary text-xl">
                 local_offer
               </span>
@@ -652,7 +652,7 @@ export default function CheckoutPage() {
                   value={couponInput}
                   onChange={(e) => setCouponInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleApplyCoupon()}
-                  className="flex-1 bg-[#f7f8f9] dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm font-medium text-[#121714] dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                  className="flex-1 bg-surface dark:bg-white/5 border border-outline dark:border-white/10 rounded-xl px-4 py-2.5 text-sm font-medium text-foreground dark:text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                 />
                 <button
                   onClick={handleApplyCoupon}
@@ -672,8 +672,8 @@ export default function CheckoutPage() {
           </div>
 
           {/* Order Summary */}
-          <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-6 sticky top-32">
-            <h2 className="text-xl font-black text-[#121714] dark:text-white mb-6">
+          <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-6 sticky top-32">
+            <h2 className="text-xl font-black text-foreground dark:text-foreground mb-6">
               Order Summary
             </h2>
 
@@ -686,7 +686,7 @@ export default function CheckoutPage() {
                   item.product.discountedPrice > 0;
                 return (
                   <div key={item.id} className="flex items-center gap-3">
-                    <div className="size-16 rounded-xl overflow-hidden bg-[#f1f4f2] dark:bg-[#262626] shrink-0">
+                    <div className="size-16 rounded-xl overflow-hidden bg-icon-surface dark:bg-icon-surface shrink-0">
                       <img
                         src={item.product.images[0] || "/placeholder.jpg"}
                         alt={item.product.title}
@@ -694,10 +694,10 @@ export default function CheckoutPage() {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-black text-xs text-[#121714] dark:text-white line-clamp-2 leading-tight">
+                      <p className="font-black text-xs text-foreground dark:text-foreground line-clamp-2 leading-tight">
                         {item.product.title}
                       </p>
-                      <p className="text-xs text-gray-400 mt-0.5">
+                      <p className="text-xs text-muted mt-0.5">
                         Qty: {item.quantity}
                       </p>
                       <div className="flex items-baseline gap-1.5 mt-0.5">
@@ -705,7 +705,7 @@ export default function CheckoutPage() {
                           Rs.{(finalPrice * item.quantity).toLocaleString()}
                         </span>
                         {hasDiscount ? (
-                          <span className="text-[10px] text-gray-400 line-through">
+                          <span className="text-[10px] text-muted line-through">
                             Rs.{(item.product.price * item.quantity).toLocaleString()}
                           </span>
                         ) : null}
@@ -717,23 +717,23 @@ export default function CheckoutPage() {
             </div>
 
             {/* Totals */}
-            <div className="space-y-3 pt-6 border-t border-gray-100 dark:border-white/5 text-sm font-bold">
+            <div className="space-y-3 pt-6 border-t border-outline dark:border-white/5 text-sm font-bold">
               <div className="flex justify-between items-center">
-                <span className="text-gray-500">
+                <span className="text-muted">
                   Subtotal ({cartItems.reduce((n, i) => n + i.quantity, 0)}{" "}
                   items)
                 </span>
-                <span className="text-[#121714] dark:text-white">
+                <span className="text-foreground dark:text-foreground">
                   Rs.{subtotal.toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-500">Shipping</span>
+                <span className="text-muted">Shipping</span>
                 <span
                   className={
                     shippingFee === 0
                       ? "text-green-500"
-                      : "text-[#121714] dark:text-white"
+                      : "text-foreground dark:text-foreground"
                   }
                 >
                   {shippingFee === 0 ? "FREE" : `Rs.${shippingFee.toLocaleString()}`}
@@ -745,8 +745,8 @@ export default function CheckoutPage() {
                   <span>-Rs.{discount.toLocaleString()}</span>
                 </div>
               )}
-              <div className="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-white/5">
-                <span className="text-lg font-black text-[#121714] dark:text-white">
+              <div className="flex justify-between items-center pt-4 border-t border-outline dark:border-white/5">
+                <span className="text-lg font-black text-foreground dark:text-foreground">
                   Total
                 </span>
                 <span className="text-2xl font-black text-primary">
@@ -778,7 +778,7 @@ export default function CheckoutPage() {
               )}
             </button>
 
-            <p className="text-[10px] text-gray-400 text-center mt-4 font-medium">
+            <p className="text-[10px] text-muted text-center mt-4 font-medium">
               By placing your order you agree to our{" "}
               <Link href="/shop" className="text-primary hover:underline">
                 Terms of Service

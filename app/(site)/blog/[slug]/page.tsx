@@ -59,11 +59,11 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
       />
 
       <article className="animate-in fade-in slide-in-from-bottom-4 duration-700 w-full overflow-hidden break-words">
-        <header className="mb-12 border-b border-gray-100 dark:border-white/5 pb-10">
-          <h1 className="text-3xl md:text-5xl font-black text-[#121714] dark:text-white leading-tight mb-6">
+        <header className="mb-12 border-b border-outline dark:border-white/5 pb-10">
+          <h1 className="text-3xl md:text-5xl font-black text-foreground dark:text-foreground leading-tight mb-6">
             {blog.title}
           </h1>
-          <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500 dark:text-gray-400 font-bold uppercase tracking-widest">
+          <div className="flex flex-wrap items-center gap-6 text-sm text-muted dark:text-muted font-bold uppercase tracking-widest">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-primary text-xl">event_note</span>
               {new Date(blog.createdAt).toLocaleDateString("en-US", {
@@ -100,12 +100,12 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
         <div className="overflow-x-auto no-scrollbar">
           <div
             className="prose prose-lg dark:prose-invert max-w-none 
-                prose-headings:font-black prose-headings:text-[#121714] dark:prose-headings:text-white
-                prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:leading-relaxed
-                prose-strong:text-[#121714] dark:prose-strong:text-white
+                prose-headings:font-black prose-headings:text-foreground dark:prose-headings:text-white
+                prose-p:text-muted dark:prose-p:text-muted prose-p:leading-relaxed
+                prose-strong:text-foreground dark:prose-strong:text-white
                 prose-img:rounded-xl prose-img:shadow-md prose-img:max-w-full prose-img:h-auto
                 prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-                prose-li:text-gray-600 dark:prose-li:text-gray-400
+                prose-li:text-muted dark:prose-li:text-muted
                 prose-pre:overflow-x-auto prose-pre:max-w-full"
             dangerouslySetInnerHTML={{ __html: blog.content }}
           />
@@ -119,17 +119,17 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
             <span className="material-symbols-outlined text-3xl">newspaper</span>
           </div>
           <div>
-            <h3 className="text-xl font-black text-[#121714] dark:text-white">
+            <h3 className="text-xl font-black text-foreground dark:text-foreground">
               Stay Updated
             </h3>
-            <p className="text-sm text-gray-500 font-medium">
+            <p className="text-sm text-muted font-medium">
               Read more articles on technology and trends.
             </p>
           </div>
         </div>
         <Link
           href="/blog"
-          className="text-sm font-black uppercase tracking-widest text-[#121714] dark:text-white hover:text-primary transition-colors flex items-center gap-2"
+          className="text-sm font-black uppercase tracking-widest text-foreground dark:text-foreground hover:text-primary transition-colors flex items-center gap-2"
         >
           Back to Blog{" "}
           <span className="material-symbols-outlined">arrow_forward</span>

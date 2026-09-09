@@ -46,7 +46,7 @@ const LogoutModal: React.FC<LogoutModalProps> = ({
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="w-full max-w-md bg-white dark:bg-[#171717] rounded-[2.5rem] shadow-2xl overflow-hidden pointer-events-auto border border-primary/10"
+              className="w-full max-w-md bg-surface dark:bg-surface rounded-[2.5rem] shadow-2xl overflow-hidden pointer-events-auto border border-primary/10"
             >
               <div className="p-8 md:p-10 text-center">
                 {/* Icon */}
@@ -57,10 +57,10 @@ const LogoutModal: React.FC<LogoutModalProps> = ({
                 </div>
 
                 {/* Content */}
-                <h2 className="text-2xl font-black text-[#121714] dark:text-white mb-3">
+                <h2 className="text-2xl font-black text-foreground dark:text-foreground mb-3">
                   Wait! Going so soon?
                 </h2>
-                <p className="text-gray-500 dark:text-gray-400 font-medium leading-relaxed mb-8">
+                <p className="text-muted dark:text-muted font-medium leading-relaxed mb-8">
                   Are you sure you want to log out? We'll miss having you around
                   to help save the planet!
                 </p>

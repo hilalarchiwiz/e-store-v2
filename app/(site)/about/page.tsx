@@ -156,7 +156,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function PlayLink({ href, label }: { href?: string; label: string }) {
   const className =
-    'inline-flex size-14 items-center justify-center rounded-full bg-white text-[#121714] shadow-xl transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/30';
+    'inline-flex size-14 items-center justify-center rounded-full bg-white text-foreground shadow-xl transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/30';
 
   if (!href) {
     return (
@@ -233,7 +233,7 @@ export default async function AboutPage() {
   }));
 
   return (
-    <main className="about-page bg-white text-[#121714] transition-colors dark:bg-[#0a0a0a] dark:text-white">
+    <main className="about-page bg-surface text-foreground transition-colors dark:bg-surface dark:text-foreground">
       <div className="mx-auto hidden w-full max-w-[1600px] px-4 pb-2 pt-5 sm:block sm:px-6 lg:px-10">
         <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
       </div>
@@ -245,7 +245,7 @@ export default async function AboutPage() {
               {hero.title}
             </h1>
             <p className="mx-auto mt-3 max-w-lg text-[11px] font-extrabold leading-snug text-primary sm:mx-0 sm:mt-4 sm:text-xl">{hero.subtitle}</p>
-            <p className="mx-auto mt-4 max-w-xl text-[11px] leading-[1.55] text-[#667069] dark:text-white/65 sm:mx-0 sm:mt-7 sm:text-base sm:leading-7">
+            <p className="mx-auto mt-4 max-w-xl text-[11px] leading-[1.55] text-muted dark:text-white/65 sm:mx-0 sm:mt-7 sm:text-base sm:leading-7">
               {hero.description}
             </p>
             <Link
@@ -272,7 +272,7 @@ export default async function AboutPage() {
           </div>
         </section>
 
-        <section className="overflow-hidden rounded-xl bg-[#f4f5f4] p-4 dark:bg-[#171717] sm:rounded-2xl sm:p-8 lg:p-10">
+        <section className="overflow-hidden rounded-xl bg-surface p-4 dark:bg-surface sm:rounded-2xl sm:p-8 lg:p-10">
           <div className="grid items-center gap-5 sm:gap-8 lg:grid-cols-[.78fr_1.22fr] lg:gap-12">
             <div className="text-center sm:text-left">
               <SectionLabel>{whoWeAre.eyebrow || 'Who we are'}</SectionLabel>
@@ -280,12 +280,12 @@ export default async function AboutPage() {
                 {whoWeAre.title || 'Trusted Refurbished Tech.\nBuilt for Pakistan.'}
               </h2>
               <div className="mx-auto my-3 h-0.5 w-10 rounded-full bg-primary sm:mx-0 sm:my-5 sm:h-1 sm:w-14" />
-              <p className="text-[11px] leading-[1.55] text-[#667069] dark:text-white/65 sm:text-base sm:leading-7">
+              <p className="text-[11px] leading-[1.55] text-muted dark:text-white/65 sm:text-base sm:leading-7">
                 {whoWeAre.description ||
                   'We deliver dependable products, honest value and excellent customer service while reducing electronic waste and building a more sustainable technology ecosystem.'}
               </p>
               {whoWeAre.secondaryDescription && (
-                <p className="mt-2 text-[11px] leading-[1.55] text-[#667069] dark:text-white/65 sm:mt-3 sm:text-base sm:leading-7">{whoWeAre.secondaryDescription}</p>
+                <p className="mt-2 text-[11px] leading-[1.55] text-muted dark:text-white/65 sm:mt-3 sm:text-base sm:leading-7">{whoWeAre.secondaryDescription}</p>
               )}
             </div>
             <img
@@ -296,7 +296,7 @@ export default async function AboutPage() {
           </div>
         </section>
 
-        <section aria-label="QAAM at a glance" className="rounded-xl border border-black/5 bg-white px-1 py-3 shadow-[0_8px_30px_rgba(0,0,0,.10)] dark:border-white/10 dark:bg-[#171717] sm:rounded-2xl sm:p-6">
+        <section aria-label="QAAM at a glance" className="rounded-xl border border-black/5 bg-surface px-1 py-3 shadow-[0_8px_30px_rgba(0,0,0,.10)] dark:border-white/10 dark:bg-surface sm:rounded-2xl sm:p-6">
           <div className="grid grid-cols-4 gap-0">
             {stats.map((stat, index) => (
               <div key={`${stat.label}-${index}`} className="flex min-w-0 flex-col items-center justify-center gap-1 border-r border-black/10 px-1 text-center last:border-r-0 dark:border-white/10 sm:flex-row sm:gap-3 sm:px-4 sm:text-left lg:px-7">
@@ -305,7 +305,7 @@ export default async function AboutPage() {
                 </span>
                 <div className="min-w-0">
                   <p className="break-words text-[8px] font-black leading-tight sm:text-lg lg:text-xl">{stat.value}</p>
-                  <p className="mt-0.5 break-words text-[7px] font-semibold leading-tight text-[#667069] dark:text-white/65 sm:mt-1 sm:text-xs lg:text-sm">{stat.label}</p>
+                  <p className="mt-0.5 break-words text-[7px] font-semibold leading-tight text-muted dark:text-white/65 sm:mt-1 sm:text-xs lg:text-sm">{stat.label}</p>
                   <span className="sr-only">{stat.detail}</span>
                 </div>
               </div>
@@ -319,17 +319,17 @@ export default async function AboutPage() {
             {whatWeDoSetting.title || 'Quality Tech, Smart Choices.\nEverything You Need, All in One Place.'}
           </h2>
           {whatWeDoSetting.description && (
-            <p className="mx-auto mt-3 max-w-3xl text-[11px] leading-[1.55] text-[#667069] dark:text-white/65 sm:mx-0 sm:mt-4 sm:text-base sm:leading-7">{whatWeDoSetting.description}</p>
+            <p className="mx-auto mt-3 max-w-3xl text-[11px] leading-[1.55] text-muted dark:text-white/65 sm:mx-0 sm:mt-4 sm:text-base sm:leading-7">{whatWeDoSetting.description}</p>
           )}
           <div className="mt-5 grid grid-cols-2 gap-2.5 text-center sm:mt-8 sm:gap-5 sm:text-left lg:grid-cols-4">
             {services.map((service: any, index: number) => (
-              <article key={`${service.title}-${index}`} className="group overflow-hidden rounded-lg border border-black/10 bg-white p-2 shadow-[0_3px_12px_rgba(0,0,0,.08)] transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-[#171717] sm:rounded-xl sm:p-3">
-                <div className="h-28 overflow-hidden rounded-md bg-[#f4f5f4] sm:h-52 sm:rounded-lg">
+              <article key={`${service.title}-${index}`} className="group overflow-hidden rounded-lg border border-black/10 bg-surface p-2 shadow-[0_3px_12px_rgba(0,0,0,.08)] transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-surface sm:rounded-xl sm:p-3">
+                <div className="h-28 overflow-hidden rounded-md bg-surface sm:h-52 sm:rounded-lg">
                   <img src={service.image} alt={service.title} className="h-full w-full object-contain p-1 transition duration-500 group-hover:scale-105" />
                 </div>
                 <div className="px-0.5 pb-1 pt-2.5 sm:px-1 sm:pb-2 sm:pt-4">
                   <h3 className="text-[12px] font-black leading-tight sm:text-lg">{service.title}</h3>
-                  <p className="mt-1 text-[9px] leading-[1.35] text-[#667069] dark:text-white/60 sm:mt-2 sm:text-sm sm:leading-6">{service.description}</p>
+                  <p className="mt-1 text-[9px] leading-[1.35] text-muted dark:text-muted sm:mt-2 sm:text-sm sm:leading-6">{service.description}</p>
                 </div>
               </article>
             ))}
@@ -338,12 +338,12 @@ export default async function AboutPage() {
 
         <section className="grid gap-4 sm:gap-6 xl:grid-cols-2">
           {missionCards.map((card: any, index: number) => (
-            <article key={`${card.title}-${index}`} className="grid overflow-hidden rounded-lg bg-[#f4f5f4] dark:bg-[#171717] sm:grid-cols-[.88fr_1.12fr] sm:rounded-xl">
+            <article key={`${card.title}-${index}`} className="grid overflow-hidden rounded-lg bg-surface dark:bg-surface sm:grid-cols-[.88fr_1.12fr] sm:rounded-xl">
               <img src={card.image} alt={card.title} className="h-64 w-full object-cover sm:h-full sm:min-h-[300px]" />
               <div className="flex flex-col justify-center p-4 text-center sm:p-9 sm:text-left">
                 <h3 className="text-xl font-black sm:text-3xl">{card.title}</h3>
                 <div className="mx-auto my-3 h-0.5 w-10 rounded-full bg-primary sm:mx-0 sm:my-4 sm:h-1 sm:w-14" />
-                <p className="text-[11px] leading-[1.55] text-[#667069] dark:text-white/65 sm:text-sm sm:leading-7">{card.description}</p>
+                <p className="text-[11px] leading-[1.55] text-muted dark:text-white/65 sm:text-sm sm:leading-7">{card.description}</p>
               </div>
             </article>
           ))}
@@ -355,7 +355,7 @@ export default async function AboutPage() {
             <h2 className="mt-2 whitespace-pre-line text-xl font-black leading-tight tracking-tight sm:mt-3 sm:text-4xl">
               {whyChooseSetting.title || 'Technology You Can Trust.\nService You Can Count On.'}
             </h2>
-            <p className="mx-auto mt-3 max-w-xl text-[10px] leading-[1.5] text-[#667069] dark:text-white/65 sm:mx-0 sm:mt-5 sm:text-base sm:leading-7">
+            <p className="mx-auto mt-3 max-w-xl text-[10px] leading-[1.5] text-muted dark:text-white/65 sm:mx-0 sm:mt-5 sm:text-base sm:leading-7">
               {whyChooseSetting.description ||
                 'From honest product information to careful testing and helpful after-sales support, every part of the QAAM experience is designed around your confidence.'}
             </p>
@@ -376,7 +376,7 @@ export default async function AboutPage() {
                 </span>
                 <div>
                   <h3 className="font-black">{benefit.title}</h3>
-                  <p className="mt-1 text-sm leading-6 text-[#667069] dark:text-white/60">{benefit.description}</p>
+                  <p className="mt-1 text-sm leading-6 text-muted dark:text-muted">{benefit.description}</p>
                 </div>
               </div>
             ))}
@@ -392,22 +392,22 @@ export default async function AboutPage() {
         </section>
 
         {teams.length > 0 && (
-          <section className="overflow-hidden rounded-xl bg-[#f4f5f4] p-4 dark:bg-[#171717] sm:rounded-2xl sm:p-8 lg:p-10">
+          <section className="overflow-hidden rounded-xl bg-surface p-4 dark:bg-surface sm:rounded-2xl sm:p-8 lg:p-10">
             <div className="grid gap-5 sm:gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-start">
               <div className="text-center sm:text-left">
                 <SectionLabel>{teamSetting.eyebrow || 'Our team'}</SectionLabel>
                 <h2 className="mt-2 whitespace-pre-line text-xl font-black leading-tight tracking-tight sm:mt-3 sm:text-4xl">
                   {teamSetting.title || 'The People Behind QAAM\nWorking for You.'}
                 </h2>
-                {teamSetting.description && <p className="mt-3 text-[11px] leading-[1.55] text-[#667069] dark:text-white/65 sm:mt-4 sm:text-sm sm:leading-7">{teamSetting.description}</p>}
+                {teamSetting.description && <p className="mt-3 text-[11px] leading-[1.55] text-muted dark:text-white/65 sm:mt-4 sm:text-sm sm:leading-7">{teamSetting.description}</p>}
               </div>
               <div className="-mx-4 flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 xl:grid-cols-4">
                 {teams.map((member: any) => (
-                  <article key={member.id} className="w-[44%] shrink-0 snap-start overflow-hidden rounded-lg bg-white text-center shadow-[0_3px_14px_rgba(0,0,0,.13)] dark:bg-[#0a0a0a] sm:w-auto sm:rounded-xl">
+                  <article key={member.id} className="w-[44%] shrink-0 snap-start overflow-hidden rounded-lg bg-surface text-center shadow-[0_3px_14px_rgba(0,0,0,.13)] dark:bg-surface sm:w-auto sm:rounded-xl">
                     <img src={member.image} alt={member.name} className="h-32 w-full object-cover object-top sm:h-44" />
                     <div className="p-2.5 sm:p-4">
                       <h3 className="text-[11px] font-black sm:text-base">{member.name}</h3>
-                      <p className="mt-0.5 text-[9px] text-[#667069] dark:text-white/60 sm:mt-1 sm:text-sm">{member.designation}</p>
+                      <p className="mt-0.5 text-[9px] text-muted dark:text-muted sm:mt-1 sm:text-sm">{member.designation}</p>
                     </div>
                   </article>
                 ))}

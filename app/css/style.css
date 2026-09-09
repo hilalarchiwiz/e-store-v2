@@ -369,8 +369,8 @@ button {
   /* V2 Theme Additions - Dark mode configured via @variant dark above */
   --color-primary: #1B974B;
   --color-primary-dark: #1a7339;
-  --color-background-light: #f6f8f7;
-  --color-background-dark: #000000;
+  --color-background-light: #FFFFFF;
+  --color-background-dark: #262E36;
   --font-display: var(--font-manrope), "Inter", sans-serif;
   --radius-default: 0.25rem;
   --radius-lg: 0.5rem;
@@ -740,4 +740,32 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .range-slider__range {
   background-color: var(--color-blue) !important;
+}
+
+/* Storefront palette: shared by all light and dark presentation components. */
+:root {
+  --store-background: #FFFFFF;
+  --store-foreground: #000000;
+  --store-secondary: #5B5B5B;
+  --store-card: #F2F2F2;
+  --store-icon: #E7EEEA;
+  --store-border: #DADFDA;
+}
+
+.dark {
+  --store-background: #262E36;
+  --store-foreground: #FFFFFF;
+  --store-secondary: #BCBEC1;
+  --store-card: #222931;
+  --store-icon: #212F33;
+  --store-border: #3C454E;
+}
+
+@theme inline {
+  --color-page: var(--store-background);
+  --color-foreground: var(--store-foreground);
+  --color-muted: var(--store-secondary);
+  --color-surface: var(--store-card);
+  --color-icon-surface: var(--store-icon);
+  --color-outline: var(--store-border);
 }

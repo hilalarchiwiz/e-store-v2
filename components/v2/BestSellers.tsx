@@ -34,7 +34,7 @@ const BestSellers: React.FC<BestSellersProps> = ({ products = [] }) => {
           <p className="text-primary text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-1 sm:mb-2 whitespace-nowrap">
             Top Picks
           </p>
-          <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-[#121714] dark:text-white whitespace-nowrap">
+          <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-foreground dark:text-foreground whitespace-nowrap">
             Best Sellers
           </h2>
           <div className="w-8 sm:w-12 h-0.75 bg-primary rounded-full mt-2 sm:mt-3" />

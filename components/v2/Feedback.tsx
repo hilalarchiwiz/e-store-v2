@@ -36,7 +36,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
           <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-2 sm:mb-4 whitespace-nowrap">
             Satisfied Professionals
           </h2>
-          <p className="text-xs sm:text-base text-[#121714]/60 dark:text-white/60 max-w-xl">
+          <p className="text-xs sm:text-base text-muted dark:text-muted max-w-xl">
             Real feedback from tech enthusiasts and professionals who upgraded
             their workflow with our high-performance gear.
           </p>
@@ -44,13 +44,13 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
         <div className="flex gap-2 shrink-0 pb-1">
           <button
             onClick={() => scroll("left")}
-            className="size-8 sm:size-10 rounded-full border border-[#f1f4f2] dark:border-[#262626] flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
+            className="size-8 sm:size-10 rounded-full border border-outline dark:border-outline flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
           >
             <span className="material-symbols-outlined text-base sm:text-xl">chevron_left</span>
           </button>
           <button
             onClick={() => scroll("right")}
-            className="size-8 sm:size-10 rounded-full border border-[#f1f4f2] dark:border-[#262626] flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
+            className="size-8 sm:size-10 rounded-full border border-outline dark:border-outline flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
           >
             <span className="material-symbols-outlined text-base sm:text-xl">chevron_right</span>
           </button>
@@ -71,7 +71,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
                 className={`min-w-[270px] xs:min-w-87.5 md:min-w-100 p-5 sm:p-8 rounded-2xl shadow-sm border transition-shadow ${
                   isHighlight
                     ? "bg-primary text-white shadow-xl shadow-primary/20 border-transparent"
-                    : "bg-white dark:bg-[#262626] border-[#f1f4f2] dark:border-[#262626] hover:shadow-md"
+                    : "bg-surface dark:bg-surface border-outline dark:border-outline hover:shadow-md"
                 }`}
               >
                 <div className="flex items-center gap-4 mb-6">
@@ -82,7 +82,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
                   <div>
                     <h3 className="font-bold">{review.name ?? "Anonymous"}</h3>
                     <p
-                      className={`text-xs ${isHighlight ? "opacity-70" : "text-[#121714]/60 dark:text-white/60"}`}
+                      className={`text-xs ${isHighlight ? "opacity-70" : "text-muted dark:text-muted"}`}
                     >
                       {review.product.title}
                     </p>
@@ -101,7 +101,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
                   ))}
                 </div>
                 <p
-                  className={`leading-relaxed ${isHighlight ? "font-medium" : "text-[#121714]/80 dark:text-white/80 italic"}`}
+                  className={`leading-relaxed ${isHighlight ? "font-medium" : "text-muted dark:text-muted italic"}`}
                 >
                   &quot;{review.comment}&quot;
                 </p>
@@ -109,14 +109,14 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
             );
           })
         ) : (
-          <div className="w-full min-h-[250px] flex flex-col items-center justify-center py-12 bg-gray-50 dark:bg-[#262626]/30 rounded-2xl border-2 border-dashed border-[#f1f4f2] dark:border-[#262626]">
-            <div className="size-16 rounded-full bg-white dark:bg-[#262626] shadow-sm flex items-center justify-center mb-4">
+          <div className="w-full min-h-[250px] flex flex-col items-center justify-center py-12 bg-surface dark:bg-surface/30 rounded-2xl border-2 border-dashed border-outline dark:border-outline">
+            <div className="size-16 rounded-full bg-icon-surface dark:bg-icon-surface shadow-sm flex items-center justify-center mb-4">
               <span className="material-symbols-outlined text-3xl text-primary opacity-40">
                 rate_review
               </span>
             </div>
             <h3 className="text-lg font-bold mb-1">No Reviews Yet</h3>
-            <p className="text-[#121714]/60 dark:text-white/60 text-sm max-w-[280px] text-center">
+            <p className="text-muted dark:text-muted text-sm max-w-[280px] text-center">
               We haven&apos;t received any reviews for our database yet. Be the first
               to share your earth-friendly journey!
             </p>

@@ -96,7 +96,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose, address, o
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="w-full max-w-2xl bg-white dark:bg-[#171717] rounded-[2.5rem] shadow-2xl pointer-events-auto border border-primary/10 max-h-[90vh] overflow-y-auto no-scrollbar"
+              className="w-full max-w-2xl bg-surface dark:bg-surface rounded-[2.5rem] shadow-2xl pointer-events-auto border border-primary/10 max-h-[90vh] overflow-y-auto no-scrollbar"
             >
               <div className="p-8 md:p-10">
                 {/* Header */}
@@ -108,10 +108,10 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose, address, o
                       </span>
                     </div>
                     <div>
-                      <h2 className="text-2xl font-black text-[#121714] dark:text-white">
+                      <h2 className="text-2xl font-black text-foreground dark:text-foreground">
                         {isEdit ? "Edit Address" : "Add New Address"}
                       </h2>
-                      <p className="text-xs text-gray-500 font-bold uppercase tracking-widest">
+                      <p className="text-xs text-muted font-bold uppercase tracking-widest">
                         {isEdit ? "Update your shipping details" : "Save a new delivery spot"}
                       </p>
                     </div>
@@ -119,7 +119,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose, address, o
                   <button
                     type="button"
                     onClick={onClose}
-                    className="size-10 rounded-xl hover:bg-red-50 dark:hover:bg-red-500/10 text-gray-400 hover:text-red-500 transition-all flex items-center justify-center"
+                    className="size-10 rounded-xl hover:bg-red-50 dark:hover:bg-red-500/10 text-muted hover:text-red-500 transition-all flex items-center justify-center"
                   >
                     <span className="material-symbols-outlined">close</span>
                   </button>
@@ -218,11 +218,11 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose, address, o
                     />
 
                     <div className="md:col-span-2 w-full space-y-2">
-                      <label className="block text-sm font-bold text-[#121714] dark:text-white">
+                      <label className="block text-sm font-bold text-foreground dark:text-foreground">
                         Country <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
-                        <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-[20px] pointer-events-none">
+                        <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-muted text-[20px] pointer-events-none">
                           public
                         </span>
                         <select
@@ -230,7 +230,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose, address, o
                           required
                           defaultValue={address?.country ?? ""}
                           disabled={isLoading}
-                          className="w-full bg-background-light dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl py-3 pl-11 pr-4 text-sm text-[#121714] dark:text-white outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-50 appearance-none"
+                          className="w-full bg-background-light dark:bg-white/5 border border-outline dark:border-white/10 rounded-xl py-3 pl-11 pr-4 text-sm text-foreground dark:text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-50 appearance-none"
                         >
                           <option value="" disabled>Select country</option>
                           {COUNTRIES.map((c) => (
@@ -247,17 +247,17 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose, address, o
                       id="default-address"
                       checked={isDefault}
                       onChange={(e) => setIsDefault(e.target.checked)}
-                      className="size-5 rounded border-gray-300 accent-primary"
+                      className="size-5 rounded border-outline accent-primary"
                     />
                     <label
                       htmlFor="default-address"
-                      className="text-sm font-bold text-[#121714] dark:text-white cursor-pointer"
+                      className="text-sm font-bold text-foreground dark:text-foreground cursor-pointer"
                     >
                       Set as default shipping address
                     </label>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-100 dark:border-white/5">
+                  <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-outline dark:border-white/5">
                     <Button type="button" variant="secondary" fullWidth onClick={onClose}>
                       Cancel
                     </Button>

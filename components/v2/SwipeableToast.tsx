@@ -51,7 +51,7 @@ export default function SwipeableToast({ t }: { t: Toast }) {
           ? "none"
           : "transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease-out",
       }}
-      className="flex items-center gap-3 px-4 py-3 bg-white dark:bg-[#171717] text-[#121714] dark:text-white rounded-2xl shadow-xl border border-gray-100 dark:border-white/10 select-none cursor-pointer touch-pan-x"
+      className="flex items-center gap-3 px-4 py-3 bg-surface dark:bg-surface text-foreground dark:text-foreground rounded-2xl shadow-xl border border-outline dark:border-white/10 select-none cursor-pointer touch-pan-x"
     >
       <ToastIcon toast={t} />
       <span className="text-sm font-bold flex-1">
@@ -63,7 +63,7 @@ export default function SwipeableToast({ t }: { t: Toast }) {
           e.stopPropagation();
           toast.dismiss(t.id);
         }}
-        className="text-gray-400 hover:text-gray-600 dark:hover:text-white p-1 rounded-full transition-colors"
+        className="text-muted hover:text-muted dark:hover:text-white p-1 rounded-full transition-colors"
       >
         <span className="material-symbols-outlined text-base">close</span>
       </button>

@@ -75,6 +75,7 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
   };
 
   const slide = data[current];
+  const bounds = slide.imageBounds;
 
   const translateClass = isAnimating
     ? direction === "right"
@@ -86,24 +87,23 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
     <section
       aria-label="Featured products"
       aria-roledescription="carousel"
-      className="relative mx-auto mt-4 mb-2 w-full overflow-hidden rounded-3xl border border-black/5 bg-[#eef1f0] dark:border-white/10 dark:bg-[#101010]"
+      className="relative mx-auto mt-4 mb-2 w-full overflow-hidden rounded-3xl border border-black/5 bg-surface dark:border-white/10 dark:bg-surface"
     >
       {/* Soft neutral lighting and geometric detail frame the product. */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,white,transparent_65%)] dark:bg-[radial-gradient(ellipse_at_top_left,#292929,transparent_65%)]" />
       <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-40 size-[600px] rounded-full border border-black/5 dark:border-white/5" />
       <div aria-hidden="true" className="pointer-events-none absolute -right-4 -top-20 size-[440px] rounded-full border border-black/5 dark:border-white/5" />
 
-      <div className="relative grid items-center gap-5 px-6 py-7 sm:px-10 sm:py-8 md:grid-cols-[0.95fr_1.05fr] md:gap-6 lg:gap-10 lg:px-12">
+      <div className="relative grid items-center gap-5 px-6 py-7 sm:px-10 sm:py-8 md:grid-cols-[0.9fr_1.1fr] md:gap-3 lg:gap-4 lg:px-12">
         <div className={`min-w-0 transition-all duration-400 ease-out motion-reduce:transition-none ${translateClass}`}>
           <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-primary sm:text-xs">
             <span className="material-symbols-outlined text-base">laptop_mac</span>
             Premium Computing Gear
           </div>
-          <h1 className="max-w-xl text-3xl font-black leading-[1.08] tracking-tight text-[#121714] sm:text-4xl lg:text-[2.75rem] xl:text-5xl dark:text-white [overflow-wrap:anywhere]">
+          <h1 className="max-w-xl text-3xl font-black leading-[1.08] tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem] xl:text-5xl dark:text-foreground [overflow-wrap:anywhere]">
             {slide.title}
           </h1>
           <div aria-hidden="true" className="my-4 h-1 w-10 rounded-full bg-primary" />
-          <p className="max-w-lg text-sm leading-relaxed text-gray-600 sm:text-base dark:text-gray-300">
+          <p className="max-w-lg text-sm leading-relaxed text-muted sm:text-base dark:text-muted">
             {slide.description}
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
@@ -116,25 +116,38 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
             </Link>
             <Link
               href="/contact"
-              className="inline-flex min-h-12 items-center justify-center rounded-full border border-black/15 px-6 py-3 text-sm font-bold text-[#121714] transition-colors hover:bg-white sm:px-7 sm:text-base dark:border-white/20 dark:text-white dark:hover:bg-white/10"
+              className="inline-flex min-h-12 items-center justify-center rounded-full border border-black/15 px-6 py-3 text-sm font-bold text-foreground transition-colors hover:bg-white sm:px-7 sm:text-base dark:border-white/20 dark:text-foreground dark:hover:bg-white/10"
             >
               Contact Us
             </Link>
           </div>
         </div>
 
-        {/* The actual slide image stays fully visible, without a dark overlay. */}
+        {/* A larger product presentation stays contained within the image column. */}
         <div className={`relative min-w-0 transition-all duration-400 ease-out motion-reduce:transition-none ${translateClass}`}>
-          <div className="relative flex h-52 items-center justify-center sm:h-64 md:h-72 lg:h-80">
-            <img
-              key={slide.img}
-              src={slide.img}
-              alt={slide.title}
-              width={800}
-              height={600}
-              fetchPriority={current === 0 ? "high" : "auto"}
-              className="h-full w-full object-contain mix-blend-multiply dark:mix-blend-normal"
-            />
+          <div className="relative flex h-60 items-center justify-end sm:h-72 md:h-80">
+            {bounds ? (
+              <svg
+                key={slide.img}
+                role="img"
+                aria-label={slide.title}
+                viewBox={`${bounds.x} ${bounds.y} ${bounds.width} ${bounds.height}`}
+                preserveAspectRatio="xMaxYMid meet"
+                className="h-full w-full"
+              >
+                <image href={slide.img} width={bounds.sourceWidth} height={bounds.sourceHeight} />
+              </svg>
+            ) : (
+              <img
+                key={slide.img}
+                src={slide.img}
+                alt={slide.title}
+                width={800}
+                height={600}
+                fetchPriority={current === 0 ? "high" : "auto"}
+                className="h-full w-full object-contain object-right mix-blend-multiply dark:mix-blend-normal"
+              />
+            )}
           </div>
         </div>
       </div>
@@ -155,13 +168,13 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
             ))}
           </div>
           <div className="flex shrink-0 items-center gap-2">
-            <span className="mr-2 text-xs font-semibold tabular-nums text-gray-500 dark:text-gray-400">
+            <span className="mr-2 text-xs font-semibold tabular-nums text-muted dark:text-muted">
               {String(current + 1).padStart(2, "0")} / {String(data.length).padStart(2, "0")}
             </span>
-            <button onClick={handlePrev} aria-label="Previous slide" className="flex size-10 items-center justify-center rounded-full border border-black/15 text-[#121714] transition-colors hover:border-primary hover:bg-primary hover:text-white dark:border-white/20 dark:text-white">
+            <button onClick={handlePrev} aria-label="Previous slide" className="flex size-10 items-center justify-center rounded-full border border-black/15 text-foreground transition-colors hover:border-primary hover:bg-primary hover:text-white dark:border-white/20 dark:text-foreground">
               <span className="material-symbols-outlined text-xl">chevron_left</span>
             </button>
-            <button onClick={handleNext} aria-label="Next slide" className="flex size-10 items-center justify-center rounded-full border border-black/15 text-[#121714] transition-colors hover:border-primary hover:bg-primary hover:text-white dark:border-white/20 dark:text-white">
+            <button onClick={handleNext} aria-label="Next slide" className="flex size-10 items-center justify-center rounded-full border border-black/15 text-foreground transition-colors hover:border-primary hover:bg-primary hover:text-white dark:border-white/20 dark:text-foreground">
               <span className="material-symbols-outlined text-xl">chevron_right</span>
             </button>
           </div>

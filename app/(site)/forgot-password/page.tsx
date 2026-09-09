@@ -46,7 +46,7 @@ const ForgotPasswordPage = () => {
   return (
     <main className="flex-1 flex items-center justify-center py-12 px-6">
       <section className="w-full max-w-xl">
-        <div className="bg-white dark:bg-[#171717] border border-primary/10 shadow-2xl rounded-3xl p-8 md:p-10">
+        <div className="bg-surface dark:bg-surface border border-primary/10 shadow-2xl rounded-3xl p-8 md:p-10">
           {!submitted ? (
             <>
               <div className="text-center mb-10">
@@ -55,10 +55,10 @@ const ForgotPasswordPage = () => {
                     lock_reset
                   </span>
                 </div>
-                <h1 className="text-3xl font-black text-[#121714] dark:text-white mb-3">
+                <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-3">
                   Reset Password
                 </h1>
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                <p className="text-muted dark:text-muted text-sm">
                   Enter your email and we'll send you reset instructions
                 </p>
               </div>
@@ -93,10 +93,10 @@ const ForgotPasswordPage = () => {
                   mark_email_read
                 </span>
               </div>
-              <h2 className="text-2xl font-black text-[#121714] dark:text-white mb-3">
+              <h2 className="text-2xl font-black text-foreground dark:text-foreground mb-3">
                 Check Your Email
               </h2>
-              <p className="text-gray-500 dark:text-gray-400 text-sm mb-8 leading-relaxed">
+              <p className="text-muted dark:text-muted text-sm mb-8 leading-relaxed">
                 We've sent password reset instructions to{" "}
                 <strong>{email}</strong>. Please check your inbox and spam
                 folder.

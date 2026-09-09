@@ -54,11 +54,11 @@ const DynamicPage = async ({ params }: PageProps) => {
       />
 
       <article className="animate-in fade-in slide-in-from-bottom-4 duration-700 w-full overflow-hidden break-words">
-        <header className="mb-12 border-b border-gray-100 dark:border-white/5 pb-10">
-          <h1 className="text-4xl md:text-6xl font-black text-[#121714] dark:text-white leading-tight mb-4">
+        <header className="mb-12 border-b border-outline dark:border-white/5 pb-10">
+          <h1 className="text-4xl md:text-6xl font-black text-foreground dark:text-foreground leading-tight mb-4">
             {page.title}
           </h1>
-          <div className="flex items-center gap-4 text-sm text-gray-400 font-bold uppercase tracking-widest">
+          <div className="flex items-center gap-4 text-sm text-muted font-bold uppercase tracking-widest">
             <span className="material-symbols-outlined text-primary text-xl">
               event_note
             </span>
@@ -74,12 +74,12 @@ const DynamicPage = async ({ params }: PageProps) => {
         <div className="overflow-x-auto no-scrollbar">
           <div
             className="prose prose-lg dark:prose-invert max-w-none 
-                prose-headings:font-black prose-headings:text-[#121714] dark:prose-headings:text-white
-                prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:leading-relaxed
-                prose-strong:text-[#121714] dark:prose-strong:text-white
+                prose-headings:font-black prose-headings:text-foreground dark:prose-headings:text-white
+                prose-p:text-muted dark:prose-p:text-muted prose-p:leading-relaxed
+                prose-strong:text-foreground dark:prose-strong:text-white
                 prose-img:rounded-[2rem] prose-img:shadow-2xl prose-img:max-w-full prose-img:h-auto
                 prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-                prose-li:text-gray-600 dark:prose-li:text-gray-400
+                prose-li:text-muted dark:prose-li:text-muted
                 prose-pre:overflow-x-auto prose-pre:max-w-full
                 prose-table:overflow-x-auto prose-table:block prose-table:w-full"
             dangerouslySetInnerHTML={{ __html: page.content }}

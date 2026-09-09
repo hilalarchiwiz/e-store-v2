@@ -49,14 +49,14 @@ export default async function V2Layout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-display">
+      <body className="font-display bg-page text-foreground">
         <NavigationProgress />
         <ToasterProvider />
         <ReduxProvider>
           <CartInitializer />
           <div className="flex flex-col min-h-screen">
             <div className="flex-1">
-              <div className="bg-background-light dark:bg-background-dark min-h-screen text-[#121714] dark:text-white font-display transition-colors duration-300">
+              <div className="bg-page min-h-screen text-foreground dark:text-foreground font-display transition-colors duration-300">
                 {/* <TopBar generalSetting={settings.generalSetting} /> */}
                 <Header logo={settings.logo} />
                 {children}

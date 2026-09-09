@@ -145,7 +145,7 @@ export function MobileFilterModal({
     `inline-flex min-h-8 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
       selected
         ? "bg-primary text-white shadow-sm"
-        : "bg-[#f0f3f1] text-[#27332c] hover:bg-primary/10 dark:bg-white/10 dark:text-white"
+        : "bg-surface text-foreground hover:bg-primary/10 dark:bg-white/10 dark:text-foreground"
     }`;
 
   return (
@@ -159,14 +159,14 @@ export function MobileFilterModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="mobile-filter-title"
-        className="flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-[#f7f9f8] shadow-2xl dark:bg-[#0a0a0a] sm:max-w-lg sm:rounded-3xl"
+        className="flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-surface shadow-2xl dark:bg-surface sm:max-w-lg sm:rounded-3xl"
       >
-        <div className="flex items-center justify-between border-b border-black/5 bg-white px-5 py-4 dark:border-white/10 dark:bg-[#171717]">
+        <div className="flex items-center justify-between border-b border-black/5 bg-surface px-5 py-4 dark:border-white/10 dark:bg-surface">
           <div>
             <p className="text-xs font-semibold text-primary">Refine your search</p>
             <h2
               id="mobile-filter-title"
-              className="mt-0.5 text-xl font-black text-[#111713] dark:text-white"
+              className="mt-0.5 text-xl font-black text-foreground dark:text-foreground"
             >
               Filters
             </h2>
@@ -175,7 +175,7 @@ export function MobileFilterModal({
             type="button"
             onClick={onClose}
             aria-label="Close filters"
-            className="flex size-10 items-center justify-center rounded-full bg-[#f0f3f1] text-[#526058] transition-colors hover:bg-red-50 hover:text-red-500 dark:bg-white/10 dark:text-white"
+            className="flex size-10 items-center justify-center rounded-full bg-icon-surface text-muted transition-colors hover:bg-red-50 hover:text-red-500 dark:bg-white/10 dark:text-white"
           >
             <span className="material-symbols-outlined">close</span>
           </button>
@@ -209,7 +209,7 @@ export function MobileFilterModal({
                     className={`rounded-full px-1.5 py-0.5 text-[10px] ${
                       selectedCategories.includes(category.id)
                         ? "bg-white/20"
-                        : "bg-white dark:bg-black/20"
+                        : "bg-white dark:bg-surface"
                     }`}
                   >
                     {category.count}
@@ -265,7 +265,7 @@ export function MobileFilterModal({
                     className={`rounded-full px-1.5 py-0.5 text-[10px] ${
                       selectedBrands.includes(brand.id)
                         ? "bg-white/20"
-                        : "bg-white dark:bg-black/20"
+                        : "bg-white dark:bg-surface"
                     }`}
                   >
                     {brand.count}
@@ -275,8 +275,8 @@ export function MobileFilterModal({
             ))}
           </FilterCard>
 
-          <div className="rounded-2xl border border-[#dce4df] bg-white p-4 shadow-sm dark:border-white/10 dark:bg-[#171717]">
-            <h3 className="text-base font-black text-[#111713] dark:text-white">
+          <div className="rounded-2xl border border-outline bg-surface p-4 shadow-sm dark:border-white/10 dark:bg-surface">
+            <h3 className="text-base font-black text-foreground dark:text-foreground">
               Price Range
             </h3>
             <input
@@ -291,7 +291,7 @@ export function MobileFilterModal({
               className="mt-4 h-1.5 w-full cursor-pointer accent-primary"
             />
             <div className="mt-4 grid grid-cols-2 gap-3">
-              <label className="text-xs font-semibold text-[#617067]">
+              <label className="text-xs font-semibold text-muted">
                 Minimum
                 <input
                   type="number"
@@ -304,10 +304,10 @@ export function MobileFilterModal({
                       priceRange[1],
                     ])
                   }
-                  className="mt-1.5 w-full rounded-xl border border-[#dce4df] bg-[#f7f9f8] px-3 py-2.5 text-sm font-bold text-[#111713] outline-none focus:border-primary dark:border-white/10 dark:bg-black/20 dark:text-white"
+                  className="mt-1.5 w-full rounded-xl border border-outline bg-surface px-3 py-2.5 text-sm font-bold text-foreground outline-none focus:border-primary dark:border-white/10 dark:bg-surface dark:text-foreground"
                 />
               </label>
-              <label className="text-xs font-semibold text-[#617067]">
+              <label className="text-xs font-semibold text-muted">
                 Maximum
                 <input
                   type="number"
@@ -320,18 +320,18 @@ export function MobileFilterModal({
                       Math.max(Number(event.target.value), priceRange[0]),
                     ])
                   }
-                  className="mt-1.5 w-full rounded-xl border border-[#dce4df] bg-[#f7f9f8] px-3 py-2.5 text-sm font-bold text-[#111713] outline-none focus:border-primary dark:border-white/10 dark:bg-black/20 dark:text-white"
+                  className="mt-1.5 w-full rounded-xl border border-outline bg-surface px-3 py-2.5 text-sm font-bold text-foreground outline-none focus:border-primary dark:border-white/10 dark:bg-surface dark:text-foreground"
                 />
               </label>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 border-t border-black/5 bg-white p-4 dark:border-white/10 dark:bg-[#171717]">
+        <div className="grid grid-cols-2 gap-3 border-t border-black/5 bg-surface p-4 dark:border-white/10 dark:bg-surface">
           <button
             type="button"
             onClick={clearFilters}
-            className="min-h-12 rounded-xl border border-[#dce4df] bg-white text-sm font-bold text-primary shadow-sm transition-colors hover:bg-primary/5 dark:border-white/10 dark:bg-transparent"
+            className="min-h-12 rounded-xl border border-outline bg-white text-sm font-bold text-primary shadow-sm transition-colors hover:bg-primary/5 dark:border-white/10 dark:bg-transparent"
           >
             Clear All
           </button>
@@ -356,8 +356,8 @@ function FilterCard({
   children: ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-[#dce4df] bg-white p-4 shadow-sm dark:border-white/10 dark:bg-[#171717]">
-      <h3 className="mb-3 text-base font-black text-[#111713] dark:text-white">
+    <div className="rounded-2xl border border-outline bg-surface p-4 shadow-sm dark:border-white/10 dark:bg-surface">
+      <h3 className="mb-3 text-base font-black text-foreground dark:text-foreground">
         {title}
       </h3>
       <div className="flex flex-wrap gap-2">{children}</div>
@@ -398,12 +398,12 @@ export function MobileSortModal({ onClose }: MobileSortModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="mobile-sort-title"
-        className="w-full max-w-md overflow-hidden rounded-2xl border border-[#dce4df] bg-white p-3 shadow-2xl dark:border-white/10 dark:bg-[#171717]"
+        className="w-full max-w-md overflow-hidden rounded-2xl border border-outline bg-surface p-3 shadow-2xl dark:border-white/10 dark:bg-surface"
       >
         <div className="flex items-center justify-between px-2 pb-2 pt-1">
           <h2
             id="mobile-sort-title"
-            className="text-lg font-black text-[#111713] dark:text-white"
+            className="text-lg font-black text-foreground dark:text-foreground"
           >
             Sort Products
           </h2>
@@ -411,7 +411,7 @@ export function MobileSortModal({ onClose }: MobileSortModalProps) {
             type="button"
             onClick={onClose}
             aria-label="Close sorting"
-            className="flex size-9 items-center justify-center rounded-full bg-[#f0f3f1] text-[#526058] dark:bg-white/10 dark:text-white"
+            className="flex size-9 items-center justify-center rounded-full bg-icon-surface text-muted dark:bg-white/10 dark:text-white"
           >
             <span className="material-symbols-outlined text-xl">close</span>
           </button>
@@ -427,7 +427,7 @@ export function MobileSortModal({ onClose }: MobileSortModalProps) {
               className={`flex w-full items-center gap-3 rounded-xl px-3 py-3.5 text-left text-sm font-semibold transition-colors ${
                 selected
                   ? "bg-primary/10 text-primary"
-                  : "text-[#202a24] hover:bg-[#f4f7f5] dark:text-white dark:hover:bg-white/5"
+                  : "text-foreground hover:bg-icon-surface dark:text-white dark:hover:bg-white/5"
               }`}
             >
               <span

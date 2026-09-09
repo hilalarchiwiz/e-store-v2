@@ -155,16 +155,16 @@ const ShopContent: React.FC<ShopContentProps> = ({
 
       {products.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-28 gap-6 text-center">
-          <div className="size-24 rounded-full bg-[#f1f4f2] dark:bg-[#262626] flex items-center justify-center text-[#648770]">
+          <div className="size-24 rounded-full bg-icon-surface dark:bg-icon-surface flex items-center justify-center text-muted">
             <span className="material-symbols-outlined text-5xl">
               search_off
             </span>
           </div>
           <div>
-            <h3 className="text-2xl font-black text-[#111713] dark:text-white mb-2">
+            <h3 className="text-2xl font-black text-foreground dark:text-foreground mb-2">
               No Products Found
             </h3>
-            <p className="text-[#648770] text-sm">
+            <p className="text-muted text-sm">
               Try adjusting your filters or search terms.
             </p>
           </div>
@@ -195,13 +195,13 @@ const ShopContent: React.FC<ShopContentProps> = ({
       {hasMore && (
         <div ref={sentinel} className="flex min-h-16 items-center justify-center py-4">
           {loading && (
-            <div role="status" className="flex items-center gap-3 text-sm text-[#648770]">
+            <div role="status" className="flex items-center gap-3 text-sm text-muted">
               <span aria-hidden="true" className="size-5 animate-spin rounded-full border-2 border-current border-t-transparent motion-reduce:animate-none" />
               Loading more products…
             </div>
           )}
           {error && (
-            <div role="alert" className="flex items-center gap-3 text-sm text-[#648770]">
+            <div role="alert" className="flex items-center gap-3 text-sm text-muted">
               Couldn’t load more products.
               <button type="button" onClick={() => void loadMore()} className="font-bold text-primary underline underline-offset-4">
                 Try again

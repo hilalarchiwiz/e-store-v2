@@ -39,8 +39,8 @@ const FAQPage = async () => {
           <span className="material-symbols-outlined text-4xl">help_center</span>
           <span className="text-sm font-black uppercase tracking-[0.3em]">Help Center</span>
         </div>
-        <h1 className="text-4xl md:text-6xl font-black text-[#121714] dark:text-white mb-6">Common Questions</h1>
-        <p className="text-lg text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
+        <h1 className="text-4xl md:text-6xl font-black text-foreground dark:text-foreground mb-6">Common Questions</h1>
+        <p className="text-lg text-muted dark:text-muted font-medium leading-relaxed">
           Everything you need to know about our tech products, billing, and how we deliver high-performance computing to your doorstep.
         </p>
       </div>
@@ -77,12 +77,12 @@ const FAQPage = async () => {
           { title: "Shipping", icon: "local_shipping", desc: "Learn about our fast and reliable delivery methods." },
           { title: "Technical Support", icon: "settings", desc: "Deep dive into product specifications and setup guides." }
         ].map((cat, i) => (
-          <div key={i} className="p-8 rounded-[2rem] bg-white dark:bg-[#171717] border border-primary/5 shadow-xl hover:shadow-2xl transition-all group">
+          <div key={i} className="p-8 rounded-[2rem] bg-surface dark:bg-surface border border-primary/5 shadow-xl hover:shadow-2xl transition-all group">
             <div className="size-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-500">
               <span className="material-symbols-outlined text-3xl">{cat.icon}</span>
             </div>
-            <h3 className="text-xl font-black text-[#121714] dark:text-white mb-2">{cat.title}</h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium leading-relaxed">{cat.desc}</p>
+            <h3 className="text-xl font-black text-foreground dark:text-foreground mb-2">{cat.title}</h3>
+            <p className="text-sm text-muted dark:text-muted font-medium leading-relaxed">{cat.desc}</p>
           </div>
         ))}
       </div>

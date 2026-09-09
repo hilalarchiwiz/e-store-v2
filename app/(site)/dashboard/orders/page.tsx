@@ -29,17 +29,17 @@ export default function OrdersPage() {
     return (
       <div className="space-y-8 animate-in fade-in duration-300">
         <div>
-          <div className="h-8 bg-gray-200 dark:bg-white/10 rounded-xl w-40 mb-3 animate-pulse" />
-          <div className="h-4 bg-gray-200 dark:bg-white/10 rounded-xl w-72 animate-pulse" />
+          <div className="h-8 bg-surface dark:bg-white/10 rounded-xl w-40 mb-3 animate-pulse" />
+          <div className="h-4 bg-surface dark:bg-white/10 rounded-xl w-72 animate-pulse" />
         </div>
-        <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
+        <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="px-8 py-6 border-b border-gray-100 dark:border-white/5 flex items-center gap-6">
-              <div className="h-4 bg-gray-200 dark:bg-white/10 rounded-lg w-28 animate-pulse" />
-              <div className="h-4 bg-gray-200 dark:bg-white/10 rounded-lg w-24 animate-pulse" />
-              <div className="h-4 bg-gray-200 dark:bg-white/10 rounded-lg w-16 animate-pulse" />
-              <div className="h-6 bg-gray-200 dark:bg-white/10 rounded-full w-20 animate-pulse" />
-              <div className="h-4 bg-gray-200 dark:bg-white/10 rounded-lg w-16 animate-pulse ml-auto" />
+            <div key={i} className="px-8 py-6 border-b border-outline dark:border-white/5 flex items-center gap-6">
+              <div className="h-4 bg-surface dark:bg-white/10 rounded-lg w-28 animate-pulse" />
+              <div className="h-4 bg-surface dark:bg-white/10 rounded-lg w-24 animate-pulse" />
+              <div className="h-4 bg-surface dark:bg-white/10 rounded-lg w-16 animate-pulse" />
+              <div className="h-6 bg-surface dark:bg-white/10 rounded-full w-20 animate-pulse" />
+              <div className="h-4 bg-surface dark:bg-white/10 rounded-lg w-16 animate-pulse ml-auto" />
             </div>
           ))}
         </div>
@@ -51,15 +51,15 @@ export default function OrdersPage() {
     return (
       <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
         <div>
-          <h1 className="text-3xl font-black text-[#121714] dark:text-white mb-2">My Orders</h1>
-          <p className="text-gray-500 dark:text-gray-400">Manage your past and current orders effortlessly.</p>
+          <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-2">My Orders</h1>
+          <p className="text-muted dark:text-muted">Manage your past and current orders effortlessly.</p>
         </div>
-        <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-16 text-center">
+        <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-16 text-center">
           <div className="size-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <span className="material-symbols-outlined text-4xl text-primary">receipt_long</span>
           </div>
-          <h3 className="text-xl font-black text-[#121714] dark:text-white mb-2">No orders yet</h3>
-          <p className="text-gray-500 text-sm mb-8">Start shopping to see your orders here.</p>
+          <h3 className="text-xl font-black text-foreground dark:text-foreground mb-2">No orders yet</h3>
+          <p className="text-muted text-sm mb-8">Start shopping to see your orders here.</p>
           <Link
             href="/shop"
             className="inline-flex items-center gap-2 bg-primary text-white font-black px-8 py-3 rounded-2xl hover:bg-primary/90 transition-all"
@@ -75,17 +75,17 @@ export default function OrdersPage() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
       <div>
-        <h1 className="text-3xl font-black text-[#121714] dark:text-white mb-2">My Orders</h1>
-        <p className="text-gray-500 dark:text-gray-400">
+        <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-2">My Orders</h1>
+        <p className="text-muted dark:text-muted">
           {orders.length} order{orders.length !== 1 ? "s" : ""} found
         </p>
       </div>
 
-      <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
+      <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
         <div className="overflow-x-auto no-scrollbar">
           <table className="w-full text-left min-w-[650px] sm:min-w-0">
             <thead>
-              <tr className="bg-[#f1f4f2] dark:bg-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+              <tr className="bg-surface dark:bg-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-muted">
                 <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Order ID</th>
                 <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Date</th>
                 <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Items</th>
@@ -102,11 +102,11 @@ export default function OrdersPage() {
                 const totalItems = order.orderItems.reduce((n: number, i: any) => n + i.quantity, 0);
                 return (
                   <tr key={order.id} className="hover:bg-primary/5 transition-colors group">
-                    <td className="px-4 sm:px-8 py-4 sm:py-6 text-[#121714] dark:text-white font-black whitespace-nowrap">
+                    <td className="px-4 sm:px-8 py-4 sm:py-6 text-foreground dark:text-foreground font-black whitespace-nowrap">
                       {order.orderNumber}
                     </td>
-                    <td className="px-4 sm:px-8 py-4 sm:py-6 text-gray-500 font-medium whitespace-nowrap">{date}</td>
-                    <td className="px-4 sm:px-8 py-4 sm:py-6 text-gray-500 font-medium whitespace-nowrap">
+                    <td className="px-4 sm:px-8 py-4 sm:py-6 text-muted font-medium whitespace-nowrap">{date}</td>
+                    <td className="px-4 sm:px-8 py-4 sm:py-6 text-muted font-medium whitespace-nowrap">
                       {totalItems} item{totalItems !== 1 ? "s" : ""}
                     </td>
                     <td className="px-4 sm:px-8 py-4 sm:py-6 whitespace-nowrap">
@@ -118,7 +118,7 @@ export default function OrdersPage() {
                     <td className="px-4 sm:px-8 py-4 sm:py-6 text-right whitespace-nowrap">
                       <Link
                         href={`/dashboard/orders/${order.orderNumber}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-black text-[#648770] hover:text-primary transition-colors bg-[#f1f4f2] dark:bg-white/5 hover:bg-primary/10 px-3 py-2 rounded-xl"
+                        className="inline-flex items-center gap-1.5 text-xs font-black text-muted hover:text-primary transition-colors bg-surface dark:bg-white/5 hover:bg-primary/10 px-3 py-2 rounded-xl"
                       >
                         <span className="material-symbols-outlined text-base">visibility</span>
                         View

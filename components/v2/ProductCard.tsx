@@ -198,12 +198,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <>
         <Link
           href={`/product/${slug || id}`}
-          className="group bg-white dark:bg-[#171717] rounded-2xl border border-[#dce5df] dark:border-[#303030] overflow-hidden flex flex-row shadow-sm hover:shadow-xl transition-all duration-300"
+          className="group bg-surface dark:bg-surface rounded-2xl border border-outline dark:border-outline overflow-hidden flex flex-row shadow-sm hover:shadow-xl transition-all duration-300"
         >
           {/* Image */}
-          <div className="relative w-40 shrink-0 overflow-hidden bg-[#f1f4f2] dark:bg-[#262626]">
+          <div className="relative w-40 shrink-0 overflow-hidden bg-surface dark:bg-surface">
             {imageError ? (
-              <div className="flex h-full w-full flex-col items-center justify-center gap-1 text-[#8a9990]">
+              <div className="flex h-full w-full flex-col items-center justify-center gap-1 text-muted">
                 <span className="material-symbols-outlined text-3xl">
                   image_not_supported
                 </span>
@@ -231,23 +231,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <div className="flex flex-col gap-1.5 min-w-0">
               <div className="flex items-center gap-1.5">
                 <StarRating rating={rating} size="xs" />
-                <span className="text-xs text-[#648770] font-semibold">
+                <span className="text-xs text-muted font-semibold">
                   ({reviews})
                 </span>
               </div>
-              <h3 className="font-bold text-base text-[#111713] dark:text-white group-hover:text-primary transition-colors line-clamp-2 leading-snug">
+              <h3 className="font-bold text-base text-foreground dark:text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug">
                 {name}
               </h3>
-              <p className="text-[#648770] text-xs font-medium">{category}</p>
+              <p className="text-muted text-xs font-medium">{category}</p>
             </div>
 
             <div className="flex flex-col items-end justify-between gap-3 shrink-0">
               <div className="flex items-baseline gap-1.5">
-                <span className="text-lg font-extrabold text-[#111713] dark:text-white">
+                <span className="text-lg font-extrabold text-foreground dark:text-foreground">
                   {formatPrice(price)}
                 </span>
                 {oldPrice && (
-                  <span className="text-sm text-[#648770] line-through">
+                  <span className="text-sm text-muted line-through">
                     {formatPrice(oldPrice)}
                   </span>
                 )}
@@ -257,7 +257,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   onClick={openQuickView}
                   data-no-progress
                   title="Quick View"
-                  className="p-2 rounded-xl flex items-center border border-[#dce5df] dark:border-[#303030] text-[#648770] hover:text-primary hover:border-primary transition-all"
+                  className="p-2 rounded-xl flex items-center border border-outline dark:border-outline text-muted hover:text-primary hover:border-primary transition-all"
                 >
                   <span className="material-symbols-outlined text-lg">
                     visibility
@@ -270,7 +270,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   title={
                     isWishlisted ? "Remove from wishlist" : "Add to wishlist"
                   }
-                  className={`p-2 rounded-xl flex items-center border transition-all hover:scale-105 active:scale-95 disabled:cursor-wait disabled:scale-100 disabled:opacity-70 ${isWishlisted ? "border-primary/30 bg-primary/5 text-primary" : "border-[#dce5df] dark:border-[#303030] text-[#648770] hover:text-primary hover:border-primary/30"}`}
+                  className={`p-2 rounded-xl flex items-center border transition-all hover:scale-105 active:scale-95 disabled:cursor-wait disabled:scale-100 disabled:opacity-70 ${isWishlisted ? "border-primary/30 bg-primary/5 text-primary" : "border-outline dark:border-outline text-muted hover:text-primary hover:border-primary/30"}`}
                 >
                   {wishlistLoading ? (
                     <span className="size-[18px] animate-spin rounded-full border-2 border-current/30 border-t-current" />
@@ -328,11 +328,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
     <>
       <Link
         href={`/product/${slug || id}`}
-        className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#d9e3dd] bg-white shadow-[0_2px_7px_rgba(18,23,20,0.10)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_12px_30px_rgba(18,23,20,0.14)] dark:border-[#303030] dark:bg-[#171717]"
+        className="group flex h-full flex-col overflow-hidden rounded-2xl border border-outline bg-surface shadow-[0_2px_7px_rgba(18,23,20,0.10)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_12px_30px_rgba(18,23,20,0.14)] dark:border-outline dark:bg-surface"
       >
-        <div className="relative aspect-[12/9] w-full overflow-hidden bg-[#f1f5f3] dark:bg-[#242424]">
+        <div className="relative aspect-[12/9] w-full overflow-hidden bg-surface dark:bg-surface">
           {imageError ? (
-            <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-[#87958c] dark:text-[#a3a3a3]">
+            <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-muted dark:text-muted">
               <span className="material-symbols-outlined text-4xl sm:text-5xl">
                 image_not_supported
               </span>
@@ -354,7 +354,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
             disabled={wishlistLoading}
             aria-busy={wishlistLoading}
-            className={`absolute right-3 top-3 z-10 flex size-8 items-center justify-center rounded-full transition-all hover:scale-110 active:scale-95 disabled:cursor-wait disabled:scale-100 disabled:opacity-70 ${isWishlisted ? "text-primary" : "text-[#717b74] hover:bg-white/70 hover:text-primary dark:text-[#b3b3b3] dark:hover:bg-black/20"}`}
+            className={`absolute right-3 top-3 z-10 flex size-8 items-center justify-center rounded-full transition-all hover:scale-110 active:scale-95 disabled:cursor-wait disabled:scale-100 disabled:opacity-70 ${isWishlisted ? "text-primary" : "text-muted hover:bg-white/70 hover:text-primary dark:text-muted dark:hover:bg-black/20"}`}
             onClick={handleAddToWishlist}
             title={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
           >
@@ -374,7 +374,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             onClick={openQuickView}
             data-no-progress
             title="Quick View"
-            className="absolute bottom-3 left-1/2 hidden translate-y-2 -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-gray-100 bg-white px-3 py-1.5 text-[11px] font-bold text-[#111713] opacity-0 shadow-lg transition-all duration-300 hover:border-primary hover:bg-primary hover:text-white group-hover:translate-y-0 group-hover:opacity-100 dark:border-white/10 dark:bg-[#171717] dark:text-white sm:flex"
+            className="absolute bottom-3 left-1/2 hidden translate-y-2 -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-outline bg-surface px-3 py-1.5 text-[11px] font-bold text-foreground opacity-0 shadow-lg transition-all duration-300 hover:border-primary hover:bg-primary hover:text-white group-hover:translate-y-0 group-hover:opacity-100 dark:border-white/10 dark:bg-surface dark:text-foreground sm:flex"
           >
             <span className="material-symbols-outlined text-[16px]">
               visibility
@@ -396,7 +396,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <div className="flex flex-col gap-1.5">
             <div className="flex min-w-0 items-center">
               <StarRating rating={rating} />
-              <span className="ml-2 text-[11px] font-medium text-[#648770] sm:text-xs">
+              <span className="ml-2 text-[11px] font-medium text-muted sm:text-xs">
                 ({reviews})
               </span>
             </div>
@@ -404,7 +404,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <h3 className="line-clamp-2 min-h-8 font-['Inter'] text-sm font-semibold leading-[1.25] text-black transition-colors group-hover:text-primary dark:text-white sm:min-h-9 sm:text-[15px]">
               {name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()}
             </h3>
-            <p className="truncate text-xs font-medium text-[#648770]">
+            <p className="truncate text-xs font-medium text-muted">
               {category}
             </p>
           </div>
@@ -414,7 +414,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               {formatPrice(price)}
             </span>
             {oldPrice && (
-              <span className="hidden text-xs text-[#7a8980] line-through sm:inline">
+              <span className="hidden text-xs text-muted line-through sm:inline">
                 {formatPrice(oldPrice)}
               </span>
             )}
@@ -423,7 +423,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             type="button"
             disabled={cartDisabled}
             aria-busy={cartLoading}
-            className="mt-3 flex min-h-10 w-full items-center justify-center gap-1.5 rounded-xl border-[1.5px] border-primary bg-white px-2 font-['Inter'] text-xs font-medium text-primary shadow-[0_2px_4px_rgba(27,151,75,0.08)] transition-all hover:bg-primary hover:text-white hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed disabled:border-[#aeb8b1] disabled:bg-[#eef1ef] disabled:text-[#7a877f] disabled:shadow-none disabled:active:scale-100 dark:bg-transparent dark:disabled:bg-white/5 sm:text-sm"
+            className="mt-3 flex min-h-10 w-full items-center justify-center gap-1.5 rounded-xl border-[1.5px] border-primary bg-white px-2 font-['Inter'] text-xs font-medium text-primary shadow-[0_2px_4px_rgba(27,151,75,0.08)] transition-all hover:bg-primary hover:text-white hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed disabled:border-[#aeb8b1] disabled:bg-[#eef1ef] disabled:text-muted disabled:shadow-none disabled:active:scale-100 dark:bg-transparent dark:disabled:bg-white/5 sm:text-sm"
             onClick={handleAddToCart}
           >
             {cartLoading ? (

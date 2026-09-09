@@ -28,8 +28,8 @@ const FaqAccordion: React.FC<FaqAccordionProps> = ({ faqs }) => {
           className={`
             group rounded-3xl border transition-all duration-300
             ${activeIndex === index 
-              ? 'bg-white dark:bg-[#171717] border-primary shadow-xl scale-[1.01]'
-              : 'bg-[#f1f4f2] dark:bg-white/5 border-transparent hover:border-gray-200 dark:hover:border-white/10 shadow-none'
+              ? 'bg-surface dark:bg-surface border-primary shadow-xl scale-[1.01]'
+              : 'bg-surface dark:bg-white/5 border-transparent hover:border-outline dark:hover:border-white/10 shadow-none'
             }
           `}
         >
@@ -39,13 +39,13 @@ const FaqAccordion: React.FC<FaqAccordionProps> = ({ faqs }) => {
           >
             <span className={`
               text-lg md:text-xl font-black transition-colors duration-300
-              ${activeIndex === index ? 'text-primary' : 'text-[#121714] dark:text-white'}
+              ${activeIndex === index ? 'text-primary' : 'text-foreground dark:text-foreground'}
             `}>
               {faq.question}
             </span>
             <div className={`
               flex-shrink-0 size-10 rounded-xl flex items-center justify-center transition-all duration-300
-              ${activeIndex === index ? 'bg-primary text-white rotate-180' : 'bg-white dark:bg-white/10 text-gray-400 rotate-0'}
+              ${activeIndex === index ? 'bg-primary text-white rotate-180' : 'bg-white dark:bg-white/10 text-muted rotate-0'}
             `}>
               <span className="material-symbols-outlined">expand_more</span>
             </div>
@@ -62,7 +62,7 @@ const FaqAccordion: React.FC<FaqAccordionProps> = ({ faqs }) => {
               >
                 <div className="overflow-x-auto no-scrollbar">
                   <div 
-                    className="px-6 md:px-8 pb-8 text-gray-500 dark:text-gray-400 leading-relaxed font-medium prose dark:prose-invert max-w-none break-words
+                    className="px-6 md:px-8 pb-8 text-muted dark:text-muted leading-relaxed font-medium prose dark:prose-invert max-w-none break-words
                       prose-img:rounded-2xl prose-img:max-w-full prose-img:h-auto
                       prose-pre:overflow-x-auto prose-pre:max-w-full
                       prose-table:overflow-x-auto prose-table:block prose-table:w-full"

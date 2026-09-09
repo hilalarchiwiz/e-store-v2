@@ -34,17 +34,17 @@ const Subscribe = ({ variant = 'default', title, description }: SubscribeProps) 
 
   if (variant === 'compact') {
     return (
-      <section className="rounded-xl bg-[#f4f5f4] p-4 dark:bg-[#171717] sm:rounded-2xl sm:p-7">
+      <section className="rounded-xl bg-surface p-4 dark:bg-surface sm:rounded-2xl sm:p-7">
         <div className="grid items-center gap-5 lg:grid-cols-[1fr_1.2fr]">
           <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:items-start sm:gap-4 sm:text-left">
             <span className="material-symbols-outlined text-3xl text-primary sm:mt-0.5 sm:text-4xl" aria-hidden="true">
               mail
             </span>
             <div>
-              <h2 className="text-base font-black text-[#121714] dark:text-white sm:text-2xl">
+              <h2 className="text-base font-black text-foreground dark:text-foreground sm:text-2xl">
                 {title || 'Stay Updated with QAAM'}
               </h2>
-              <p className="mt-1 text-[10px] leading-[1.5] text-[#667069] dark:text-white/60 sm:text-sm sm:leading-6">
+              <p className="mt-1 text-[10px] leading-[1.5] text-muted dark:text-muted sm:text-sm sm:leading-6">
                 {description || 'Subscribe for the latest deals, new arrivals and exclusive offers.'}
               </p>
             </div>
@@ -60,7 +60,7 @@ const Subscribe = ({ variant = 'default', title, description }: SubscribeProps) 
               <label htmlFor="about-subscribe-email" className="sr-only">Email address</label>
               <input
                 id="about-subscribe-email"
-                className="h-10 min-w-0 flex-1 rounded-l-md border border-black/10 bg-white px-3 text-[10px] text-[#121714] outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/10 sm:h-12 sm:rounded-l-lg sm:px-4 sm:text-sm dark:border-white/10 dark:bg-[#0a0a0a] dark:text-white"
+                className="h-10 min-w-0 flex-1 rounded-l-md border border-black/10 bg-surface px-3 text-[10px] text-foreground outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/10 sm:h-12 sm:rounded-l-lg sm:px-4 sm:text-sm dark:border-white/10 dark:bg-surface dark:text-foreground"
                 placeholder="Enter your email address"
                 required
                 type="email"
@@ -119,11 +119,11 @@ const Subscribe = ({ variant = 'default', title, description }: SubscribeProps) 
               className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-xl mx-auto items-stretch"
             >
               <div className="relative flex-1 w-full">
-                <span className="material-symbols-outlined absolute left-4.5 top-1/2 -translate-y-1/2 text-gray-400 text-xl pointer-events-none">
+                <span className="material-symbols-outlined absolute left-4.5 top-1/2 -translate-y-1/2 text-muted text-xl pointer-events-none">
                   mail
                 </span>
                 <input
-                  className="w-full h-14 rounded-2xl pl-12 pr-5 bg-white text-[#121714] placeholder:text-gray-400 font-medium focus:ring-4 focus:ring-primary/30 border border-transparent outline-none text-base shadow-lg transition-all"
+                  className="w-full h-14 rounded-2xl pl-12 pr-5 bg-white text-foreground placeholder:text-muted font-medium focus:ring-4 focus:ring-primary/30 border border-transparent outline-none text-base shadow-lg transition-all"
                   placeholder="Enter your email address"
                   required
                   type="email"

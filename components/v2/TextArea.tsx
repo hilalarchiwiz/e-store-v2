@@ -12,14 +12,14 @@ const TextArea: React.FC<TextAreaProps> = ({ label, error, icon, className = '',
       {label && (
         <label
           htmlFor={id}
-          className="block text-sm font-bold text-[#121714] dark:text-white"
+          className="block text-sm font-bold text-foreground dark:text-foreground"
         >
           {label}
         </label>
       )}
       <div className="relative group">
         {icon && (
-          <span className="material-symbols-outlined absolute left-4 top-5 text-gray-400 group-focus-within:text-primary transition-colors">
+          <span className="material-symbols-outlined absolute left-4 top-5 text-muted group-focus-within:text-primary transition-colors">
             {icon}
           </span>
         )}
@@ -27,10 +27,10 @@ const TextArea: React.FC<TextAreaProps> = ({ label, error, icon, className = '',
           id={id}
           className={`
             w-full bg-background-light dark:bg-white/5 
-            border border-gray-200 dark:border-white/10 
+            border border-outline dark:border-white/10
             rounded-xl py-3 px-4 
             ${icon ? 'pl-11' : ''}
-            text-sm placeholder:text-gray-400 dark:text-white
+            text-sm placeholder:text-muted dark:text-white
             outline-none transition-all
             focus:border-primary focus:ring-2 focus:ring-primary/20
             disabled:opacity-50

@@ -59,12 +59,12 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-[#f1f4f2] dark:bg-[#262626] p-6 rounded-2xl flex flex-col gap-4 animate-in fade-in zoom-in-95 duration-300"
+      className="bg-surface dark:bg-surface p-6 rounded-2xl flex flex-col gap-4 animate-in fade-in zoom-in-95 duration-300"
     >
       <h3 className="font-bold text-lg">Write a Review</h3>
 
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-bold text-gray-700 dark:text-gray-300">
+        <label className="text-sm font-bold text-foreground dark:text-muted">
           Rating
         </label>
         <div className="flex gap-1" onMouseLeave={() => setHoverRating(0)}>
@@ -77,7 +77,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
               className="transition-transform hover:scale-110 active:scale-90"
             >
               <span
-                className={`material-symbols-outlined text-3xl ${star <= (hoverRating || rating) ? "text-yellow-500 fill-1" : "text-gray-300 dark:text-gray-600"}`}
+                className={`material-symbols-outlined text-3xl ${star <= (hoverRating || rating) ? "text-yellow-500 fill-1" : "text-gray-300 dark:text-muted"}`}
               >
                 star
               </span>
@@ -88,27 +88,27 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-bold text-gray-700 dark:text-gray-300">
+          <label className="text-sm font-bold text-foreground dark:text-muted">
             Name
           </label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-black/20 focus:outline-none focus:ring-2 focus:ring-primary/50"
+            className="px-4 py-3 rounded-xl border border-outline dark:border-white/10 bg-white dark:bg-surface focus:outline-none focus:ring-2 focus:ring-primary/50"
             placeholder="Your Name"
             required
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-bold text-gray-700 dark:text-gray-300">
+          <label className="text-sm font-bold text-foreground dark:text-muted">
             Email
           </label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-black/20 focus:outline-none focus:ring-2 focus:ring-primary/50"
+            className="px-4 py-3 rounded-xl border border-outline dark:border-white/10 bg-white dark:bg-surface focus:outline-none focus:ring-2 focus:ring-primary/50"
             placeholder="your@email.com"
             required
           />
@@ -116,13 +116,13 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
       </div>
 
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-bold text-gray-700 dark:text-gray-300">
+        <label className="text-sm font-bold text-foreground dark:text-muted">
           Review
         </label>
         <textarea
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          className="px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-black/20 focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-30"
+          className="px-4 py-3 rounded-xl border border-outline dark:border-white/10 bg-white dark:bg-surface focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-30"
           placeholder="Share your thoughts about the product..."
           required
         />

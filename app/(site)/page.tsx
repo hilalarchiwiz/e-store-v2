@@ -1,3 +1,5 @@
+import { getHeroImageBounds } from "@/lib/hero-image-bounds";
+import type { HeroImageBounds } from "@/lib/hero-image-layout";
 import { getStorefrontProductFilter } from "@/lib/storefront-products";
 import Hero from "@/components/v2/Hero";
 import CategorySlider from "@/components/v2/CategorySlider";
@@ -56,6 +58,7 @@ export const metadata: Metadata = {
 };
 
 export type HeroSlide = {
+  imageBounds?: HeroImageBounds | null;
   id: number;
   title: string;
   description: string;
@@ -223,13 +226,14 @@ export default async function V2HomePage() {
     orderBy: { createdAt: "asc" },
   });
 
-  const slides: HeroSlide[] = slidersData.map((s) => ({
+  const slides: HeroSlide[] = await Promise.all(slidersData.map(async (s) => ({
+    imageBounds: await getHeroImageBounds(s.img, s.updatedAt.toISOString()),
     id: s.id,
     title: s.title,
     description: s.description,
     img: s.img,
     link: s.link ?? null,
-  }));
+  })));
 
   return (
     <main className="max-w-400 mx-auto pb-20 md:px-10 px-2">

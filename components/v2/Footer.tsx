@@ -40,7 +40,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[#f1f4f2] bg-white pb-6 pt-10 dark:border-[#262626] dark:bg-[#000000] sm:pb-8 sm:pt-16">
+    <footer className="border-t border-outline bg-page pb-6 pt-10 dark:border-outline dark:bg-page sm:pb-8 sm:pt-16">
       <div className="max-w-400 mx-auto px-4 sm:px-6 lg:px-10">
         <div className="mb-10 grid grid-cols-1 gap-8 text-center md:mb-16 md:grid-cols-2 md:gap-12 md:text-left lg:grid-cols-4">
           {/* Brand */}
@@ -71,13 +71,13 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                   <span className="material-symbols-outlined text-3xl font-bold">
                     Qaam
                   </span>
-                  <h2 className="text-[#121714] dark:text-white text-2xl font-black">
+                  <h2 className="text-foreground dark:text-foreground text-2xl font-black">
                     .PK
                   </h2>
                 </>
               )}
             </Link>
-            <p className="mb-4 max-w-xs text-xs leading-relaxed text-[#121714]/60 dark:text-white/60 sm:mb-6 sm:text-sm">
+            <p className="mb-4 max-w-xs text-xs leading-relaxed text-muted dark:text-muted sm:mb-6 sm:text-sm">
               We provide high-quality refurbished laptops, gadgets, and accessories that deliver premium performance without the premium price tag.
             </p>
             {/* Social links */}
@@ -89,7 +89,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                     href={url as string}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="size-10 bg-[#f1f4f2] dark:bg-[#262626] rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
+                    className="size-10 bg-icon-surface dark:bg-icon-surface rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                     title={key.replace("_url", "")}
                   >
                     {key === "facebook_url" ? (
@@ -121,7 +121,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
             ) : (
               <div className="flex justify-center gap-3 md:justify-start">
                 <a
-                  className="size-10 bg-[#f1f4f2] dark:bg-[#262626] rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
+                  className="size-10 bg-icon-surface dark:bg-icon-surface rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                   href="#"
                 >
                   <span className="material-symbols-outlined text-lg">
@@ -129,7 +129,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                   </span>
                 </a>
                 <a
-                  className="size-10 bg-[#f1f4f2] dark:bg-[#262626] rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
+                  className="size-10 bg-icon-surface dark:bg-icon-surface rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                   href="#"
                 >
                   <span className="material-symbols-outlined text-lg">
@@ -137,7 +137,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                   </span>
                 </a>
                 <a
-                  className="size-10 bg-[#f1f4f2] dark:bg-[#262626] rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
+                  className="size-10 bg-icon-surface dark:bg-icon-surface rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                   href="#"
                 >
                   <span className="material-symbols-outlined text-lg">
@@ -151,7 +151,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
           {/* Quick Links */}
           <div>
             <h4 className="mb-4 text-base font-bold sm:mb-6 sm:text-lg">Quick Links</h4>
-            <ul className="flex flex-col gap-3 text-xs text-[#121714]/60 dark:text-white/60 sm:gap-4 sm:text-sm">
+            <ul className="flex flex-col gap-3 text-xs text-muted dark:text-muted sm:gap-4 sm:text-sm">
               <li>
                 <Link
                   className="hover:text-primary transition-colors"
@@ -193,7 +193,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
           {/* Support */}
           <div>
             <h4 className="mb-4 text-base font-bold sm:mb-6 sm:text-lg">Support</h4>
-            <ul className="flex flex-col gap-3 text-xs text-[#121714]/60 dark:text-white/60 sm:gap-4 sm:text-sm">
+            <ul className="flex flex-col gap-3 text-xs text-muted dark:text-muted sm:gap-4 sm:text-sm">
               {/* <li>
                 <Link
                   className="hover:text-primary transition-colors"
@@ -260,7 +260,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
           {/* My Account */}
           <div>
             <h4 className="mb-4 text-base font-bold sm:mb-6 sm:text-lg">My Account</h4>
-            <ul className="flex flex-col gap-3 text-xs text-[#121714]/60 dark:text-white/60 sm:gap-4 sm:text-sm">
+            <ul className="flex flex-col gap-3 text-xs text-muted dark:text-muted sm:gap-4 sm:text-sm">
               {!isLoggedIn && (
                 <li>
                   <Link
@@ -300,7 +300,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col items-center justify-center gap-4 border-t border-[#f1f4f2] pt-6 text-center text-[10px] text-[#121714]/40 dark:border-[#262626] dark:text-white/40 sm:gap-6 sm:pt-8 sm:text-sm md:flex-row">
+        <div className="flex flex-col items-center justify-center gap-4 border-t border-outline pt-6 text-center text-[10px] text-muted dark:border-outline dark:text-muted sm:gap-6 sm:pt-8 sm:text-sm md:flex-row">
           <p>
             {generalSetting?.footer_text
               ? generalSetting.footer_text

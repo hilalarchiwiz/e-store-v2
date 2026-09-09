@@ -95,10 +95,10 @@ export default function AddressesPage() {
     <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="flex items-end justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-black text-[#121714] dark:text-white mb-2">
+          <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-2">
             My Addresses
           </h1>
-          <p className="text-gray-500 dark:text-gray-400">
+          <p className="text-muted dark:text-muted">
             Manage your shipping and billing locations for faster checkout.
           </p>
         </div>
@@ -110,16 +110,16 @@ export default function AddressesPage() {
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {[1, 2].map((i) => (
-            <div key={i} className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 h-56 animate-pulse" />
+            <div key={i} className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8 h-56 animate-pulse" />
           ))}
         </div>
       ) : addresses.length === 0 ? (
-        <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-12 text-center">
+        <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-12 text-center">
           <div className="size-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
             <span className="material-symbols-outlined text-3xl!">location_off</span>
           </div>
-          <h3 className="font-black text-[#121714] dark:text-white text-lg mb-2">No addresses yet</h3>
-          <p className="text-gray-500 text-sm mb-6">Add a shipping address to speed up your checkout.</p>
+          <h3 className="font-black text-foreground dark:text-foreground text-lg mb-2">No addresses yet</h3>
+          <p className="text-muted text-sm mb-6">Add a shipping address to speed up your checkout.</p>
           <div className="text-center flex items-center justify-center">
             <Button variant="primary" icon="add" onClick={handleAddNew}>
               Add First Address
@@ -131,7 +131,7 @@ export default function AddressesPage() {
           {addresses.map((address) => (
             <div
               key={address.id}
-              className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl p-8 relative flex flex-col group hover:border-primary/20 transition-all"
+              className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8 relative flex flex-col group hover:border-primary/20 transition-all"
             >
               {address.isDefault && (
                 <span className="absolute top-6 right-8 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
@@ -139,17 +139,17 @@ export default function AddressesPage() {
                 </span>
               )}
 
-              <div className="size-12 bg-[#f1f4f2] dark:bg-white/5 rounded-2xl flex items-center justify-center text-[#648770] mb-6">
+              <div className="size-12 bg-icon-surface dark:bg-white/5 rounded-2xl flex items-center justify-center text-muted mb-6">
                 <span className="material-symbols-outlined">
                   {address.company?.toLowerCase().includes("office") ? "apartment" : "home"}
                 </span>
               </div>
 
-              <h3 className="font-black text-[#121714] dark:text-white text-lg mb-2">
+              <h3 className="font-black text-foreground dark:text-foreground text-lg mb-2">
                 {address.company || "Address"}
               </h3>
-              <div className="space-y-1 text-sm text-gray-500 font-medium leading-relaxed">
-                <p className="text-[#121714] dark:text-white font-bold">
+              <div className="space-y-1 text-sm text-muted font-medium leading-relaxed">
+                <p className="text-foreground dark:text-foreground font-bold">
                   {address.firstName} {address.lastName}
                 </p>
                 <p>{address.streetAddress}{address.apartment ? `, ${address.apartment}` : ""}</p>
@@ -158,10 +158,10 @@ export default function AddressesPage() {
                 <p className="pt-1">{address.phone}</p>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-gray-100 dark:border-white/5 flex flex-wrap gap-4">
+              <div className="mt-8 pt-6 border-t border-outline dark:border-white/5 flex flex-wrap gap-4">
                 <button
                   onClick={() => handleEdit(address)}
-                  className="text-sm font-bold text-[#121714] dark:text-white hover:text-primary transition-colors"
+                  className="text-sm font-bold text-foreground dark:text-foreground hover:text-primary transition-colors"
                 >
                   Edit
                 </button>

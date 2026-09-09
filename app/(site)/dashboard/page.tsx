@@ -74,31 +74,31 @@ export default function DashboardPage() {
     return (
       <div className="space-y-10 animate-in fade-in duration-300">
         <div className="space-y-2">
-          <div className="h-9 bg-gray-200 dark:bg-white/10 rounded-xl w-56 animate-pulse" />
-          <div className="h-4 bg-gray-200 dark:bg-white/10 rounded-xl w-80 animate-pulse" />
+          <div className="h-9 bg-surface dark:bg-white/10 rounded-xl w-56 animate-pulse" />
+          <div className="h-4 bg-surface dark:bg-white/10 rounded-xl w-80 animate-pulse" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[...Array(4)].map((_, i) => (
             <div
               key={i}
-              className="bg-white dark:bg-[#171717] p-6 rounded-3xl border border-primary/5 shadow-xl animate-pulse"
+              className="bg-surface dark:bg-surface p-6 rounded-3xl border border-primary/5 shadow-xl animate-pulse"
             >
-              <div className="size-12 bg-gray-200 dark:bg-white/10 rounded-2xl mb-4" />
-              <div className="h-3 bg-gray-200 dark:bg-white/10 rounded w-20 mb-2" />
-              <div className="h-7 bg-gray-200 dark:bg-white/10 rounded w-12" />
+              <div className="size-12 bg-icon-surface dark:bg-white/10 rounded-2xl mb-4" />
+              <div className="h-3 bg-surface dark:bg-white/10 rounded w-20 mb-2" />
+              <div className="h-7 bg-surface dark:bg-white/10 rounded w-12" />
             </div>
           ))}
         </div>
-        <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
+        <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className="px-8 py-6 border-b border-gray-100 dark:border-white/5 flex gap-6"
+              className="px-8 py-6 border-b border-outline dark:border-white/5 flex gap-6"
             >
-              <div className="h-4 bg-gray-200 dark:bg-white/10 rounded w-32 animate-pulse" />
-              <div className="h-4 bg-gray-200 dark:bg-white/10 rounded w-24 animate-pulse" />
-              <div className="h-5 bg-gray-200 dark:bg-white/10 rounded-full w-20 animate-pulse" />
-              <div className="h-4 bg-gray-200 dark:bg-white/10 rounded w-16 animate-pulse ml-auto" />
+              <div className="h-4 bg-surface dark:bg-white/10 rounded w-32 animate-pulse" />
+              <div className="h-4 bg-surface dark:bg-white/10 rounded w-24 animate-pulse" />
+              <div className="h-5 bg-surface dark:bg-white/10 rounded-full w-20 animate-pulse" />
+              <div className="h-4 bg-surface dark:bg-white/10 rounded w-16 animate-pulse ml-auto" />
             </div>
           ))}
         </div>
@@ -110,10 +110,10 @@ export default function DashboardPage() {
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Welcome */}
       <div>
-        <h1 className="text-3xl font-black text-[#121714] dark:text-white mb-2">
+        <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-2">
           Hello, {firstName}! 👋
         </h1>
-        <p className="text-gray-500 dark:text-gray-400">
+        <p className="text-muted dark:text-muted">
           Welcome back to your eco-dashboard. Here&apos;s what&apos;s happening today.
         </p>
       </div>
@@ -123,17 +123,17 @@ export default function DashboardPage() {
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className="bg-white dark:bg-[#171717] p-6 rounded-3xl border border-primary/5 shadow-xl group hover:border-primary/20 transition-all"
+            className="bg-surface dark:bg-surface p-6 rounded-3xl border border-primary/5 shadow-xl group hover:border-primary/20 transition-all"
           >
             <div
               className={`size-12 ${stat.color} text-white rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform`}
             >
               <span className="material-symbols-outlined">{stat.icon}</span>
             </div>
-            <p className="text-gray-500 dark:text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">
+            <p className="text-muted dark:text-muted text-xs font-bold uppercase tracking-widest mb-1">
               {stat.label}
             </p>
-            <h3 className="text-2xl font-black text-[#121714] dark:text-white">
+            <h3 className="text-2xl font-black text-foreground dark:text-foreground">
               {stat.value}
             </h3>
           </div>
@@ -141,9 +141,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Recent Orders */}
-      <div className="bg-white dark:bg-[#171717] rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
-        <div className="p-8 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
-          <h2 className="text-xl font-black text-[#121714] dark:text-white">
+      <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
+        <div className="p-8 border-b border-outline dark:border-white/5 flex items-center justify-between">
+          <h2 className="text-xl font-black text-foreground dark:text-foreground">
             Recent Orders
           </h2>
           <Link
@@ -164,10 +164,10 @@ export default function DashboardPage() {
                 receipt_long
               </span>
             </div>
-            <p className="font-bold text-[#121714] dark:text-white mb-1">
+            <p className="font-bold text-foreground dark:text-foreground mb-1">
               No orders yet
             </p>
-            <p className="text-sm text-gray-500 mb-6">
+            <p className="text-sm text-muted mb-6">
               Start shopping to see your orders here.
             </p>
             <Link
@@ -184,7 +184,7 @@ export default function DashboardPage() {
           <div className="overflow-x-auto no-scrollbar">
             <table className="w-full text-left min-w-[550px] sm:min-w-0">
               <thead>
-                <tr className="bg-[#f1f4f2] dark:bg-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+                <tr className="bg-surface dark:bg-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-muted">
                   <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Order ID</th>
                   <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Date</th>
                   <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Status</th>
@@ -206,7 +206,7 @@ export default function DashboardPage() {
                       key={order.id}
                       className="hover:bg-primary/5 transition-colors group"
                     >
-                      <td className="px-4 sm:px-8 py-4 sm:py-6 text-[#121714] dark:text-white font-black whitespace-nowrap">
+                      <td className="px-4 sm:px-8 py-4 sm:py-6 text-foreground dark:text-foreground font-black whitespace-nowrap">
                         <Link
                           href={`/dashboard/orders/${order.orderNumber}`}
                           className="hover:text-primary transition-colors"
@@ -214,7 +214,7 @@ export default function DashboardPage() {
                           {order.orderNumber}
                         </Link>
                       </td>
-                      <td className="px-4 sm:px-8 py-4 sm:py-6 text-gray-500 font-medium whitespace-nowrap">
+                      <td className="px-4 sm:px-8 py-4 sm:py-6 text-muted font-medium whitespace-nowrap">
                         {date}
                       </td>
                       <td className="px-4 sm:px-8 py-4 sm:py-6 whitespace-nowrap">
@@ -261,7 +261,7 @@ export default function DashboardPage() {
           <Link
             key={item.href}
             href={item.href}
-            className="bg-white dark:bg-[#171717] p-5 rounded-2xl border border-primary/5 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all flex items-center gap-4 group"
+            className="bg-surface dark:bg-surface p-5 rounded-2xl border border-primary/5 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all flex items-center gap-4 group"
           >
             <div
               className={`size-11 rounded-xl flex items-center justify-center ${item.color} shrink-0`}
@@ -270,7 +270,7 @@ export default function DashboardPage() {
                 {item.icon}
               </span>
             </div>
-            <span className="font-black text-sm text-[#121714] dark:text-white group-hover:text-primary transition-colors">
+            <span className="font-black text-sm text-foreground dark:text-foreground group-hover:text-primary transition-colors">
               {item.label}
             </span>
             <span className="material-symbols-outlined text-gray-300 ml-auto group-hover:text-primary transition-colors text-base">
