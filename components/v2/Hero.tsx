@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import type { HeroSlide } from "@/app/(site)/page";
 
@@ -84,153 +84,90 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
 
   return (
     <section
-      className="relative w-full overflow-hidden rounded-2xl mx-auto mt-4 mb-2 shadow-2xl bg-[#0a1a0f]"
-      style={{
-        backgroundImage: `url('${slide.img}')`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      aria-label="Featured products"
+      aria-roledescription="carousel"
+      className="relative mx-auto mt-4 mb-2 w-full overflow-hidden rounded-3xl border border-black/5 bg-[#eef1f0] shadow-xl shadow-black/5 dark:border-white/10 dark:bg-[#101010]"
     >
-      {/* Dark gradient overlays */}
-      <div className="absolute inset-0 z-0 bg-linear-to-r from-black/80 via-black/50 to-black/10" />
-      <div className="absolute inset-0 z-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
+      {/* Soft neutral lighting and geometric detail frame the product. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,white,transparent_65%)] dark:bg-[radial-gradient(ellipse_at_top_left,#292929,transparent_65%)]" />
+      <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-40 size-[600px] rounded-full border border-black/5 dark:border-white/5" />
+      <div aria-hidden="true" className="pointer-events-none absolute -right-4 -top-20 size-[440px] rounded-full border border-black/5 dark:border-white/5" />
 
-      {/* Content */}
-      <div
-        className={`relative z-10 flex flex-col justify-center min-h-105 md:min-h-135 px-8 md:px-16 py-12 md:py-16 max-w-3xl transition-all duration-400 ease-out ${translateClass}`}
-      >
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/20 backdrop-blur-sm border border-primary/40 text-primary rounded-full text-xs font-bold tracking-widest uppercase w-fit mb-6">
-          <span className="material-symbols-outlined text-sm">laptop_mac</span>
-          Premium Computing Gear
+      <div className="relative grid items-center gap-8 px-6 pt-9 pb-6 sm:px-10 sm:pt-12 md:min-h-[480px] md:grid-cols-[0.95fr_1.05fr] md:gap-6 lg:min-h-[540px] lg:gap-12 lg:px-14 lg:pt-14">
+        <div className={`min-w-0 transition-all duration-400 ease-out motion-reduce:transition-none ${translateClass}`}>
+          <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-primary sm:text-xs">
+            <span className="material-symbols-outlined text-base">laptop_mac</span>
+            Premium Computing Gear
+          </div>
+          <h1 className="max-w-xl text-3xl font-black leading-[1.08] tracking-tight text-[#121714] sm:text-4xl lg:text-5xl xl:text-6xl dark:text-white [overflow-wrap:anywhere]">
+            {slide.title}
+          </h1>
+          <div aria-hidden="true" className="my-5 h-1 w-12 rounded-full bg-primary sm:my-6" />
+          <p className="max-w-lg text-sm leading-relaxed text-gray-600 sm:text-base lg:text-lg dark:text-gray-300">
+            {slide.description}
+          </p>
+          <div className="mt-7 flex flex-wrap gap-3 sm:mt-8">
+            <Link
+              href={slide.link || "/shop"}
+              className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/15 transition-colors hover:bg-primary-dark sm:px-7 sm:text-base"
+            >
+              {slide.link ? "Shop Now" : "Shop All"}
+              <span className="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1 motion-reduce:transform-none">arrow_forward</span>
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex min-h-12 items-center justify-center rounded-full border border-black/15 px-6 py-3 text-sm font-bold text-[#121714] transition-colors hover:bg-white sm:px-7 sm:text-base dark:border-white/20 dark:text-white dark:hover:bg-white/10"
+            >
+              Contact Us
+            </Link>
+          </div>
         </div>
 
-        {/* Title */}
-        <h1 className="text-white text-4xl md:text-6xl font-black leading-[1.1] tracking-tight mb-5 drop-shadow-lg">
-          {slide.title.split(",").map((part: string, i: number, arr: string[]) =>
-            i < arr.length - 1 ? (
-              <React.Fragment key={i}>
-                {part},<br />
-              </React.Fragment>
-            ) : (
-              <span key={i} className="text-primary">
-                {part}
-              </span>
-            ),
-          )}
-        </h1>
-
-        {/* Description */}
-        <p className="text-white/80 text-base md:text-lg leading-relaxed mb-8 max-w-xl">
-          {slide.description}
-        </p>
-
-        {/* CTAs */}
-        <div className="flex flex-row flex-nowrap md:flex-wrap gap-2 md:gap-4 w-full md:w-auto">
-          {slide.link ? (
-            <Link
-              href={slide.link}
-              className="flex-1 md:flex-none justify-center px-4 md:px-8 h-13 inline-flex items-center gap-1 md:gap-2 bg-primary text-white rounded-xl font-bold text-[13px] md:text-base hover:bg-primary/90 transition-all shadow-lg shadow-primary/30 group whitespace-nowrap"
-            >
-              Shop Now
-              <span className="material-symbols-outlined text-base md:text-lg group-hover:translate-x-1 transition-transform">
-                arrow_forward
-              </span>
-            </Link>
-          ) : (
-            <Link
-              href="/shop"
-              className="flex-1 md:flex-none justify-center px-4 md:px-8 h-13 inline-flex items-center gap-1 md:gap-2 bg-primary text-white rounded-xl font-bold text-[13px] md:text-base hover:bg-primary/90 transition-all shadow-lg shadow-primary/30 group whitespace-nowrap"
-            >
-              Shop All
-              <span className="material-symbols-outlined text-base md:text-lg group-hover:translate-x-1 transition-transform">
-                arrow_forward
-              </span>
-            </Link>
-          )}
-          <Link
-            href="/contact"
-            className="flex-1 md:flex-none justify-center px-4 md:px-8 h-13 inline-flex items-center bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-xl font-bold text-[13px] md:text-base hover:bg-white/20 transition-all whitespace-nowrap"
-          >
-            Contact Us
-          </Link>
+        {/* The actual slide image stays fully visible, without a dark overlay. */}
+        <div className={`relative min-w-0 transition-all duration-400 ease-out motion-reduce:transition-none ${translateClass}`}>
+          <div aria-hidden="true" className="absolute inset-x-8 bottom-0 h-10 rounded-[50%] bg-black/10 blur-2xl dark:bg-black/40" />
+          <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm sm:rounded-3xl dark:border-white/10 dark:bg-[#1c1c1c]">
+            <img
+              key={slide.img}
+              src={slide.img}
+              alt={slide.title}
+              width={800}
+              height={600}
+              fetchPriority={current === 0 ? "high" : "auto"}
+              className="h-full w-full object-contain"
+            />
+          </div>
         </div>
       </div>
 
-      {/* Slide counter badge */}
       {data.length > 1 && (
-        <div className="absolute bottom-6 right-6 z-20 flex items-center gap-3">
-          {/* Dots */}
-          <div className="flex items-center gap-2">
-            {data.map((_, i) => (
+        <div className="relative mx-6 flex items-center justify-between gap-4 border-t border-black/10 py-5 sm:mx-10 lg:mx-14 dark:border-white/10">
+          <div className="flex min-w-0 flex-wrap items-center gap-1">
+            {data.map((item, i) => (
               <button
-                key={i}
+                key={item.id}
                 onClick={() => handleDot(i)}
                 aria-label={`Go to slide ${i + 1}`}
-                className={`transition-all duration-300 rounded-full ${
-                  i === current
-                    ? "w-8 h-2.5 bg-primary"
-                    : "w-2.5 h-2.5 bg-white/40 hover:bg-white/70"
-                }`}
-              />
+                aria-current={i === current ? "true" : undefined}
+                className="flex min-h-8 min-w-8 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              >
+                <span className={`h-2 rounded-full transition-all motion-reduce:transition-none ${i === current ? "w-7 bg-primary" : "w-2 bg-black/25 dark:bg-white/30"}`} />
+              </button>
             ))}
+          </div>
+          <div className="flex shrink-0 items-center gap-2">
+            <span className="mr-2 text-xs font-semibold tabular-nums text-gray-500 dark:text-gray-400">
+              {String(current + 1).padStart(2, "0")} / {String(data.length).padStart(2, "0")}
+            </span>
+            <button onClick={handlePrev} aria-label="Previous slide" className="flex size-10 items-center justify-center rounded-full border border-black/15 text-[#121714] transition-colors hover:border-primary hover:bg-primary hover:text-white dark:border-white/20 dark:text-white">
+              <span className="material-symbols-outlined text-xl">chevron_left</span>
+            </button>
+            <button onClick={handleNext} aria-label="Next slide" className="flex size-10 items-center justify-center rounded-full border border-black/15 text-[#121714] transition-colors hover:border-primary hover:bg-primary hover:text-white dark:border-white/20 dark:text-white">
+              <span className="material-symbols-outlined text-xl">chevron_right</span>
+            </button>
           </div>
         </div>
       )}
-
-      {/* Prev / Next arrows */}
-      {data.length > 1 && (
-        <>
-          <button
-            onClick={handlePrev}
-            aria-label="Previous slide"
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 hidden md:flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-white hover:bg-primary hover:border-primary transition-all shadow-lg"
-          >
-            <span className="material-symbols-outlined text-xl">
-              chevron_left
-            </span>
-          </button>
-          <button
-            onClick={handleNext}
-            aria-label="Next slide"
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 hidden md:flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-white hover:bg-primary hover:border-primary transition-all shadow-lg"
-          >
-            <span className="material-symbols-outlined text-xl">
-              chevron_right
-            </span>
-          </button>
-        </>
-      )}
-
-      {/* Progress bar */}
-      {data.length > 1 && (
-        <div className="absolute bottom-0 left-0 right-0 z-20 h-0.5 bg-white/10">
-          <div
-            key={current}
-            className="h-full bg-primary origin-left"
-            style={{
-              animation: `slideProgress ${AUTO_PLAY_INTERVAL}ms linear forwards`,
-            }}
-          />
-        </div>
-      )}
-
-      <style jsx>{`
-        @keyframes slideProgress {
-          from {
-            transform: scaleX(0);
-          }
-          to {
-            transform: scaleX(1);
-          }
-        }
-        .duration-400 {
-          transition-duration: 400ms;
-        }
-        .h-13 {
-          height: 3.25rem;
-        }
-      `}</style>
     </section>
   );
 }
