@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import ShopHeader from "./ShopHeader";
 import ProductCard from "./ProductCard";
-import Pagination from "./Pagination";
+import type { ShopFilters } from "@/lib/shop-products";
 import ShopIntro from "./ShopIntro";
 import {
   MobileFilterModal,
@@ -31,8 +31,7 @@ interface Product {
 interface ShopContentProps {
   products: Product[];
   totalProducts: number;
-  currentPage: number;
-  totalPages: number;
+  filters: ShopFilters;
   banner: {
     title: string;
     description: string | null;
@@ -60,10 +59,9 @@ interface ShopContentProps {
 }
 
 const ShopContent: React.FC<ShopContentProps> = ({
-  products,
+  products: initialProducts,
   totalProducts,
-  currentPage,
-  totalPages,
+  filters,
   banner,
   categories,
   selectedCategoryIds,
@@ -75,6 +73,60 @@ const ShopContent: React.FC<ShopContentProps> = ({
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [mobileSortOpen, setMobileSortOpen] = useState(false);
+
+  const [products, setProducts] = useState(initialProducts);
+  const [hasMore, setHasMore] = useState(initialProducts.length < totalProducts);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const sentinel = useRef<HTMLDivElement>(null);
+  const offset = useRef(initialProducts.length);
+  const activeRequest = useRef<AbortController | null>(null);
+
+  useEffect(() => () => activeRequest.current?.abort(), []);
+
+  const loadMore = useCallback(async () => {
+    if (activeRequest.current || !hasMore) return;
+    const controller = new AbortController();
+    activeRequest.current = controller;
+    setLoading(true);
+    setError(false);
+    const params = new URLSearchParams();
+    for (const [key, value] of Object.entries(filters)) {
+      if (value !== undefined && key !== "page") params.set(key, value);
+    }
+    params.set("offset", String(offset.current));
+    try {
+      const response = await fetch(`/api/shop/products?${params}`, {
+        signal: controller.signal,
+      });
+      if (!response.ok) throw new Error("Unable to load products");
+      const data: { products: Product[]; totalProducts: number } = await response.json();
+      if (controller.signal.aborted) return;
+      offset.current += data.products.length;
+      setProducts((previous) => {
+        const ids = new Set(previous.map((product) => product.id));
+        return [...previous, ...data.products.filter((product) => !ids.has(product.id))];
+      });
+      setHasMore(data.products.length > 0 && offset.current < data.totalProducts);
+    } catch {
+      if (!controller.signal.aborted) setError(true);
+    } finally {
+      if (!controller.signal.aborted) {
+        activeRequest.current = null;
+        setLoading(false);
+      }
+    }
+  }, [filters, hasMore]);
+
+  useEffect(() => {
+    const target = sentinel.current;
+    if (!target || !hasMore || error || loading) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) void loadMore();
+    }, { rootMargin: "200px" });
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [hasMore, error, loading, loadMore]);
 
   return (
     <section
@@ -140,7 +192,24 @@ const ShopContent: React.FC<ShopContentProps> = ({
         </div>
       )}
 
-      <Pagination currentPage={currentPage} totalPages={totalPages} />
+      {hasMore && (
+        <div ref={sentinel} className="flex min-h-16 items-center justify-center py-4">
+          {loading && (
+            <div role="status" className="flex items-center gap-3 text-sm text-[#648770]">
+              <span aria-hidden="true" className="size-5 animate-spin rounded-full border-2 border-current border-t-transparent motion-reduce:animate-none" />
+              Loading more products…
+            </div>
+          )}
+          {error && (
+            <div role="alert" className="flex items-center gap-3 text-sm text-[#648770]">
+              Couldn’t load more products.
+              <button type="button" onClick={() => void loadMore()} className="font-bold text-primary underline underline-offset-4">
+                Try again
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
       {mobileFiltersOpen && (
         <MobileFilterModal
