@@ -41,6 +41,7 @@ export default function QuickViewModal({
 
   const [activeIdx, setActiveIdx] = useState(0);
   const [imgErrors, setImgErrors] = useState<Record<number, boolean>>({});
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
   const [quantity, setQuantity] = useState(1);
   const [maxQty, setMaxQty] = useState<number>(1);
   const [stockLoaded, setStockLoaded] = useState(false);
@@ -192,6 +193,19 @@ export default function QuickViewModal({
                 {salePercent}% OFF
               </span>
             )}
+            {!loadedImages[images[activeIdx]] && !imgErrors[activeIdx] && (
+              <div
+                className="absolute inset-0 z-[1] flex flex-col items-center justify-center gap-3 bg-surface text-muted dark:bg-surface dark:text-muted"
+                role="status"
+                aria-live="polite"
+              >
+                <span
+                  aria-hidden="true"
+                  className="size-8 animate-spin rounded-full border-2 border-outline border-t-primary motion-reduce:animate-none"
+                />
+                <span className="text-xs font-medium">Loading image…</span>
+              </div>
+            )}
             {!imgErrors[activeIdx] ? (
               <Image
                 src={images[activeIdx]}
@@ -199,6 +213,12 @@ export default function QuickViewModal({
                 fill
                 sizes="(max-width: 768px) 90vw, 440px"
                 className="object-contain p-6"
+                onLoad={() =>
+                  setLoadedImages((loaded) => ({
+                    ...loaded,
+                    [images[activeIdx]]: true,
+                  }))
+                }
                 onError={() => setImgErrors((p) => ({ ...p, [activeIdx]: true }))}
               />
             ) : (
@@ -221,6 +241,12 @@ export default function QuickViewModal({
                     : "border-transparent hover:border-outline"
                 }`}
               >
+                {!loadedImages[src] && !imgErrors[i] && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute left-1/2 top-1/2 z-[1] size-5 -translate-x-1/2 -translate-y-1/2 animate-spin rounded-full border-2 border-outline border-t-primary motion-reduce:animate-none"
+                  />
+                )}
                 {!imgErrors[i] ? (
                   <Image
                     src={src}
@@ -228,6 +254,9 @@ export default function QuickViewModal({
                     fill
                     sizes="(max-width: 768px) 28vw, 130px"
                     className="object-contain p-1"
+                    onLoad={() =>
+                      setLoadedImages((loaded) => ({ ...loaded, [src]: true }))
+                    }
                     onError={() => setImgErrors((p) => ({ ...p, [i]: true }))}
                   />
                 ) : (
