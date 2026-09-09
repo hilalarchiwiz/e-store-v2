@@ -6,6 +6,7 @@ import Link from "next/link";
 import Button from "@/components/v2/Button";
 import ProductCard from "@/components/v2/ProductCard";
 import ReviewForm from "@/components/v2/ReviewForm";
+import ProductSpecifications from "@/components/v2/ProductSpecifications";
 import { addToCart } from "@/lib/action/cart.action";
 import { useWishlist } from "@/hooks/useWishlist";
 import { toast } from "react-hot-toast";
@@ -643,30 +644,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             </div>
           )}
           {activeTab === "specifications" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {product.specifications &&
-                Object.entries(product.specifications).map(([key, value]) => (
-                  <div
-                    key={key}
-                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 bg-[#f1f4f2] dark:bg-[#262626] rounded-2xl border border-transparent hover:border-primary/10 transition-all group"
-                  >
-                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] shrink-0">
-                      {key.replace(/([A-Z])/g, " $1").trim()}
-                    </span>
-                    <span className="text-sm font-bold text-[#121714] dark:text-white sm:text-right break-words max-w-full sm:max-w-[70%]">
-                      {String(value)}
-                    </span>
-                  </div>
-                ))}
-              {!product.specifications && (
-                <div className="col-span-full py-12 flex flex-col items-center justify-center text-gray-400 bg-[#f1f4f2] dark:bg-[#262626] rounded-3xl border-2 border-dashed border-gray-200 dark:border-white/5">
-                  <span className="material-symbols-outlined text-4xl mb-2">
-                    inventory_2
-                  </span>
-                  <p className="font-bold">No specifications available.</p>
-                </div>
-              )}
-            </div>
+            <ProductSpecifications specifications={product.specifications} />
           )}
           {activeTab === "reviews" && (
             <div className="flex flex-col gap-8">
