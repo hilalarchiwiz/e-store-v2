@@ -86,30 +86,30 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
     <section
       aria-label="Featured products"
       aria-roledescription="carousel"
-      className="relative mx-auto mt-4 mb-2 w-full overflow-hidden rounded-3xl border border-black/5 bg-[#eef1f0] shadow-xl shadow-black/5 dark:border-white/10 dark:bg-[#101010]"
+      className="relative mx-auto mt-4 mb-2 w-full overflow-hidden rounded-3xl border border-black/5 bg-[#eef1f0] dark:border-white/10 dark:bg-[#101010]"
     >
       {/* Soft neutral lighting and geometric detail frame the product. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,white,transparent_65%)] dark:bg-[radial-gradient(ellipse_at_top_left,#292929,transparent_65%)]" />
       <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-40 size-[600px] rounded-full border border-black/5 dark:border-white/5" />
       <div aria-hidden="true" className="pointer-events-none absolute -right-4 -top-20 size-[440px] rounded-full border border-black/5 dark:border-white/5" />
 
-      <div className="relative grid items-center gap-8 px-6 pt-9 pb-6 sm:px-10 sm:pt-12 md:min-h-[480px] md:grid-cols-[0.95fr_1.05fr] md:gap-6 lg:min-h-[540px] lg:gap-12 lg:px-14 lg:pt-14">
+      <div className="relative grid items-center gap-5 px-6 py-7 sm:px-10 sm:py-8 md:grid-cols-[0.95fr_1.05fr] md:gap-6 lg:gap-10 lg:px-12">
         <div className={`min-w-0 transition-all duration-400 ease-out motion-reduce:transition-none ${translateClass}`}>
-          <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-primary sm:text-xs">
+          <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-primary sm:text-xs">
             <span className="material-symbols-outlined text-base">laptop_mac</span>
             Premium Computing Gear
           </div>
-          <h1 className="max-w-xl text-3xl font-black leading-[1.08] tracking-tight text-[#121714] sm:text-4xl lg:text-5xl xl:text-6xl dark:text-white [overflow-wrap:anywhere]">
+          <h1 className="max-w-xl text-3xl font-black leading-[1.08] tracking-tight text-[#121714] sm:text-4xl lg:text-[2.75rem] xl:text-5xl dark:text-white [overflow-wrap:anywhere]">
             {slide.title}
           </h1>
-          <div aria-hidden="true" className="my-5 h-1 w-12 rounded-full bg-primary sm:my-6" />
-          <p className="max-w-lg text-sm leading-relaxed text-gray-600 sm:text-base lg:text-lg dark:text-gray-300">
+          <div aria-hidden="true" className="my-4 h-1 w-10 rounded-full bg-primary" />
+          <p className="max-w-lg text-sm leading-relaxed text-gray-600 sm:text-base dark:text-gray-300">
             {slide.description}
           </p>
-          <div className="mt-7 flex flex-wrap gap-3 sm:mt-8">
+          <div className="mt-5 flex flex-wrap gap-3">
             <Link
               href={slide.link || "/shop"}
-              className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/15 transition-colors hover:bg-primary-dark sm:px-7 sm:text-base"
+              className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-primary px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-primary-dark sm:px-7 sm:text-base"
             >
               {slide.link ? "Shop Now" : "Shop All"}
               <span className="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1 motion-reduce:transform-none">arrow_forward</span>
@@ -125,8 +125,7 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
 
         {/* The actual slide image stays fully visible, without a dark overlay. */}
         <div className={`relative min-w-0 transition-all duration-400 ease-out motion-reduce:transition-none ${translateClass}`}>
-          <div aria-hidden="true" className="absolute inset-x-8 bottom-0 h-10 rounded-[50%] bg-black/10 blur-2xl dark:bg-black/40" />
-          <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm sm:rounded-3xl dark:border-white/10 dark:bg-[#1c1c1c]">
+          <div className="relative flex h-52 items-center justify-center sm:h-64 md:h-72 lg:h-80">
             <img
               key={slide.img}
               src={slide.img}
@@ -134,14 +133,14 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
               width={800}
               height={600}
               fetchPriority={current === 0 ? "high" : "auto"}
-              className="h-full w-full object-contain"
+              className="h-full w-full object-contain mix-blend-multiply dark:mix-blend-normal"
             />
           </div>
         </div>
       </div>
 
       {data.length > 1 && (
-        <div className="relative mx-6 flex items-center justify-between gap-4 border-t border-black/10 py-5 sm:mx-10 lg:mx-14 dark:border-white/10">
+        <div className="relative mx-6 flex items-center justify-between gap-4 border-t border-black/10 py-3 sm:mx-10 lg:mx-12 dark:border-white/10">
           <div className="flex min-w-0 flex-wrap items-center gap-1">
             {data.map((item, i) => (
               <button
