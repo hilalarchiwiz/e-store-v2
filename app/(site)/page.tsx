@@ -3,7 +3,7 @@ import CategorySlider from "@/components/v2/CategorySlider";
 import NewArrivals from "@/components/v2/NewArrivals";
 import Banners from "@/components/v2/Banners";
 import BestSellers from "@/components/v2/BestSellers";
-import Countdown from "@/components/v2/Countdown";
+import HomepageFlashSale from "@/components/v2/HomepageFlashSale";
 import Feedback from "@/components/v2/Feedback";
 import Subscribe from "@/components/v2/Subscribe";
 import prisma from "@/lib/prisma";
@@ -269,7 +269,7 @@ export default async function V2HomePage() {
       <NewArrivals products={newArrivals} />
       <Banners banners={banners} />
       <BestSellers products={bestSellers} />
-      <Countdown />
+      <HomepageFlashSale />
       <Feedback reviews={latestReviews} />
       <Subscribe />
     </main>
