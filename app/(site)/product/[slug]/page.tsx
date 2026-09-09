@@ -1,3 +1,4 @@
+import { getStorefrontProductFilter } from "@/lib/storefront-products";
 import React from "react";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
@@ -20,6 +21,7 @@ export async function generateMetadata({
 
   const product = await prisma.product.findFirst({
     where: {
+      ...await getStorefrontProductFilter(),
       OR: [
         { slug: slug },
         ...(numericId ? [{ id: numericId }] : []),
@@ -67,6 +69,7 @@ export default async function ProductPage({ params }: PageProps) {
 
   const product = await prisma.product.findFirst({
     where: {
+      ...await getStorefrontProductFilter(),
       OR: [
         { slug: slug },
         ...(numericId ? [{ id: numericId }] : []),
@@ -88,7 +91,7 @@ export default async function ProductPage({ params }: PageProps) {
     where: {
       categoryId: product.categoryId,
       id: { not: product.id },
-      status: "active",
+      ...await getStorefrontProductFilter(),
     },
     take: 4,
     include: {

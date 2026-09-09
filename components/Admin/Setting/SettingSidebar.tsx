@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const SettingSidebar = () => {
     const pathname = usePathname();
     const menuItems = [
+        { id: 'product-visibility', label: 'Product Visibility', active: false, href: '/admin/setting/product-visibility' },
         { id: 'general', label: 'General Setting', active: true, href: '/admin/setting/general' },
         { id: 'logo', label: 'Logo and Favicon', active: false, href: '/admin/setting/logo' },
         { id: 'flash-sale', label: 'Homepage Flash Sale', active: false, href: '/admin/setting/flash-sale' },

@@ -1,3 +1,4 @@
+import { getStorefrontProductFilter } from "@/lib/storefront-products";
 import prisma from "@/lib/prisma";
 
 export interface ShopFilters {
@@ -69,7 +70,8 @@ export async function getShopProducts(resolvedSearchParams: ShopFilters, skip = 
   const sort = resolvedSearchParams.sort || "newest";
   const search = resolvedSearchParams.search?.trim() || "";
 
-  const where: any = { status: "active" };
+  const visibility = await getStorefrontProductFilter();
+  const where: any = { ...visibility };
 
   // Only apply price filter when explicitly set in URL
   if (resolvedSearchParams.minPrice || resolvedSearchParams.maxPrice) {
@@ -102,7 +104,7 @@ export async function getShopProducts(resolvedSearchParams: ShopFilters, skip = 
 
   const laptopGenerationCandidates = isLaptopCategory
     ? await prisma.product.findMany({
-      where: { categoryId: categoryIds[0], status: "active" },
+      where: { categoryId: categoryIds[0], ...visibility },
       select: { id: true, title: true },
     })
     : [];
@@ -172,7 +174,7 @@ export async function getShopProducts(resolvedSearchParams: ShopFilters, skip = 
     if (pageProductIds.length === 0) return [];
 
     const pageProducts = await prisma.product.findMany({
-      where: { id: { in: pageProductIds } },
+      where: { ...visibility, id: { in: pageProductIds } },
       include,
     });
     const productsById = new Map(

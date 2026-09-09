@@ -1,5 +1,6 @@
 'use server';
 
+import { getStorefrontProductFilter } from "@/lib/storefront-products";
 import prisma from '@/lib/prisma';
 import { getOrCreateAnonymousId } from '@/lib/session';
 import { revalidatePath } from 'next/cache';
@@ -65,7 +66,7 @@ export async function getWishlist() {
   try {
     const anonymousId = await getOrCreateAnonymousId();
     const items = await prisma.wishlist.findMany({
-      where: { anonymousId },
+      where: { anonymousId, product: await getStorefrontProductFilter() },
       include: {
         product: {
           include: { category: true }
@@ -84,7 +85,7 @@ export async function getWishlistProductIds() {
   try {
     const anonymousId = await getOrCreateAnonymousId();
     const items = await prisma.wishlist.findMany({
-      where: { anonymousId },
+      where: { anonymousId, product: await getStorefrontProductFilter() },
       select: { productId: true }
     });
     return items.map(i => i.productId);

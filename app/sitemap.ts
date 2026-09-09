@@ -1,3 +1,4 @@
+import { getStorefrontProductFilter } from "@/lib/storefront-products";
 import prisma from '@/lib/prisma';
 import { MetadataRoute } from 'next';
 
@@ -21,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // 2. Dynamic Product Routes
     const products = await prisma.product.findMany({
-        where: { status: 'active' },
+        where: await getStorefrontProductFilter(),
         select: { id: true, updatedAt: true },
     });
     const productRoutes = products.map((product) => ({

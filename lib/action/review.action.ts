@@ -1,6 +1,7 @@
 'use server';
 
 import prisma from '@/lib/prisma';
+import { getStorefrontProductFilter } from '@/lib/storefront-products';
 import { revalidatePath } from 'next/cache';
 
 export interface CreateReviewData {
@@ -36,6 +37,7 @@ export async function createReview(data: CreateReviewData) {
 export async function getLatestReviews(limit: number = 8) {
   try {
     return await prisma.review.findMany({
+      where: { product: await getStorefrontProductFilter() },
       orderBy: { createdAt: 'desc' },
       take: limit,
       select: {

@@ -1,3 +1,4 @@
+import { getStorefrontProductFilter } from "@/lib/storefront-products";
 import Hero from "@/components/v2/Hero";
 import CategorySlider from "@/components/v2/CategorySlider";
 import NewArrivals from "@/components/v2/NewArrivals";
@@ -63,12 +64,13 @@ export type HeroSlide = {
 };
 
 export default async function V2HomePage() {
+  const visibility = await getStorefrontProductFilter();
   const categoriesData = await prisma.category.findMany({
     where: {
       status: "active",
       products: {
         some: {
-          status: "active"
+          ...visibility
         }
       }
     },
@@ -79,7 +81,7 @@ export default async function V2HomePage() {
       _count: {
         select: {
           products: {
-            where: { status: "active" },
+            where: visibility,
           },
         },
       },
@@ -96,7 +98,7 @@ export default async function V2HomePage() {
     }));
   const newArrivalsData = await prisma.product.findMany({
     where: {
-      status: "active",
+      ...visibility,
       category: {
         title: {
           equals: "Laptops",
@@ -157,7 +159,7 @@ export default async function V2HomePage() {
 
   const bestSellersData = await prisma.product.findMany({
     where: {
-      status: "active",
+      ...visibility,
       category: {
         title: {
           equals: "Laptops",

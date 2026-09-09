@@ -1,3 +1,4 @@
+import { getStorefrontProductFilter } from "@/lib/storefront-products";
 import Breadcrumbs from "@/components/v2/Breadcrumbs";
 import FilterSidebar from "@/components/v2/FilterSidebar";
 import ShopContent from "@/components/v2/ShopContent";
@@ -84,6 +85,7 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
 
 const ShopPage = async ({ searchParams }: ShopPageProps) => {
   const resolvedSearchParams = await searchParams;
+  const visibility = await getStorefrontProductFilter();
   const { products, totalProducts, categoryIds, laptopGenerations, search } =
     await getShopProducts(resolvedSearchParams);
 
@@ -100,7 +102,7 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
           status: "active",
           products: {
             some: {
-              status: "active"
+              ...visibility
             }
           },
         },
@@ -109,7 +111,7 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
             select: {
               products: {
                 where: {
-                  status: "active"
+                  ...visibility
                 }
               },
             },
@@ -121,20 +123,20 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
         where: {
           status: "active", products: {
             some: {
-              status: "active"
+              ...visibility
             }
           },
         },
         include: {
           _count: {
             select: {
-              products: { where: { status: "active" } },
+              products: { where: visibility },
             },
           },
         },
       }),
       prisma.product.aggregate({
-        where: { status: "active" },
+        where: visibility,
         _max: { price: true },
       }),
       prisma.banner.findFirst({

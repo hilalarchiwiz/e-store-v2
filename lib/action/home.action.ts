@@ -1,4 +1,5 @@
 'use server'
+import { getStorefrontProductFilter } from "@/lib/storefront-products";
 import { revalidatePath, unstable_cache } from "next/cache"
 import { PAGE_SIZE } from "../constant"
 import generateSession from "../generate-session"
@@ -77,7 +78,7 @@ export async function getCategories({ searchParams = {} }: { searchParams?: any 
                                 products: {
                                     where: {
                                         ...baseWhere,
-                                        status: 'active'
+                                        ...await getStorefrontProductFilter()
                                     }
                                 }
                             }
@@ -136,7 +137,7 @@ export async function getBrands({ searchParams = {} }: { searchParams?: any } = 
                                 products: {
                                     where: {
                                         ...baseWhere,
-                                        status: 'active'
+                                        ...await getStorefrontProductFilter()
                                     }
                                 }
                             }
@@ -179,7 +180,7 @@ export async function getProductById(id: number) {
         const product = await prisma.product.findUnique({
             where: {
                 id: id,
-                status: 'active' // Add this line
+                ...await getStorefrontProductFilter()
             },
             include: {
                 category: true,
@@ -229,7 +230,7 @@ export async function getCategoryProduct(categoryId: number | undefined) {
         const products = await prisma.product.findMany({
             where: {
                 categoryId,
-                status: 'active' // Add this line
+                ...await getStorefrontProductFilter()
             },
             include: {
                 category: true,
@@ -299,9 +300,7 @@ export async function getProducts({
                 const currentPage = Math.max(Number(page), 1);
                 const skip = (currentPage - 1) * PAGE_SIZE;
 
-                const where: any = {
-                    status: 'active'
-                };
+                const where: any = { ...await getStorefrontProductFilter() };
                 if (catId) {
                     where.categoryId = catId;
                 } else if (category) {
@@ -409,7 +408,7 @@ export async function getProducts({
 
 export async function getPriceRange() {
     const stats = await prisma.product.aggregate({
-        where: { status: 'active' }, // Add this line
+        where: await getStorefrontProductFilter(), // Add this line
         _min: { discountedPrice: true },
         _max: { price: true },
     });
@@ -424,14 +423,14 @@ export async function getRandomProducts() {
     try {
         // 1. Get the total number of products
         const productCount = await prisma.product.count({
-            where: { status: 'active' } // Add this line
+            where: await getStorefrontProductFilter() // Add this line
         });
         if (productCount === 0) return { success: true, products: [] };
 
         const skip = Math.max(0, Math.floor(Math.random() * productCount) - 2);
 
         const products = await prisma.product.findMany({
-            where: { status: 'active' }, // Add this line
+            where: await getStorefrontProductFilter(), // Add this line
             take: 2,
             skip: skip,
             include: {
@@ -489,7 +488,7 @@ export async function trackProductView(productId: number, userId?: string) {
 export async function getRecentlyViewedProducts(userId?: string, page: number = 1, pageSize: number = PAGE_SIZE) {
     try {
         const anonymousId = await getOrCreateAnonymousId();
-        const whereClause = userId ? { userId } : { anonymousId: anonymousId };
+        const whereClause = { ...(userId ? { userId } : { anonymousId }), product: await getStorefrontProductFilter() };
 
         // 1. Get total count for pagination math
         const totalCount = await prisma.recentlyViewed.count({ where: whereClause });
@@ -582,6 +581,7 @@ export async function getProductToWishlists(userId: string | undefined) {
         const anonymousId = await getOrCreateAnonymousId();
         const items = await prisma.wishlist.findMany({
             where: {
+                product: await getStorefrontProductFilter(),
                 OR: [
                     { userId: userId || "undefined" },
                     { anonymousId: anonymousId || "undefined" }
@@ -998,6 +998,7 @@ export async function getWishlistCount() {
 
         const count = await prisma.wishlist.count({
             where: {
+                product: await getStorefrontProductFilter(),
                 OR: [
                     { userId: userId || undefined },
                     { anonymousId: anonymousId || undefined },
