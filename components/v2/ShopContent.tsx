@@ -73,6 +73,7 @@ const ShopContent: React.FC<ShopContentProps> = ({
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [mobileSortOpen, setMobileSortOpen] = useState(false);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
 
   const [products, setProducts] = useState(initialProducts);
   const [hasMore, setHasMore] = useState(initialProducts.length < totalProducts);
@@ -83,6 +84,13 @@ const ShopContent: React.FC<ShopContentProps> = ({
   const activeRequest = useRef<AbortController | null>(null);
 
   useEffect(() => () => activeRequest.current?.abort(), []);
+
+  useEffect(() => {
+    const updateScrollButton = () => setShowScrollToTop(window.scrollY > 400);
+    updateScrollButton();
+    window.addEventListener("scroll", updateScrollButton, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrollButton);
+  }, []);
 
   const loadMore = useCallback(async () => {
     if (activeRequest.current || !hasMore) return;
@@ -224,6 +232,21 @@ const ShopContent: React.FC<ShopContentProps> = ({
       {mobileSortOpen && (
         <MobileSortModal onClose={() => setMobileSortOpen(false)} />
       )}
+
+      <button
+        type="button"
+        aria-label="Back to top"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className={`fixed right-4 bottom-4 z-40 flex size-11 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-all duration-200 hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 motion-reduce:transition-none sm:right-6 sm:bottom-6 ${
+          showScrollToTop
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none translate-y-3 opacity-0"
+        }`}
+      >
+        <span aria-hidden="true" className="material-symbols-outlined">
+          keyboard_arrow_up
+        </span>
+      </button>
     </section>
   );
 };
