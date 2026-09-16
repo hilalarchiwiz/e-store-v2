@@ -22,6 +22,9 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       "Upgrade your workspace with high-performance laptops, tablets, and PC gear. Discover the latest tech, new arrivals, and exclusive deals at Qaam.pk.",
     metadataBase: new URL("https://qaam.pk"),
+    verification: {
+      google: "HDMVHQt5Tabe8oJsqORNh-nw_KPwd7jZQ3Q17_B8bIA",
+    },
     icons: {
       icon: setting?.favicon, // This sets the dynamic favicon
       shortcut: setting?.favicon,
