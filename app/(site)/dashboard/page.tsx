@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
@@ -128,7 +130,7 @@ export default function DashboardPage() {
             <div
               className={`size-12 ${stat.color} text-white rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform`}
             >
-              <span className="material-symbols-outlined">{stat.icon}</span>
+              <SiteIcon >{stat.icon}</SiteIcon>
             </div>
             <p className="text-muted dark:text-muted text-xs font-bold uppercase tracking-widest mb-1">
               {stat.label}
@@ -151,18 +153,18 @@ export default function DashboardPage() {
             className="text-sm font-bold text-primary flex items-center gap-1 transition-colors group"
           >
             <span className="group-hover:underline">View All</span>
-            <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">
+            <SiteIcon className="text-base transition-transform group-hover:translate-x-1">
               arrow_forward
-            </span>
+            </SiteIcon>
           </Link>
         </div>
 
         {recentOrders.length === 0 ? (
           <div className="p-12 text-center">
             <div className="size-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <span className="material-symbols-outlined text-3xl text-primary">
+              <SiteIcon className="text-3xl text-primary">
                 receipt_long
-              </span>
+              </SiteIcon>
             </div>
             <p className="font-bold text-foreground dark:text-foreground mb-1">
               No orders yet
@@ -174,9 +176,9 @@ export default function DashboardPage() {
               href="/shop"
               className="inline-flex items-center gap-2 bg-primary text-white font-black px-6 py-3 rounded-2xl hover:bg-primary/90 transition-all text-sm"
             >
-              <span className="material-symbols-outlined text-lg">
+              <SiteIcon className="text-lg">
                 storefront
-              </span>
+              </SiteIcon>
               Browse Shop
             </Link>
           </div>
@@ -266,16 +268,16 @@ export default function DashboardPage() {
             <div
               className={`size-11 rounded-xl flex items-center justify-center ${item.color} shrink-0`}
             >
-              <span className="material-symbols-outlined text-xl">
+              <SiteIcon className="text-xl">
                 {item.icon}
-              </span>
+              </SiteIcon>
             </div>
             <span className="font-black text-sm text-foreground dark:text-foreground group-hover:text-primary transition-colors">
               {item.label}
             </span>
-            <span className="material-symbols-outlined text-gray-300 ml-auto group-hover:text-primary transition-colors text-base">
+            <SiteIcon className="text-gray-300 ml-auto group-hover:text-primary transition-colors text-base">
               chevron_right
-            </span>
+            </SiteIcon>
           </Link>
         ))}
       </div>

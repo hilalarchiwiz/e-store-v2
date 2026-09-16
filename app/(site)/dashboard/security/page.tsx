@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "react-hot-toast";
@@ -79,7 +81,7 @@ export default function SecurityPage() {
         <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
           <div className="flex items-center gap-4 mb-8">
             <div className="size-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center">
-              <span className="material-symbols-outlined">key</span>
+              <SiteIcon >key</SiteIcon>
             </div>
             <h2 className="text-xl font-black text-foreground dark:text-foreground">
               Change Password

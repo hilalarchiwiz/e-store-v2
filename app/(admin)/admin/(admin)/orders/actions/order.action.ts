@@ -1,4 +1,5 @@
 'use server'
+import { notifyCustomerOrderStatus } from "@/lib/customer-order-notification";
 import { PAGE_SIZE } from "@/lib/constant";
 import prisma from "@/lib/prisma";
 import { OrderStatus, PaymentStatus, Prisma } from "@prisma/client";
@@ -125,11 +126,22 @@ export async function getOrders(searchParams: { search?: string; page?: string; 
 
 
 export async function updateOrderStatus(orderId: string, status: OrderStatus) {
-    await prisma.order.update({
-        where: { id: orderId },
-        data: { status }
+    return withPermission("order_status_manage", async () => {
+        if (!orderId || !Object.values(OrderStatus).includes(status)) {
+            return { success: false, message: "A valid order and status are required." };
+        }
+        const previous = await prisma.order.findUniqueOrThrow({ where: { id: orderId } });
+        const order = await prisma.order.update({
+            where: { id: orderId, updatedAt: previous.updatedAt },
+            data: { status },
+            include: { billingAddress: true, user: true },
+        });
+        revalidatePath("/admin/orders");
+        revalidatePath(`/admin/orders/${orderId}/invoice`);
+        revalidatePath("/dashboard/orders");
+        const emailWarning = await notifyCustomerOrderStatus(previous.status, order);
+        return { success: true, message: "Order status saved successfully.", emailWarning };
     });
-    revalidatePath("/admin/orders");
 }
 
 export async function updatePaymentStatus(orderId: string, paymentStatus: PaymentStatus) {
@@ -158,10 +170,10 @@ export async function saveInvoice(input: SaveInvoiceInput) {
             return { success: false, message: "Please select a valid payment status." };
         }
 
-        const updatedOrder = await prisma.$transaction(async (tx) => {
+        const { updatedOrder, previousStatus } = await prisma.$transaction(async (tx) => {
             const order = await tx.order.findUnique({
                 where: { id: input.orderId },
-                select: { subtotal: true, shippingFee: true, amountPaid: true },
+                select: { subtotal: true, shippingFee: true, amountPaid: true, status: true, updatedAt: true },
             });
 
             if (!order) {
@@ -183,8 +195,8 @@ export async function saveInvoice(input: SaveInvoiceInput) {
                 throw new Error("Record the full payment before marking this invoice as paid.");
             }
 
-            return tx.order.update({
-                where: { id: input.orderId },
+            const updatedOrder = await tx.order.update({
+                where: { id: input.orderId, updatedAt: order.updatedAt },
                 data: {
                     status: orderStatus,
                     paymentStatus: isFullyPaid ? PaymentStatus.PAID : paymentStatus,
@@ -201,17 +213,34 @@ export async function saveInvoice(input: SaveInvoiceInput) {
                     amountPaid: true,
                     total: true,
                     updatedAt: true,
+                    orderNumber: true,
+                    billingAddress: { select: { email: true, firstName: true } },
+                    user: { select: { email: true, name: true } },
                 },
             });
+            return { updatedOrder, previousStatus: order.status };
         });
 
         revalidatePath("/admin/orders");
         revalidatePath(`/admin/orders/${input.orderId}/invoice`);
 
+        revalidatePath("/dashboard/orders");
+        const emailWarning = await notifyCustomerOrderStatus(previousStatus, updatedOrder);
+
         return {
             success: true,
             message: "Invoice saved successfully.",
-            invoice: updatedOrder,
+            emailWarning,
+            invoice: {
+                id: updatedOrder.id,
+                status: updatedOrder.status,
+                paymentStatus: updatedOrder.paymentStatus,
+                discount: updatedOrder.discount,
+                discountInput: updatedOrder.discountInput,
+                amountPaid: updatedOrder.amountPaid,
+                total: updatedOrder.total,
+                updatedAt: updatedOrder.updatedAt,
+            },
         };
     });
 }

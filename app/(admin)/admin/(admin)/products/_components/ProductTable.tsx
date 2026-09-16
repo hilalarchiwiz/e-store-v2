@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { bulkSetOutOfStockVisibility } from "../(actions)/product-list.action";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -26,6 +28,7 @@ interface ProductTableProps {
   products: any[];
   currentPage: number;
   limit: number;
+  showOutOfStock: boolean;
   canEdit: boolean;
   canDelete: boolean;
   canView: boolean;
@@ -35,6 +38,7 @@ export default function ProductTable({
   products,
   currentPage,
   limit,
+  showOutOfStock,
   canEdit,
   canDelete,
   canView,
@@ -48,7 +52,41 @@ export default function ProductTable({
   const [selectedProductForQuickEdit, setSelectedProductForQuickEdit] =
     useState<QuickEditProduct | null>(null);
 
+  const router = useRouter();
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
+  const selectableProducts = products.filter(p => p.quantity <= 0 && p.status !== "draft");
+  const allSelected = selectableProducts.length > 0 && selectableProducts.every(p => selectedIds.includes(p.id));
+
+  const setVisibility = async (visible: boolean) => {
+    setIsSaving(true);
+    try {
+      const result = await bulkSetOutOfStockVisibility(selectedIds, visible);
+      if (!result.success) {
+        toast.error(result.message || "Unable to update visibility.");
+        return;
+      }
+      toast.success(result.message);
+      setSelectedIds([]);
+      router.refresh();
+    } catch {
+      toast.error("Unable to update visibility. Please try again.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const productColumns = [
+    ...(canEdit ? [{
+      header: "Select",
+      accessor: (product: any) => (
+        <input type="checkbox" aria-label={`Select ${product.title}`}
+          disabled={isSaving || product.quantity > 0 || product.status === "draft"}
+          checked={selectedIds.includes(product.id)}
+          onChange={event => setSelectedIds(ids => event.target.checked ? [...ids, product.id] : ids.filter(id => id !== product.id))}
+          className="size-4 accent-emerald-600" />
+      ),
+    }] : []),
     {
       header: "SN",
       accessor: (_: any, index: number) =>
@@ -154,6 +192,24 @@ export default function ProductTable({
 
   return (
     <>
+      {canEdit && (
+        <div className="space-y-3 border-b px-6 py-4">
+          <p className="text-sm text-gray-600">Select out-of-stock products to hide (inactive) or show (active). Drafts cannot be selected. Hidden products remain inactive after restocking.</p>
+          {!showOutOfStock && <p className="text-sm text-amber-700">The global visibility setting currently hides all out-of-stock products, including active ones. Enable “Show out-of-stock products” in Product Visibility settings to display active products.</p>}
+          <div className="flex flex-wrap items-center gap-4">
+            <label className="flex items-center gap-2 text-sm">
+              <input type="checkbox" checked={allSelected} disabled={isSaving || !selectableProducts.length}
+                ref={element => { if (element) element.indeterminate = selectedIds.length > 0 && !allSelected; }}
+                onChange={event => setSelectedIds(event.target.checked ? selectableProducts.map(p => p.id) : [])}
+                className="size-4 accent-emerald-600" />
+              Select all out-of-stock products on this page
+            </label>
+            <span className="text-sm" aria-live="polite">{selectedIds.length} selected</span>
+            <button type="button" disabled={isSaving || !selectedIds.length} onClick={() => setVisibility(false)} className="rounded bg-gray-800 px-3 py-2 text-sm text-white disabled:opacity-40">{isSaving ? "Updating…" : "Hide selected"}</button>
+            <button type="button" disabled={isSaving || !selectedIds.length} onClick={() => setVisibility(true)} className="rounded bg-emerald-600 px-3 py-2 text-sm text-white disabled:opacity-40">{isSaving ? "Updating…" : "Show selected"}</button>
+          </div>
+        </div>
+      )}
       <DataTable data={products} columns={productColumns} />
 
       {selectedProductForQuickEdit && (

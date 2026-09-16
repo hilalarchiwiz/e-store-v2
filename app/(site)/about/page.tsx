@@ -27,42 +27,42 @@ const DEFAULT_SERVICES = [
   {
     title: 'Laptops',
     description: 'Refurbished laptops with powerful performance for work, study and gaming.',
-    image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85',
+    image: '/about-images/laptop.png',
   },
   {
     title: 'Tablets',
     description: 'Reliable tablets for entertainment, learning and productivity.',
-    image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=900&q=85',
+    image: '/about-images/tablets.png',
   },
   {
     title: 'Computers',
     description: 'Desktop systems built for speed, stability and everyday computing needs.',
-    image: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=900&q=85',
+    image: '/about-images/computers.png',
   },
   {
     title: 'LEDs',
     description: 'High-quality LED monitors and displays for sharp, vivid visuals.',
-    image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=900&q=85',
+    image: '/about-images/leds.png',
   },
   {
     title: 'Gadgets',
     description: 'Smart, useful gadgets that make everyday life easier and more enjoyable.',
-    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=85',
+    image: '/about-images/gadgets.png',
   },
   {
     title: 'Projectors',
     description: 'Projectors for presentations, movies and big-screen experiences.',
-    image: 'https://images.unsplash.com/photo-1528395874238-34ebe249b3f2?auto=format&fit=crop&w=900&q=85',
+    image: '/about-images/projectors.png',
   },
   {
     title: 'Batteries',
     description: 'Long-lasting batteries that keep your devices powered when you need them.',
-    image: 'https://images.unsplash.com/photo-1609592424824-4d40193b2617?auto=format&fit=crop&w=900&q=85',
+    image: '/about-images/batteries.png',
   },
   {
     title: 'Laptop Parts & Accessories',
     description: 'Quality parts and accessories to maintain, protect and upgrade your devices.',
-    image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=900&q=85',
+    image: '/about-images/laptop-parts-accessories.png',
   },
 ];
 
@@ -98,10 +98,10 @@ const DEFAULT_STATS = [
 function isImage(value?: string | null) {
   return Boolean(
     value &&
-      (value.startsWith('/') ||
-        value.startsWith('http://') ||
-        value.startsWith('https://') ||
-        /\.(png|jpe?g|webp|gif|svg)$/i.test(value)),
+    (value.startsWith('/') ||
+      value.startsWith('http://') ||
+      value.startsWith('https://') ||
+      /\.(png|jpe?g|webp|gif|svg)$/i.test(value)),
   );
 }
 
@@ -233,7 +233,7 @@ export default async function AboutPage() {
   }));
 
   return (
-    <main className="about-page bg-surface text-foreground transition-colors dark:bg-surface dark:text-foreground">
+    <main className="about-page  text-foreground transition-colors dark:text-foreground">
       <div className="mx-auto hidden w-full max-w-[1600px] px-4 pb-2 pt-5 sm:block sm:px-6 lg:px-10">
         <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
       </div>
@@ -272,6 +272,23 @@ export default async function AboutPage() {
           </div>
         </section>
 
+        <section aria-label="QAAM at a glance" className="rounded-xl surface dark:surface border border-black/5 bg-surface px-1 py-3 shadow-[0_8px_30px_rgba(0,0,0,.10)] dark:border-white/10 dark:bg-surface sm:rounded-2xl sm:p-6">
+          <div className="grid grid-cols-4 gap-0">
+            {stats.map((stat, index) => (
+              <div key={`${stat.label}-${index}`} className="flex min-w-0 flex-col items-center justify-center gap-1 border-r border-black/10 px-1 text-center last:border-r-0 dark:border-white/10 sm:flex-row sm:gap-3 sm:px-4 sm:text-left lg:px-7">
+                <span className="shrink-0 text-primary">
+                  <DynamicIcon name={stat.icon} fallback="BadgeCheck" size={24} />
+                </span>
+                <div className="min-w-0">
+                  <p className="break-words text-[8px] font-black leading-tight sm:text-lg lg:text-xl">{stat.value}</p>
+                  <p className="mt-0.5 break-words text-[7px] font-semibold leading-tight text-muted dark:text-white/65 sm:mt-1 sm:text-xs lg:text-sm">{stat.label}</p>
+                  <span className="sr-only">{stat.detail}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <section className="overflow-hidden rounded-xl bg-surface p-4 dark:bg-surface sm:rounded-2xl sm:p-8 lg:p-10">
           <div className="grid items-center gap-5 sm:gap-8 lg:grid-cols-[.78fr_1.22fr] lg:gap-12">
             <div className="text-center sm:text-left">
@@ -296,22 +313,7 @@ export default async function AboutPage() {
           </div>
         </section>
 
-        <section aria-label="QAAM at a glance" className="rounded-xl border border-black/5 bg-surface px-1 py-3 shadow-[0_8px_30px_rgba(0,0,0,.10)] dark:border-white/10 dark:bg-surface sm:rounded-2xl sm:p-6">
-          <div className="grid grid-cols-4 gap-0">
-            {stats.map((stat, index) => (
-              <div key={`${stat.label}-${index}`} className="flex min-w-0 flex-col items-center justify-center gap-1 border-r border-black/10 px-1 text-center last:border-r-0 dark:border-white/10 sm:flex-row sm:gap-3 sm:px-4 sm:text-left lg:px-7">
-                <span className="shrink-0 text-primary">
-                  <DynamicIcon name={stat.icon} fallback="BadgeCheck" size={24} />
-                </span>
-                <div className="min-w-0">
-                  <p className="break-words text-[8px] font-black leading-tight sm:text-lg lg:text-xl">{stat.value}</p>
-                  <p className="mt-0.5 break-words text-[7px] font-semibold leading-tight text-muted dark:text-white/65 sm:mt-1 sm:text-xs lg:text-sm">{stat.label}</p>
-                  <span className="sr-only">{stat.detail}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+
 
         <section className="text-center sm:text-left">
           <SectionLabel>{whatWeDoSetting.eyebrow || 'What we do'}</SectionLabel>
@@ -325,7 +327,7 @@ export default async function AboutPage() {
             {services.map((service: any, index: number) => (
               <article key={`${service.title}-${index}`} className="group overflow-hidden rounded-lg border border-black/10 bg-surface p-2 shadow-[0_3px_12px_rgba(0,0,0,.08)] transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-surface sm:rounded-xl sm:p-3">
                 <div className="h-28 overflow-hidden rounded-md bg-surface sm:h-52 sm:rounded-lg">
-                  <img src={service.image} alt={service.title} className="h-full w-full object-contain p-1 transition duration-500 group-hover:scale-105" />
+                  <img src={service.image} alt={service.title} className="h-full w-full object-contain transition duration-500 group-hover:scale-105" />
                 </div>
                 <div className="px-0.5 pb-1 pt-2.5 sm:px-1 sm:pb-2 sm:pt-4">
                   <h3 className="text-[12px] font-black leading-tight sm:text-lg">{service.title}</h3>
@@ -349,7 +351,7 @@ export default async function AboutPage() {
           ))}
         </section>
 
-        <section className="grid items-center gap-5 py-1 sm:gap-9 sm:py-3 xl:grid-cols-[.92fr_1fr_.72fr]">
+        <section className="grid items-center gap-5 py-1 sm:gap-9 sm:py-3 xl:grid-cols-2">
           <div className="text-center sm:text-left">
             <SectionLabel>{whyChooseSetting.eyebrow || 'Why choose QAAM?'}</SectionLabel>
             <h2 className="mt-2 whitespace-pre-line text-xl font-black leading-tight tracking-tight sm:mt-3 sm:text-4xl">
@@ -368,7 +370,7 @@ export default async function AboutPage() {
             </Link>
           </div>
 
-          <div className="hidden gap-5 sm:grid sm:grid-cols-2">
+          {/* <div className="hidden gap-5 sm:grid sm:grid-cols-2">
             {benefits.map((benefit: any, index: number) => (
               <div key={`${benefit.title}-${index}`} className="flex items-start gap-4">
                 <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -380,7 +382,7 @@ export default async function AboutPage() {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
 
           <div className="relative h-64 overflow-hidden rounded-lg sm:h-80 sm:rounded-xl xl:h-[330px]">
             <img src={whyChooseSetting.image || SHOWROOM_IMAGE} alt="QAAM quality testing and customer support" className="h-full w-full object-cover" />

@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -292,9 +294,9 @@ export default function CheckoutPage() {
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm font-bold text-muted hover:text-primary transition-colors mb-4 w-fit">
           <Link href="/cart" className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-base">
+            <SiteIcon className="text-base">
               arrow_back
-            </span>
+            </SiteIcon>
             Back to Cart
           </Link>
         </div>
@@ -313,7 +315,7 @@ export default function CheckoutPage() {
           <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
             <div className="flex items-center gap-3 border-b border-outline dark:border-white/5 pb-6 mb-8">
               <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-                <span className="material-symbols-outlined">location_on</span>
+                <SiteIcon >location_on</SiteIcon>
               </div>
               <h2 className="text-2xl font-black text-foreground dark:text-foreground">
                 Delivery Address
@@ -383,9 +385,9 @@ export default function CheckoutPage() {
                       : "border-dashed border-outline dark:border-white/20 hover:border-primary/50"
                     }`}
                 >
-                  <span className="material-symbols-outlined text-primary">
+                  <SiteIcon className="text-primary">
                     add_circle
-                  </span>
+                  </SiteIcon>
                   <span className="font-bold text-sm text-foreground dark:text-foreground">
                     Use a different address
                   </span>
@@ -484,9 +486,9 @@ export default function CheckoutPage() {
           <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
             <div className="flex items-center gap-3 border-b border-outline dark:border-white/5 pb-6 mb-8">
               <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-                <span className="material-symbols-outlined">
+                <SiteIcon >
                   local_shipping
-                </span>
+                </SiteIcon>
               </div>
               <h2 className="text-2xl font-black text-foreground dark:text-foreground">
                 Shipping Method
@@ -538,7 +540,7 @@ export default function CheckoutPage() {
           <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
             <div className="flex items-center gap-3 border-b border-outline dark:border-white/5 pb-6 mb-8">
               <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-                <span className="material-symbols-outlined">credit_card</span>
+                <SiteIcon >credit_card</SiteIcon>
               </div>
               <h2 className="text-2xl font-black text-foreground dark:text-foreground">
                 Payment Method
@@ -567,9 +569,9 @@ export default function CheckoutPage() {
                     )}
                   </div>
                   <div className="size-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary shrink-0">
-                    <span className="material-symbols-outlined">
+                    <SiteIcon >
                       {option.icon}
-                    </span>
+                    </SiteIcon>
                   </div>
                   <div>
                     <p className="font-black text-sm text-foreground dark:text-foreground">
@@ -596,7 +598,7 @@ export default function CheckoutPage() {
           <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
             <div className="flex items-center gap-3 border-b border-outline dark:border-white/5 pb-6 mb-8">
               <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-                <span className="material-symbols-outlined">note</span>
+                <SiteIcon >note</SiteIcon>
               </div>
               <div>
                 <h2 className="text-xl font-black text-foreground dark:text-foreground">
@@ -620,9 +622,9 @@ export default function CheckoutPage() {
           {/* Coupon */}
           <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-6">
             <h3 className="font-black text-foreground dark:text-foreground mb-4 flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary text-xl">
+              <SiteIcon className="text-primary text-xl">
                 local_offer
-              </span>
+              </SiteIcon>
               Promo Code
             </h3>
             {couponApplied ? (
@@ -639,9 +641,9 @@ export default function CheckoutPage() {
                   onClick={handleRemoveCoupon}
                   className="text-red-400 hover:text-red-500 transition-colors"
                 >
-                  <span className="material-symbols-outlined text-lg">
+                  <SiteIcon className="text-lg">
                     close
-                  </span>
+                  </SiteIcon>
                 </button>
               </div>
             ) : (
@@ -660,9 +662,9 @@ export default function CheckoutPage() {
                   className="bg-primary text-white text-sm font-black px-4 py-2.5 rounded-xl hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {couponLoading ? (
-                    <span className="material-symbols-outlined text-lg animate-spin">
+                    <SiteIcon className="text-lg animate-spin">
                       progress_activity
-                    </span>
+                    </SiteIcon>
                   ) : (
                     "Apply"
                   )}
@@ -763,16 +765,16 @@ export default function CheckoutPage() {
             >
               {submitting ? (
                 <>
-                  <span className="material-symbols-outlined text-xl animate-spin">
+                  <SiteIcon className="text-xl animate-spin">
                     progress_activity
-                  </span>
+                  </SiteIcon>
                   Placing Order...
                 </>
               ) : (
                 <>
-                  <span className="material-symbols-outlined text-xl">
+                  <SiteIcon className="text-xl">
                     check_circle
-                  </span>
+                  </SiteIcon>
                   Place Order - Rs.{total.toLocaleString()}
                 </>
               )}

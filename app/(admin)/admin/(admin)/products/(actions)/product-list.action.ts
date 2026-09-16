@@ -2,6 +2,7 @@
 
 import { Prisma, ProductStatus } from '@prisma/client';
 import { withPermission } from '@/lib/action-utils';
+import { bulkOutOfStockVisibilityUpdate } from '@/lib/product-visibility';
 import { PAGE_SIZE } from '@/lib/constant';
 import prisma from '@/lib/prisma';
 import { revalidatePath, updateTag } from 'next/cache';
@@ -71,6 +72,7 @@ export interface ProductListSearchParams {
     minPrice?: ProductListParam;
     maxPrice?: ProductListParam;
     status?: ProductListParam;
+    stock?: ProductListParam;
 }
 
 function getSingleParam(value: ProductListParam) {
@@ -132,6 +134,10 @@ export async function getAllProducts(searchParams: ProductListSearchParams) {
         if (status && Object.values(ProductStatus).includes(status as ProductStatus)) {
             where.status = status as ProductStatus;
         }
+
+        const stock = getSingleParam(searchParams.stock);
+        if (stock === 'out-of-stock') where.quantity = { lte: 0 };
+        else if (stock === 'in-stock') where.quantity = { gt: 0 };
 
         const minPrice = getNonNegativeNumber(searchParams.minPrice);
         const maxPrice = getNonNegativeNumber(searchParams.maxPrice);
@@ -324,6 +330,21 @@ export async function updateProductTitleAndQuantity(
             success: true,
             message: 'Product title and quantity updated successfully.',
             product,
+        };
+    });
+}
+
+export async function bulkSetOutOfStockVisibility(productIds: number[], visible: boolean) {
+    return withPermission('product_update', async () => {
+        const result = await prisma.product.updateMany(
+            bulkOutOfStockVisibilityUpdate(productIds, visible),
+        );
+        for (const tag of ['products', 'categories', 'brands']) updateTag(tag);
+        revalidatePath('/', 'layout');
+        revalidatePath('/sitemap.xml');
+        return {
+            success: true,
+            message: `${result.count} product(s) ${visible ? 'set to active' : 'hidden'}. Products already in that status, drafts, or restocked products were skipped.`,
         };
     });
 }

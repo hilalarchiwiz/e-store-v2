@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React, { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
@@ -69,9 +71,9 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
             onClick={onOpenFilters}
             className="relative flex h-11 min-w-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-outline bg-surface px-2 text-xs font-bold text-foreground shadow-sm transition-colors hover:border-primary hover:text-primary dark:border-outline dark:bg-surface dark:text-foreground sm:min-w-28 sm:gap-2 sm:px-3 sm:text-sm"
           >
-            <span className="material-symbols-outlined text-[17px] sm:text-[19px] text-primary">
+            <SiteIcon className="text-[17px] sm:text-[19px] text-primary">
               tune
-            </span>
+            </SiteIcon>
             Filters
             {activeFilterCount > 0 && (
               <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full border-2 border-white bg-primary text-[9px] text-white dark:border-[#111111]">
@@ -85,9 +87,9 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
             className="flex h-11 min-w-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-outline bg-surface px-2 text-xs font-bold text-foreground shadow-sm transition-colors hover:border-primary hover:text-primary dark:border-outline dark:bg-surface dark:text-foreground sm:min-w-28 sm:gap-2 sm:px-3 sm:text-sm"
           >
             <span>Sort<span className="hidden min-[375px]:inline"> By</span></span>
-            <span className="material-symbols-outlined text-[17px] sm:text-[19px] text-primary">
+            <SiteIcon className="text-[17px] sm:text-[19px] text-primary">
               swap_vert
-            </span>
+            </SiteIcon>
           </button>
         </div>
       </div>
@@ -97,9 +99,9 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
         onSubmit={handleSearch}
         className="flex min-h-11 flex-1 items-center gap-2 rounded-xl border border-transparent bg-surface px-3.5 py-2.5 transition-colors focus-within:border-primary/30 dark:bg-surface"
       >
-        <span className="material-symbols-outlined text-muted text-xl shrink-0">
+        <SiteIcon className="text-muted text-xl shrink-0">
           search
-        </span>
+        </SiteIcon>
         <input
           value={search}
           onChange={(e) =>
@@ -114,7 +116,7 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
             onClick={clearSearch}
             className="text-muted hover:text-primary transition-colors shrink-0"
           >
-            <span className="material-symbols-outlined text-lg">close</span>
+            <SiteIcon className="text-lg">close</SiteIcon>
           </button>
         )}
       </form>
@@ -140,7 +142,7 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
                 : "text-muted hover:bg-surface dark:hover:bg-surface"
             }`}
           >
-            <span className="material-symbols-outlined text-xl">grid_view</span>
+            <SiteIcon className="text-xl">grid_view</SiteIcon>
           </button>
           <button
             onClick={() => onViewModeChange("list")}
@@ -151,7 +153,7 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
                 : "text-muted hover:bg-surface dark:hover:bg-surface"
             }`}
           >
-            <span className="material-symbols-outlined text-xl">view_list</span>
+            <SiteIcon className="text-xl">view_list</SiteIcon>
           </button>
         </div>
       </div>

@@ -194,6 +194,7 @@ const OrderDetails = ({ canDelete = false, orders, totalPages, currentPage, limi
             setDraftPaymentStatus(result.invoice.paymentStatus);
             setDraftDiscount(result.invoice.discountInput || String(result.invoice.discount));
             toast.success(result.message || "Invoice saved successfully.");
+            if (result.emailWarning) toast.error(result.emailWarning, { duration: 8000 });
             router.refresh();
         } catch {
             toast.error("Unable to save the invoice. Please try again.");

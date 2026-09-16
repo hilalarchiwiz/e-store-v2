@@ -1,3 +1,5 @@
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React from 'react';
 
 interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -19,9 +21,9 @@ const TextArea: React.FC<TextAreaProps> = ({ label, error, icon, className = '',
       )}
       <div className="relative group">
         {icon && (
-          <span className="material-symbols-outlined absolute left-4 top-5 text-muted group-focus-within:text-primary transition-colors">
+          <SiteIcon className="absolute left-4 top-5 text-muted group-focus-within:text-primary transition-colors">
             {icon}
-          </span>
+          </SiteIcon>
         )}
         <textarea
           id={id}

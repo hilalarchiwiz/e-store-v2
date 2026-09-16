@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { addToCart } from "@/lib/action/cart.action";
@@ -17,7 +19,6 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/redux/store";
 import { toast } from "react-hot-toast";
 import QuickViewModal from "@/components/v2/QuickViewModal";
-import { Heart } from "lucide-react";
 import { useHydrated } from "@/hooks/useHydrated";
 
 interface ProductCardProps {
@@ -54,12 +55,12 @@ const StarRating = ({
 }) => (
   <div className="flex items-center gap-0 text-[#f5a400]">
     {[...Array(5)].map((_, i) => (
-      <span
+      <SiteIcon
         key={i}
-        className={`material-symbols-outlined ${size === "xs" ? "text-xs!" : "text-[16px]!"} ${i < Math.floor(rating) ? "fill-1" : ""}`}
+        className={`${size === "xs" ? "text-xs!" : "text-[16px]!"} ${i < Math.floor(rating) ? "fill-1" : ""}`}
       >
         {i < Math.floor(rating) ? "star" : "star_border"}
-      </span>
+      </SiteIcon>
     ))}
   </div>
 );
@@ -204,9 +205,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <div className="relative w-40 shrink-0 overflow-hidden bg-surface dark:bg-surface">
             {imageError ? (
               <div className="flex h-full w-full flex-col items-center justify-center gap-1 text-muted">
-                <span className="material-symbols-outlined text-3xl">
+                <SiteIcon className="text-3xl">
                   image_not_supported
-                </span>
+                </SiteIcon>
                 <span className="text-[10px] font-medium">Image unavailable</span>
               </div>
             ) : (
@@ -259,9 +260,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   title="Quick View"
                   className="p-2 rounded-xl flex items-center border border-outline dark:border-outline text-muted hover:text-primary hover:border-primary transition-all"
                 >
-                  <span className="material-symbols-outlined text-lg">
+                  <SiteIcon className="text-lg">
                     visibility
-                  </span>
+                  </SiteIcon>
                 </button>
                 <button
                   onClick={handleAddToWishlist}
@@ -275,11 +276,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   {wishlistLoading ? (
                     <span className="size-[18px] animate-spin rounded-full border-2 border-current/30 border-t-current" />
                   ) : (
-                    <Heart
-                      size={18}
-                      strokeWidth={1.8}
-                      className={isWishlisted ? "fill-current" : ""}
-                    />
+                    <SiteIcon name="heart" className={`text-lg ${isWishlisted ? "opacity-100" : "opacity-80"}`} />
                   )}
                 </button>
                 <button
@@ -291,11 +288,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   {cartLoading ? (
                     <span className="size-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
                   ) : (
-                    <span className="material-symbols-outlined text-sm">
+                    <SiteIcon className="text-sm">
                       {isOutOfStock || cartLimitReached
                         ? "remove_shopping_cart"
                         : "add_shopping_cart"}
-                    </span>
+                    </SiteIcon>
                   )}
                   {cartLoading
                     ? "Adding..."
@@ -333,9 +330,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="relative aspect-[12/9] w-full overflow-hidden bg-surface dark:bg-surface">
           {imageError ? (
             <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-muted dark:text-muted">
-              <span className="material-symbols-outlined text-4xl sm:text-5xl">
+              <SiteIcon className="text-4xl sm:text-5xl">
                 image_not_supported
-              </span>
+              </SiteIcon>
               <span className="text-[10px] font-medium sm:text-xs">
                 Image unavailable
               </span>
@@ -361,11 +358,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {wishlistLoading ? (
               <span className="size-5 animate-spin rounded-full border-2 border-current/30 border-t-current" />
             ) : (
-              <Heart
-                size={21}
-                strokeWidth={2}
-                className={isWishlisted ? "fill-current" : ""}
-              />
+              <SiteIcon name="heart" className={`text-xl ${isWishlisted ? "opacity-100" : "opacity-80"}`} />
             )}
           </button>
 
@@ -376,9 +369,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
             title="Quick View"
             className="absolute bottom-3 left-1/2 hidden translate-y-2 -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-outline bg-surface px-3 py-1.5 text-[11px] font-bold text-foreground opacity-0 shadow-lg transition-all duration-300 hover:border-primary hover:bg-primary hover:text-white group-hover:translate-y-0 group-hover:opacity-100 dark:border-white/10 dark:bg-surface dark:text-foreground sm:flex"
           >
-            <span className="material-symbols-outlined text-[16px]">
+            <SiteIcon className="text-[16px]">
               visibility
-            </span>
+            </SiteIcon>
             Quick View
           </button>
 
@@ -429,11 +422,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {cartLoading ? (
               <span className="size-4 animate-spin rounded-full border-2 border-current/30 border-t-current sm:size-5" />
             ) : (
-              <span className="material-symbols-outlined text-[19px]">
+              <SiteIcon className="text-[19px]">
                 {isOutOfStock || cartLimitReached
                   ? "remove_shopping_cart"
                   : "add_shopping_cart"}
-              </span>
+              </SiteIcon>
             )}
             {cartLoading
               ? "Adding..."

@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React from "react";
 import Link from "next/link";
 import ProductCard from "./ProductCard";
@@ -44,9 +46,9 @@ const BestSellers: React.FC<BestSellersProps> = ({ products = [] }) => {
           className="text-primary font-bold flex items-center gap-1 group text-xs sm:text-sm whitespace-nowrap shrink-0 pb-1"
         >
           View All
-          <span className="material-symbols-outlined text-xs sm:text-sm group-hover:translate-x-1 transition-transform">
+          <SiteIcon className="text-xs sm:text-sm group-hover:translate-x-1 transition-transform">
             arrow_forward
-          </span>
+          </SiteIcon>
         </Link>
       </div>
 

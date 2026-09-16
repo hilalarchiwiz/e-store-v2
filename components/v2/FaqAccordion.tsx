@@ -1,5 +1,7 @@
 'use client';
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -47,7 +49,7 @@ const FaqAccordion: React.FC<FaqAccordionProps> = ({ faqs }) => {
               flex-shrink-0 size-10 rounded-xl flex items-center justify-center transition-all duration-300
               ${activeIndex === index ? 'bg-primary text-white rotate-180' : 'bg-white dark:bg-white/10 text-muted rotate-0'}
             `}>
-              <span className="material-symbols-outlined">expand_more</span>
+              <SiteIcon >expand_more</SiteIcon>
             </div>
           </button>
           

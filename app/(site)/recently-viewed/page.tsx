@@ -1,5 +1,7 @@
 'use client';
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React, { useState, useEffect } from 'react';
 import Breadcrumbs from '@/components/v2/Breadcrumbs';
 import ProductCard from '@/components/v2/ProductCard';
@@ -78,7 +80,7 @@ const RecentlyViewedPage = () => {
         ) : isEmpty ? (
           <div className="py-24 flex flex-col items-center text-center bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl">
             <div className="size-32 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-8">
-              <span className="material-symbols-outlined !text-6xl">history</span>
+              <SiteIcon className="!text-6xl">history</SiteIcon>
             </div>
             <h2 className="text-2xl font-bold text-foreground dark:text-foreground mb-2">History is empty</h2>
             <p className="text-muted dark:text-muted max-w-sm mb-10 leading-relaxed px-6">

@@ -1,3 +1,5 @@
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React from 'react';
 import Header from '@/components/v2/Header';
 import Footer from '@/components/v2/Footer';
@@ -36,7 +38,7 @@ const FAQPage = async () => {
 
       <div className="text-center max-w-300 mx-auto mb-10">
         <div className="inline-flex items-center gap-2 mb-6 text-primary">
-          <span className="material-symbols-outlined text-4xl">help_center</span>
+          <SiteIcon className="text-4xl">help_center</SiteIcon>
           <span className="text-sm font-black uppercase tracking-[0.3em]">Help Center</span>
         </div>
         <h1 className="text-4xl md:text-6xl font-black text-foreground dark:text-foreground mb-6">Common Questions</h1>
@@ -56,7 +58,7 @@ const FAQPage = async () => {
 
         <div className="relative z-10 max-w-lg mx-auto space-y-8">
           <div className="size-20 bg-primary rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-primary/30">
-            <span className="material-symbols-outlined text-4xl">forum</span>
+            <SiteIcon className="text-4xl">forum</SiteIcon>
           </div>
           <h2 className="text-3xl md:text-4xl font-black italic">Still have questions?</h2>
           <p className="text-white/60 font-medium">
@@ -79,7 +81,7 @@ const FAQPage = async () => {
         ].map((cat, i) => (
           <div key={i} className="p-8 rounded-[2rem] bg-surface dark:bg-surface border border-primary/5 shadow-xl hover:shadow-2xl transition-all group">
             <div className="size-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-500">
-              <span className="material-symbols-outlined text-3xl">{cat.icon}</span>
+              <SiteIcon className="text-3xl">{cat.icon}</SiteIcon>
             </div>
             <h3 className="text-xl font-black text-foreground dark:text-foreground mb-2">{cat.title}</h3>
             <p className="text-sm text-muted dark:text-muted font-medium leading-relaxed">{cat.desc}</p>

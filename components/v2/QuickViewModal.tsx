@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -181,7 +183,7 @@ export default function QuickViewModal({
           className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 size-10 sm:size-11 bg-icon-surface dark:bg-icon-surface rounded-full flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/30 text-muted dark:text-white transition-colors"
           aria-label="Close"
         >
-          <span className="material-symbols-outlined text-[20px]">close</span>
+          <SiteIcon className="text-[20px]">close</SiteIcon>
         </button>
 
         {/* Image gallery: main image with thumbnails below */}
@@ -222,9 +224,9 @@ export default function QuickViewModal({
                 onError={() => setImgErrors((p) => ({ ...p, [activeIdx]: true }))}
               />
             ) : (
-              <span className="material-symbols-outlined text-8xl text-gray-200 dark:text-white/10">
+              <SiteIcon className="text-8xl text-gray-200 dark:text-white/10">
                 image_not_supported
-              </span>
+              </SiteIcon>
             )}
           </div>
 
@@ -261,9 +263,9 @@ export default function QuickViewModal({
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center bg-surface dark:bg-surface">
-                    <span className="material-symbols-outlined text-2xl text-gray-300">
+                    <SiteIcon className="text-2xl text-gray-300">
                       image_not_supported
-                    </span>
+                    </SiteIcon>
                   </div>
                 )}
               </button>
@@ -282,7 +284,7 @@ export default function QuickViewModal({
                   aria-label="Previous product image"
                   className="flex size-9 items-center justify-center rounded-full border border-outline text-muted transition-colors hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-30 dark:border-outline dark:text-white"
                 >
-                  <span aria-hidden="true" className="material-symbols-outlined text-xl">chevron_left</span>
+                  <SiteIcon aria-hidden="true" className="text-xl">chevron_left</SiteIcon>
                 </button>
                 <button
                   type="button"
@@ -291,7 +293,7 @@ export default function QuickViewModal({
                   aria-label="Next product image"
                   className="flex size-9 items-center justify-center rounded-full border border-outline text-muted transition-colors hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-30 dark:border-outline dark:text-white"
                 >
-                  <span aria-hidden="true" className="material-symbols-outlined text-xl">chevron_right</span>
+                  <SiteIcon aria-hidden="true" className="text-xl">chevron_right</SiteIcon>
                 </button>
               </div>
             </div>
@@ -309,16 +311,16 @@ export default function QuickViewModal({
           <div className="flex items-center gap-3 flex-wrap">
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
-                <span
+                <SiteIcon
                   key={i}
-                  className={`material-symbols-outlined text-[16px] ${
+                  className={`text-[16px] ${
                     i < product.rating
                       ? "text-yellow-400 fill-1"
                       : "text-gray-300"
                   }`}
                 >
                   star
-                </span>
+                </SiteIcon>
               ))}
               <span className="text-sm text-muted ml-1">
                 {product.rating} Rating ({product.reviews} reviews)
@@ -327,9 +329,9 @@ export default function QuickViewModal({
             <span
               className={`flex items-center gap-1 text-sm font-medium ${stockAvailable ? "text-green-600" : "text-red-500"}`}
             >
-              <span className="material-symbols-outlined text-[16px]">
+              <SiteIcon className="text-[16px]">
                 {stockAvailable ? "check_circle" : "cancel"}
-              </span>
+              </SiteIcon>
               {stockAvailable ? "In Stock" : "Out of Stock"}
             </span>
           </div>
@@ -361,9 +363,9 @@ export default function QuickViewModal({
                   disabled={!stockAvailable || quantity <= 1}
                   className="size-9 rounded-lg border border-outline dark:border-outline flex items-center justify-center hover:bg-icon-surface dark:hover:bg-icon-surface transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                 >
-                  <span className="material-symbols-outlined text-[18px]">
+                  <SiteIcon className="text-[18px]">
                     remove
-                  </span>
+                  </SiteIcon>
                 </button>
                 <span className="w-10 text-center font-bold text-foreground dark:text-foreground">
                   {quantity}
@@ -373,9 +375,9 @@ export default function QuickViewModal({
                   disabled={!stockLoaded || !stockAvailable || quantity >= maxQty}
                   className="size-9 rounded-lg border border-outline dark:border-outline flex items-center justify-center hover:bg-icon-surface dark:hover:bg-icon-surface transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                 >
-                  <span className="material-symbols-outlined text-[18px]">
+                  <SiteIcon className="text-[18px]">
                     add
-                  </span>
+                  </SiteIcon>
                 </button>
               </div>
               {stockLoaded && maxQty > 0 && (
@@ -444,11 +446,11 @@ export default function QuickViewModal({
               {wishlistLoading ? (
                 <span className="size-[18px] animate-spin rounded-full border-2 border-current/30 border-t-current" />
               ) : (
-                <span
-                  className={`material-symbols-outlined text-[18px] ${isInWishlist ? "fill-1" : ""}`}
+                <SiteIcon
+                  className={`text-[18px] ${isInWishlist ? "fill-1" : ""}`}
                 >
                   favorite
-                </span>
+                </SiteIcon>
               )}
               {wishlistLoading
                 ? "Updating..."

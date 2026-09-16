@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { RoleGuard } from "@/components/Admin/Common/RoleGuard";
 import FormWrapper from "@/components/Admin/Form/FormWrapper";
 import prisma from "@/lib/prisma";
@@ -15,6 +16,10 @@ export default async function ProductVisibilityPage() {
         <div className="mx-4 rounded-lg border border-emerald-100 bg-emerald-50 px-4 py-3">
           <h1 className="text-base font-bold text-emerald-900">Product Visibility</h1>
           <p className="mt-1 text-sm leading-6 text-emerald-800">Choose whether customers can see products with no stock available.</p>
+        </div>
+        <div className="mx-4 my-4 text-sm">
+          <Link href="/admin/products?stock=out-of-stock" className="font-semibold text-emerald-700 underline">Manage individual out-of-stock products</Link>
+          <p className="mt-1 text-gray-600">Select products in bulk to hide or show them. Choose “Show out-of-stock products” below to display products marked active; inactive products stay hidden.</p>
         </div>
         <FormWrapper key={String(show)} action={saveProductVisibility} buttonTitle="Save Product Visibility" href="/admin/setting/product-visibility">
           <fieldset className="space-y-3">

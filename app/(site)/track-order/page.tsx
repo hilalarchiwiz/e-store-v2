@@ -1,3 +1,5 @@
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React from 'react';
 import Breadcrumbs from '@/components/v2/Breadcrumbs';
 
@@ -49,14 +51,14 @@ const TrackOrderPage = () => {
               type="button"
               className="mt-4 bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary-dark transition-colors shadow-lg active:scale-95 flex justify-center items-center gap-2"
             >
-              <span className="material-symbols-outlined">local_shipping</span>
+              <SiteIcon >local_shipping</SiteIcon>
               Track Order
             </button>
           </form>
         </div>
 
         <div className="mt-12 p-6 bg-primary/5 dark:bg-primary/10 rounded-2xl border border-primary/10 flex items-start gap-4">
-          <span className="material-symbols-outlined text-primary text-3xl">info</span>
+          <SiteIcon className="text-primary text-3xl">info</SiteIcon>
           <div>
             <h3 className="font-bold text-foreground dark:text-foreground mb-1">Standard Delivery Times</h3>
             <p className="text-sm text-muted dark:text-muted">

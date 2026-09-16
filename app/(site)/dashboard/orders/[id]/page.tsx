@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
@@ -88,9 +90,9 @@ export default function OrderDetailsPage() {
     return (
       <div className="space-y-6 animate-in fade-in duration-300 text-center py-20">
         <div className="size-20 bg-red-50 dark:bg-red-900/20 rounded-2xl flex items-center justify-center mx-auto">
-          <span className="material-symbols-outlined text-4xl text-red-500">
+          <SiteIcon className="text-4xl text-red-500">
             error
-          </span>
+          </SiteIcon>
         </div>
         <h2 className="text-2xl font-black text-foreground dark:text-foreground">
           Order not found
@@ -102,7 +104,7 @@ export default function OrderDetailsPage() {
           href="/dashboard/orders"
           className="inline-flex items-center gap-2 bg-primary text-white font-black px-6 py-3 rounded-2xl hover:bg-primary/90 transition-all"
         >
-          <span className="material-symbols-outlined text-xl">arrow_back</span>
+          <SiteIcon className="text-xl">arrow_back</SiteIcon>
           Back to Orders
         </Link>
       </div>
@@ -132,9 +134,9 @@ export default function OrderDetailsPage() {
             href="/dashboard/orders"
             className="flex items-center gap-2 text-sm font-bold text-muted hover:text-primary transition-colors mb-4"
           >
-            <span className="material-symbols-outlined text-base">
+            <SiteIcon className="text-base">
               arrow_back
-            </span>
+            </SiteIcon>
             Back to Orders
           </Link>
           <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-2 underline decoration-primary/30 decoration-4">
@@ -172,9 +174,9 @@ export default function OrderDetailsPage() {
                         : "bg-surface dark:bg-white/5 text-muted"
                     }`}
                   >
-                    <span className="material-symbols-outlined text-2xl">
+                    <SiteIcon className="text-2xl">
                       {step.icon}
-                    </span>
+                    </SiteIcon>
                   </div>
                   <div className="text-left md:text-center">
                     <p
@@ -272,17 +274,17 @@ export default function OrderDetailsPage() {
               </h3>
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-sm font-bold text-foreground dark:text-foreground">
-                  <span className="material-symbols-outlined text-primary text-lg">
+                  <SiteIcon className="text-primary text-lg">
                     payments
-                  </span>
+                  </SiteIcon>
                   <span>
                     {PAYMENT_LABELS[order.paymentMethod] ?? order.paymentMethod}
                   </span>
                 </div>
                 <div className="flex items-center gap-3 text-sm font-bold text-foreground dark:text-foreground">
-                  <span className="material-symbols-outlined text-primary text-lg">
+                  <SiteIcon className="text-primary text-lg">
                     local_shipping
-                  </span>
+                  </SiteIcon>
                   <span>
                     {SHIPPING_LABELS[order.shippingMethod] ??
                       order.shippingMethod}
@@ -361,7 +363,7 @@ export default function OrderDetailsPage() {
                 onClick={() => setShowItemsModal(false)}
                 className="text-muted hover:text-muted transition-colors"
               >
-                <span className="material-symbols-outlined">close</span>
+                <SiteIcon >close</SiteIcon>
               </button>
             </div>
             <div className="p-6 max-h-[60vh] overflow-y-auto space-y-4">

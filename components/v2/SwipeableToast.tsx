@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useState, useRef, TouchEvent } from "react";
 import { toast, Toast, ToastIcon } from "react-hot-toast";
 
@@ -65,7 +67,7 @@ export default function SwipeableToast({ t }: { t: Toast }) {
         }}
         className="text-muted hover:text-muted dark:hover:text-white p-1 rounded-full transition-colors"
       >
-        <span className="material-symbols-outlined text-base">close</span>
+        <SiteIcon className="text-base">close</SiteIcon>
       </button>
     </div>
   );

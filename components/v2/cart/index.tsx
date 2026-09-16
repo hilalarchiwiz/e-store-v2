@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -114,9 +116,9 @@ export default function Cart() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-outline dark:border-outline">
         <div className="flex items-center gap-4">
           <div className="size-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-            <span className="material-symbols-outlined text-3xl">
+            <SiteIcon className="text-3xl">
               shopping_cart
-            </span>
+            </SiteIcon>
           </div>
           <div>
             <p className="text-primary text-xs font-bold uppercase tracking-widest mb-0.5">
@@ -129,9 +131,9 @@ export default function Cart() {
         </div>
         {!loading && items.length > 0 && (
           <span className="self-start sm:self-auto inline-flex items-center gap-1.5 bg-primary/10 text-primary text-sm font-bold px-4 py-2 rounded-full">
-            <span className="material-symbols-outlined text-base">
+            <SiteIcon className="text-base">
               inventory_2
-            </span>
+            </SiteIcon>
             {items.length} {items.length === 1 ? "item" : "items"}
           </span>
         )}
@@ -149,9 +151,9 @@ export default function Cart() {
       ) : items.length === 0 ? (
         <div className="py-24 flex flex-col items-center text-center bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl">
           <div className="size-32 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-8">
-            <span className="material-symbols-outlined text-6xl">
+            <SiteIcon className="text-6xl">
               shopping_basket
-            </span>
+            </SiteIcon>
           </div>
           <h2 className="text-2xl font-bold text-foreground dark:text-foreground mb-2">
             Your basket is empty
@@ -224,9 +226,9 @@ export default function Cart() {
                             className="mt-2.5 inline-flex items-center gap-1 text-xs font-bold text-red-500 hover:text-red-700 transition-colors"
                             title="Remove item"
                           >
-                            <span className="material-symbols-outlined text-base">
+                            <SiteIcon className="text-base">
                               delete
-                            </span>
+                            </SiteIcon>
                             <span>Remove</span>
                           </button>
                         </div>
@@ -260,9 +262,9 @@ export default function Cart() {
                               disabled={item.quantity <= 1}
                               className="size-8 flex items-center justify-center text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-all disabled:opacity-30"
                             >
-                              <span className="material-symbols-outlined text-base">
+                              <SiteIcon className="text-base">
                                 remove
-                              </span>
+                              </SiteIcon>
                             </button>
                             <span className="w-10 text-center font-black text-foreground dark:text-foreground text-sm">
                               {item.quantity}
@@ -277,9 +279,9 @@ export default function Cart() {
                               }
                               className="size-8 flex items-center justify-center text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                             >
-                              <span className="material-symbols-outlined text-base">
+                              <SiteIcon className="text-base">
                                 add
-                              </span>
+                              </SiteIcon>
                             </button>
                           </div>
                         </div>
@@ -305,9 +307,9 @@ export default function Cart() {
                 href="/shop"
                 className="group flex items-center gap-2 text-sm font-bold text-muted hover:text-primary transition-colors"
               >
-                <span className="material-symbols-outlined text-base group-hover:-translate-x-1 transition-transform">
+                <SiteIcon className="text-base group-hover:-translate-x-1 transition-transform">
                   arrow_back
-                </span>
+                </SiteIcon>
                 Continue Shopping
               </Link>
             </div>

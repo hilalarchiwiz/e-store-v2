@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { parseShowOutOfStock, productVisibilityFilter } from "../lib/product-visibility";
+import { bulkOutOfStockVisibilityUpdate, parseShowOutOfStock, productVisibilityFilter } from "../lib/product-visibility";
 
 test("visibility defaults to showing products and supports both saved choices", () => {
   for (const value of [null, undefined, "", "broken", "{}", '{"showOutOfStock":true}']) {
@@ -49,4 +49,22 @@ test("shop filters before counting and paginating, and restores sold-out product
   const restocked = await getShopProducts({});
   assert.equal(restocked.totalProducts, 1);
   assert.equal(restocked.products[0].id, fixtures[0].id);
+});
+
+
+test("bulk visibility restricts updates to selected sold-out products in the opposite published status", () => {
+  for (const visible of [true, false]) {
+    const update = bulkOutOfStockVisibilityUpdate([3, 5, 3], visible);
+    assert.deepEqual(update.where, {
+      id: { in: [3, 5] }, quantity: { lte: 0 }, status: visible ? "inactive" : "active",
+    });
+    assert.deepEqual(update.data, { status: visible ? "active" : "inactive" });
+  }
+});
+
+test("bulk visibility rejects empty, oversized, and malformed selections", () => {
+  for (const ids of [[], [0], [-1], [1.5], [NaN], [Infinity], [Number.MAX_SAFE_INTEGER + 1], Array(101).fill(1), null, ["1"]]) {
+    assert.throws(() => bulkOutOfStockVisibilityUpdate(ids as number[], true));
+  }
+  assert.throws(() => bulkOutOfStockVisibilityUpdate([1], "true" as unknown as boolean));
 });

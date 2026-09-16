@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useState, useEffect, useRef } from "react";
 import { z } from "zod";
 import { toast } from "react-hot-toast";
@@ -143,7 +145,7 @@ export default function ProfilePage() {
                 {isUploading ? (
                   <span className="size-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : (
-                  <span className="material-symbols-outlined text-3xl!">photo_camera</span>
+                  <SiteIcon className="text-3xl!">photo_camera</SiteIcon>
                 )}
               </div>
             </button>

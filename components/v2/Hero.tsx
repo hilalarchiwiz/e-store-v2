@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import type { HeroSlide } from "@/app/(site)/page";
@@ -96,7 +98,7 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
       <div className="relative grid items-center gap-5 px-6 py-7 sm:px-10 sm:py-8 md:grid-cols-[0.9fr_1.1fr] md:gap-3 lg:gap-4 lg:px-12">
         <div className={`min-w-0 transition-all duration-400 ease-out motion-reduce:transition-none ${translateClass}`}>
           <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-primary sm:text-xs">
-            <span className="material-symbols-outlined text-base">laptop_mac</span>
+            <SiteIcon className="text-base">laptop_mac</SiteIcon>
             Premium Computing Gear
           </div>
           <h1 className="max-w-xl text-3xl font-black leading-[1.08] tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem] xl:text-5xl dark:text-foreground [overflow-wrap:anywhere]">
@@ -112,7 +114,7 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
               className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-primary px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-primary-dark sm:px-7 sm:text-base"
             >
               {slide.link ? "Shop Now" : "Shop All"}
-              <span className="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1 motion-reduce:transform-none">arrow_forward</span>
+              <SiteIcon className="text-lg transition-transform group-hover:translate-x-1 motion-reduce:transform-none">arrow_forward</SiteIcon>
             </Link>
             <Link
               href="/contact"
@@ -172,10 +174,10 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
               {String(current + 1).padStart(2, "0")} / {String(data.length).padStart(2, "0")}
             </span>
             <button onClick={handlePrev} aria-label="Previous slide" className="flex size-10 items-center justify-center rounded-full border border-black/15 text-foreground transition-colors hover:border-primary hover:bg-primary hover:text-white dark:border-white/20 dark:text-foreground">
-              <span className="material-symbols-outlined text-xl">chevron_left</span>
+              <SiteIcon className="text-xl">chevron_left</SiteIcon>
             </button>
             <button onClick={handleNext} aria-label="Next slide" className="flex size-10 items-center justify-center rounded-full border border-black/15 text-foreground transition-colors hover:border-primary hover:bg-primary hover:text-white dark:border-white/20 dark:text-foreground">
-              <span className="material-symbols-outlined text-xl">chevron_right</span>
+              <SiteIcon className="text-xl">chevron_right</SiteIcon>
             </button>
           </div>
         </div>

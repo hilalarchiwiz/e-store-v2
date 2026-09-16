@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -85,9 +87,9 @@ const DashboardSidebar = () => {
                         : "text-muted hover:bg-primary/5 hover:text-primary"
                     }`}
                   >
-                    <span className="material-symbols-outlined">
+                    <SiteIcon >
                       {item.icon}
-                    </span>
+                    </SiteIcon>
                     <span className="text-sm">{item.label}</span>
                   </Link>
                 </li>
@@ -106,7 +108,7 @@ const DashboardSidebar = () => {
             {loggingOut ? (
               <span className="size-5 border-2 border-red-400 border-t-transparent rounded-full animate-spin" />
             ) : (
-              <span className="material-symbols-outlined">logout</span>
+              <SiteIcon >logout</SiteIcon>
             )}
             <span className="text-sm">
               {loggingOut ? "Logging out..." : "Logout"}

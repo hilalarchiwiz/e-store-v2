@@ -4,6 +4,7 @@ import FormInput from "@/components/Admin/Form/Input";
 import prisma from "@/lib/prisma";
 import { FLASH_SALE_KEY, parseFlashSale } from "@/lib/flash-sale";
 import { saveFlashSale } from "./action";
+import FileUpload from "@/components/Admin/FileUpload";
 
 export const metadata = { title: "Homepage Flash Sale Settings" };
 
@@ -37,6 +38,13 @@ export default async function FlashSalePage() {
           <FormInput label="Badge text" name="badge" defaultValue={sale.badge} maxLength={40} required />
           <FormInput label="Title" name="title" defaultValue={sale.title} maxLength={120} required />
           <FormInput label="Description" name="description" defaultValue={sale.description} maxLength={500} required />
+          <FileUpload
+            title="Sale product image"
+            name="image"
+            defaultImageUrl={sale.image}
+            aspectRatio={4 / 3}
+            allowAspectSelection={false}
+          />
           <FormInput label="Button text" name="buttonText" defaultValue={sale.buttonText} maxLength={60} required />
           <FormInput label="Button link" name="link" defaultValue={sale.link} placeholder="/shop" maxLength={500} required />
         </FormWrapper>

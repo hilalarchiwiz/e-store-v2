@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
@@ -56,9 +58,9 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
           disabled={currentPage === 1}
           className={`${btnBase} border border-outline dark:border-outline text-muted hover:bg-primary hover:text-white hover:border-primary group disabled:opacity-40 disabled:cursor-not-allowed`}
         >
-          <span className="material-symbols-outlined transition-transform group-hover:-translate-x-0.5">
+          <SiteIcon className="transition-transform group-hover:-translate-x-0.5">
             chevron_left
-          </span>
+          </SiteIcon>
         </button>
 
         {getPageNumbers().map((page, idx) =>
@@ -89,9 +91,9 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
           disabled={currentPage === totalPages}
           className={`${btnBase} border border-outline dark:border-outline text-muted hover:bg-primary hover:text-white hover:border-primary group disabled:opacity-40 disabled:cursor-not-allowed`}
         >
-          <span className="material-symbols-outlined transition-transform group-hover:translate-x-0.5">
+          <SiteIcon className="transition-transform group-hover:translate-x-0.5">
             chevron_right
-          </span>
+          </SiteIcon>
         </button>
       </div>
     </div>

@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -81,9 +83,9 @@ const WishlistPage = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-outline dark:border-outline">
         <div className="flex items-center gap-4">
           <div className="size-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-            <span className="material-symbols-outlined text-3xl fill-1">
+            <SiteIcon className="text-3xl fill-1">
               favorite
-            </span>
+            </SiteIcon>
           </div>
           <div>
             <p className="text-primary text-xs font-bold uppercase tracking-widest mb-0.5">
@@ -96,9 +98,9 @@ const WishlistPage = () => {
         </div>
         {!loading && items.length > 0 && (
           <span className="self-start sm:self-auto inline-flex items-center gap-1.5 bg-primary/10 text-primary text-sm font-bold px-4 py-2 rounded-full">
-            <span className="material-symbols-outlined text-base">
+            <SiteIcon className="text-base">
               inventory_2
-            </span>
+            </SiteIcon>
             {items.length} {items.length === 1 ? "item" : "items"}
           </span>
         )}
@@ -116,9 +118,9 @@ const WishlistPage = () => {
       ) : items.length === 0 ? (
         <div className="py-20 flex flex-col items-center text-center bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl">
           <div className="size-32 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-8 animate-bounce">
-            <span className="material-symbols-outlined !text-6xl">
+            <SiteIcon className="!text-6xl">
               favorite
-            </span>
+            </SiteIcon>
           </div>
           <h2 className="text-2xl font-bold text-foreground dark:text-foreground mb-2">
             No favorites yet
@@ -223,9 +225,9 @@ const WishlistPage = () => {
                         className="size-10 sm:size-12 shrink-0 bg-red-50 text-red-500 dark:bg-red-500/10 dark:text-red-400 rounded-xl sm:rounded-2xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all active:scale-90 disabled:opacity-50 border border-red-100 dark:border-red-500/20"
                         title="Remove from Wishlist"
                       >
-                        <span className="material-symbols-outlined text-xl sm:text-2xl">
+                        <SiteIcon className="text-xl sm:text-2xl">
                           delete
-                        </span>
+                        </SiteIcon>
                       </button>
                     </div>
                   </div>

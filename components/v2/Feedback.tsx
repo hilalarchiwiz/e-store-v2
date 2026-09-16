@@ -1,6 +1,10 @@
 "use client";
 
-import React, { useRef } from "react";
+import SiteIcon from "@/components/v2/SiteIcon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
+import React, { useRef, useState } from "react";
 
 interface DBReview {
   id: string | number;
@@ -17,112 +21,124 @@ interface FeedbackProps {
 
 const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [activePage, setActivePage] = useState(0);
+  const pageCount = Math.max(1, Math.ceil(reviews.length / 2));
 
   const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -400 : 400,
-        behavior: "smooth",
-      });
-    }
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const distance = container.clientWidth / (window.innerWidth >= 1024 ? 3 : 1);
+    container.scrollBy({
+      left: direction === "left" ? -distance : distance,
+      behavior: "smooth",
+    });
   };
 
-  const useDB = reviews.length > 0;
+  const updateActivePage = () => {
+    const container = scrollRef.current;
+    if (!container || container.scrollWidth <= container.clientWidth) {
+      setActivePage(0);
+      return;
+    }
+
+    const progress = container.scrollLeft / (container.scrollWidth - container.clientWidth);
+    setActivePage(Math.min(pageCount - 1, Math.round(progress * (pageCount - 1))));
+  };
 
   return (
-    <section className="py-10 sm:py-16">
-      <div className="flex justify-between items-end sm:items-center mb-6 sm:mb-12 gap-3">
-        <div className="min-w-0 flex-1">
-          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-2 sm:mb-4 whitespace-nowrap">
-            Satisfied Professionals
-          </h2>
-          <p className="text-xs sm:text-base text-muted dark:text-muted max-w-xl">
-            Real feedback from tech enthusiasts and professionals who upgraded
-            their workflow with our high-performance gear.
-          </p>
-        </div>
-        <div className="flex gap-2 shrink-0 pb-1">
-          <button
-            onClick={() => scroll("left")}
-            className="size-8 sm:size-10 rounded-full border border-outline dark:border-outline flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
-          >
-            <span className="material-symbols-outlined text-base sm:text-xl">chevron_left</span>
-          </button>
-          <button
-            onClick={() => scroll("right")}
-            className="size-8 sm:size-10 rounded-full border border-outline dark:border-outline flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
-          >
-            <span className="material-symbols-outlined text-base sm:text-xl">chevron_right</span>
-          </button>
-        </div>
+    <section className="py-8 sm:py-10">
+      <div className="mb-6 flex items-center justify-between gap-4">
+        <h2 className="text-xl font-black tracking-[-0.025em] text-foreground sm:text-[26px]">
+          What Our Customers Say
+        </h2>
       </div>
 
-      <div
-        ref={scrollRef}
-        className="flex gap-4 sm:gap-6 overflow-x-auto no-scrollbar pb-6 sm:pb-8 scroll-smooth"
-      >
-        {useDB ? (
-          reviews.map((review, idx) => {
-            const isHighlight = idx === 1;
-            const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(review.name ?? "User")}&background=${isHighlight ? "ffffff" : "4ade80"}&color=${isHighlight ? "16a34a" : "fff"}&size=96`;
-            return (
-              <div
-                key={review.id}
-                className={`min-w-[270px] xs:min-w-87.5 md:min-w-100 p-5 sm:p-8 rounded-2xl shadow-sm border transition-shadow ${
-                  isHighlight
-                    ? "bg-primary text-white shadow-xl shadow-primary/20 border-transparent"
-                    : "bg-surface dark:bg-surface border-outline dark:border-outline hover:shadow-md"
-                }`}
-              >
-                <div className="flex items-center gap-4 mb-6">
+      {reviews.length > 0 ? (
+        <>
+          <div className="relative">
+            <div
+              ref={scrollRef}
+              onScroll={updateActivePage}
+              className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto px-0.5 pb-1 scroll-smooth"
+            >
+              {reviews.map((review) => (
+                <article
+                  key={review.id}
+                  className="flex min-h-[164px] min-w-[calc(100%-4px)] snap-start items-start gap-4 rounded-lg border border-black/10 bg-white px-5 py-6 shadow-[0_2px_7px_rgba(0,0,0,0.16)] dark:border-white/10 dark:bg-surface sm:min-w-[calc(50%-8px)] sm:px-6 lg:min-w-[calc((100%-32px)/3)]"
+                >
                   <div
-                    className={`size-12 rounded-full bg-cover bg-center shrink-0 ${isHighlight ? "border-2 border-white" : ""}`}
-                    style={{ backgroundImage: `url(${avatarUrl})` }}
-                  />
-                  <div>
-                    <h3 className="font-bold">{review.name ?? "Anonymous"}</h3>
-                    <p
-                      className={`text-xs ${isHighlight ? "opacity-70" : "text-muted dark:text-muted"}`}
-                    >
-                      {review.product.title}
+                    aria-hidden="true"
+                    className="flex size-16 shrink-0 items-center justify-center rounded-full bg-[#f1f1f1] text-lg font-bold uppercase text-[#555] dark:bg-white/10 dark:text-white"
+                    aria-label={`${review.name || "Anonymous"} avatar`}
+                  >
+                    {review.name?.trim().slice(0, 2).toUpperCase() || "AN"}
+                  </div>
+                  <div className="min-w-0 pt-0.5">
+                    <div className="mb-2 flex gap-2 text-[#f2bb00]" aria-label={`${review.rating} out of 5 stars`}>
+                      {Array.from({ length: 5 }, (_, index) => (
+                        <FontAwesomeIcon
+                          key={index}
+                          icon={faStar}
+                          className={`text-[15px] ${index < review.rating ? "opacity-100" : "opacity-25"}`}
+                          aria-hidden="true"
+                        />
+                      ))}
+                    </div>
+                    <p className="line-clamp-3 text-[15px] leading-[1.18] text-[#555] dark:text-white/75 sm:text-base">
+                      {review.comment}
+                    </p>
+                    <p className="mt-2 text-sm font-medium text-primary sm:text-base">
+                      {review.name || "Anonymous"}
                     </p>
                   </div>
-                </div>
-                <div
-                  className={`flex gap-1 mb-4 ${isHighlight ? "text-white" : "text-yellow-500"}`}
-                >
-                  {[...Array(5)].map((_, i) => (
-                    <span
-                      key={i}
-                      className={`material-symbols-outlined text-sm ${i < review.rating ? "fill-1" : "opacity-30"}`}
-                    >
-                      star
-                    </span>
-                  ))}
-                </div>
-                <p
-                  className={`leading-relaxed ${isHighlight ? "font-medium" : "text-muted dark:text-muted italic"}`}
-                >
-                  &quot;{review.comment}&quot;
-                </p>
-              </div>
-            );
-          })
-        ) : (
-          <div className="w-full min-h-[250px] flex flex-col items-center justify-center py-12 bg-surface dark:bg-surface/30 rounded-2xl border-2 border-dashed border-outline dark:border-outline">
-            <div className="size-16 rounded-full bg-icon-surface dark:bg-icon-surface shadow-sm flex items-center justify-center mb-4">
-              <span className="material-symbols-outlined text-3xl text-primary opacity-40">
-                rate_review
-              </span>
+                </article>
+              ))}
             </div>
-            <h3 className="text-lg font-bold mb-1">No Reviews Yet</h3>
-            <p className="text-muted dark:text-muted text-sm max-w-[280px] text-center">
-              We haven&apos;t received any reviews for our database yet. Be the first
-              to share your earth-friendly journey!
-            </p>
+
+            <button
+              type="button"
+              onClick={() => scroll("left")}
+              aria-label="Previous reviews"
+              className="absolute left-0 top-1/2 z-10 flex size-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#f4f4f4] text-black shadow-sm transition hover:bg-white"
+            >
+              <SiteIcon className="text-base">chevron_left</SiteIcon>
+            </button>
+            <button
+              type="button"
+              onClick={() => scroll("right")}
+              aria-label="Next reviews"
+              className="absolute right-0 top-1/2 z-10 flex size-9 translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#f4f4f4] text-black shadow-sm transition hover:bg-white"
+            >
+              <SiteIcon className="text-base">chevron_right</SiteIcon>
+            </button>
           </div>
-        )}
-      </div>
+
+          <div className="mt-6 flex items-center justify-center gap-6" aria-label="Review carousel position">
+            {Array.from({ length: pageCount }, (_, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => {
+                  const container = scrollRef.current;
+                  if (!container) return;
+                  const maxScroll = container.scrollWidth - container.clientWidth;
+                  container.scrollTo({
+                    left: pageCount === 1 ? 0 : (maxScroll * index) / (pageCount - 1),
+                    behavior: "smooth",
+                  });
+                }}
+                aria-label={`Go to review page ${index + 1}`}
+                className={`size-3 rounded-full transition-colors ${index === activePage ? "bg-primary" : "bg-[#606060]"}`}
+              />
+            ))}
+          </div>
+        </>
+      ) : (
+        <div className="flex min-h-40 items-center justify-center rounded-lg border border-black/10 bg-white text-sm text-muted shadow-sm dark:border-white/10 dark:bg-surface">
+          No reviews yet.
+        </div>
+      )}
     </section>
   );
 };

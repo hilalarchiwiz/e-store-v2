@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -177,7 +179,7 @@ export function MobileFilterModal({
             aria-label="Close filters"
             className="flex size-10 items-center justify-center rounded-full bg-icon-surface text-muted transition-colors hover:bg-red-50 hover:text-red-500 dark:bg-white/10 dark:text-white"
           >
-            <span className="material-symbols-outlined">close</span>
+            <SiteIcon >close</SiteIcon>
           </button>
         </div>
 
@@ -413,7 +415,7 @@ export function MobileSortModal({ onClose }: MobileSortModalProps) {
             aria-label="Close sorting"
             className="flex size-9 items-center justify-center rounded-full bg-icon-surface text-muted dark:bg-white/10 dark:text-white"
           >
-            <span className="material-symbols-outlined text-xl">close</span>
+            <SiteIcon className="text-xl">close</SiteIcon>
           </button>
         </div>
 

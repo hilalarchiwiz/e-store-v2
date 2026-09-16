@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,9 +37,9 @@ function CategoryCard({ cat }: { cat: Category }) {
           />
         ) : (
           <div className="flex h-full items-center justify-center">
-            <span className="material-symbols-outlined text-4xl text-muted dark:text-white/20">
+            <SiteIcon className="text-4xl text-muted dark:text-white/20">
               category
-            </span>
+            </SiteIcon>
           </div>
         )}
       </div>
@@ -84,18 +86,18 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ categories = [] }) => {
             aria-label="Scroll left"
             className="size-10 rounded-full border border-outline dark:border-outline dark:bg-icon-surface flex items-center justify-center hover:bg-primary hover:border-primary hover:text-white dark:hover:bg-primary dark:hover:border-primary dark:text-white transition-all duration-200"
           >
-            <span className="material-symbols-outlined text-[20px]">
+            <SiteIcon className="text-[20px]">
               chevron_left
-            </span>
+            </SiteIcon>
           </button>
           <button
             onClick={() => scroll("right")}
             aria-label="Scroll right"
             className="size-10 rounded-full border border-outline dark:border-outline dark:bg-icon-surface flex items-center justify-center hover:bg-primary hover:border-primary hover:text-white dark:hover:bg-primary dark:hover:border-primary dark:text-white transition-all duration-200"
           >
-            <span className="material-symbols-outlined text-[20px]">
+            <SiteIcon className="text-[20px]">
               chevron_right
-            </span>
+            </SiteIcon>
           </button>
         </div>
       </div>

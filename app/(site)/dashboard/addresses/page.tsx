@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import { getAddresses, deleteAddress, setDefaultAddress } from "@/lib/action/address.action";
@@ -116,7 +118,7 @@ export default function AddressesPage() {
       ) : addresses.length === 0 ? (
         <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-12 text-center">
           <div className="size-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <span className="material-symbols-outlined text-3xl!">location_off</span>
+            <SiteIcon className="text-3xl!">location_off</SiteIcon>
           </div>
           <h3 className="font-black text-foreground dark:text-foreground text-lg mb-2">No addresses yet</h3>
           <p className="text-muted text-sm mb-6">Add a shipping address to speed up your checkout.</p>
@@ -140,9 +142,9 @@ export default function AddressesPage() {
               )}
 
               <div className="size-12 bg-icon-surface dark:bg-white/5 rounded-2xl flex items-center justify-center text-muted mb-6">
-                <span className="material-symbols-outlined">
+                <SiteIcon >
                   {address.company?.toLowerCase().includes("office") ? "apartment" : "home"}
-                </span>
+                </SiteIcon>
               </div>
 
               <h3 className="font-black text-foreground dark:text-foreground text-lg mb-2">

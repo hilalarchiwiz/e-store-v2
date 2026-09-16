@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { withPermission } from "@/lib/action-utils";
 import { revalidatePath } from "next/cache";
 import { FLASH_SALE_KEY, flashSaleSchema, getFlashSaleDeadline, parseFlashSale } from "@/lib/flash-sale";
+import { uploadImage } from "@/lib/action/FileUpload";
 
 export async function saveFlashSale(_previous: unknown, form: FormData) {
   return withPermission("settings_update", async () => {
@@ -11,10 +12,19 @@ export async function saveFlashSale(_previous: unknown, form: FormData) {
     const previous = parseFlashSale(record?.value);
     const text = (key: string) => String(form.get(key) ?? "").trim();
     const endsAt = getFlashSaleDeadline(text("days"), text("hours"), previous.endsAt, Date.now());
+    const imageFile = form.get("image");
+    let image = previous.image;
+    if (imageFile instanceof File && imageFile.size > 0) {
+      const imageForm = new FormData();
+      imageForm.append("image", imageFile);
+      const upload = await uploadImage(imageForm);
+      if (!upload.url) return { success: false, message: "Failed to upload the sale image." };
+      image = upload.url;
+    }
     const result = flashSaleSchema.safeParse({
       enabled: form.get("enabled") === "on",
       title: text("title"), description: text("description"), badge: text("badge"),
-      buttonText: text("buttonText"), link: text("link"), endsAt,
+      buttonText: text("buttonText"), link: text("link"), image, endsAt,
     });
     if (!result.success) return { success: false, message: result.error.issues[0].message };
     if (result.data.enabled && Date.parse(endsAt) <= Date.now()) {

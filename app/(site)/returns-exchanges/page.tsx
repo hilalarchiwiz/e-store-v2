@@ -1,3 +1,5 @@
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React from 'react';
 import Breadcrumbs from '@/components/v2/Breadcrumbs';
 import Link from 'next/link';
@@ -24,25 +26,25 @@ const ReturnsExchangesPage = () => {
           <div className="bg-surface dark:bg-surface p-8 rounded-3xl border border-outline dark:border-outline shadow-sm">
             <div className="flex items-center gap-4 mb-4">
               <div className="size-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                <span className="material-symbols-outlined">restart_alt</span>
+                <SiteIcon >restart_alt</SiteIcon>
               </div>
               <h2 className="text-2xl font-bold text-foreground dark:text-foreground">Our Return Policy</h2>
             </div>
             <ul className="space-y-3 text-muted dark:text-muted leading-relaxed pl-2">
               <li className="flex gap-2 items-start">
-                <span className="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
+                <SiteIcon className="text-primary text-sm mt-1">check_circle</SiteIcon>
                 <span>You have <strong>14 days</strong> from the date of delivery to initiate a return or exchange.</span>
               </li>
               <li className="flex gap-2 items-start">
-                <span className="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
+                <SiteIcon className="text-primary text-sm mt-1">check_circle</SiteIcon>
                 <span>Items must be unused, in their original condition, and in the original packaging.</span>
               </li>
               <li className="flex gap-2 items-start">
-                <span className="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
+                <SiteIcon className="text-primary text-sm mt-1">check_circle</SiteIcon>
                 <span>Perishable goods, personal care items, and gift cards are generally exempt from being returned.</span>
               </li>
               <li className="flex gap-2 items-start">
-                <span className="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
+                <SiteIcon className="text-primary text-sm mt-1">check_circle</SiteIcon>
                 <span>A receipt or proof of purchase from <strong>qaam.pk</strong> is required.</span>
               </li>
             </ul>
@@ -51,7 +53,7 @@ const ReturnsExchangesPage = () => {
           <div className="bg-surface dark:bg-surface p-8 rounded-3xl border border-outline dark:border-outline shadow-sm">
             <div className="flex items-center gap-4 mb-4">
               <div className="size-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                <span className="material-symbols-outlined">swap_horiz</span>
+                <SiteIcon >swap_horiz</SiteIcon>
               </div>
               <h2 className="text-2xl font-bold text-foreground dark:text-foreground">How to Exchange an Item</h2>
             </div>
@@ -69,7 +71,7 @@ const ReturnsExchangesPage = () => {
           <div className="bg-surface dark:bg-surface p-8 rounded-3xl border border-outline dark:border-outline shadow-sm">
             <div className="flex items-center gap-4 mb-4">
               <div className="size-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                <span className="material-symbols-outlined">account_balance</span>
+                <SiteIcon >account_balance</SiteIcon>
               </div>
               <h2 className="text-2xl font-bold text-foreground dark:text-foreground">Refund Process</h2>
             </div>

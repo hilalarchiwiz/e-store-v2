@@ -1,3 +1,5 @@
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getOrderByNumber } from "@/lib/action/v2-order.action";
@@ -44,7 +46,7 @@ export default async function OrderConfirmationPage({
       {/* Success Banner */}
       <div className="bg-gradient-to-br from-primary/10 to-green-500/10 border border-primary/20 rounded-3xl p-8 md:p-12 mb-10 text-center">
         <div className="size-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-primary/30">
-          <span className="material-symbols-outlined text-white text-4xl">check_circle</span>
+          <SiteIcon className="text-white text-4xl">check_circle</SiteIcon>
         </div>
         <h1 className="text-3xl md:text-4xl font-black text-foreground dark:text-foreground mb-3">
           Order Confirmed!
@@ -102,7 +104,7 @@ export default async function OrderConfirmationPage({
           {/* Delivery Address */}
           <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8">
             <h2 className="text-xl font-black text-foreground dark:text-foreground mb-6 flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary">location_on</span>
+              <SiteIcon className="text-primary">location_on</SiteIcon>
               Delivery Address
             </h2>
             <div className="text-sm font-medium text-muted dark:text-muted space-y-1">
@@ -178,14 +180,14 @@ export default async function OrderConfirmationPage({
               href="/dashboard/orders"
               className="w-full bg-primary text-white font-black py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-lg"
             >
-              <span className="material-symbols-outlined text-xl">receipt_long</span>
+              <SiteIcon className="text-xl">receipt_long</SiteIcon>
               View My Orders
             </Link>
             <Link
               href="/shop"
               className="w-full bg-surface dark:bg-surface text-foreground dark:text-foreground font-black py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-surface dark:hover:bg-white/5 transition-all border border-outline dark:border-white/10"
             >
-              <span className="material-symbols-outlined text-xl">storefront</span>
+              <SiteIcon className="text-xl">storefront</SiteIcon>
               Continue Shopping
             </Link>
           </div>

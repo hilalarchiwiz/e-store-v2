@@ -1,3 +1,5 @@
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React from 'react';
 
 interface TopBarProps {
@@ -16,19 +18,19 @@ const TopBar = ({ generalSetting }: TopBarProps) => {
       <div className="flex items-center gap-4">
         {phone && (
           <a href={`tel:${phone}`} className="flex items-center gap-1 hover:underline">
-            <span className="material-symbols-outlined text-sm">call</span>
+            <SiteIcon className="text-sm">call</SiteIcon>
             {phone}
           </a>
         )}
         {email && (
           <a href={`mailto:${email}`} className="flex items-center gap-1 hover:underline">
-            <span className="material-symbols-outlined text-sm">mail</span>
+            <SiteIcon className="text-sm">mail</SiteIcon>
             {email}
           </a>
         )}
         {!phone && !email && (
           <span className="flex items-center gap-1">
-            <span className="material-symbols-outlined text-sm">support_agent</span>
+            <SiteIcon className="text-sm">support_agent</SiteIcon>
             24/7 Customer Support
           </span>
         )}

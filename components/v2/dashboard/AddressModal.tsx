@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
@@ -103,9 +105,9 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose, address, o
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-4">
                     <div className="size-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center">
-                      <span className="material-symbols-outlined text-3xl!">
+                      <SiteIcon className="text-3xl!">
                         {isEdit ? "edit_location" : "add_location"}
-                      </span>
+                      </SiteIcon>
                     </div>
                     <div>
                       <h2 className="text-2xl font-black text-foreground dark:text-foreground">
@@ -121,7 +123,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose, address, o
                     onClick={onClose}
                     className="size-10 rounded-xl hover:bg-red-50 dark:hover:bg-red-500/10 text-muted hover:text-red-500 transition-all flex items-center justify-center"
                   >
-                    <span className="material-symbols-outlined">close</span>
+                    <SiteIcon >close</SiteIcon>
                   </button>
                 </div>
 
@@ -222,9 +224,9 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose, address, o
                         Country <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
-                        <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-muted text-[20px] pointer-events-none">
+                        <SiteIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-muted text-[20px] pointer-events-none">
                           public
-                        </span>
+                        </SiteIcon>
                         <select
                           name="country"
                           required

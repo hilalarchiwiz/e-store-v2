@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -89,7 +91,7 @@ const LoginForm = () => {
     <div className="bg-surface dark:bg-surface border border-primary/10 shadow-2xl rounded-3xl p-8 md:p-10">
       <div className="text-center mb-10">
         <div className="inline-flex items-center justify-center size-16 bg-primary/10 rounded-2xl text-primary mb-6">
-          <span className="material-symbols-outlined !text-4xl">login</span>
+          <SiteIcon className="!text-4xl">login</SiteIcon>
         </div>
         <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-3">
           Welcome Back

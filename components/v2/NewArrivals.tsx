@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React from "react";
 import Link from "next/link";
 import ProductCard from "./ProductCard";
@@ -26,7 +28,7 @@ interface NewArrivalsProps {
 
 const NewArrivals: React.FC<NewArrivalsProps> = ({ products = [] }) => {
   return (
-    <section className="px-2 py-10 bg-surface dark:bg-surface rounded-[2rem] ">
+    <section className="py-10 rounded-[2rem] ">
       <div className="max-w-400 mx-auto">
         {/* Header */}
         <div className="flex justify-between items-end sm:items-center mb-6 sm:mb-10 gap-2">
@@ -44,9 +46,9 @@ const NewArrivals: React.FC<NewArrivalsProps> = ({ products = [] }) => {
             className="text-primary font-bold flex items-center gap-1 group text-xs sm:text-sm whitespace-nowrap shrink-0 pb-1"
           >
             Explore More
-            <span className="material-symbols-outlined text-xs sm:text-sm group-hover:translate-x-1 transition-transform">
+            <SiteIcon className="text-xs sm:text-sm group-hover:translate-x-1 transition-transform">
               arrow_forward
-            </span>
+            </SiteIcon>
           </Link>
         </div>
 

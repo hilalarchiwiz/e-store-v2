@@ -1,3 +1,5 @@
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import Breadcrumbs from "@/components/v2/Breadcrumbs";
 import { getBlogDetails, incrementBlogViews } from "@/lib/action/home.action";
 import { Metadata } from "next";
@@ -65,7 +67,7 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
           </h1>
           <div className="flex flex-wrap items-center gap-6 text-sm text-muted dark:text-muted font-bold uppercase tracking-widest">
             <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary text-xl">event_note</span>
+              <SiteIcon className="text-primary text-xl">event_note</SiteIcon>
               {new Date(blog.createdAt).toLocaleDateString("en-US", {
                 month: "long",
                 day: "numeric",
@@ -74,12 +76,12 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
             </div>
             {blog.tag && (
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary text-xl">sell</span>
+                <SiteIcon className="text-primary text-xl">sell</SiteIcon>
                 {blog.tag}
               </div>
             )}
             <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary text-xl">visibility</span>
+              <SiteIcon className="text-primary text-xl">visibility</SiteIcon>
               {blog.views + 1} Views
             </div>
           </div>
@@ -116,7 +118,7 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
       <div className="mt-10 p-6 md:p-10 bg-primary/5 dark:bg-white/5 rounded-2xl border border-primary/10 flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="flex items-center gap-6">
           <div className="size-14 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
-            <span className="material-symbols-outlined text-3xl">newspaper</span>
+            <SiteIcon className="text-3xl">newspaper</SiteIcon>
           </div>
           <div>
             <h3 className="text-xl font-black text-foreground dark:text-foreground">
@@ -132,7 +134,7 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
           className="text-sm font-black uppercase tracking-widest text-foreground dark:text-foreground hover:text-primary transition-colors flex items-center gap-2"
         >
           Back to Blog{" "}
-          <span className="material-symbols-outlined">arrow_forward</span>
+          <SiteIcon >arrow_forward</SiteIcon>
         </Link>
       </div>
     </main>

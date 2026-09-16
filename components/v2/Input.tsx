@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React, { useState } from 'react';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -28,9 +30,9 @@ const Input: React.FC<InputProps> = ({ label, error, icon, showToggle, className
       )}
       <div className="relative group">
         {icon && (
-          <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-muted group-focus-within:text-primary transition-colors">
+          <SiteIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-muted group-focus-within:text-primary transition-colors">
             {icon}
-          </span>
+          </SiteIcon>
         )}
         <input
           id={id}
@@ -57,9 +59,9 @@ const Input: React.FC<InputProps> = ({ label, error, icon, showToggle, className
             onClick={() => setShowPassword(v => !v)}
             className="absolute right-4 top-1/2 -translate-y-1/2 text-muted hover:text-primary transition-colors"
           >
-            <span className="material-symbols-outlined text-[20px]">
+            <SiteIcon className="text-[20px]">
               {showPassword ? 'visibility_off' : 'visibility'}
-            </span>
+            </SiteIcon>
           </button>
         )}
       </div>

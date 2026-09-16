@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -76,16 +78,16 @@ export default function ShopIntro({
           className="relative w-full min-w-0 max-w-full"
           aria-label="Shop by category"
         >
-          <button
+          {/* <button
             type="button"
             onClick={() => scrollCategories("left")}
             aria-label="Previous categories"
             className="absolute -left-2 top-1/2 z-10 hidden size-9 -translate-y-1/2 items-center justify-center rounded-full border border-outline bg-icon-surface text-muted shadow-md transition-colors hover:border-primary hover:bg-primary hover:text-white sm:flex dark:border-outline dark:bg-icon-surface dark:text-white dark:hover:bg-primary"
           >
-            <span className="material-symbols-outlined text-xl">
+            <SiteIcon className="text-xl">
               chevron_left
-            </span>
-          </button>
+            </SiteIcon>
+          </button> */}
 
           <div
             ref={sliderRef}
@@ -127,16 +129,16 @@ export default function ShopIntro({
             })}
           </div>
 
-          <button
+          {/* <button
             type="button"
             onClick={() => scrollCategories("right")}
             aria-label="Next categories"
             className="absolute -right-2 top-1/2 z-10 hidden size-9 -translate-y-1/2 items-center justify-center rounded-full border border-outline bg-icon-surface text-muted shadow-md transition-colors hover:border-primary hover:bg-primary hover:text-white sm:flex dark:border-outline dark:bg-icon-surface dark:text-white dark:hover:bg-primary"
           >
-            <span className="material-symbols-outlined text-xl">
+            <SiteIcon className="text-xl">
               chevron_right
-            </span>
-          </button>
+            </SiteIcon>
+          </button> */}
         </section>
       )}
     </div>

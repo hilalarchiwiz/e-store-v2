@@ -7,11 +7,16 @@ import NewArrivals from "@/components/v2/NewArrivals";
 import Banners from "@/components/v2/Banners";
 import BestSellers from "@/components/v2/BestSellers";
 import HomepageFlashSale from "@/components/v2/HomepageFlashSale";
+import BestDeals from "@/components/v2/BestDeals";
+import StoreBenefits from "@/components/v2/StoreBenefits";
 import Feedback from "@/components/v2/Feedback";
 import Subscribe from "@/components/v2/Subscribe";
 import prisma from "@/lib/prisma";
 import { getLatestReviews } from "@/lib/action/review.action";
 import { Metadata } from "next";
+import ShopBenefits from "@/components/v2/ShopBenefits";
+import DynamicIcon from "@/components/v2/DynamicIcon";
+import { getDealCategories, getDealProducts } from "@/lib/deals";
 
 export const metadata: Metadata = {
   title: "Qaam.pk | Premium Laptops, Tablets & PC Essentials",
@@ -220,6 +225,8 @@ export default async function V2HomePage() {
   });
 
   const latestReviews = await getLatestReviews(8);
+  const dealProducts = await getDealProducts();
+  const dealCategories = getDealCategories(dealProducts);
 
   const slidersData = await prisma.slider.findMany({
     where: { status: "active" },
@@ -234,6 +241,18 @@ export default async function V2HomePage() {
     img: s.img,
     link: s.link ?? null,
   })));
+  const DEFAULT_STATS = [
+  { value: '10,000+', label: 'Products Sold', detail: 'Across Pakistan', icon: 'ShoppingBag' },
+  { value: '5,000+', label: 'Happy Customers', detail: 'And growing', icon: 'UsersRound' },
+  { value: 'Checked & Tested', label: 'By Tech Experts', detail: 'Quality assured', icon: 'ShieldCheck' },
+  { value: 'Nationwide', label: 'Delivery', detail: 'At your doorstep', icon: 'Truck' },
+];
+  const stats = DEFAULT_STATS.map((item, index) => ({
+    value: item.value,
+    label: item.label,
+    detail: item.detail,
+    icon: item.icon,
+  }));
 
   return (
     <main className="max-w-400 mx-auto pb-20 md:px-10 px-2">
@@ -275,7 +294,25 @@ export default async function V2HomePage() {
       <NewArrivals products={newArrivals} />
       <Banners banners={banners} />
       <BestSellers products={bestSellers} />
+      <BestDeals products={dealProducts} categories={dealCategories} />
+     <section aria-label="QAAM at a glance" className="rounded-xl surface dark:surface border border-black/5 bg-surface px-1 py-3 shadow-[0_8px_30px_rgba(0,0,0,.10)] dark:border-white/10 dark:bg-surface sm:rounded-2xl sm:p-6">
+               <div className="grid grid-cols-4 gap-0">
+                 {stats.map((stat, index) => (
+                   <div key={`${stat.label}-${index}`} className="flex min-w-0 flex-col items-center justify-center gap-1 border-r border-black/10 px-1 text-center last:border-r-0 dark:border-white/10 sm:flex-row sm:gap-3 sm:px-4 sm:text-left lg:px-7">
+                     <span className="shrink-0 text-primary">
+                       <DynamicIcon name={stat.icon} fallback="BadgeCheck" size={24} />
+                     </span>
+                     <div className="min-w-0">
+                       <p className="break-words text-[8px] font-black leading-tight sm:text-lg lg:text-xl">{stat.value}</p>
+                       <p className="mt-0.5 break-words text-[7px] font-semibold leading-tight text-muted dark:text-white/65 sm:mt-1 sm:text-xs lg:text-sm">{stat.label}</p>
+                       <span className="sr-only">{stat.detail}</span>
+                     </div>
+                   </div>
+                 ))}
+               </div>
+             </section>
       <HomepageFlashSale />
+      <StoreBenefits />
       <Feedback reviews={latestReviews} />
       <Subscribe />
     </main>

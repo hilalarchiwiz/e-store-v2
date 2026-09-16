@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
@@ -139,9 +141,9 @@ const Header = ({ logo }: HeaderProps) => {
                 </>
               ) : (
                 <>
-                  <span className="material-symbols-outlined text-3xl font-bold">
+                  <SiteIcon className="text-3xl font-bold">
                     eco
-                  </span>
+                  </SiteIcon>
                   <h2 className="text-foreground dark:text-foreground text-2xl font-black leading-tight tracking-[-0.015em]">
                     Ecomare
                   </h2>
@@ -183,7 +185,7 @@ const Header = ({ logo }: HeaderProps) => {
                   {isSearching ? (
                     <div className="size-4 border-2 border-primary border-t-transparent animate-spin rounded-full" />
                   ) : (
-                    <span className="material-symbols-outlined">search</span>
+                    <SiteIcon >search</SiteIcon>
                   )}
                 </div>
                 <input
@@ -232,7 +234,7 @@ const Header = ({ logo }: HeaderProps) => {
                               />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center text-muted">
-                                <span className="material-symbols-outlined">image</span>
+                                <SiteIcon >image</SiteIcon>
                               </div>
                             )}
                           </div>
@@ -257,9 +259,9 @@ const Header = ({ logo }: HeaderProps) => {
                               )}
                             </div>
                           </div>
-                          <span className="material-symbols-outlined text-muted opacity-0 group-hover:opacity-100 transition-opacity">
+                          <SiteIcon className="text-muted opacity-0 group-hover:opacity-100 transition-opacity">
                             chevron_right
-                          </span>
+                          </SiteIcon>
                         </Link>
                       ))}
                     </div>
@@ -280,7 +282,7 @@ const Header = ({ logo }: HeaderProps) => {
                 href="/wishlist"
                 className="relative flex size-9 items-center justify-center rounded-lg bg-icon-surface text-foreground transition-colors hover:bg-primary/20 dark:bg-icon-surface dark:text-foreground sm:size-10"
               >
-                <span className="material-symbols-outlined">favorite</span>
+                <SiteIcon className="text-xl">favorite</SiteIcon>
                 {wishlistCount > 0 && (
                   <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full bg-primary text-white text-[10px] font-bold leading-none">
                     {wishlistCount > 99 ? "99+" : wishlistCount}
@@ -293,7 +295,7 @@ const Header = ({ logo }: HeaderProps) => {
                 href="/cart"
                 className="relative flex size-9 items-center justify-center rounded-lg bg-icon-surface text-foreground transition-colors hover:bg-primary/20 dark:bg-icon-surface dark:text-foreground sm:size-10"
               >
-                <span className="material-symbols-outlined">shopping_cart</span>
+                <SiteIcon className="text-xl">shopping_cart</SiteIcon>
                 {cartCount > 0 && (
                   <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full bg-primary text-white text-[10px] font-bold leading-none">
                     {cartCount > 99 ? "99+" : cartCount}
@@ -306,7 +308,7 @@ const Header = ({ logo }: HeaderProps) => {
                 href={isAdmin ? "/admin" : "/dashboard"}
                 className="hidden size-10 items-center justify-center rounded-lg bg-primary text-white transition-colors hover:bg-primary-dark sm:flex"
               >
-                <span className="material-symbols-outlined">person</span>
+                <SiteIcon className="text-xl">person</SiteIcon>
               </Link>
 
               {/* Hamburger — visible only below lg */}
@@ -315,11 +317,11 @@ const Header = ({ logo }: HeaderProps) => {
                 aria-label="Toggle navigation menu"
                 className="flex size-9 items-center justify-center rounded-lg bg-icon-surface text-foreground transition-colors hover:bg-primary/20 dark:bg-icon-surface dark:text-foreground sm:size-10 lg:hidden"
               >
-                <span
-                  className={`material-symbols-outlined transition-transform duration-300 ${mobileOpen ? "rotate-90" : ""}`}
+                <SiteIcon
+                  className={`transition-transform duration-300 ${mobileOpen ? "rotate-90" : ""}`}
                 >
                   {mobileOpen ? "close" : "menu"}
-                </span>
+                </SiteIcon>
               </button>
             </div>
           </div>
@@ -356,7 +358,7 @@ const Header = ({ logo }: HeaderProps) => {
               </>
             ) : (
               <>
-                <span className="material-symbols-outlined text-2xl">eco</span>
+                <SiteIcon className="text-2xl">eco</SiteIcon>
                 <span className="text-foreground dark:text-foreground text-xl font-black">Ecomare</span>
               </>
             )}
@@ -366,7 +368,7 @@ const Header = ({ logo }: HeaderProps) => {
             aria-label="Close menu"
             className="size-9 rounded-full flex items-center justify-center bg-icon-surface dark:bg-icon-surface text-foreground dark:text-foreground hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-500 transition-all"
           >
-            <span className="material-symbols-outlined text-[20px]">close</span>
+            <SiteIcon className="text-[20px]">close</SiteIcon>
           </button>
         </div>
 
@@ -376,7 +378,7 @@ const Header = ({ logo }: HeaderProps) => {
             onSubmit={handleSearch}
             className="flex items-center rounded-xl h-11 bg-surface dark:bg-surface border border-transparent focus-within:border-primary transition-all px-4 gap-3"
           >
-            <span className="material-symbols-outlined text-muted">search</span>
+            <SiteIcon className="text-muted">search</SiteIcon>
             <input
               className="flex-1 border-none bg-transparent focus:ring-0 text-sm placeholder:text-muted"
               placeholder="Search products..."
@@ -406,18 +408,18 @@ const Header = ({ logo }: HeaderProps) => {
                     : "text-foreground dark:text-foreground hover:bg-surface dark:hover:bg-surface hover:text-primary"
                 }`}
               >
-                <span
-                  className={`material-symbols-outlined text-[20px] transition-transform duration-200 group-hover:scale-110 ${
+                <SiteIcon
+                  className={`text-[20px] transition-transform duration-200 group-hover:scale-110 ${
                     isActive ? "" : "text-primary"
                   }`}
                 >
                   {link.icon}
-                </span>
+                </SiteIcon>
                 {link.label}
                 {!isActive && (
-                  <span className="material-symbols-outlined text-[16px] ml-auto text-gray-300 dark:text-muted">
+                  <SiteIcon className="text-[16px] ml-auto text-gray-300 dark:text-muted">
                     chevron_right
-                  </span>
+                  </SiteIcon>
                 )}
               </Link>
             );
@@ -433,13 +435,13 @@ const Header = ({ logo }: HeaderProps) => {
             onClick={() => setMobileOpen(false)}
             className="flex items-center gap-4 px-4 py-3.5 rounded-2xl font-semibold text-sm text-foreground dark:text-foreground hover:bg-surface dark:hover:bg-surface hover:text-primary transition-all group"
           >
-            <span className="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-transform">
+            <SiteIcon className="text-[20px] text-primary group-hover:scale-110 transition-transform">
               {isAdmin ? "admin_panel_settings" : "person"}
-            </span>
+            </SiteIcon>
             {isAdmin ? "Admin Dashboard" : "My Account"}
-            <span className="material-symbols-outlined text-[16px] ml-auto text-gray-300 dark:text-muted">
+            <SiteIcon className="text-[16px] ml-auto text-gray-300 dark:text-muted">
               chevron_right
-            </span>
+            </SiteIcon>
           </Link>
 
           <Link
@@ -447,9 +449,9 @@ const Header = ({ logo }: HeaderProps) => {
             onClick={() => setMobileOpen(false)}
             className="flex items-center gap-4 px-4 py-3.5 rounded-2xl font-semibold text-sm text-foreground dark:text-foreground hover:bg-surface dark:hover:bg-surface hover:text-primary transition-all group"
           >
-            <span className="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-transform">
+            <SiteIcon className="text-[20px] text-primary group-hover:scale-110 transition-transform">
               favorite
-            </span>
+            </SiteIcon>
             Wishlist
             {wishlistCount > 0 && (
               <span className="ml-auto bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
@@ -463,9 +465,9 @@ const Header = ({ logo }: HeaderProps) => {
             onClick={() => setMobileOpen(false)}
             className="flex items-center gap-4 px-4 py-3.5 rounded-2xl font-semibold text-sm text-foreground dark:text-foreground hover:bg-surface dark:hover:bg-surface hover:text-primary transition-all group"
           >
-            <span className="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-transform">
+            <SiteIcon className="text-[20px] text-primary group-hover:scale-110 transition-transform">
               shopping_cart
-            </span>
+            </SiteIcon>
             Cart
             {cartCount > 0 && (
               <span className="ml-auto bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">

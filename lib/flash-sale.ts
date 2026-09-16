@@ -7,6 +7,7 @@ export const flashSaleSchema = z.object({
   description: z.string().trim().min(1).max(500),
   badge: z.string().trim().min(1).max(40),
   buttonText: z.string().trim().min(1).max(60),
+  image: z.string().trim().max(1000).default("/contact-laptop.png"),
   link: z.string().trim().max(500).refine(
     (value) => /^\/(?!\/)/.test(value) && !/[\\\s]/.test(value),
     "Use a site link such as /shop or /shop?category=2.",
@@ -20,6 +21,7 @@ export const defaultFlashSale: FlashSaleSettings = {
   description: "Get massive discounts on our most popular sustainable products. Offer ends in:",
   badge: "Hurry Up!",
   buttonText: "Access Sale Now",
+  image: "/contact-laptop.png",
   link: "/shop",
   endsAt: "2026-12-30T19:00:00.000Z",
 };

@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React, { useState } from "react";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
@@ -51,9 +53,9 @@ const ForgotPasswordPage = () => {
             <>
               <div className="text-center mb-10">
                 <div className="inline-flex items-center justify-center size-16 bg-primary/10 rounded-2xl text-primary mb-6">
-                  <span className="material-symbols-outlined !text-4xl">
+                  <SiteIcon className="!text-4xl">
                     lock_reset
-                  </span>
+                  </SiteIcon>
                 </div>
                 <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-3">
                   Reset Password
@@ -89,9 +91,9 @@ const ForgotPasswordPage = () => {
           ) : (
             <div className="text-center py-4">
               <div className="inline-flex items-center justify-center size-20 bg-green-500/10 rounded-full text-green-500 mb-6 font-bold">
-                <span className="material-symbols-outlined !text-5xl">
+                <SiteIcon className="!text-5xl">
                   mark_email_read
-                </span>
+                </SiteIcon>
               </div>
               <h2 className="text-2xl font-black text-foreground dark:text-foreground mb-3">
                 Check Your Email
@@ -116,9 +118,9 @@ const ForgotPasswordPage = () => {
               href="/login"
               className="inline-flex items-center gap-2 text-sm text-primary font-bold hover:underline"
             >
-              <span className="material-symbols-outlined text-sm">
+              <SiteIcon className="text-sm">
                 arrow_back
-              </span>
+              </SiteIcon>
               Back to Login
             </Link>
           </div>

@@ -1,5 +1,8 @@
 "use client";
 
+import SiteIcon from '@/components/v2/SiteIcon';
+import ShopBenefits from "./ShopBenefits";
+
 import React, { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -25,11 +28,11 @@ const FilterSection: React.FC<FilterSectionProps> = ({
         <span className="text-foreground dark:text-foreground font-bold">
           {title}
         </span>
-        <span
-          className={`material-symbols-outlined text-muted text-sm transition-transform duration-300 ${isOpen ? "" : "rotate-180"}`}
+        <SiteIcon
+          className={`text-muted text-sm transition-transform duration-300 ${isOpen ? "" : "rotate-180"}`}
         >
           expand_less
-        </span>
+        </SiteIcon>
       </button>
       <div
         className={`transition-all duration-300 ${isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"} overflow-auto no-scrollbar`}
@@ -394,7 +397,7 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
             onClick={handlePriceCommit}
             className="w-full bg-primary text-white py-2 rounded-xl font-bold text-sm hover:bg-primary/90 transition-all shadow-md active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>filter_alt</span>
+            <SiteIcon  style={{ fontSize: "16px" }}>filter_alt</SiteIcon>
             Filter Price
           </button>
         </div>
@@ -417,6 +420,8 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
           </button>
         </div>
       </div>
+      <ShopBenefits />
+
     </aside>
   );
 };

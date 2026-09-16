@@ -1,3 +1,5 @@
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React from "react";
 
 interface Banner {
@@ -38,9 +40,9 @@ const Banners: React.FC<BannersProps> = ({ banners = [] }) => {
                 className="text-sm font-bold underline flex items-center gap-2"
               >
                 {banner1.buttonText || "Learn More"}{" "}
-                <span className="material-symbols-outlined text-sm">
+                <SiteIcon className="text-sm">
                   arrow_forward
-                </span>
+                </SiteIcon>
               </a>
             </div>
           </div>
@@ -91,14 +93,14 @@ const Banners: React.FC<BannersProps> = ({ banners = [] }) => {
                 className="text-sm font-bold underline flex items-baseline space-x-1 justify-end"
               >
                 {banner3.buttonText || "Our Process"}{" "}
-                <span
-                  className="material-symbols-outlined text-sm"
+                <SiteIcon
+                  className="text-sm"
                   style={{
                     fontSize: "15px",
                   }}
                 >
                   arrow_forward
-                </span>
+                </SiteIcon>
               </a>
             </div>
           </div>

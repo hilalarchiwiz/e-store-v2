@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React, { useEffect } from "react";
 import Button from "@/components/v2/Button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -51,9 +53,9 @@ const LogoutModal: React.FC<LogoutModalProps> = ({
               <div className="p-8 md:p-10 text-center">
                 {/* Icon */}
                 <div className="size-20 bg-red-50 dark:bg-red-500/10 text-red-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-red-500/5">
-                  <span className="material-symbols-outlined !text-4xl">
+                  <SiteIcon className="!text-4xl">
                     logout
-                  </span>
+                  </SiteIcon>
                 </div>
 
                 {/* Content */}

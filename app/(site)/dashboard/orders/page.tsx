@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getOrders } from "@/lib/action/v2-order.action";
@@ -56,7 +58,7 @@ export default function OrdersPage() {
         </div>
         <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-16 text-center">
           <div className="size-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <span className="material-symbols-outlined text-4xl text-primary">receipt_long</span>
+            <SiteIcon className="text-4xl text-primary">receipt_long</SiteIcon>
           </div>
           <h3 className="text-xl font-black text-foreground dark:text-foreground mb-2">No orders yet</h3>
           <p className="text-muted text-sm mb-8">Start shopping to see your orders here.</p>
@@ -64,7 +66,7 @@ export default function OrdersPage() {
             href="/shop"
             className="inline-flex items-center gap-2 bg-primary text-white font-black px-8 py-3 rounded-2xl hover:bg-primary/90 transition-all"
           >
-            <span className="material-symbols-outlined text-xl">storefront</span>
+            <SiteIcon className="text-xl">storefront</SiteIcon>
             Browse Shop
           </Link>
         </div>
@@ -120,7 +122,7 @@ export default function OrdersPage() {
                         href={`/dashboard/orders/${order.orderNumber}`}
                         className="inline-flex items-center gap-1.5 text-xs font-black text-muted hover:text-primary transition-colors bg-surface dark:bg-white/5 hover:bg-primary/10 px-3 py-2 rounded-xl"
                       >
-                        <span className="material-symbols-outlined text-base">visibility</span>
+                        <SiteIcon className="text-base">visibility</SiteIcon>
                         View
                       </Link>
                     </td>

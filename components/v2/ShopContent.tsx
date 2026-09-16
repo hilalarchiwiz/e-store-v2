@@ -1,11 +1,14 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import ShopHeader from "./ShopHeader";
 import ProductCard from "./ProductCard";
 import type { ShopFilters } from "@/lib/shop-products";
 import ShopIntro from "./ShopIntro";
+import ShopBenefits from "./ShopBenefits";
 import {
   MobileFilterModal,
   MobileSortModal,
@@ -164,9 +167,9 @@ const ShopContent: React.FC<ShopContentProps> = ({
       {products.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-28 gap-6 text-center">
           <div className="size-24 rounded-full bg-icon-surface dark:bg-icon-surface flex items-center justify-center text-muted">
-            <span className="material-symbols-outlined text-5xl">
+            <SiteIcon className="text-5xl">
               search_off
-            </span>
+            </SiteIcon>
           </div>
           <div>
             <h3 className="text-2xl font-black text-foreground dark:text-foreground mb-2">
@@ -180,9 +183,9 @@ const ShopContent: React.FC<ShopContentProps> = ({
             href="/shop"
             className="bg-primary text-white font-bold px-6 py-3 rounded-xl hover:bg-primary/90 transition-colors flex items-center gap-2"
           >
-            <span className="material-symbols-outlined text-sm">
+            <SiteIcon className="text-sm">
               filter_list_off
-            </span>
+            </SiteIcon>
             Clear All Filters
           </Link>
         </div>
@@ -219,6 +222,10 @@ const ShopContent: React.FC<ShopContentProps> = ({
         </div>
       )}
 
+      <div className="lg:hidden">
+        <ShopBenefits />
+      </div>
+
       {mobileFiltersOpen && (
         <MobileFilterModal
           onClose={() => setMobileFiltersOpen(false)}
@@ -243,9 +250,9 @@ const ShopContent: React.FC<ShopContentProps> = ({
             : "pointer-events-none translate-y-3 opacity-0"
         }`}
       >
-        <span aria-hidden="true" className="material-symbols-outlined">
+        <SiteIcon aria-hidden="true" >
           keyboard_arrow_up
-        </span>
+        </SiteIcon>
       </button>
     </section>
   );

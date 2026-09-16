@@ -1,3 +1,5 @@
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React, { useState } from "react";
 import Button from "@/components/v2/Button";
 import { toast } from "react-hot-toast";
@@ -76,11 +78,11 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
               onMouseEnter={() => setHoverRating(star)}
               className="transition-transform hover:scale-110 active:scale-90"
             >
-              <span
-                className={`material-symbols-outlined text-3xl ${star <= (hoverRating || rating) ? "text-yellow-500 fill-1" : "text-gray-300 dark:text-muted"}`}
+              <SiteIcon
+                className={`text-3xl ${star <= (hoverRating || rating) ? "text-yellow-500 fill-1" : "text-gray-300 dark:text-muted"}`}
               >
                 star
-              </span>
+              </SiteIcon>
             </button>
           ))}
         </div>

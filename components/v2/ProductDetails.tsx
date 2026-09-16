@@ -1,5 +1,7 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -279,9 +281,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             />
             {!zoomed && (
               <div className="absolute bottom-3 right-3 bg-black/40 text-white text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 pointer-events-none backdrop-blur-sm">
-                <span className="material-symbols-outlined text-[14px]">
+                <SiteIcon className="text-[14px]">
                   zoom_in
-                </span>
+                </SiteIcon>
                 Hover to zoom
               </div>
             )}
@@ -311,9 +313,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               href={`/shop?category=${(product.category.slug || product.category.id) ?? ""}`}
               className="inline-flex w-fit items-center gap-1.5 bg-primary/10 text-primary text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full hover:bg-primary/20 transition-colors"
             >
-              <span className="material-symbols-outlined text-[14px]">
+              <SiteIcon className="text-[14px]">
                 category
-              </span>
+              </SiteIcon>
               {product.category.title}
             </Link>
           )}
@@ -321,12 +323,12 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           {/* Rating */}
           <div className="flex items-center gap-1 text-yellow-500">
             {[...Array(5)].map((_, i) => (
-              <span
+              <SiteIcon
                 key={i}
-                className={`material-symbols-outlined text-lg sm:text-xl ${i < Math.floor(product.rating || 0) ? "fill-1" : ""}`}
+                className={`text-lg sm:text-xl ${i < Math.floor(product.rating || 0) ? "fill-1" : ""}`}
               >
                 {i < Math.floor(product.rating || 0) ? "star" : "star_border"}
-              </span>
+              </SiteIcon>
             ))}
             <span className="text-xs sm:text-sm text-muted font-medium ml-2">
               ({product.reviews || 0} reviews)
@@ -363,9 +365,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           {/* Warranty */}
           {product.warranty && (
             <div className="flex items-center gap-3 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 rounded-2xl px-4 py-3">
-              <span className="material-symbols-outlined text-blue-500">
+              <SiteIcon className="text-blue-500">
                 verified
-              </span>
+              </SiteIcon>
               <div>
                 <p className="text-[10px] font-black text-blue-700 dark:text-blue-400 uppercase tracking-wider mb-0.5">
                   Warranty
@@ -385,9 +387,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
 
               {product.grading.description && (
                 <div className="relative group">
-                  <span className="material-symbols-outlined text-muted text-[18px] cursor-help">
+                  <SiteIcon className="text-muted text-[18px] cursor-help">
                     info
-                  </span>
+                  </SiteIcon>
 
                   <div className="absolute left-1/2 -translate-x-1/2 top-7 w-72 bg-slate-900 text-white rounded-xl p-4 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                     <h4 className="font-semibold mb-2">
@@ -415,7 +417,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 disabled={isOutOfStock || quantity <= 1}
                 className="size-8 sm:size-9 flex items-center justify-center text-muted hover:text-primary transition-colors disabled:cursor-not-allowed disabled:opacity-30"
               >
-                <span className="material-symbols-outlined text-base sm:text-xl">remove</span>
+                <SiteIcon className="text-base sm:text-xl">remove</SiteIcon>
               </button>
               <span className="w-8 sm:w-10 text-center font-bold text-base sm:text-lg">
                 {quantity}
@@ -425,7 +427,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 disabled={isOutOfStock || quantity >= maxQty}
                 className="size-8 sm:size-9 flex items-center justify-center text-muted hover:text-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               >
-                <span className="material-symbols-outlined text-base sm:text-xl">add</span>
+                <SiteIcon className="text-base sm:text-xl">add</SiteIcon>
               </button>
             </div>
             <Button
@@ -443,11 +445,11 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               title={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
               className={`size-11 sm:size-12 shrink-0 rounded-xl border-2 flex items-center justify-center transition-all ${inWishlist ? "border-red-400 bg-red-50 dark:bg-red-500/10 text-red-500" : "border-outline dark:border-white/10 text-muted hover:border-red-300 hover:text-red-500"}`}
             >
-              <span
-                className={`material-symbols-outlined ${inWishlist ? "fill-1" : ""}`}
+              <SiteIcon
+                className={`${inWishlist ? "fill-1" : ""}`}
               >
                 favorite
-              </span>
+              </SiteIcon>
             </button>
           </div>
 
@@ -475,7 +477,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                     : "border-outline dark:border-white/10 bg-white dark:bg-white/5 text-foreground dark:text-muted hover:border-primary/50 hover:text-primary"
                   }`}
               >
-                <span className="material-symbols-outlined text-[18px]">share</span>
+                <SiteIcon className="text-[18px]">share</SiteIcon>
                 Share
               </button>
 
@@ -535,7 +537,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                     className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface dark:hover:bg-white/10 transition-colors"
                   >
                     <div className="size-8 rounded-lg bg-icon-surface dark:bg-white/10 flex items-center justify-center shrink-0">
-                      <span className="material-symbols-outlined text-[16px] text-muted dark:text-muted">link</span>
+                      <SiteIcon className="text-[16px] text-muted dark:text-muted">link</SiteIcon>
                     </div>
                     <span className="text-sm font-bold text-foreground dark:text-muted">Copy link</span>
                   </button>
@@ -559,7 +561,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           <div className="rounded-2xl border border-[#25D366]/30 bg-[#25D366]/5 p-4 sm:p-5">
             <div className="mb-3 flex items-start gap-3">
               <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#25D366]/15 text-[#159447]">
-                <span className="material-symbols-outlined">request_quote</span>
+                <SiteIcon >request_quote</SiteIcon>
               </div>
               <div>
                 <h2 className="text-sm sm:text-base font-black text-foreground dark:text-foreground">
@@ -605,17 +607,17 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           <div className="flex flex-col gap-2 text-xs sm:text-sm text-muted font-medium">
             <div className="flex items-center gap-3">
               <div className="size-7 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-[16px]">
+                <SiteIcon className="text-[16px]">
                   local_shipping
-                </span>
+                </SiteIcon>
               </div>
               <span>Free Shipping all over pakistan</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="size-7 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-[16px]">
+                <SiteIcon className="text-[16px]">
                   verified_user
-                </span>
+                </SiteIcon>
               </div>
               <span>Secure Payment</span>
             </div>
@@ -678,12 +680,12 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                             </div>
                             <div className="flex text-yellow-500">
                               {[...Array(5)].map((_, i) => (
-                                <span
+                                <SiteIcon
                                   key={i}
-                                  className={`material-symbols-outlined text-sm ${i < review.rating ? "fill-1" : ""}`}
+                                  className={`text-sm ${i < review.rating ? "fill-1" : ""}`}
                                 >
                                   {i < review.rating ? "star" : "star_border"}
-                                </span>
+                                </SiteIcon>
                               ))}
                             </div>
                           </div>
@@ -696,9 +698,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                   ) : (
                     <div className="flex flex-col items-center justify-center py-10 text-center gap-4">
                       <div className="size-20 bg-icon-surface dark:bg-icon-surface rounded-full flex items-center justify-center text-muted">
-                        <span className="material-symbols-outlined text-4xl">
+                        <SiteIcon className="text-4xl">
                           rate_review
-                        </span>
+                        </SiteIcon>
                       </div>
                       <h3 className="text-xl font-bold">No Reviews Yet</h3>
                       <p className="text-muted">

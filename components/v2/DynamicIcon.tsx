@@ -1,22 +1,14 @@
 "use client";
 
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React from "react";
-import * as LucideIcons from "lucide-react";
 
 interface DynamicIconProps {
   name?: string | null;
   className?: string;
   fallback?: string;
   size?: number;
-}
-
-function toPascalCase(str: string) {
-  return str
-    .replace(/[-_]+/g, " ")
-    .replace(/[^\w\s]/g, "")
-    .replace(/\s+(.)/g, (_, c) => c.toUpperCase())
-    .replace(/^[a-z]/, (c) => c.toUpperCase())
-    .replace(/\s+/g, "");
 }
 
 export default function DynamicIcon({
@@ -46,29 +38,11 @@ export default function DynamicIcon({
     );
   }
 
-  // 2. Lookup in Lucide Icons (exact match or PascalCase match or case-insensitive search)
-  const pascalName = toPascalCase(rawName);
-  const lucideKeys = Object.keys(LucideIcons);
-
-  const matchedKey =
-    lucideKeys.find((key) => key === rawName) ||
-    lucideKeys.find((key) => key === pascalName) ||
-    lucideKeys.find((key) => key.toLowerCase() === rawName.toLowerCase());
-
-  if (matchedKey) {
-    const IconComponent = (LucideIcons as any)[matchedKey];
-    if (IconComponent) {
-      return <IconComponent className={className} size={size} />;
-    }
-  }
-
-  // 3. Fallback to Material Symbols for material icon names
   return (
-    <span
-      className={`material-symbols-outlined ${className}`}
+    <SiteIcon
+      name={rawName}
+      className={className}
       style={{ fontSize: size }}
-    >
-      {rawName.toLowerCase()}
-    </span>
+    />
   );
 }

@@ -1,3 +1,5 @@
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import Link from "next/link";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -41,7 +43,7 @@ const Button: React.FC<ButtonProps> = ({
       ) : (
         <>
           {children}
-          {icon && <span className="material-symbols-outlined">{icon}</span>}
+          {icon && <SiteIcon >{icon}</SiteIcon>}
         </>
       )}
     </>

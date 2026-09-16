@@ -1,3 +1,5 @@
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import Link from "next/link";
 import { getPages } from "@/lib/action/home.action";
 import generateSession from "@/lib/generate-session";
@@ -68,9 +70,9 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                 </>
               ) : (
                 <>
-                  <span className="material-symbols-outlined text-3xl font-bold">
+                  <SiteIcon className="text-3xl font-bold">
                     Qaam
-                  </span>
+                  </SiteIcon>
                   <h2 className="text-foreground dark:text-foreground text-2xl font-black">
                     .PK
                   </h2>
@@ -111,9 +113,9 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                         </defs>
                       </svg>
                     ) : (
-                      <span className="material-symbols-outlined text-lg">
+                      <SiteIcon className="text-lg">
                         {SOCIAL_ICONS[key] ?? "link"}
-                      </span>
+                      </SiteIcon>
                     )}
                   </a>
                 ))}
@@ -124,25 +126,25 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                   className="size-10 bg-icon-surface dark:bg-icon-surface rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                   href="#"
                 >
-                  <span className="material-symbols-outlined text-lg">
+                  <SiteIcon className="text-lg">
                     public
-                  </span>
+                  </SiteIcon>
                 </a>
                 <a
                   className="size-10 bg-icon-surface dark:bg-icon-surface rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                   href="#"
                 >
-                  <span className="material-symbols-outlined text-lg">
+                  <SiteIcon className="text-lg">
                     play_arrow
-                  </span>
+                  </SiteIcon>
                 </a>
                 <a
                   className="size-10 bg-icon-surface dark:bg-icon-surface rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                   href="#"
                 >
-                  <span className="material-symbols-outlined text-lg">
+                  <SiteIcon className="text-lg">
                     camera
-                  </span>
+                  </SiteIcon>
                 </a>
               </div>
             )}
@@ -318,9 +320,9 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
             </a> */}
           </div>
           {/* <div className="flex items-center gap-4 grayscale opacity-50">
-            <span className="material-symbols-outlined">payments</span>
-            <span className="material-symbols-outlined">credit_card</span>
-            <span className="material-symbols-outlined">wallet</span>
+            <SiteIcon >payments</SiteIcon>
+            <SiteIcon >credit_card</SiteIcon>
+            <SiteIcon >wallet</SiteIcon>
           </div> */}
         </div>
       </div>

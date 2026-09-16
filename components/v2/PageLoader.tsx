@@ -1,4 +1,4 @@
-import { Laptop } from "lucide-react";
+import SiteIcon from '@/components/v2/SiteIcon';
 
 interface PageLoaderProps {
   progress?: number;
@@ -27,7 +27,7 @@ export default function PageLoader({
           <div className="absolute inset-0 rounded-full border-[3px] border-emerald-100 border-t-primary motion-safe:animate-spin dark:border-emerald-950 dark:border-t-primary" />
           <div className="absolute inset-2 rounded-full border border-emerald-200/80 dark:border-emerald-800/70" />
           <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-white shadow-xl shadow-emerald-600/25">
-            <Laptop className="h-8 w-8" strokeWidth={1.8} aria-hidden="true" />
+            <SiteIcon name="laptop" className="text-3xl" aria-hidden="true" />
           </div>
           <span className="absolute right-0 top-2 h-3 w-3 rounded-full bg-emerald-400 ring-4 ring-white motion-safe:animate-pulse dark:ring-[#0a0a0a]" />
         </div>

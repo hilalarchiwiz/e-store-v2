@@ -3,6 +3,8 @@ import {
     getProductFilterOptions,
     type ProductListSearchParams,
 } from './(actions)/product-list.action';
+import prisma from '@/lib/prisma';
+import { PRODUCT_VISIBILITY_KEY, parseShowOutOfStock } from '@/lib/product-visibility';
 import Pagination from '@/components/Admin/Pagination';
 import Title from '@/components/Admin/Typography/Title';
 import RecordNotFound from '@/components/Admin/Common/RecordNotFound';
@@ -25,13 +27,14 @@ export default async function ProductsPage({
     searchParams: Promise<ProductListSearchParams>;
 }) {
     const params = await searchParams;
-    const [productData, filterData, canEdit, canDelete, canCreate, canView] = await Promise.all([
+    const [productData, filterData, canEdit, canDelete, canCreate, canView, visibilitySetting] = await Promise.all([
         getAllProducts(params),
         getProductFilterOptions(),
         hasPermission('product_update'),
         hasPermission('product_delete'),
         hasPermission('product_create'),
         hasPermission('product_view'),
+        prisma.setting.findUnique({ where: { key: PRODUCT_VISIBILITY_KEY } }),
     ]);
 
     const {
@@ -57,6 +60,7 @@ export default async function ProductsPage({
         minPrice: params.minPrice,
         maxPrice: params.maxPrice,
         status: params.status,
+        stock: params.stock,
     });
 
     return (
@@ -88,7 +92,9 @@ export default async function ProductsPage({
                         <RecordNotFound />
                     ) : (
                         <>
-                            <ProductTable 
+                            <ProductTable
+                                key={JSON.stringify(params) + JSON.stringify(products.map((p: { id: number; status: string; quantity: number }) => [p.id, p.status, p.quantity]))}
+                                showOutOfStock={parseShowOutOfStock(visibilitySetting?.value)}
                                 products={products} 
                                 currentPage={currentPage} 
                                 limit={limit} 

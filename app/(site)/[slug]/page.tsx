@@ -1,3 +1,5 @@
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import React from "react";
 import Breadcrumbs from "@/components/v2/Breadcrumbs";
 import Link from "next/link";
@@ -59,9 +61,9 @@ const DynamicPage = async ({ params }: PageProps) => {
             {page.title}
           </h1>
           <div className="flex items-center gap-4 text-sm text-muted font-bold uppercase tracking-widest">
-            <span className="material-symbols-outlined text-primary text-xl">
+            <SiteIcon className="text-primary text-xl">
               event_note
-            </span>
+            </SiteIcon>
             Last Updated:{" "}
             {new Date(page.updatedAt).toLocaleDateString("en-US", {
               month: "long",

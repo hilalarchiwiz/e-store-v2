@@ -26,6 +26,7 @@ const FILTER_KEYS = [
   "minPrice",
   "maxPrice",
   "status",
+  "stock",
 ] as const;
 
 const fieldClassName =
@@ -55,13 +56,14 @@ export default function ProductFilters({
   const [minPrice, setMinPrice] = useState(minPriceParam);
   const [maxPrice, setMaxPrice] = useState(maxPriceParam);
   const [status, setStatus] = useState(statusParam);
+  const [stock, setStock] = useState(searchParams.get("stock") || "");
   const [priceError, setPriceError] = useState("");
 
   const activeFilterCount = FILTER_KEYS.filter((key) =>
     searchParams.has(key),
   ).length;
   const hasDraftFilters = Boolean(
-    brand || category || grading || minPrice || maxPrice || status,
+    brand || category || grading || minPrice || maxPrice || status || stock,
   );
 
   const navigateWithParams = (params: URLSearchParams) => {
@@ -112,6 +114,7 @@ export default function ProductFilters({
     setOrDeleteParam(params, "minPrice", minPrice);
     setOrDeleteParam(params, "maxPrice", maxPrice);
     setOrDeleteParam(params, "status", status);
+    setOrDeleteParam(params, "stock", stock);
     params.set("page", "1");
     navigateWithParams(params);
   };
@@ -127,6 +130,7 @@ export default function ProductFilters({
     setMinPrice("");
     setMaxPrice("");
     setStatus("");
+    setStock("");
     setPriceError("");
     navigateWithParams(params);
   };
@@ -157,6 +161,14 @@ export default function ProductFilters({
         </button>
       </div>
 
+      <label className="mb-4 block max-w-xs space-y-1.5 text-xs font-medium text-gray-600">
+        Stock availability
+        <select value={stock} onChange={event => setStock(event.target.value)} className={fieldClassName}>
+          <option value="">All stock levels</option>
+          <option value="out-of-stock">Out of stock</option>
+          <option value="in-stock">In stock</option>
+        </select>
+      </label>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-6">
         <label className="space-y-1.5 text-xs font-medium text-gray-600">
           Brand
@@ -217,8 +229,8 @@ export default function ProductFilters({
             className={fieldClassName}
           >
             <option value="">All statuses</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
+            <option value="active">Active (shown)</option>
+            <option value="inactive">Inactive (hidden)</option>
             <option value="draft">Draft</option>
           </select>
         </label>

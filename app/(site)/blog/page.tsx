@@ -1,3 +1,5 @@
+
+import SiteIcon from '@/components/v2/SiteIcon';
 import Breadcrumbs from "@/components/v2/Breadcrumbs";
 import { getBlogs } from "@/lib/action/home.action";
 import { Metadata } from "next";
@@ -115,7 +117,7 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
                 </div>
                 <div className="p-5 flex-1 flex flex-col">
                   <div className="flex items-center gap-2 text-sm text-muted dark:text-muted mb-2">
-                    <span className="material-symbols-outlined text-primary text-sm">event</span>
+                    <SiteIcon className="text-primary text-sm">event</SiteIcon>
                     {new Date(blog.createdAt).toLocaleDateString("en-US", {
                       month: "long",
                       day: "numeric",
@@ -129,7 +131,7 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
                     {blog.description}
                   </p>
                   <div className="text-primary text-sm font-bold uppercase tracking-widest flex items-center gap-1 group-hover:gap-2 transition-all">
-                    Read More <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                    Read More <SiteIcon className="text-sm">arrow_forward</SiteIcon>
                   </div>
                 </div>
               </div>
@@ -138,9 +140,9 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
         </div>
       ) : (
         <div className="text-center py-20 bg-surface dark:bg-surface rounded-xl border border-outline dark:border-outline">
-          <span className="material-symbols-outlined text-6xl text-gray-300 dark:text-foreground mb-4">
+          <SiteIcon className="text-6xl text-gray-300 dark:text-foreground mb-4">
             search_off
-          </span>
+          </SiteIcon>
           <p className="text-muted dark:text-muted text-lg">No blogs found matching your criteria.</p>
           <Link href="/blog" className="text-primary hover:underline mt-2 inline-block">
             Clear filters

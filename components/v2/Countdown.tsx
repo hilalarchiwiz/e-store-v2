@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import type { FlashSaleSettings } from "@/lib/flash-sale";
 
 const Countdown = ({ sale, initialRemaining }: { sale: FlashSaleSettings; initialRemaining: number }) => {
   const [remaining, setRemaining] = useState(initialRemaining);
+
   useEffect(() => {
     const update = () => setRemaining(Math.max(0, Date.parse(sale.endsAt) - Date.now()));
     update();
@@ -14,68 +15,76 @@ const Countdown = ({ sale, initialRemaining }: { sale: FlashSaleSettings; initia
   }, [sale.endsAt]);
 
   if (!sale.enabled || remaining <= 0) return null;
-  const days = Math.floor(remaining / 86400000);
-  const hours = Math.floor(remaining / 3600000) % 24;
-  const minutes = Math.floor(remaining / 60000) % 60;
-  const seconds = Math.floor(remaining / 1000) % 60;
+
+  const units = [
+    { value: Math.floor(remaining / 86400000), label: "Days" },
+    { value: Math.floor(remaining / 3600000) % 24, label: "Hours" },
+    { value: Math.floor(remaining / 60000) % 60, label: "Mins" },
+    { value: Math.floor(remaining / 1000) % 60, label: "Secs" },
+  ];
 
   return (
-    <section className="py-8 sm:py-12">
-      <div className="bg-primary-dark dark:bg-surface rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-10 md:p-16 text-center text-white relative overflow-hidden shadow-2xl shadow-primary-dark/40 dark:shadow-black/40">
-        <div className="absolute top-0 right-0 p-6 sm:p-12 opacity-10 pointer-events-none">
-          <span className="material-symbols-outlined text-[120px] sm:text-[200px]">eco</span>
-        </div>
-        <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6">
-          <span className="text-primary bg-white px-3.5 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-widest">
-            {sale.badge}
-          </span>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">
-            {sale.title}
-          </h2>
-          <p className="text-white/80 text-xs sm:text-base max-w-xl mx-auto px-2">
-            {sale.description}
-          </p>
+    <section className="py-8 sm:py-10">
+      <div className="relative isolate overflow-hidden rounded-xl bg-[#071E13] px-5 py-7 text-white shadow-[0_8px_24px_rgba(0,0,0,0.16)] sm:px-8 lg:min-h-[198px] lg:px-10 lg:py-7">
+        <div
+          className="pointer-events-none absolute inset-0 -z-20 opacity-40"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, rgba(255,255,255,.24) 1px, transparent 0)",
+            backgroundSize: "8px 8px",
+          }}
+        />
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_70%_50%,rgba(20,145,79,.25),transparent_35%),linear-gradient(90deg,rgba(0,0,0,.12),transparent_45%,rgba(0,0,0,.12))]" />
 
-          <div className="grid grid-cols-4 gap-2 sm:gap-4 md:gap-8 mt-2 sm:mt-4 w-full max-w-md mx-auto">
-            <div className="flex flex-col items-center gap-1">
-              <div className="bg-white/10 backdrop-blur-lg w-full aspect-square max-h-16 sm:max-h-24 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-3xl md:text-5xl font-black border border-white/20 shadow-inner">
-                {days < 10 ? `0${days}` : days}
-              </div>
-              <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider opacity-75">
-                Days
-              </span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-              <div className="bg-white/10 backdrop-blur-lg w-full aspect-square max-h-16 sm:max-h-24 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-3xl md:text-5xl font-black border border-white/20 shadow-inner">
-                {hours < 10 ? `0${hours}` : hours}
-              </div>
-              <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider opacity-75">
-                Hours
-              </span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-              <div className="bg-white/10 backdrop-blur-lg w-full aspect-square max-h-16 sm:max-h-24 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-3xl md:text-5xl font-black border border-white/20 shadow-inner">
-                {minutes < 10 ? `0${minutes}` : minutes}
-              </div>
-              <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider opacity-75">
-                Mins
-              </span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-              <div className="bg-white/10 backdrop-blur-lg w-full aspect-square max-h-16 sm:max-h-24 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-3xl md:text-5xl font-black border border-white/20 shadow-inner">
-                {seconds < 10 ? `0${seconds}` : seconds}
-              </div>
-              <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider opacity-75">
-                Secs
-              </span>
-            </div>
+        <div className="grid items-center gap-6 lg:grid-cols-[minmax(310px,1fr)_auto_minmax(230px,.85fr)_auto] lg:gap-7">
+          <div className="text-center lg:text-left">
+            <p className="text-base font-semibold text-primary sm:text-xl">{sale.badge}</p>
+            <h2 className="mt-2 text-3xl font-black leading-none tracking-[-0.04em] sm:text-4xl">
+              {sale.title}
+            </h2>
+            <p className="mx-auto mt-4 max-w-md whitespace-pre-line text-sm leading-[1.25] text-white/75 sm:text-lg lg:mx-0">
+              {sale.description}
+            </p>
           </div>
 
-          <Link href={sale.link} className="w-full sm:w-auto mt-4 sm:mt-8 bg-primary hover:bg-primary-dark border-2 border-primary text-white px-6 sm:px-10 py-3 sm:py-4 rounded-xl font-bold transition-all shadow-xl flex items-center justify-center gap-2 text-sm sm:text-base">
-            {sale.buttonText}{" "}
-            <span className="material-symbols-outlined text-base sm:text-xl">bolt</span>
+          <div className="mx-auto grid grid-cols-4 gap-2.5 lg:mx-0">
+            {units.map((unit) => (
+              <div
+                key={unit.label}
+                className="flex h-[84px] w-[58px] flex-col items-center justify-center rounded-md bg-white/10 shadow-inner backdrop-blur-sm sm:w-[66px]"
+              >
+                <strong className="text-[28px] font-black leading-none sm:text-[34px]">
+                  {String(unit.value).padStart(2, "0")}
+                </strong>
+                <span className="mt-2 text-[11px] font-medium leading-none text-white/65 sm:text-sm">
+                  {unit.label}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="pointer-events-none relative mx-auto hidden h-36 w-full max-w-[330px] lg:block">
+            <img
+              src={sale.image}
+              alt="Products included in the limited-time sale"
+              className="h-full w-full object-contain drop-shadow-2xl"
+            />
+          </div>
+
+          <Link
+            href={sale.link}
+            className="mx-auto inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-5 text-sm font-bold text-white shadow-lg transition hover:bg-primary/90 sm:text-base lg:mx-0"
+          >
+            {sale.buttonText}<span className="ml-1" aria-hidden="true">→</span>
           </Link>
         </div>
+
+        <img
+          src={sale.image}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none mx-auto mt-5 h-32 w-full object-contain opacity-90 lg:hidden"
+        />
       </div>
     </section>
   );
