@@ -168,13 +168,6 @@ export default function CheckoutPage() {
     fetchAddresses();
   }, [fetchAddresses]);
 
-  // Redirect non-logged users to login
-  useEffect(() => {
-    if (!sessionLoading && !session?.user) {
-      router.push("/login?redirect=/checkout");
-    }
-  }, [session, sessionLoading, router]);
-
   // Redirect if cart is empty after loading
   useEffect(() => {
     if (!cartLoading && cartItems.length === 0) {
@@ -205,11 +198,6 @@ export default function CheckoutPage() {
   };
 
   const handlePlaceOrder = async () => {
-    if (!session?.user) {
-      router.push("/login?redirect=/checkout");
-      return;
-    }
-
     // Validate address
     if (!showNewForm && !selectedAddressId && addresses.length > 0) {
       toast.error("Please select a delivery address");

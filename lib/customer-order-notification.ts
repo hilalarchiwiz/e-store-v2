@@ -22,7 +22,7 @@ export interface CustomerOrderUpdate {
   orderNumber: string;
   status: OrderStatus;
   billingAddress: { email: string; firstName: string };
-  user: { email: string; name: string };
+  user?: { email?: string; name?: string } | null;
 }
 
 // Return a warning separately: a mail failure must never undo a committed order update.
@@ -32,12 +32,13 @@ export async function notifyCustomerOrderStatus(
   send: typeof sendEmail = sendEmail,
 ): Promise<string | undefined> {
   if (previousStatus === order.status) return;
-  const to = [order.billingAddress.email, order.user.email]
+  const to = [order.billingAddress.email, order.user?.email]
+    .filter((email): email is string => Boolean(email))
     .map(email => email.trim())
     .find(email => z.email().safeParse(email).success);
   if (!to) return "The order was saved, but the customer email was not sent because no valid customer email address is available.";
   const { label, message } = statusMessages[order.status];
-  const name = order.billingAddress.firstName || order.user.name || "Customer";
+  const name = order.billingAddress.firstName || order.user?.name || "Customer";
   try {
     await send({
       to,

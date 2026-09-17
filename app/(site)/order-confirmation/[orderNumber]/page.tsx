@@ -176,13 +176,15 @@ export default async function OrderConfirmationPage({
 
           {/* Actions */}
           <div className="space-y-3">
-            <Link
-              href="/dashboard/orders"
-              className="w-full bg-primary text-white font-black py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-lg"
-            >
-              <SiteIcon className="text-xl">receipt_long</SiteIcon>
-              View My Orders
-            </Link>
+            {order.userId && (
+              <Link
+                href="/dashboard/orders"
+                className="w-full bg-primary text-white font-black py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-lg"
+              >
+                <SiteIcon className="text-xl">receipt_long</SiteIcon>
+                View My Orders
+              </Link>
+            )}
             <Link
               href="/shop"
               className="w-full bg-surface dark:bg-surface text-foreground dark:text-foreground font-black py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-surface dark:hover:bg-white/5 transition-all border border-outline dark:border-white/10"

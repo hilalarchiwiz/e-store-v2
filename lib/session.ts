@@ -1,6 +1,11 @@
 import { cookies } from "next/headers";
 import { v4 as uuidv4 } from "uuid";
 
+export async function getAnonymousId() {
+    const cookieStore = await cookies();
+    return cookieStore.get("anonymous_id")?.value;
+}
+
 export async function getOrCreateAnonymousId() {
     const cookieStore = await cookies();
     const existingId = cookieStore.get("anonymous_id")?.value;

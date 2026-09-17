@@ -13,6 +13,7 @@ import { useHydrated } from "@/hooks/useHydrated";
 
 interface HeaderProps {
   logo?: { logo?: string; dark_logo?: string; favicon?: string };
+  highestDealDiscount?: number | null;
 }
 
 interface ProductResult {
@@ -37,7 +38,7 @@ function getInitials(name: string) {
   return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
 }
 
-const Header = ({ logo }: HeaderProps) => {
+const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
   const { data: session } = useSession();
   const hydrated = useHydrated();
   const accountUser = hydrated ? session?.user : undefined;
@@ -177,7 +178,7 @@ const Header = ({ logo }: HeaderProps) => {
                 return (
                   <Link
                     key={link.href}
-                    className={`text-sm font-semibold leading-normal transition-colors hover:text-primary ${
+                    className={`relative text-sm font-semibold leading-normal transition-colors hover:text-primary ${
                       isActive
                         ? "text-primary"
                         : "text-foreground dark:text-foreground"
@@ -185,6 +186,11 @@ const Header = ({ logo }: HeaderProps) => {
                     href={link.href}
                     aria-current={isActive ? "page" : undefined}
                   >
+                    {link.href === "/deals" && highestDealDiscount && (
+                      <span className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-red-500 px-1.5 py-0.5 text-[8px] font-black uppercase leading-none tracking-wide text-white shadow-sm">
+                        Up to {highestDealDiscount}% off
+                      </span>
+                    )}
                     {link.label}
                   </Link>
                 );
@@ -450,8 +456,19 @@ const Header = ({ logo }: HeaderProps) => {
                   {link.icon}
                 </SiteIcon>
                 {link.label}
+                {link.href === "/deals" && highestDealDiscount && (
+                  <span
+                    className={`ml-auto rounded-full px-2 py-1 text-[9px] font-black uppercase tracking-wide ${
+                      isActive
+                        ? "bg-white/20 text-white"
+                        : "bg-red-500 text-white"
+                    }`}
+                  >
+                    Up to {highestDealDiscount}% off
+                  </span>
+                )}
                 {!isActive && (
-                  <SiteIcon className="text-[16px] ml-auto text-gray-300 dark:text-muted">
+                  <SiteIcon className={`${link.href === "/deals" && highestDealDiscount ? "ml-0" : "ml-auto"} text-[16px] text-gray-300 dark:text-muted`}>
                     chevron_right
                   </SiteIcon>
                 )}

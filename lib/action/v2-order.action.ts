@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import generateSession from "@/lib/generate-session";
-import { getOrCreateAnonymousId } from "@/lib/session";
+import { getAnonymousId, getOrCreateAnonymousId } from "@/lib/session";
 import { discountPrice } from "@/lib/helper";
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
@@ -48,10 +48,7 @@ function getShippingFee(method: string): number {
 export async function placeOrder(input: PlaceOrderInput) {
   try {
     const session = await generateSession();
-    if (!session?.user) {
-      return { success: false, error: "Please log in to place an order" };
-    }
-    const userId = session.user.id;
+    const userId = session?.user?.id;
 
     const anonymousId = await getOrCreateAnonymousId();
     const cartItems = await prisma.cart.findMany({
@@ -126,6 +123,7 @@ export async function placeOrder(input: PlaceOrderInput) {
       let billingAddressId: string;
 
       if (input.addressId) {
+        if (!userId) throw new Error("Please provide a shipping address");
         const addr = await tx.address.findFirst({
           where: { id: input.addressId, userId },
         });
@@ -144,6 +142,7 @@ export async function placeOrder(input: PlaceOrderInput) {
         data: {
           orderNumber: generateOrderNumber(),
           userId,
+          anonymousId,
           billingAddressId,
           shippingAddressId: billingAddressId,
           shipToDifferentAddress: false,
@@ -190,7 +189,7 @@ export async function placeOrder(input: PlaceOrderInput) {
           orderNumber: order.orderNumber,
           total,
           paymentMethod: input.paymentMethod,
-          customerEmail: input.addressData?.email || session.user.email,
+          customerEmail: input.addressData?.email || session?.user?.email,
         });
       } catch (emailError) {
         console.error("Failed to send admin email notification:", emailError);
@@ -262,10 +261,21 @@ export async function getOrders() {
 export async function getOrderByNumber(orderNumber: string) {
   try {
     const session = await generateSession();
-    if (!session?.user) return { success: false, order: null };
+    const anonymousId = await getAnonymousId();
+    const accessConditions = [
+      ...(session?.user?.id ? [{ userId: session.user.id }] : []),
+      ...(anonymousId ? [{ anonymousId }] : []),
+    ];
+
+    if (accessConditions.length === 0) {
+      return { success: false, order: null };
+    }
 
     const order = await prisma.order.findFirst({
-      where: { orderNumber, userId: session.user.id },
+      where: {
+        orderNumber,
+        OR: accessConditions,
+      },
       include: {
         orderItems: {
           include: { product: { select: { id: true, title: true, images: true, price: true,discountedPrice:true } } },

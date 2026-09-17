@@ -271,7 +271,7 @@ model Review {
 
 model Address {
   id            String   @id @default(cuid())
-  userId        String
+  userId        String?
   firstName     String
   lastName      String
   company       String?
@@ -287,7 +287,7 @@ model Address {
   updatedAt     DateTime @updatedAt
 
   // Relations
-  user           User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
   billingOrders  Order[] @relation("BillingAddress")
   shippingOrders Order[] @relation("ShippingAddress")
 
@@ -297,7 +297,8 @@ model Address {
 model Order {
   id          String @id @default(cuid())
   orderNumber String @unique
-  userId      String
+  userId      String?
+  anonymousId String?
 
   // Billing & Shipping
   billingAddressId       String
@@ -331,12 +332,13 @@ model Order {
   updatedAt DateTime @updatedAt
 
   // Relations
-  user            User        @relation(fields: [userId], references: [id])
+  user            User?       @relation(fields: [userId], references: [id])
   billingAddress  Address     @relation("BillingAddress", fields: [billingAddressId], references: [id])
   shippingAddress Address?    @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
   orderItems      OrderItem[]
 
   @@index([userId])
+  @@index([anonymousId])
   @@index([orderNumber])
   @@index([status])
   @@index([paymentStatus])

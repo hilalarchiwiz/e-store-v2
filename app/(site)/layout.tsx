@@ -8,6 +8,7 @@ import NavigationProgress from "@/components/v2/NavigationProgress";
 import { getSiteSettings } from "@/lib/action/settings.action";
 import CartInitializer from "@/components/v2/CartInitializer";
 import { getSetting } from "../(admin)/admin/(admin)/setting/actions/setting.action";
+import { getHighestDealDiscount } from "@/lib/deals";
 
 import ToasterProvider from "@/components/v2/ToasterProvider";
 
@@ -38,7 +39,10 @@ export default async function V2Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const settings = await getSiteSettings();
+  const [settings, highestDealDiscount] = await Promise.all([
+    getSiteSettings(),
+    getHighestDealDiscount(),
+  ]);
 
   return (
     <html lang="en" className="font-manrope" suppressHydrationWarning={true}>
@@ -61,7 +65,10 @@ export default async function V2Layout({
             <div className="flex-1">
               <div className="bg-page min-h-screen text-foreground dark:text-foreground font-display transition-colors duration-300">
                 {/* <TopBar generalSetting={settings.generalSetting} /> */}
-                <Header logo={settings.logo} />
+                <Header
+                  logo={settings.logo}
+                  highestDealDiscount={highestDealDiscount}
+                />
                 {children}
                 <Footer
                   logo={settings.logo}

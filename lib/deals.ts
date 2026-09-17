@@ -38,6 +38,17 @@ export async function getDealProducts(): Promise<DealProduct[]> {
   });
 }
 
+export async function getHighestDealDiscount(): Promise<number | null> {
+  const visibility = await getStorefrontProductFilter();
+  const result = await prisma.product.aggregate({
+    where: { ...visibility, discountedPrice: { gt: 0 } },
+    _max: { discountedPrice: true },
+  });
+  const discount = result._max.discountedPrice;
+
+  return discount && discount > 0 ? Math.round(discount) : null;
+}
+
 export function getDealCategories(products: DealProduct[]) {
   return Array.from(new Map(products.filter((product) => product.categoryId > 0).map((product) => [
     product.categoryId, { id: product.categoryId, title: product.category },
