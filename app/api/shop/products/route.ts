@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
   }
   try {
     const { products, totalProducts } = await getShopProducts(
-      Object.fromEntries(params), offset, 50,
+      Object.fromEntries(params), offset, 20,
     );
     return NextResponse.json({ products, totalProducts });
   } catch (error) {

@@ -88,11 +88,27 @@ const DEFAULT_BENEFITS = [
   { title: 'Sustainable Choice', description: 'Refurbished technology for a better tomorrow.', icon: 'Leaf' },
 ];
 
-const DEFAULT_STATS = [
-  { value: '10,000+', label: 'Products Sold', detail: 'Across Pakistan', icon: 'ShoppingBag' },
-  { value: '5,000+', label: 'Happy Customers', detail: 'And growing', icon: 'UsersRound' },
-  { value: 'Checked & Tested', label: 'By Tech Experts', detail: 'Quality assured', icon: 'ShieldCheck' },
-  { value: 'Nationwide', label: 'Delivery', detail: 'At your doorstep', icon: 'Truck' },
+const STATIC_TRUST_BENEFITS = [
+  {
+    title: 'Quality Assured',
+    description: 'Every product is tested for top performance',
+    icon: 'ShieldCheck',
+  },
+  {
+    title: 'Trusted Support',
+    description: 'We’re here before and after your purchase.',
+    icon: 'HeartHandshake',
+  },
+  {
+    title: 'Best Prices',
+    description: 'Premium technology without the premium cost.',
+    icon: 'Tag',
+  },
+  {
+    title: 'Sustainable Choice',
+    description: 'Refurbished tech for a better tomorrow.',
+    icon: 'HandHeart',
+  },
 ];
 
 function isImage(value?: string | null) {
@@ -107,12 +123,11 @@ function isImage(value?: string | null) {
 
 async function getAboutData() {
   try {
-    const [bannerRes, whoWeAreRes, whatWeDoSettingRes, statsRes, whyChooseSettingRes, teamSettingRes, whatWeDo, missionVision, whyChoose, teams] =
+    const [bannerRes, whoWeAreRes, whatWeDoSettingRes, whyChooseSettingRes, teamSettingRes, whatWeDo, missionVision, whyChoose, teams] =
       await Promise.all([
         getSetting('about_banner'),
         getSetting('about_who_we_are'),
         getSetting('about_what_we_do'),
-        getSetting('about_stats'),
         getSetting('about_why_choose'),
         getSetting('team'),
         prisma.whatWeDo.findMany({ where: { type: 'what_we_do' }, orderBy: { createdAt: 'asc' } }),
@@ -125,7 +140,6 @@ async function getAboutData() {
       banner: bannerRes?.setting || {},
       whoWeAre: whoWeAreRes?.setting || {},
       whatWeDoSetting: whatWeDoSettingRes?.setting || {},
-      statsSetting: statsRes?.setting || {},
       whyChooseSetting: whyChooseSettingRes?.setting || {},
       teamSetting: teamSettingRes?.setting || {},
       whatWeDo,
@@ -139,7 +153,6 @@ async function getAboutData() {
       banner: {},
       whoWeAre: {},
       whatWeDoSetting: {},
-      statsSetting: {},
       whyChooseSetting: {},
       teamSetting: {},
       whatWeDo: [],
@@ -178,7 +191,6 @@ export default async function AboutPage() {
     banner,
     whoWeAre,
     whatWeDoSetting,
-    statsSetting,
     whyChooseSetting,
     teamSetting,
     whatWeDo,
@@ -204,13 +216,6 @@ export default async function AboutPage() {
     ],
     videoUrl: banner.videoUrl || '',
   };
-
-  const stats = DEFAULT_STATS.map((item, index) => ({
-    value: statsSetting[`item${index + 1}Value`] || item.value,
-    label: statsSetting[`item${index + 1}Label`] || item.label,
-    detail: statsSetting[`item${index + 1}Detail`] || item.detail,
-    icon: statsSetting[`item${index + 1}Icon`] || item.icon,
-  }));
 
   const services = (whatWeDo.length ? whatWeDo : DEFAULT_SERVICES).map((item: any, index: number) => ({
     title: item.title,
@@ -272,17 +277,28 @@ export default async function AboutPage() {
           </div>
         </section>
 
-        <section aria-label="QAAM at a glance" className="rounded-xl surface dark:surface border border-black/5 bg-surface px-1 py-3 shadow-[0_8px_30px_rgba(0,0,0,.10)] dark:border-white/10 dark:bg-surface sm:rounded-2xl sm:p-6">
-          <div className="grid grid-cols-4 gap-0">
-            {stats.map((stat, index) => (
-              <div key={`${stat.label}-${index}`} className="flex min-w-0 flex-col items-center justify-center gap-1 border-r border-black/10 px-1 text-center last:border-r-0 dark:border-white/10 sm:flex-row sm:gap-3 sm:px-4 sm:text-left lg:px-7">
-                <span className="shrink-0 text-primary">
-                  <DynamicIcon name={stat.icon} fallback="BadgeCheck" size={24} />
+        <section
+          aria-label="Why shop with QAAM"
+          className="overflow-hidden rounded-xl border border-black/5 bg-[#f7f7f7] px-3 py-4 shadow-[0_3px_18px_rgba(0,0,0,.14)] dark:border-white/10 dark:bg-surface sm:rounded-2xl sm:px-5 sm:py-6"
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
+            {STATIC_TRUST_BENEFITS.map((benefit, index) => (
+              <div
+                key={benefit.title}
+                className={`flex min-w-0 items-center gap-4 px-3 py-4 text-left sm:px-5 xl:py-0 xl:px-8 ${
+                  index > 0 ? 'border-t border-black/15 sm:border-t-0' : ''
+                } ${index % 2 === 1 ? 'sm:border-l sm:border-black/15' : ''} ${
+                  index === 2 ? 'sm:border-t sm:border-black/15 xl:border-l xl:border-t-0' : ''
+                } ${index === 3 ? 'sm:border-t sm:border-black/15 xl:border-t-0' : ''} dark:border-white/15`}
+              >
+                <span className="flex w-10 shrink-0 justify-center text-primary sm:w-12">
+                  <DynamicIcon name={benefit.icon} fallback="ShieldCheck" size={38} />
                 </span>
                 <div className="min-w-0">
-                  <p className="break-words text-[8px] font-black leading-tight sm:text-lg lg:text-xl">{stat.value}</p>
-                  <p className="mt-0.5 break-words text-[7px] font-semibold leading-tight text-muted dark:text-white/65 sm:mt-1 sm:text-xs lg:text-sm">{stat.label}</p>
-                  <span className="sr-only">{stat.detail}</span>
+                  <h2 className="text-sm font-black leading-tight sm:text-base">{benefit.title}</h2>
+                  <p className="mt-1 text-sm leading-[1.25] text-muted dark:text-white/65 sm:text-base">
+                    {benefit.description}
+                  </p>
                 </div>
               </div>
             ))}

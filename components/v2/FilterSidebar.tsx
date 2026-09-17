@@ -67,6 +67,7 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isApplying, setIsApplying] = useState(false);
 
   const categoryParamStr = searchParams.get("category") || "";
   const brandParamStr = searchParams.get("brand") || "";
@@ -124,10 +125,16 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
       params.delete("brand");
     }
 
-    // Price
-    const price = newPrice !== undefined ? newPrice : priceRange;
-    params.set("minPrice", price[0].toString());
-    params.set("maxPrice", price[1].toString());
+    // Preserve an existing price filter unless the price controls changed.
+    if (newPrice !== undefined) {
+      if (newPrice[0] === minPrice && newPrice[1] === maxPrice) {
+        params.delete("minPrice");
+        params.delete("maxPrice");
+      } else {
+        params.set("minPrice", newPrice[0].toString());
+        params.set("maxPrice", newPrice[1].toString());
+      }
+    }
 
     // Sort
     const s = newSort !== undefined ? newSort : sort;
@@ -146,6 +153,8 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
 
     params.set("page", "1");
 
+    if (params.toString() === searchParams.toString()) return;
+    setIsApplying(true);
     router.push(`/shop?${params.toString()}`, { scroll: false });
     scrollToProducts();
   };
@@ -189,17 +198,27 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
   };
 
   const handlePriceChange = (index: 0 | 1, value: number) => {
-    const newPrice = [...priceRange] as [number, number];
-    newPrice[index] = value;
-    setPriceRange(newPrice);
+    if (!Number.isFinite(value)) return;
+
+    if (index === 0) {
+      setPriceRange([
+        Math.min(Math.max(value, minPrice), priceRange[1]),
+        priceRange[1],
+      ]);
+      return;
+    }
+
+    setPriceRange([
+      priceRange[0],
+      Math.max(Math.min(value, maxPrice), priceRange[0]),
+    ]);
   };
 
   const handlePriceSliderChange = (value: number) => {
-    const newPrice = [priceRange[0], value] as [number, number];
-    setPriceRange(newPrice);
+    setPriceRange([Math.min(priceRange[0], value), value]);
   };
 
-  // Only apply price filter when user releases slider or clicks apply
+  // Apply the selected price range when the slider is released or the button is clicked.
   const handlePriceCommit = () => {
     applyFilters(undefined, undefined, priceRange, undefined);
   };
@@ -215,11 +234,25 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
     setSelectedGenerations([]);
     setPriceRange([minPrice, maxPrice]);
     setSort("newest");
+    if (!searchParams.toString()) return;
+    setIsApplying(true);
     router.push("/shop", { scroll: false });
   };
 
   return (
-    <aside className="hidden w-full min-w-0 max-w-full shrink-0 flex-col gap-4 lg:flex lg:w-72">
+    <aside
+      aria-busy={isApplying}
+      className={`hidden w-full min-w-0 max-w-full shrink-0 flex-col gap-4 lg:flex lg:w-72 ${isApplying ? "pointer-events-none opacity-70" : ""}`}
+    >
+      {isApplying && (
+        <div
+          role="status"
+          className="pointer-events-none fixed left-1/2 top-24 z-[70] flex -translate-x-1/2 items-center gap-3 rounded-full border border-outline bg-surface px-5 py-3 text-sm font-bold text-foreground shadow-xl dark:border-white/10 dark:bg-surface dark:text-white"
+        >
+          <span className="size-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          Updating products…
+        </div>
+      )}
       {/* Active Filters Summary */}
       <div className="bg-surface dark:bg-surface px-5 py-4 rounded-xl border border-outline dark:border-outline shadow-[0_2px_4px_rgba(0,0,0,0.02)] flex justify-between items-center transition-colors">
         <h3 className="text-foreground dark:text-foreground text-base font-bold">
@@ -351,46 +384,64 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <input
-              className="w-full accent-primary h-1.5 bg-surface dark:bg-surface rounded-lg appearance-none cursor-pointer"
+              aria-label="Maximum price range"
+              className="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-outline accent-primary dark:bg-white/20"
               max={maxPrice}
               min={minPrice}
+              step={1}
               type="range"
               value={priceRange[1]}
               onChange={(e) => handlePriceSliderChange(Number(e.target.value))}
               onMouseUp={handlePriceCommit}
               onTouchEnd={handlePriceCommit}
             />
-            <div className="flex justify-between items-center text-xs text-muted font-bold">
+            <div className="flex items-center justify-between text-xs font-bold text-muted">
               <span>Rs. {minPrice}</span>
               <span>Rs. {maxPrice}+</span>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="flex-1 relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-muted font-bold">
-                Rs{" "}
-              </span>
-              <input
-                className="w-full ml-2 pl-6 pr-2 py-2 text-sm border-outline dark:border-outline dark:bg-surface rounded-lg focus:ring-primary focus:border-primary outline-none"
-                placeholder="Min"
-                type="text"
-                value={priceRange[0]}
-                onChange={(e) => handlePriceChange(0, Number(e.target.value))}
-              />
-            </div>
-            <span className="text-muted">-</span>
-            <div className="flex-1 relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-muted font-bold">
-                Rs{" "}
-              </span>
-              <input
-                className="w-full ml-2 pl-6 pr-2 py-2 text-sm border-outline dark:border-outline dark:bg-surface rounded-lg focus:ring-primary focus:border-primary outline-none"
-                placeholder="Max"
-                type="text"
-                value={priceRange[1]}
-                onChange={(e) => handlePriceChange(1, Number(e.target.value))}
-              />
-            </div>
+          <div className="grid grid-cols-[1fr_auto_1fr] items-end gap-2">
+            <label className="min-w-0 text-xs font-semibold text-muted">
+              Minimum
+              <div className="relative mt-1.5">
+                <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-[11px] font-bold text-muted">
+                  Rs
+                </span>
+                <input
+                  aria-label="Minimum price"
+                  className="w-full appearance-none rounded-lg border border-outline bg-surface py-2 pl-7 pr-2 text-sm font-semibold text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-outline dark:bg-surface dark:text-foreground [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  min={minPrice}
+                  max={priceRange[1]}
+                  step={1}
+                  type="number"
+                  value={priceRange[0]}
+                  onChange={(e) =>
+                    handlePriceChange(0, Number(e.target.value))
+                  }
+                />
+              </div>
+            </label>
+            <span className="pb-2.5 text-muted" aria-hidden="true">–</span>
+            <label className="min-w-0 text-xs font-semibold text-muted">
+              Maximum
+              <div className="relative mt-1.5">
+                <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-[11px] font-bold text-muted">
+                  Rs
+                </span>
+                <input
+                  aria-label="Maximum price"
+                  className="w-full appearance-none rounded-lg border border-outline bg-surface py-2 pl-7 pr-2 text-sm font-semibold text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-outline dark:bg-surface dark:text-foreground [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  min={priceRange[0]}
+                  max={maxPrice}
+                  step={1}
+                  type="number"
+                  value={priceRange[1]}
+                  onChange={(e) =>
+                    handlePriceChange(1, Number(e.target.value))
+                  }
+                />
+              </div>
+            </label>
           </div>
           <button
             type="button"

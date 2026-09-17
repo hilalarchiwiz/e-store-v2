@@ -51,24 +51,28 @@ export default function DashboardPage() {
       value: totalOrders,
       icon: "shopping_bag",
       color: "bg-blue-500",
+      href: "/dashboard/orders",
     },
     {
       label: "Delivered",
       value: delivered,
       icon: "check_circle",
       color: "bg-green-500",
+      href: "/dashboard/orders",
     },
     {
       label: "Pending",
       value: pending,
       icon: "pending",
       color: "bg-amber-500",
+      href: "/dashboard/orders",
     },
     {
       label: "Wishlist",
       value: wishlistCount,
       icon: "favorite",
       color: "bg-red-500",
+      href: "/wishlist",
     },
   ];
 
@@ -123,9 +127,11 @@ export default function DashboardPage() {
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
-          <div
+          <Link
             key={stat.label}
-            className="bg-surface dark:bg-surface p-6 rounded-3xl border border-primary/5 shadow-xl group hover:border-primary/20 transition-all"
+            href={stat.href}
+            aria-label={`View ${stat.label}`}
+            className="group rounded-3xl border border-primary/5 bg-surface p-6 shadow-xl transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:bg-surface dark:focus-visible:ring-offset-[#222b33]"
           >
             <div
               className={`size-12 ${stat.color} text-white rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform`}
@@ -138,7 +144,13 @@ export default function DashboardPage() {
             <h3 className="text-2xl font-black text-foreground dark:text-foreground">
               {stat.value}
             </h3>
-          </div>
+            <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-primary opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+              View details
+              <SiteIcon className="text-xs transition-transform group-hover:translate-x-0.5">
+                arrow_forward
+              </SiteIcon>
+            </span>
+          </Link>
         ))}
       </div>
 

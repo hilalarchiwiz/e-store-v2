@@ -85,9 +85,19 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
 
 const ShopPage = async ({ searchParams }: ShopPageProps) => {
   const resolvedSearchParams = await searchParams;
+  const requestedPage = Number(resolvedSearchParams.page);
+  const currentPage =
+    Number.isSafeInteger(requestedPage) && requestedPage > 0
+      ? requestedPage
+      : 1;
+  const productsPerPage = 20;
   const visibility = await getStorefrontProductFilter();
   const { products, totalProducts, categoryIds, laptopGenerations, search } =
-    await getShopProducts(resolvedSearchParams);
+    await getShopProducts(
+      resolvedSearchParams,
+      0,
+      currentPage * productsPerPage,
+    );
 
   const [
     categoriesData,

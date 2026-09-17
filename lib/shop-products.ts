@@ -2,6 +2,7 @@ import { getStorefrontProductFilter } from "@/lib/storefront-products";
 import prisma from "@/lib/prisma";
 
 export interface ShopFilters {
+  page?: string;
   category?: string;
   brand?: string;
   minPrice?: string;

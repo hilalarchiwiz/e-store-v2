@@ -25,17 +25,34 @@ interface ProductResult {
 
 const NAV_LINKS = [
   { href: "/shop", label: "Shop", icon: "storefront" },
+  { href: "/deals", label: "Deals", icon: "local_offer" },
   { href: "/about", label: "About", icon: "info" },
   { href: "/contact", label: "Contact", icon: "mail" },
 ];
 
+function getInitials(name: string) {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return "";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+}
+
 const Header = ({ logo }: HeaderProps) => {
   const { data: session } = useSession();
   const hydrated = useHydrated();
+  const accountUser = hydrated ? session?.user : undefined;
+  const accountName = accountUser?.name?.trim();
+  const accountImage = accountUser?.image?.trim();
   const roleName = (
     session?.user as { roleName?: string } | undefined
   )?.roleName;
   const isAdmin = Boolean(roleName && roleName !== "user");
+  const isSuperAdmin = roleName?.replace(/\s+/g, "").toLowerCase() === "superadmin";
+  const accountInitials = isSuperAdmin
+    ? "SA"
+    : accountName
+      ? getInitials(accountName)
+      : "";
   const storedCartCount = useAppSelector((state) =>
     state.cartReducer.items.reduce((sum, item) => sum + item.quantity, 0),
   );
@@ -153,24 +170,25 @@ const Header = ({ logo }: HeaderProps) => {
 
             {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-8">
-              <Link
-                className="text-foreground dark:text-foreground text-sm font-semibold leading-normal hover:text-primary transition-colors"
-                href="/shop"
-              >
-                Shop
-              </Link>
-              <Link
-                className="text-foreground dark:text-foreground text-sm font-semibold leading-normal hover:text-primary transition-colors"
-                href="/about"
-              >
-                About
-              </Link>
-              <Link
-                className="text-foreground dark:text-foreground text-sm font-semibold leading-normal hover:text-primary transition-colors"
-                href="/contact"
-              >
-                Contact
-              </Link>
+              {NAV_LINKS.map((link) => {
+                const isActive =
+                  pathname === link.href || pathname.startsWith(link.href + "/");
+
+                return (
+                  <Link
+                    key={link.href}
+                    className={`text-sm font-semibold leading-normal transition-colors hover:text-primary ${
+                      isActive
+                        ? "text-primary"
+                        : "text-foreground dark:text-foreground"
+                    }`}
+                    href={link.href}
+                    aria-current={isActive ? "page" : undefined}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
             </nav>
           </div>
 
@@ -306,9 +324,25 @@ const Header = ({ logo }: HeaderProps) => {
               {/* Account */}
               <Link
                 href={isAdmin ? "/admin" : "/dashboard"}
-                className="hidden size-10 items-center justify-center rounded-lg bg-primary text-white transition-colors hover:bg-primary-dark sm:flex"
+                aria-label={
+                  accountName ? `Open ${accountName}'s account` : "Open account"
+                }
+                title={accountName || "My Account"}
+                className="hidden size-10 items-center justify-center overflow-hidden rounded-lg bg-primary text-white transition-colors hover:bg-primary-dark sm:flex"
               >
-                <SiteIcon className="text-xl">person</SiteIcon>
+                {accountImage ? (
+                  <img
+                    src={accountImage}
+                    alt={`${accountName || "User"} profile`}
+                    className="size-full object-cover"
+                  />
+                ) : accountInitials ? (
+                  <span className="text-sm font-black tracking-wide">
+                    {accountInitials}
+                  </span>
+                ) : (
+                  <SiteIcon className="text-xl">person</SiteIcon>
+                )}
               </Link>
 
               {/* Hamburger — visible only below lg */}

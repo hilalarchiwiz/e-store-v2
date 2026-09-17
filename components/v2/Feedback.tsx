@@ -4,7 +4,7 @@ import SiteIcon from "@/components/v2/SiteIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 interface DBReview {
   id: string | number;
@@ -22,18 +22,45 @@ interface FeedbackProps {
 const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activePage, setActivePage] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const pageCount = Math.max(1, Math.ceil(reviews.length / 2));
 
-  const scroll = (direction: "left" | "right") => {
+  const scroll = useCallback((direction: "left" | "right") => {
     const container = scrollRef.current;
     if (!container) return;
 
-    const distance = container.clientWidth / (window.innerWidth >= 1024 ? 3 : 1);
+    const firstReview = container.firstElementChild as HTMLElement | null;
+    const distance = firstReview
+      ? firstReview.getBoundingClientRect().width + 16
+      : container.clientWidth;
     container.scrollBy({
       left: direction === "left" ? -distance : distance,
       behavior: "smooth",
     });
-  };
+  }, []);
+
+  useEffect(() => {
+    if (reviews.length < 2 || isPaused) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduceMotion.matches) return;
+
+    const interval = window.setInterval(() => {
+      const container = scrollRef.current;
+      if (!container || container.scrollWidth <= container.clientWidth) return;
+
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      const isAtEnd = container.scrollLeft >= maxScroll - 4;
+
+      if (isAtEnd) {
+        container.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        scroll("right");
+      }
+    }, 4000);
+
+    return () => window.clearInterval(interval);
+  }, [isPaused, reviews.length, scroll]);
 
   const updateActivePage = () => {
     const container = scrollRef.current;
@@ -56,7 +83,17 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
 
       {reviews.length > 0 ? (
         <>
-          <div className="relative">
+          <div
+            className="relative"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onFocusCapture={() => setIsPaused(true)}
+            onBlurCapture={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) {
+                setIsPaused(false);
+              }
+            }}
+          >
             <div
               ref={scrollRef}
               onScroll={updateActivePage}

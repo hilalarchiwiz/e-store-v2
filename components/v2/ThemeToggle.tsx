@@ -1,8 +1,8 @@
 'use client';
 
 
-import SiteIcon from '@/components/v2/SiteIcon';
 import React, { useEffect, useState } from 'react';
+import { Moon, Sun } from 'lucide-react';
 import { useHydrated } from '@/hooks/useHydrated';
 
 type Theme = 'light' | 'dark';
@@ -41,9 +41,17 @@ const ThemeToggle = () => {
       className="group flex size-9 items-center justify-center rounded-lg bg-icon-surface text-foreground transition-all duration-300 hover:bg-primary/20 dark:bg-icon-surface dark:text-foreground sm:size-10"
       aria-label="Toggle Theme"
     >
-      <SiteIcon className="text-xl transition-transform duration-500 group-hover:rotate-12">
-        {theme === 'light' ? 'dark_mode' : 'light_mode'}
-      </SiteIcon>
+      {theme === 'light' ? (
+        <Moon
+          aria-hidden="true"
+          className="size-5 transition-transform duration-500 group-hover:rotate-12"
+        />
+      ) : (
+        <Sun
+          aria-hidden="true"
+          className="size-5 transition-transform duration-500 group-hover:rotate-12"
+        />
+      )}
     </button>
   );
 };

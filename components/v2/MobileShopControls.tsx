@@ -71,6 +71,7 @@ export function MobileFilterModal({
 }: MobileFilterModalProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isApplying, setIsApplying] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<number[]>(() =>
     parseNumberList(searchParams.get("category")),
   );
@@ -106,8 +107,12 @@ export function MobileFilterModal({
     );
     params.set("page", "1");
 
+    if (params.toString() === searchParams.toString()) {
+      onClose();
+      return;
+    }
+    setIsApplying(true);
     router.push(`/shop?${params.toString()}`, { scroll: false });
-    onClose();
   };
 
   const applyFilters = () => {
@@ -139,8 +144,12 @@ export function MobileFilterModal({
     }
     params.set("page", "1");
 
+    if (params.toString() === searchParams.toString()) {
+      onClose();
+      return;
+    }
+    setIsApplying(true);
     router.push(`/shop?${params.toString()}`, { scroll: false });
-    onClose();
   };
 
   const chipClass = (selected: boolean) =>
@@ -161,8 +170,19 @@ export function MobileFilterModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="mobile-filter-title"
-        className="flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-surface shadow-2xl dark:bg-surface sm:max-w-lg sm:rounded-3xl"
+        className="relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-surface shadow-2xl dark:bg-surface sm:max-w-lg sm:rounded-3xl"
       >
+        {isApplying && (
+          <div
+            role="status"
+            className="absolute inset-0 z-20 flex items-center justify-center bg-surface/80 backdrop-blur-sm dark:bg-surface/80"
+          >
+            <div className="flex items-center gap-3 rounded-full bg-surface px-5 py-3 text-sm font-bold text-foreground shadow-xl dark:bg-surface dark:text-white">
+              <span className="size-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+              Updating products…
+            </div>
+          </div>
+        )}
         <div className="flex items-center justify-between border-b border-black/5 bg-surface px-5 py-4 dark:border-white/10 dark:bg-surface">
           <div>
             <p className="text-xs font-semibold text-primary">Refine your search</p>
@@ -282,13 +302,17 @@ export function MobileFilterModal({
               Price Range
             </h3>
             <input
+              aria-label="Maximum price range"
               type="range"
               min={minPrice}
               max={maxPrice}
-              step={Math.max(1, Math.round(maxPrice / 100))}
+              step={1}
               value={priceRange[1]}
               onChange={(event) =>
-                setPriceRange([priceRange[0], Number(event.target.value)])
+                setPriceRange([
+                  Math.min(priceRange[0], Number(event.target.value)),
+                  Number(event.target.value),
+                ])
               }
               className="mt-4 h-1.5 w-full cursor-pointer accent-primary"
             />
@@ -299,6 +323,7 @@ export function MobileFilterModal({
                   type="number"
                   min={minPrice}
                   max={priceRange[1]}
+                  step={1}
                   value={priceRange[0]}
                   onChange={(event) =>
                     setPriceRange([
@@ -306,7 +331,7 @@ export function MobileFilterModal({
                       priceRange[1],
                     ])
                   }
-                  className="mt-1.5 w-full rounded-xl border border-outline bg-surface px-3 py-2.5 text-sm font-bold text-foreground outline-none focus:border-primary dark:border-white/10 dark:bg-surface dark:text-foreground"
+                  className="mt-1.5 w-full appearance-none rounded-xl border border-outline bg-surface px-3 py-2.5 text-sm font-bold text-foreground outline-none focus:border-primary dark:border-white/10 dark:bg-surface dark:text-foreground [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 />
               </label>
               <label className="text-xs font-semibold text-muted">
@@ -315,6 +340,7 @@ export function MobileFilterModal({
                   type="number"
                   min={priceRange[0]}
                   max={maxPrice}
+                  step={1}
                   value={priceRange[1]}
                   onChange={(event) =>
                     setPriceRange([
@@ -322,7 +348,7 @@ export function MobileFilterModal({
                       Math.max(Number(event.target.value), priceRange[0]),
                     ])
                   }
-                  className="mt-1.5 w-full rounded-xl border border-outline bg-surface px-3 py-2.5 text-sm font-bold text-foreground outline-none focus:border-primary dark:border-white/10 dark:bg-surface dark:text-foreground"
+                  className="mt-1.5 w-full appearance-none rounded-xl border border-outline bg-surface px-3 py-2.5 text-sm font-bold text-foreground outline-none focus:border-primary dark:border-white/10 dark:bg-surface dark:text-foreground [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 />
               </label>
             </div>
@@ -333,6 +359,7 @@ export function MobileFilterModal({
           <button
             type="button"
             onClick={clearFilters}
+            disabled={isApplying}
             className="min-h-12 rounded-xl border border-outline bg-white text-sm font-bold text-primary shadow-sm transition-colors hover:bg-primary/5 dark:border-white/10 dark:bg-transparent"
           >
             Clear All
@@ -340,6 +367,7 @@ export function MobileFilterModal({
           <button
             type="button"
             onClick={applyFilters}
+            disabled={isApplying}
             className="min-h-12 rounded-xl bg-primary text-sm font-bold text-white shadow-lg shadow-primary/20 transition-colors hover:bg-primary-dark"
           >
             Apply Filters
@@ -370,6 +398,7 @@ function FilterCard({
 export function MobileSortModal({ onClose }: MobileSortModalProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isApplying, setIsApplying] = useState(false);
   const selectedSort = searchParams.get("sort") || "newest";
 
   useModalBehavior(onClose);
@@ -385,8 +414,12 @@ export function MobileSortModal({ onClose }: MobileSortModalProps) {
     const params = new URLSearchParams(searchParams.toString());
     params.set("sort", value);
     params.set("page", "1");
+    if (params.toString() === searchParams.toString()) {
+      onClose();
+      return;
+    }
+    setIsApplying(true);
     router.push(`/shop?${params.toString()}`, { scroll: false });
-    onClose();
   };
 
   return (
@@ -400,8 +433,19 @@ export function MobileSortModal({ onClose }: MobileSortModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="mobile-sort-title"
-        className="w-full max-w-md overflow-hidden rounded-2xl border border-outline bg-surface p-3 shadow-2xl dark:border-white/10 dark:bg-surface"
+        className="relative w-full max-w-md overflow-hidden rounded-2xl border border-outline bg-surface p-3 shadow-2xl dark:border-white/10 dark:bg-surface"
       >
+        {isApplying && (
+          <div
+            role="status"
+            className="absolute inset-0 z-20 flex items-center justify-center bg-surface/80 backdrop-blur-sm dark:bg-surface/80"
+          >
+            <div className="flex items-center gap-3 rounded-full bg-surface px-5 py-3 text-sm font-bold text-foreground shadow-xl dark:bg-surface dark:text-white">
+              <span className="size-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+              Updating products…
+            </div>
+          </div>
+        )}
         <div className="flex items-center justify-between px-2 pb-2 pt-1">
           <h2
             id="mobile-sort-title"
@@ -426,6 +470,7 @@ export function MobileSortModal({ onClose }: MobileSortModalProps) {
               type="button"
               key={option.value}
               onClick={() => selectSort(option.value)}
+              disabled={isApplying}
               className={`flex w-full items-center gap-3 rounded-xl px-3 py-3.5 text-left text-sm font-semibold transition-colors ${
                 selected
                   ? "bg-primary/10 text-primary"
