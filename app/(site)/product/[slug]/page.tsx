@@ -6,6 +6,7 @@ import ProductDetails from "@/components/v2/ProductDetails";
 import Breadcrumbs from "@/components/v2/Breadcrumbs";
 import { Metadata } from "next";
 import Script from "next/script";
+import { absoluteUrl, createPublicMetadata, metaDescription } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{
@@ -27,40 +28,24 @@ export async function generateMetadata({
         ...(numericId ? [{ id: numericId }] : []),
       ],
     },
-    include: { category: true, grading: true },
+    include: { brand: true, category: true, grading: true },
   });
 
   if (!product) return {};
 
-  const title = `${product.title} | Qaam.pk`;
-  const description =
-    product.description?.substring(0, 160) ||
-    `Buy ${product.title} at Qaam.pk. Discover high-performance tech and premium PC gear.`;
+  const title = `${product.title} — Price in Pakistan`;
+  const description = metaDescription(
+    product.description,
+    `Buy ${product.title} at Qaam.pk with nationwide delivery in Pakistan.`,
+  );
   const canonicalSlug = product.slug || product.id.toString();
 
-  return {
+  return createPublicMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: `https://qaam.pk/product/${canonicalSlug}`,
-      siteName: "Qaam.pk",
-      images: [
-        {
-          url: product.images[0] || "/images/og-image.png",
-          alt: product.title,
-        },
-      ],
-      type: "article",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [product.images[0] || "/images/og-image.png"],
-    },
-  };
+    path: `/product/${canonicalSlug}`,
+    image: product.images[0],
+  });
 }
 
 export default async function ProductPage({ params }: PageProps) {
@@ -77,6 +62,7 @@ export default async function ProductPage({ params }: PageProps) {
     },
     include: {
       category: true,
+      brand: true,
       reviews: true,
       grading: true,
     },
@@ -101,6 +87,12 @@ export default async function ProductPage({ params }: PageProps) {
   });
 
   const categorySlugOrId = product.category?.slug || product.category?.id;
+  const discountPercent =
+    product.discountedPrice && product.discountedPrice > 0
+      ? product.discountedPrice
+      : 0;
+  const salePrice = product.price - (product.price * discountPercent) / 100;
+  const canonicalProductUrl = absoluteUrl(`/product/${product.slug || product.id}`);
 
   return (
     <main className="max-w-400 mx-auto w-full px-6 py-6 md:py-10 md:px-10 flex flex-col gap-8">
@@ -141,37 +133,58 @@ export default async function ProductPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Product",
-            name: product.title,
-            image: product.images.map((img) => `https://qaam.pk${img}`),
-            description: product.description,
-            brand: {
-              "@type": "Brand",
-              name: "Qaam.pk",
-            },
-            offers: {
-              "@type": "Offer",
-              url: `https://qaam.pk/product/${product.slug || product.id}`,
-              priceCurrency: "PKR",
-              price: product.discountedPrice || product.price,
-              availability:
-                product.quantity > 0
-                  ? "https://schema.org/InStock"
-                  : "https://schema.org/OutOfStock",
-              itemCondition: "https://schema.org/NewCondition",
-            },
-            ...(product.reviews.length > 0
-              ? {
-                aggregateRating: {
-                  "@type": "AggregateRating",
-                  ratingValue:
-                    product.reviews.reduce((acc, r) => acc + r.rating, 0) /
-                    product.reviews.length,
-                  reviewCount: product.reviews.length,
+            "@graph": [
+              {
+                "@type": "Product",
+                "@id": `${canonicalProductUrl}#product`,
+                name: product.title,
+                image: product.images.map(absoluteUrl),
+                description: metaDescription(product.description, product.title),
+                sku: String(product.id),
+                category: product.category?.title,
+                brand: product.brand?.title
+                  ? { "@type": "Brand", name: product.brand.title }
+                  : undefined,
+                offers: {
+                  "@type": "Offer",
+                  url: canonicalProductUrl,
+                  priceCurrency: "PKR",
+                  price: salePrice.toFixed(2),
+                  availability:
+                    product.quantity > 0
+                      ? "https://schema.org/InStock"
+                      : "https://schema.org/OutOfStock",
+                  itemCondition: product.grading
+                    ? "https://schema.org/UsedCondition"
+                    : "https://schema.org/NewCondition",
                 },
-              }
-              : {}),
-          }),
+                ...(product.reviews.length > 0
+                  ? {
+                    aggregateRating: {
+                      "@type": "AggregateRating",
+                      ratingValue:
+                        product.reviews.reduce((acc, r) => acc + r.rating, 0) /
+                        product.reviews.length,
+                      reviewCount: product.reviews.length,
+                    },
+                  }
+                  : {}),
+              },
+              {
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl() },
+                  { "@type": "ListItem", position: 2, name: "Shop", item: absoluteUrl("/shop") },
+                  {
+                    "@type": "ListItem",
+                    position: 3,
+                    name: product.title,
+                    item: canonicalProductUrl,
+                  },
+                ],
+              },
+            ],
+          }).replace(/</g, "\\u003c"),
         }}
       />
     </main>

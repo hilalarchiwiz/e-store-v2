@@ -8,27 +8,42 @@ import Button from '@/components/v2/Button';
 import FaqAccordion from '@/components/v2/FaqAccordion';
 import { getFaqs } from '@/lib/action/home.action';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+import { createPublicMetadata } from '@/lib/seo';
 
-export const metadata = {
-  title: 'Frequently Asked Questions | Qaam.pk Help Center',
-  description: 'Find answers to common questions about Qaam.pk orders, technical support, shipping, and product warranties.',
-  openGraph: {
-    title: 'Qaam.pk FAQ | We Have the Answers',
-    description: 'Get help with your Qaam.pk orders and learn more about our high-performance computing products.',
-    url: 'https://qaam.pk/faq',
-    siteName: 'Qaam.pk',
-    images: [{ url: '/images/og-image.png' }],
-    type: 'website',
-  },
-};
+export const metadata: Metadata = createPublicMetadata({
+  title: 'Frequently Asked Questions',
+  description: 'Find answers about Qaam.pk orders, payment, nationwide shipping, product condition, warranties, returns and technical support.',
+  path: '/faq',
+});
 
 const FAQPage = async () => {
   const { faqs = [] } = await getFaqs();
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim(),
+      },
+    })),
+  };
 
   return (
 
 
     <main className="flex-1 max-w-400 mx-auto w-full px-6 md:px-10 py-10 md:py-20 flex flex-col gap-10">
+      {faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(faqSchema).replace(/</g, '\\u003c'),
+          }}
+        />
+      )}
       <Breadcrumbs
         items={[
           { label: 'Home', href: '/' },

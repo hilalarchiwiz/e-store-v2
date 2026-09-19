@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { absoluteUrl, createPublicMetadata, metaDescription } from "@/lib/seo";
 
 interface BlogDetailsPageProps {
   params: Promise<{
@@ -20,21 +21,19 @@ export async function generateMetadata({ params }: BlogDetailsPageProps): Promis
   if (!response.success || !response.blog) return {};
 
   const { blog } = response;
-  const title = `${blog.title} | Blog | Qaam.pk`;
-  const description = blog.description;
+  const title = blog.title;
+  const description = metaDescription(
+    blog.description,
+    `Read ${blog.title} on the Qaam.pk technology blog.`,
+  );
 
-  return {
+  return createPublicMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: `https://qaam.pk/blog/${slug}`,
-      siteName: "Qaam.pk",
-      images: [{ url: blog.image || "/images/og-image.png" }],
-      type: "article",
-    },
-  };
+    path: `/blog/${slug}`,
+    image: blog.image,
+    type: "article",
+  });
 }
 
 const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
@@ -46,12 +45,35 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
   }
 
   const { blog } = response;
+  const blogUrl = absoluteUrl(`/blog/${blog.slug}`);
+  const blogSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: blog.title,
+    description: metaDescription(blog.description, blog.title),
+    image: blog.image ? [absoluteUrl(blog.image)] : undefined,
+    datePublished: blog.createdAt.toISOString(),
+    dateModified: blog.updatedAt.toISOString(),
+    mainEntityOfPage: blogUrl,
+    author: { "@type": "Organization", name: "Qaam.pk", url: absoluteUrl() },
+    publisher: {
+      "@type": "Organization",
+      name: "Qaam.pk",
+      logo: { "@type": "ImageObject", url: absoluteUrl("/images/logo/logo.png") },
+    },
+  };
 
   // Increment views
   await incrementBlogViews(blog.id);
 
   return (
     <main className="flex-1 max-w-[1000px] mx-auto w-full px-4 py-10 md:py-20 flex flex-col gap-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(blogSchema).replace(/</g, "\\u003c"),
+        }}
+      />
       <Breadcrumbs
         items={[
           { label: "Home", href: "/" },

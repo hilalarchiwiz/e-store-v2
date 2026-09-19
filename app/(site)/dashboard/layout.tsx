@@ -3,6 +3,10 @@ import { redirect } from "next/navigation";
 import generateSession from "@/lib/generate-session";
 import DashboardSidebar from "@/components/v2/dashboard/Sidebar";
 import Breadcrumbs from "@/components/v2/Breadcrumbs";
+import type { Metadata } from "next";
+import { PRIVATE_PAGE_METADATA } from "@/lib/seo";
+
+export const metadata: Metadata = PRIVATE_PAGE_METADATA;
 
 export default async function DashboardLayout({
   children,

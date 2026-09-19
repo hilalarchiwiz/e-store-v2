@@ -5,6 +5,7 @@ import { getBlogs } from "@/lib/action/home.action";
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { createPublicMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -21,30 +22,21 @@ export async function generateMetadata({ searchParams }: BlogPageProps): Promise
   const search = params.search?.trim() || "";
   const tag = params.tag;
 
-  let title = "Blog | Qaam.pk";
-  const description = "Read our latest news and updates.";
+  let title = "Laptop Buying Guides & Technology Blog";
+  const description = "Read practical laptop buying guides, computer advice, product insights and technology updates from the Qaam.pk team in Pakistan.";
 
   if (search) {
-    title = `Search results for "${search}" | Blog | Qaam.pk`;
+    title = `Blog search results for “${search}”`;
   } else if (tag) {
-    title = `${tag} | Blog | Qaam.pk`;
+    title = `${tag} Articles`;
   }
 
-  return {
+  return createPublicMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: `https://qaam.pk/blog${search ? `?search=${search}` : ""}`,
-      siteName: "Qaam.pk",
-      images: [{ url: "/images/og-image.png" }],
-      type: "website",
-    },
-    alternates: {
-      canonical: "/blog",
-    },
-  };
+    path: "/blog",
+    noIndex: Boolean(search || tag || params.page),
+  });
 }
 
 const BlogPage = async ({ searchParams }: BlogPageProps) => {

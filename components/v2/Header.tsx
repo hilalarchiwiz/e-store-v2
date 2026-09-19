@@ -163,7 +163,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                     eco
                   </SiteIcon>
                   <h2 className="text-foreground dark:text-foreground text-2xl font-black leading-tight tracking-[-0.015em]">
-                    Ecomare
+                    Qaam.pk
                   </h2>
                 </>
               )}
@@ -399,7 +399,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
             ) : (
               <>
                 <SiteIcon className="text-2xl">eco</SiteIcon>
-                <span className="text-foreground dark:text-foreground text-xl font-black">Ecomare</span>
+                <span className="text-foreground dark:text-foreground text-xl font-black">Qaam.pk</span>
               </>
             )}
           </Link>

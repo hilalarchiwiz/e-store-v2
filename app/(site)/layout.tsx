@@ -16,13 +16,34 @@ export async function generateMetadata(): Promise<Metadata> {
   const { setting } = await getSetting("logo");
 
   return {
+    applicationName: "Qaam.pk",
     title: {
-      default: "Qaam.pk | Premium Laptops, Tablets & PC Essentials",
+      default: "Laptops in Pakistan | Qaam.pk",
       template: "%s | Qaam.pk",
     },
     description:
       "Upgrade your workspace with high-performance laptops, tablets, and PC gear. Discover the latest tech, new arrivals, and exclusive deals at Qaam.pk.",
     metadataBase: new URL("https://qaam.pk"),
+    authors: [{ name: "Qaam.pk", url: "https://qaam.pk" }],
+    creator: "Qaam.pk",
+    publisher: "Qaam.pk",
+    formatDetection: { email: false, address: false, telephone: false },
+    openGraph: {
+      type: "website",
+      locale: "en_PK",
+      url: "https://qaam.pk",
+      siteName: "Qaam.pk",
+      title: "Laptops in Pakistan | Qaam.pk",
+      description:
+        "Shop tested laptops, tablets, desktops and PC accessories with nationwide delivery across Pakistan.",
+      images: [{ url: "/og", width: 1200, height: 630, alt: "Qaam.pk technology store" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Laptops in Pakistan | Qaam.pk",
+      description: "Shop tested technology with nationwide delivery across Pakistan.",
+      images: ["/og"],
+    },
     verification: {
       google: "HDMVHQt5Tabe8oJsqORNh-nw_KPwd7jZQ3Q17_B8bIA",
     },

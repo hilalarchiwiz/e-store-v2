@@ -2,13 +2,16 @@ import Link from "next/link";
 import Breadcrumbs from "@/components/v2/Breadcrumbs";
 import ProductCard from "@/components/v2/ProductCard";
 import { getDealCategories, getDealProducts } from "@/lib/deals";
+import type { Metadata } from "next";
+import { createPublicMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = {
-  title: "Best Deals | QAAM",
-  description: "Shop discounted technology products at QAAM.",
-};
+export const metadata: Metadata = createPublicMetadata({
+  title: "Laptop & Computer Deals in Pakistan",
+  description: "Shop current deals on tested laptops, computers, tablets and PC accessories at Qaam.pk, with delivery available across Pakistan.",
+  path: "/deals",
+});
 
 export default async function DealsPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
   const params = await searchParams;

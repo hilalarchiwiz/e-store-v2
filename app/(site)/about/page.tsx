@@ -5,21 +5,14 @@ import { getSetting } from '@/app/(admin)/admin/(admin)/setting/actions/setting.
 import prisma from '@/lib/prisma';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { createPublicMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'About QAAM | Technology You Can Trust',
-  description:
-    'Discover how QAAM.PK makes tested, dependable and affordable refurbished technology accessible across Pakistan.',
-  openGraph: {
-    title: 'About QAAM | Technology You Can Trust',
-    description:
-      'QAAM.PK is redefining how Pakistan shops for dependable refurbished laptops, computers and accessories.',
-    url: 'https://qaam.pk/about',
-    siteName: 'QAAM.PK',
-    images: [{ url: '/images/og-image.png' }],
-    type: 'website',
-  },
-};
+export const metadata: Metadata = createPublicMetadata({
+  title: 'About Us — Tested Technology in Pakistan',
+  description: 'Learn how Qaam.pk makes tested, dependable and affordable laptops, computers and accessories accessible across Pakistan.',
+  path: '/about',
+  image: '/images/about/qaam-showroom.png',
+});
 
 const SHOWROOM_IMAGE = '/images/about/qaam-showroom.png';
 

@@ -3,19 +3,13 @@ import Breadcrumbs from "@/components/v2/Breadcrumbs";
 import ContactForm from "@/components/v2/ContactForm";
 import { getSiteSettings } from "@/lib/action/settings.action";
 import { Metadata } from "next";
+import { createPublicMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact Us | Qaam.pk Support & Sales",
-  description: "Have a question about our laptops or computing gear? Reach out to Qaam.pk. Our technical support team is here to help you with your tech needs.",
-  openGraph: {
-    title: "Contact Qaam.pk | We're Here to Help",
-    description: "Get in touch with the Qaam.pk team for product inquiries, technical support, and order assistance.",
-    url: "https://qaam.pk/contact",
-    siteName: "Qaam.pk",
-    images: [{ url: "/images/og-image.png" }],
-    type: "website",
-  },
-};
+export const metadata: Metadata = createPublicMetadata({
+  title: "Contact Support & Sales",
+  description: "Contact Qaam.pk for laptop and computer product questions, technical support, order assistance and sales enquiries in Pakistan.",
+  path: "/contact",
+});
 
 export default async function ContactPage() {
   const { contactInfo, generalSetting, socialInfo } = await getSiteSettings();

@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://qaam.com";
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://qaam.pk";
 
     return {
         rules: {
@@ -9,12 +9,9 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: [
                 '/admin/',
-                '/cart',
-                '/checkout',
-                '/register',
-                '/signup',
-                '/order-confirmation/',
-                '/wishlist',
+                '/api/',
+                '/dashboard',
+                '/dashboard/',
             ],
         },
         sitemap: `${baseUrl}/sitemap.xml`,

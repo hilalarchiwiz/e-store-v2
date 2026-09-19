@@ -2,6 +2,15 @@
 import SiteIcon from '@/components/v2/SiteIcon';
 import React from 'react';
 import Breadcrumbs from '@/components/v2/Breadcrumbs';
+import type { Metadata } from 'next';
+import { createPublicMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = createPublicMetadata({
+  title: 'Track Your Order',
+  description: 'Track your Qaam.pk delivery using your order number and billing email, or contact our support team for help with your order.',
+  path: '/track-order',
+  noIndex: true,
+});
 
 const TrackOrderPage = () => {
   return (

@@ -19,43 +19,55 @@ import DynamicIcon from "@/components/v2/DynamicIcon";
 import { getDealCategories, getDealProducts } from "@/lib/deals";
 
 export const metadata: Metadata = {
-  title: "Qaam.pk | Premium Laptops, Tablets & PC Essentials",
+  title: {
+    absolute: "Laptops in Pakistan | Buy New & Used Laptops | Qaam.pk",
+  },
   description:
-    "Upgrade your workspace with high-performance laptops, tablets, and PC gear. Discover the latest tech, new arrivals, and exclusive deals at Ecomare.",
+    "Shop new and used laptops, tablets, desktops and PC accessories in Pakistan. Explore tested tech, competitive prices and nationwide delivery at Qaam.pk.",
   keywords: [
-    "laptops",
-    "tablets",
-    "gaming pc",
-    "computer hardware",
-    "tech store",
-    "desktops",
-    "Ecomare",
-    "PC accessories",
-    "high-performance computing",
+    "laptops in Pakistan",
+    "buy laptops online Pakistan",
+    "used laptops Pakistan",
+    "gaming laptops Pakistan",
+    "tablets Pakistan",
+    "desktop computers Pakistan",
+    "PC accessories Pakistan",
   ],
+  category: "Electronics",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     type: "website",
-    locale: "en_US",
-    title: "Qaam.pk | Premium Laptops, Tablets & PC Essentials",
+    locale: "en_PK",
+    title: "Laptops in Pakistan | New & Used Laptops | Qaam.pk",
     description:
-      "Upgrade your workspace with high-performance laptops, tablets, and PC gear. Curated for quality and power.",
-    url: "https://qaam.pk",
+      "Shop tested laptops, tablets, desktops and PC accessories at competitive prices with nationwide delivery across Pakistan.",
+    url: "https://qaam.pk/",
     siteName: "Qaam.pk",
     images: [
       {
-        url: "/images/hero/hero-bg.png",
+        url: "/og",
         width: 1200,
         height: 630,
-        alt: "Qaam.pk - Premium Laptops & Tech Gear",
+        alt: "Shop laptops and computing gear at Qaam.pk",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Qaam.pk | Laptops, Tablets & PC Essentials",
+    title: "Laptops in Pakistan | New & Used Laptops | Qaam.pk",
     description:
-      "High-performance tech for work and play. Upgrade your home with the latest laptops and tablets.",
-    images: ["/images/og-image.png"],
+      "Shop tested laptops, tablets, desktops and PC accessories with nationwide delivery across Pakistan.",
+    images: ["/og"],
   },
   alternates: {
     canonical: "/",
@@ -254,39 +266,53 @@ export default async function V2HomePage() {
     icon: item.icon,
   }));
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://qaam.pk/#website",
+        name: "Qaam.pk",
+        url: "https://qaam.pk/",
+        inLanguage: "en-PK",
+        publisher: { "@id": "https://qaam.pk/#organization" },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: "https://qaam.pk/shop?search={search_term_string}",
+          },
+          "query-input": "required name=search_term_string",
+        },
+      },
+      {
+        "@type": ["Organization", "OnlineStore"],
+        "@id": "https://qaam.pk/#organization",
+        name: "Qaam.pk",
+        url: "https://qaam.pk/",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://qaam.pk/images/logo/logo.png",
+          width: 637,
+          height: 254,
+        },
+        image: "https://qaam.pk/images/hero/hero-bg.png",
+        description:
+          "Online store for new and used laptops, tablets, desktop computers and PC accessories in Pakistan.",
+        areaServed: {
+          "@type": "Country",
+          name: "Pakistan",
+        },
+      },
+    ],
+  };
+
   return (
     <main className="max-w-400 mx-auto pb-20 md:px-10 px-2">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "Ecomare",
-            url: "https://qaam.pk",
-            potentialAction: {
-              "@type": "SearchAction",
-              target: "https://qaam.pk/shop?q={search_term_string}",
-              "query-input": "required name=search_term_string",
-            },
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "qaam.pk",
-            url: "https://qaam.pk",
-            logo: "https://qaam.pk/logo.png",
-            contactPoint: {
-              "@type": "ContactPoint",
-              telephone: "+92-300-1234567",
-              contactType: "customer service",
-            },
-          }),
+          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
         }}
       />
       <Hero slides={slides} />

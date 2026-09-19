@@ -306,7 +306,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
           <p>
             {generalSetting?.footer_text
               ? generalSetting.footer_text
-              : `© ${year} Ecomare Inc. All rights reserved.`}
+              : `© ${year} Qaam.pk. All rights reserved.`}
           </p>
           <div className="flex items-center gap-8">
             {/* <a className="hover:text-primary" href="#">

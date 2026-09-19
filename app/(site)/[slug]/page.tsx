@@ -6,6 +6,7 @@ import Link from "next/link";
 import { getPageBySlug } from "@/lib/action/home.action";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { createPublicMetadata, metaDescription } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{
@@ -22,21 +23,18 @@ export async function generateMetadata({
   if (!response.success || !response.page) return {};
 
   const { page } = response;
-  const title = `${page.title} | Qaam.pk`;
-  const description = page.content.replace(/<[^>]*>/g, "").substring(0, 160);
+  const title = page.title;
+  const description = metaDescription(
+    page.content,
+    `Read ${page.title} at Qaam.pk.`,
+  );
 
-  return {
+  return createPublicMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: `https://qaam.pk/${slug}`,
-      siteName: "Qaam.pk",
-      images: [{ url: "/images/og-image.png" }],
-      type: "article",
-    },
-  };
+    path: `/${slug}`,
+    type: "article",
+  });
 }
 
 const DynamicPage = async ({ params }: PageProps) => {

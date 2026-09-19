@@ -6,6 +6,7 @@ import prisma from "@/lib/prisma";
 import { getShopProducts } from "@/lib/shop-products";
 import { Metadata } from "next";
 import Script from "next/script";
+import { absoluteUrl, createPublicMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -28,12 +29,12 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
   const categoryParam = params.category;
   const brandParam = params.brand;
 
-  let title = "Shop Premium Laptops, Tablets & PC Essentials | Qaam.pk";
-  let description = "Explore our extensive collection of high-performance laptops, tablets, and computing gear at Qaam.pk. Find the perfect tech for work, gaming, and home.";
+  let title = "Shop Laptops, Computers & Accessories in Pakistan";
+  let description = "Browse tested laptops, tablets, desktop computers and PC accessories at Qaam.pk, with competitive prices and nationwide delivery in Pakistan.";
 
   if (search) {
-    title = `Search results for "${search}" | Qaam.pk`;
-    description = `Browse the best deals for "${search}" at Qaam.pk. High-quality computing products at competitive prices.`;
+    title = `Search results for “${search}”`;
+    description = `Browse Qaam.pk products matching “${search}”. Find tested computing products at competitive prices with delivery across Pakistan.`;
   } else if (categoryParam) {
     const parts = categoryParam.split(",");
     const firstPart = parts[0];
@@ -47,8 +48,8 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
       if (category) categoryName = category.title;
     }
 
-    title = `${categoryName} - Premium Tech Collection | Qaam.pk`;
-    description = `Shop the latest ${categoryName} at Qaam.pk. Discover high-performance options tailored for your needs.`;
+    title = `${categoryName} in Pakistan`;
+    description = `Shop ${categoryName} at Qaam.pk. Compare tested options at competitive prices with nationwide delivery across Pakistan.`;
   } else if (brandParam) {
     const parts = brandParam.split(",");
     const firstPart = parts[0];
@@ -62,25 +63,16 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
       if (brand) brandName = brand.title;
     }
 
-    title = `Premium ${brandName} Products | Qaam.pk`;
-    description = `Discover the complete range of ${brandName} tech products at Qaam.pk. Quality guaranteed with official warranty.`;
+    title = `${brandName} Laptops & Technology in Pakistan`;
+    description = `Browse ${brandName} technology at Qaam.pk. Compare tested products, prices and specifications with nationwide delivery.`;
   }
 
-  return {
+  return createPublicMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: `https://qaam.pk/shop${search ? `?search=${search}` : ""}`,
-      siteName: "Qaam.pk",
-      images: [{ url: "/images/og-image.png" }],
-      type: "website",
-    },
-    alternates: {
-      canonical: "/shop",
-    },
-  };
+    path: "/shop",
+    noIndex: Object.values(params).some(Boolean),
+  });
 }
 
 const ShopPage = async ({ searchParams }: ShopPageProps) => {
@@ -255,9 +247,9 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
               "itemListElement": products.map((p, index) => ({
                 "@type": "ListItem",
                 "position": index + 1,
-                "url": `https://qaam.pk/product/${p.id}`,
+                "url": absoluteUrl(`/product/${p.slug || p.id}`),
                 "name": p.name,
-                "image": `https://qaam.pk${p.image}`
+                "image": absoluteUrl(p.image)
               }))
             }
           }),

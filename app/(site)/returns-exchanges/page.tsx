@@ -3,6 +3,14 @@ import SiteIcon from '@/components/v2/SiteIcon';
 import React from 'react';
 import Breadcrumbs from '@/components/v2/Breadcrumbs';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+import { createPublicMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = createPublicMetadata({
+  title: 'Returns, Exchanges & Refunds',
+  description: 'Read the Qaam.pk return, exchange and refund policy, including eligibility, request steps and processing times for orders in Pakistan.',
+  path: '/returns-exchanges',
+});
 
 const ReturnsExchangesPage = () => {
   return (
