@@ -148,6 +148,9 @@ button {
 @theme {
   /* Font Families */
   --font-euclid-circular-a: "Euclid Circular A";
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Inter", sans-serif;
+  --font-heading: "Cal Sans", sans-serif;
 
   /* Colors */
   --color-body: #6c6f93;
@@ -384,7 +387,6 @@ button {
   --color-primary-dark: #1a7339;
   --color-background-light: #FFFFFF;
   --color-background-dark: #262E36;
-  --font-display: var(--font-manrope), "Inter", sans-serif;
   --radius-default: 0.25rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
@@ -397,12 +399,21 @@ button {
   }
 
   body {
-    font-family: var(--font-euclid-circular-a);
+    font-family: "Inter", sans-serif;
     font-weight: 400;
     font-size: 1rem;
     color: var(--color-dark-3);
     position: relative;
     z-index: 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Cal Sans", sans-serif;
   }
 }
 
