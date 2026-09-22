@@ -460,13 +460,13 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
           <span className="inline-block w-fit bg-white/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-sm">
             Green Weekend
           </span>
-          <h4 className="text-2xl font-black leading-tight">
+          <h4 className="text-2xl font-medium leading-tight">
             Power Up Your Setup
           </h4>
           <p className="text-xs text-white/80 leading-relaxed font-medium">
             Save upto 20% on laptops and pc components
           </p>
-          <button className="mt-4 w-full bg-white text-primary py-3 rounded-xl text-sm font-black hover:bg-background-light transition-all active:scale-95 shadow-xl">
+          <button className="mt-4 w-full bg-white text-primary py-3 rounded-xl text-sm font-medium hover:bg-background-light transition-all active:scale-95 shadow-xl">
             Shop Sale
           </button>
         </div>

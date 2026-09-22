@@ -91,7 +91,7 @@ const WishlistPage = () => {
             <p className="text-primary text-xs font-bold uppercase tracking-widest mb-0.5">
               Saved Items
             </p>
-            <h1 className="text-3xl md:text-4xl font-black text-foreground dark:text-foreground leading-tight">
+            <h1 className="text-3xl md:text-4xl font-medium text-foreground dark:text-foreground leading-tight">
               My Wishlist
             </h1>
           </div>
@@ -162,7 +162,7 @@ const WishlistPage = () => {
                     className="w-full h-full object-contain p-2 group-hover:scale-110 transition-transform duration-500"
                   />
                   {!!product.discountedPrice && product.discountedPrice > 0 && (
-                    <div className="absolute top-1.5 left-1.5 bg-primary text-white text-[9px] sm:text-[10px] font-black px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-md sm:rounded-lg shadow-xl z-10">
+                    <div className="absolute top-1.5 left-1.5 bg-primary text-white text-[9px] sm:text-[10px] font-medium px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-md sm:rounded-lg shadow-xl z-10">
                       {product.discountedPrice}% OFF
                     </div>
                   )}
@@ -179,7 +179,7 @@ const WishlistPage = () => {
                     </Link>
                     <div className="flex items-center gap-2 flex-wrap">
                       <span
-                        className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 sm:py-1 rounded-full ${
+                        className={`text-[10px] font-medium uppercase tracking-widest px-2.5 py-0.5 sm:py-1 rounded-full ${
                           inStock
                             ? "bg-emerald-100 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400"
                             : "bg-red-100 text-red-600 dark:bg-red-500/10 dark:text-red-400"
@@ -198,7 +198,7 @@ const WishlistPage = () => {
                   <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between md:justify-end gap-3 sm:gap-6 md:gap-10 w-full md:w-auto pt-3 md:pt-0 border-t md:border-0 border-outline dark:border-white/5">
                     {/* Price */}
                     <div className="flex items-center xs:flex-col xs:items-start md:items-end gap-2 xs:gap-0">
-                      <p className="text-lg sm:text-xl font-black text-primary whitespace-nowrap">
+                      <p className="text-lg sm:text-xl font-medium text-primary whitespace-nowrap">
                         Rs. {Number(finalPrice).toLocaleString()}
                       </p>
                       {!!product.discountedPrice && product.discountedPrice > 0 && (

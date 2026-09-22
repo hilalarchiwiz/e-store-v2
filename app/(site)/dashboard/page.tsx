@@ -116,7 +116,7 @@ export default function DashboardPage() {
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Welcome */}
       <div>
-        <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-2">
+        <h1 className="text-3xl font-medium text-foreground dark:text-foreground mb-2">
           Hello, {firstName}! 👋
         </h1>
         <p className="text-muted dark:text-muted">
@@ -141,7 +141,7 @@ export default function DashboardPage() {
             <p className="text-muted dark:text-muted text-xs font-bold uppercase tracking-widest mb-1">
               {stat.label}
             </p>
-            <h3 className="text-2xl font-black text-foreground dark:text-foreground">
+            <h3 className="text-2xl font-medium text-foreground dark:text-foreground">
               {stat.value}
             </h3>
             <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-primary opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
@@ -157,7 +157,7 @@ export default function DashboardPage() {
       {/* Recent Orders */}
       <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
         <div className="p-8 border-b border-outline dark:border-white/5 flex items-center justify-between">
-          <h2 className="text-xl font-black text-foreground dark:text-foreground">
+          <h2 className="text-xl font-medium text-foreground dark:text-foreground">
             Recent Orders
           </h2>
           <Link
@@ -186,7 +186,7 @@ export default function DashboardPage() {
             </p>
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 bg-primary text-white font-black px-6 py-3 rounded-2xl hover:bg-primary/90 transition-all text-sm"
+              className="inline-flex items-center gap-2 bg-primary text-white font-medium px-6 py-3 rounded-2xl hover:bg-primary/90 transition-all text-sm"
             >
               <SiteIcon className="text-lg">
                 storefront
@@ -198,7 +198,7 @@ export default function DashboardPage() {
           <div className="overflow-x-auto no-scrollbar">
             <table className="w-full text-left min-w-[550px] sm:min-w-0">
               <thead>
-                <tr className="bg-surface dark:bg-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-muted">
+                <tr className="bg-surface dark:bg-white/5 text-[10px] font-medium uppercase tracking-[0.2em] text-muted">
                   <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Order ID</th>
                   <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Date</th>
                   <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Status</th>
@@ -220,7 +220,7 @@ export default function DashboardPage() {
                       key={order.id}
                       className="hover:bg-primary/5 transition-colors group"
                     >
-                      <td className="px-4 sm:px-8 py-4 sm:py-6 text-foreground dark:text-foreground font-black whitespace-nowrap">
+                      <td className="px-4 sm:px-8 py-4 sm:py-6 text-foreground dark:text-foreground font-medium whitespace-nowrap">
                         <Link
                           href={`/dashboard/orders/${order.orderNumber}`}
                           className="hover:text-primary transition-colors"
@@ -233,12 +233,12 @@ export default function DashboardPage() {
                       </td>
                       <td className="px-4 sm:px-8 py-4 sm:py-6 whitespace-nowrap">
                         <span
-                          className={`inline-block px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-black whitespace-nowrap ${STATUS_COLORS[order.status] ?? STATUS_COLORS.PENDING}`}
+                          className={`inline-block px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-medium whitespace-nowrap ${STATUS_COLORS[order.status] ?? STATUS_COLORS.PENDING}`}
                         >
                           {order.status}
                         </span>
                       </td>
-                      <td className="px-4 sm:px-8 py-4 sm:py-6 text-primary font-black whitespace-nowrap">
+                      <td className="px-4 sm:px-8 py-4 sm:py-6 text-primary font-medium whitespace-nowrap">
                         Rs. {Number(order.total).toLocaleString()}
                       </td>
                     </tr>
@@ -284,7 +284,7 @@ export default function DashboardPage() {
                 {item.icon}
               </SiteIcon>
             </div>
-            <span className="font-black text-sm text-foreground dark:text-foreground group-hover:text-primary transition-colors">
+            <span className="font-medium text-sm text-foreground dark:text-foreground group-hover:text-primary transition-colors">
               {item.label}
             </span>
             <SiteIcon className="text-gray-300 ml-auto group-hover:text-primary transition-colors text-base">

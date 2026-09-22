@@ -94,7 +94,7 @@ export default function OrderDetailsPage() {
             error
           </SiteIcon>
         </div>
-        <h2 className="text-2xl font-black text-foreground dark:text-foreground">
+        <h2 className="text-2xl font-medium text-foreground dark:text-foreground">
           Order not found
         </h2>
         <p className="text-muted">
@@ -102,7 +102,7 @@ export default function OrderDetailsPage() {
         </p>
         <Link
           href="/dashboard/orders"
-          className="inline-flex items-center gap-2 bg-primary text-white font-black px-6 py-3 rounded-2xl hover:bg-primary/90 transition-all"
+          className="inline-flex items-center gap-2 bg-primary text-white font-medium px-6 py-3 rounded-2xl hover:bg-primary/90 transition-all"
         >
           <SiteIcon className="text-xl">arrow_back</SiteIcon>
           Back to Orders
@@ -139,7 +139,7 @@ export default function OrderDetailsPage() {
             </SiteIcon>
             Back to Orders
           </Link>
-          <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-2 underline decoration-primary/30 decoration-4">
+          <h1 className="text-3xl font-medium text-foreground dark:text-foreground mb-2 underline decoration-primary/30 decoration-4">
             {order.orderNumber}
           </h1>
           <p className="text-muted dark:text-muted font-medium">
@@ -148,7 +148,7 @@ export default function OrderDetailsPage() {
           </p>
         </div>
         <span
-          className={`self-start md:self-center px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest ${STATUS_COLORS[order.status] ?? STATUS_COLORS.PENDING}`}
+          className={`self-start md:self-center px-4 py-2 rounded-full text-xs font-medium uppercase tracking-widest ${STATUS_COLORS[order.status] ?? STATUS_COLORS.PENDING}`}
         >
           {order.status}
         </span>
@@ -180,7 +180,7 @@ export default function OrderDetailsPage() {
                   </div>
                   <div className="text-left md:text-center">
                     <p
-                      className={`text-xs font-black uppercase tracking-widest ${isCompleted ? "text-primary" : "text-muted"}`}
+                      className={`text-xs font-medium uppercase tracking-widest ${isCompleted ? "text-primary" : "text-muted"}`}
                     >
                       {step.label}
                     </p>
@@ -197,7 +197,7 @@ export default function OrderDetailsPage() {
         <div className="lg:col-span-8 space-y-6">
           <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
             <div className="p-4 border-b border-outline dark:border-white/5">
-              <h2 className="text-lg font-black text-foreground dark:text-foreground">
+              <h2 className="text-lg font-medium text-foreground dark:text-foreground">
                 Order Items
               </h2>
             </div>
@@ -230,7 +230,7 @@ export default function OrderDetailsPage() {
                     </div>
                     <div className="flex justify-between sm:justify-end items-center pt-2 sm:pt-0 border-t sm:border-0 border-outline dark:border-white/5">
                       <span className="sm:hidden text-xs text-muted font-medium">Subtotal</span>
-                      <p className="text-base sm:text-lg font-black text-primary whitespace-nowrap">
+                      <p className="text-base sm:text-lg font-medium text-primary whitespace-nowrap">
                         Rs. {Number(item.subtotal).toLocaleString()}
                       </p>
                     </div>
@@ -246,7 +246,7 @@ export default function OrderDetailsPage() {
           {/* Address & Payment */}
           <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-4 space-y-8">
             <div>
-              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-muted mb-4">
+              <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-muted mb-4">
                 Delivery Address
               </h3>
               <div className="space-y-1 text-sm font-bold text-foreground dark:text-foreground">
@@ -269,7 +269,7 @@ export default function OrderDetailsPage() {
               </div>
             </div>
             <div className="pt-8 border-t border-outline dark:border-white/5">
-              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-muted mb-4">
+              <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-muted mb-4">
                 Payment & Shipping
               </h3>
               <div className="space-y-3">
@@ -296,7 +296,7 @@ export default function OrderDetailsPage() {
 
           {/* Cost Summary */}
           <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-4">
-            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-muted mb-6">
+            <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-muted mb-6">
               Total Summary
             </h3>
             <div className="space-y-4 font-bold text-sm mb-6">
@@ -330,10 +330,10 @@ export default function OrderDetailsPage() {
               )}
             </div>
             <div className="pt-6 border-t border-outline dark:border-white/5 flex justify-between items-center">
-              <span className="text-sm font-black text-foreground dark:text-foreground whitespace-nowrap">
+              <span className="text-sm font-medium text-foreground dark:text-foreground whitespace-nowrap">
                 Total Amount
               </span>
-              <span className="text-base sm:text-lg font-black text-primary whitespace-nowrap">
+              <span className="text-base sm:text-lg font-medium text-primary whitespace-nowrap">
                 Rs. {Number(order.total).toLocaleString()}
               </span>
             </div>
@@ -341,7 +341,7 @@ export default function OrderDetailsPage() {
 
           {order.notes && (
             <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-4">
-              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-muted mb-3">
+              <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-muted mb-3">
                 Order Notes
               </h3>
               <p className="text-sm text-muted dark:text-muted leading-relaxed">
@@ -356,7 +356,7 @@ export default function OrderDetailsPage() {
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-surface dark:bg-surface rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
             <div className="flex items-center justify-between px-6 py-4 border-b border-outline dark:border-white/5">
-              <h3 className="text-lg font-black text-foreground dark:text-foreground">
+              <h3 className="text-lg font-medium text-foreground dark:text-foreground">
                 All Order Items
               </h3>
               <button
@@ -380,7 +380,7 @@ export default function OrderDetailsPage() {
                     />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-black text-foreground dark:text-foreground">
+                    <p className="text-sm font-medium text-foreground dark:text-foreground">
                       {item.product.title}
                     </p>
                     <p className="text-xs text-muted">
@@ -388,7 +388,7 @@ export default function OrderDetailsPage() {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-black text-foreground dark:text-foreground">
+                    <p className="text-sm font-medium text-foreground dark:text-foreground">
                       Rs.{Number(item.subtotal).toFixed(2)}
                     </p>
                   </div>
@@ -399,7 +399,7 @@ export default function OrderDetailsPage() {
               <span className="text-sm font-bold text-muted">
                 Total Items: {totalItems}
               </span>
-              <span className="text-lg font-black text-primary">
+              <span className="text-lg font-medium text-primary">
                 Rs.{Number(order.total).toFixed(2)}
               </span>
             </div>

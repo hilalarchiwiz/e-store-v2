@@ -97,7 +97,7 @@ export default function AddressesPage() {
     <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="flex items-end justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-2">
+          <h1 className="text-3xl font-medium text-foreground dark:text-foreground mb-2">
             My Addresses
           </h1>
           <p className="text-muted dark:text-muted">
@@ -120,7 +120,7 @@ export default function AddressesPage() {
           <div className="size-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
             <SiteIcon className="text-3xl!">location_off</SiteIcon>
           </div>
-          <h3 className="font-black text-foreground dark:text-foreground text-lg mb-2">No addresses yet</h3>
+          <h3 className="font-medium text-foreground dark:text-foreground text-lg mb-2">No addresses yet</h3>
           <p className="text-muted text-sm mb-6">Add a shipping address to speed up your checkout.</p>
           <div className="text-center flex items-center justify-center">
             <Button variant="primary" icon="add" onClick={handleAddNew}>
@@ -136,7 +136,7 @@ export default function AddressesPage() {
               className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8 relative flex flex-col group hover:border-primary/20 transition-all"
             >
               {address.isDefault && (
-                <span className="absolute top-6 right-8 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
+                <span className="absolute top-6 right-8 bg-primary/10 text-primary text-[10px] font-medium uppercase tracking-widest px-3 py-1 rounded-full">
                   Default
                 </span>
               )}
@@ -147,7 +147,7 @@ export default function AddressesPage() {
                 </SiteIcon>
               </div>
 
-              <h3 className="font-black text-foreground dark:text-foreground text-lg mb-2">
+              <h3 className="font-medium text-foreground dark:text-foreground text-lg mb-2">
                 {address.company || "Address"}
               </h3>
               <div className="space-y-1 text-sm text-muted font-medium leading-relaxed">

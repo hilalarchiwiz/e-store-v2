@@ -7,7 +7,7 @@ const BlogItem = ({ blog }) => {
     <div className="shadow-1 bg-white rounded-xl px-4 sm:px-5 pt-5 pb-4">
       <Link href={`/blogs/blog-details/${blog?.slug}`} className="relative aspect-[16/10] overflow-hidden">
         <div className="absolute top-4 left-4 z-10">
-          <span className="bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full flex items-center gap-1 shadow-lg">
+          <span className="bg-blue-600 text-white text-[10px] font-medium uppercase tracking-widest px-3 py-1.5 rounded-full flex items-center gap-1 shadow-lg">
             <Zap size={12} fill="currentColor" />
             {blog.tag}
           </span>

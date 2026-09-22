@@ -288,7 +288,7 @@ export default function CheckoutPage() {
             Back to Cart
           </Link>
         </div>
-        <h1 className="text-4xl font-black text-foreground dark:text-foreground mb-2">
+        <h1 className="text-4xl font-medium text-foreground dark:text-foreground mb-2">
           Checkout
         </h1>
         <p className="text-muted dark:text-muted">
@@ -305,7 +305,7 @@ export default function CheckoutPage() {
               <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
                 <SiteIcon >location_on</SiteIcon>
               </div>
-              <h2 className="text-2xl font-black text-foreground dark:text-foreground">
+              <h2 className="text-2xl font-medium text-foreground dark:text-foreground">
                 Delivery Address
               </h2>
             </div>
@@ -331,7 +331,7 @@ export default function CheckoutPage() {
                         <p className="font-bold text-foreground dark:text-foreground text-sm">
                           {addr.firstName} {addr.lastName}
                           {addr.isDefault && (
-                            <span className="ml-2 text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded font-black uppercase tracking-wide">
+                            <span className="ml-2 text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded font-medium uppercase tracking-wide">
                               Default
                             </span>
                           )}
@@ -449,7 +449,7 @@ export default function CheckoutPage() {
                   },
                 ].map(({ field, label, placeholder, col }) => (
                   <div key={field} className={col === 2 ? "md:col-span-2" : ""}>
-                    <label className="block text-xs font-black uppercase tracking-widest text-muted mb-2">
+                    <label className="block text-xs font-medium uppercase tracking-widest text-muted mb-2">
                       {label}
                     </label>
                     <input
@@ -478,7 +478,7 @@ export default function CheckoutPage() {
                   local_shipping
                 </SiteIcon>
               </div>
-              <h2 className="text-2xl font-black text-foreground dark:text-foreground">
+              <h2 className="text-2xl font-medium text-foreground dark:text-foreground">
                 Shipping Method
               </h2>
             </div>
@@ -506,14 +506,14 @@ export default function CheckoutPage() {
                       )}
                     </div>
                     <div>
-                      <p className="font-black text-sm text-foreground dark:text-foreground">
+                      <p className="font-medium text-sm text-foreground dark:text-foreground">
                         {option.label}
                       </p>
                       <p className="text-xs text-muted">{option.desc}</p>
                     </div>
                   </div>
                   <span
-                    className={`font-black text-sm ${option.price === 0 ? "text-green-500" : "text-foreground dark:text-foreground"}`}
+                    className={`font-medium text-sm ${option.price === 0 ? "text-green-500" : "text-foreground dark:text-foreground"}`}
                   >
                     {option.price === 0
                       ? "FREE"
@@ -530,7 +530,7 @@ export default function CheckoutPage() {
               <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
                 <SiteIcon >credit_card</SiteIcon>
               </div>
-              <h2 className="text-2xl font-black text-foreground dark:text-foreground">
+              <h2 className="text-2xl font-medium text-foreground dark:text-foreground">
                 Payment Method
               </h2>
             </div>
@@ -562,7 +562,7 @@ export default function CheckoutPage() {
                     </SiteIcon>
                   </div>
                   <div>
-                    <p className="font-black text-sm text-foreground dark:text-foreground">
+                    <p className="font-medium text-sm text-foreground dark:text-foreground">
                       {option.label}
                     </p>
                     <p className="text-xs text-muted">{option.desc}</p>
@@ -589,7 +589,7 @@ export default function CheckoutPage() {
                 <SiteIcon >note</SiteIcon>
               </div>
               <div>
-                <h2 className="text-xl font-black text-foreground dark:text-foreground">
+                <h2 className="text-xl font-medium text-foreground dark:text-foreground">
                   Order Notes
                 </h2>
                 <p className="text-xs text-muted font-medium">Optional</p>
@@ -609,7 +609,7 @@ export default function CheckoutPage() {
         <div className="lg:col-span-4 space-y-6">
           {/* Coupon */}
           <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-6">
-            <h3 className="font-black text-foreground dark:text-foreground mb-4 flex items-center gap-2">
+            <h3 className="font-medium text-foreground dark:text-foreground mb-4 flex items-center gap-2">
               <SiteIcon className="text-primary text-xl">
                 local_offer
               </SiteIcon>
@@ -618,7 +618,7 @@ export default function CheckoutPage() {
             {couponApplied ? (
               <div className="flex items-center justify-between bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800/30 rounded-xl px-4 py-3">
                 <div>
-                  <p className="text-xs font-black text-green-700 dark:text-green-400 uppercase tracking-wide">
+                  <p className="text-xs font-medium text-green-700 dark:text-green-400 uppercase tracking-wide">
                     {couponApplied.code}
                   </p>
                   <p className="text-xs text-green-600 dark:text-green-500">
@@ -647,7 +647,7 @@ export default function CheckoutPage() {
                 <button
                   onClick={handleApplyCoupon}
                   disabled={couponLoading || !couponInput.trim()}
-                  className="bg-primary text-white text-sm font-black px-4 py-2.5 rounded-xl hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-primary text-white text-sm font-medium px-4 py-2.5 rounded-xl hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {couponLoading ? (
                     <SiteIcon className="text-lg animate-spin">
@@ -663,7 +663,7 @@ export default function CheckoutPage() {
 
           {/* Order Summary */}
           <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-6 sticky top-32">
-            <h2 className="text-xl font-black text-foreground dark:text-foreground mb-6">
+            <h2 className="text-xl font-medium text-foreground dark:text-foreground mb-6">
               Order Summary
             </h2>
 
@@ -684,14 +684,14 @@ export default function CheckoutPage() {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-black text-xs text-foreground dark:text-foreground line-clamp-2 leading-tight">
+                      <p className="font-medium text-xs text-foreground dark:text-foreground line-clamp-2 leading-tight">
                         {item.product.title}
                       </p>
                       <p className="text-xs text-muted mt-0.5">
                         Qty: {item.quantity}
                       </p>
                       <div className="flex items-baseline gap-1.5 mt-0.5">
-                        <span className="text-xs font-black text-primary">
+                        <span className="text-xs font-medium text-primary">
                           Rs.{(finalPrice * item.quantity).toLocaleString()}
                         </span>
                         {hasDiscount ? (
@@ -736,10 +736,10 @@ export default function CheckoutPage() {
                 </div>
               )}
               <div className="flex justify-between items-center pt-4 border-t border-outline dark:border-white/5">
-                <span className="text-lg font-black text-foreground dark:text-foreground">
+                <span className="text-lg font-medium text-foreground dark:text-foreground">
                   Total
                 </span>
-                <span className="text-2xl font-black text-primary">
+                <span className="text-2xl font-medium text-primary">
                   Rs.{total.toLocaleString()}
                 </span>
               </div>
@@ -749,7 +749,7 @@ export default function CheckoutPage() {
             <button
               onClick={handlePlaceOrder}
               disabled={submitting}
-              className="mt-6 w-full bg-primary text-white font-black py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/25 disabled:opacity-60 disabled:cursor-not-allowed active:scale-95"
+              className="mt-6 w-full bg-primary text-white font-medium py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/25 disabled:opacity-60 disabled:cursor-not-allowed active:scale-95"
             >
               {submitting ? (
                 <>

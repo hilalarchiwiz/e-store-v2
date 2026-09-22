@@ -101,7 +101,7 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
             <SiteIcon className="text-base">laptop_mac</SiteIcon>
             Premium Computing Gear
           </div>
-          <h1 className="max-w-xl text-3xl font-black leading-[1.08] tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem] xl:text-5xl dark:text-foreground [overflow-wrap:anywhere]">
+          <h1 className="max-w-xl text-3xl font-medium leading-[1.08] tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem] xl:text-5xl dark:text-foreground [overflow-wrap:anywhere]">
             {slide.title}
           </h1>
           <div aria-hidden="true" className="my-4 h-1 w-10 rounded-full bg-primary" />

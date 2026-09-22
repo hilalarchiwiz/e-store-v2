@@ -5,7 +5,7 @@ import { subscribeEmail } from '@/lib/action/subscribe.action';
 import { toast } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { faCircleCheck, faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 
 interface SubscribeProps {
   variant?: 'default' | 'compact';
@@ -40,13 +40,28 @@ const Subscribe = ({ variant = 'default', title, description }: SubscribeProps) 
       <section className="rounded-xl bg-surface p-4 dark:bg-surface sm:rounded-2xl sm:p-7">
         <div className="grid items-center gap-5 lg:grid-cols-[1fr_1.2fr]">
           <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:items-start sm:gap-4 sm:text-left">
-            <FontAwesomeIcon
-              icon={faEnvelope}
-              className="w-20 shrink-0 text-[62px] text-primary sm:mt-0.5"
+            <svg
+              viewBox="0 0 150 82"
+              className="h-16 w-28 shrink-0 overflow-visible sm:mt-0.5 sm:h-20 sm:w-36"
               aria-hidden="true"
-            />
+            >
+              <path
+                d="M4 65 C22 25 48 72 68 55 C82 43 65 19 82 12 C100 5 100 42 91 53 C107 50 119 41 130 31"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeDasharray="1 7"
+                className="text-muted/50"
+              />
+              <g transform="translate(111 5) rotate(-8 18 18)">
+                <path d="M1 14.5 38 1 29 39 20 24 1 14.5Z" fill="#405DE6" />
+                <path d="m20 24 18-23-25 18 7 5Z" fill="#2843C7" />
+                <path d="m20 24 9 15-2-19-7 4Z" fill="#2339A8" />
+              </g>
+            </svg>
             <div>
-              <h2 className="text-base font-black text-foreground dark:text-foreground sm:text-2xl">
+              <h2 className="text-base font-medium text-foreground dark:text-foreground sm:text-2xl">
                 {title || 'Stay Updated with QAAM'}
               </h2>
               <p className="mt-1 text-[10px] leading-[1.5] text-muted dark:text-muted sm:text-sm sm:leading-6">
@@ -99,7 +114,7 @@ const Subscribe = ({ variant = 'default', title, description }: SubscribeProps) 
   //         }}
   //       />
   //       <div className="relative z-10 max-w-2xl w-full">
-  //         <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white mb-3 sm:mb-6 leading-tight tracking-tight">
+  //         <h2 className="text-2xl sm:text-4xl lg:text-5xl font-medium text-white mb-3 sm:mb-6 leading-tight tracking-tight">
   //           Stay Ahead of the Tech Curve
   //         </h2>
   //         <p className="text-white/75 mb-6 sm:mb-10 text-xs sm:text-base lg:text-lg max-w-xl mx-auto leading-relaxed">

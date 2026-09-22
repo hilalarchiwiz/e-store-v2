@@ -73,7 +73,7 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ categories = [] }) => {
           <p className="text-primary text-xs font-bold uppercase tracking-widest mb-2">
             Shop By Category
           </p>
-          <h2 className="text-3xl font-black tracking-tight text-foreground dark:text-foreground">
+          <h2 className="text-3xl font-medium tracking-tight text-foreground dark:text-foreground">
             Browse Categories
           </h2>
           <div className="w-12 h-0.75 bg-primary rounded-full mt-3" />

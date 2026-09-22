@@ -84,7 +84,7 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
 
       <article className="animate-in fade-in slide-in-from-bottom-4 duration-700 w-full overflow-hidden break-words">
         <header className="mb-12 border-b border-outline dark:border-white/5 pb-10">
-          <h1 className="text-3xl md:text-5xl font-black text-foreground dark:text-foreground leading-tight mb-6">
+          <h1 className="text-3xl md:text-5xl font-medium text-foreground dark:text-foreground leading-tight mb-6">
             {blog.title}
           </h1>
           <div className="flex flex-wrap items-center gap-6 text-sm text-muted dark:text-muted font-bold uppercase tracking-widest">
@@ -124,7 +124,7 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
         <div className="overflow-x-auto no-scrollbar">
           <div
             className="prose prose-lg dark:prose-invert max-w-none 
-                prose-headings:font-black prose-headings:text-foreground dark:prose-headings:text-white
+                prose-headings:font-medium prose-headings:text-foreground dark:prose-headings:text-white
                 prose-p:text-muted dark:prose-p:text-muted prose-p:leading-relaxed
                 prose-strong:text-foreground dark:prose-strong:text-white
                 prose-img:rounded-xl prose-img:shadow-md prose-img:max-w-full prose-img:h-auto
@@ -143,7 +143,7 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
             <SiteIcon className="text-3xl">newspaper</SiteIcon>
           </div>
           <div>
-            <h3 className="text-xl font-black text-foreground dark:text-foreground">
+            <h3 className="text-xl font-medium text-foreground dark:text-foreground">
               Stay Updated
             </h3>
             <p className="text-sm text-muted font-medium">
@@ -153,7 +153,7 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
         </div>
         <Link
           href="/blog"
-          className="text-sm font-black uppercase tracking-widest text-foreground dark:text-foreground hover:text-primary transition-colors flex items-center gap-2"
+          className="text-sm font-medium uppercase tracking-widest text-foreground dark:text-foreground hover:text-primary transition-colors flex items-center gap-2"
         >
           Back to Blog{" "}
           <SiteIcon >arrow_forward</SiteIcon>

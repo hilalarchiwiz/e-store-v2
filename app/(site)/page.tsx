@@ -329,7 +329,7 @@ export default async function V2HomePage() {
                        <DynamicIcon name={stat.icon} fallback="BadgeCheck" size={24} />
                      </span>
                      <div className="min-w-0">
-                       <p className="break-words text-[8px] font-black leading-tight sm:text-lg lg:text-xl">{stat.value}</p>
+                       <p className="break-words text-[8px] font-medium leading-tight sm:text-lg lg:text-xl">{stat.value}</p>
                        <p className="mt-0.5 break-words text-[7px] font-semibold leading-tight text-muted dark:text-white/65 sm:mt-1 sm:text-xs lg:text-sm">{stat.label}</p>
                        <span className="sr-only">{stat.detail}</span>
                      </div>

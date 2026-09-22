@@ -118,7 +118,7 @@ export default function ProfilePage() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
       <div>
-        <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-2">
+        <h1 className="text-3xl font-medium text-foreground dark:text-foreground mb-2">
           Account Details
         </h1>
         <p className="text-muted dark:text-muted">
@@ -156,7 +156,7 @@ export default function ProfilePage() {
               className="hidden"
               onChange={handleImageChange}
             />
-            <p className="text-[10px] text-muted font-black uppercase tracking-widest">
+            <p className="text-[10px] text-muted font-medium uppercase tracking-widest">
               {isUploading ? "Uploading..." : "Change Photo"}
             </p>
           </div>

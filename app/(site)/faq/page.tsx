@@ -54,9 +54,9 @@ const FAQPage = async () => {
       <div className="text-center max-w-300 mx-auto mb-10">
         <div className="inline-flex items-center gap-2 mb-6 text-primary">
           <SiteIcon className="text-4xl">help_center</SiteIcon>
-          <span className="text-sm font-black uppercase tracking-[0.3em]">Help Center</span>
+          <span className="text-sm font-medium uppercase tracking-[0.3em]">Help Center</span>
         </div>
-        <h1 className="text-4xl md:text-6xl font-black text-foreground dark:text-foreground mb-6">Common Questions</h1>
+        <h1 className="text-4xl md:text-6xl font-medium text-foreground dark:text-foreground mb-6">Common Questions</h1>
         <p className="text-lg text-muted dark:text-muted font-medium leading-relaxed">
           Everything you need to know about our tech products, billing, and how we deliver high-performance computing to your doorstep.
         </p>
@@ -75,7 +75,7 @@ const FAQPage = async () => {
           <div className="size-20 bg-primary rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-primary/30">
             <SiteIcon className="text-4xl">forum</SiteIcon>
           </div>
-          <h2 className="text-3xl md:text-4xl font-black italic">Still have questions?</h2>
+          <h2 className="text-3xl md:text-4xl font-medium italic">Still have questions?</h2>
           <p className="text-white/60 font-medium">
             Can't find the answer you're looking for? Please reach out to our technical support team.
           </p>
@@ -98,7 +98,7 @@ const FAQPage = async () => {
             <div className="size-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-500">
               <SiteIcon className="text-3xl">{cat.icon}</SiteIcon>
             </div>
-            <h3 className="text-xl font-black text-foreground dark:text-foreground mb-2">{cat.title}</h3>
+            <h3 className="text-xl font-medium text-foreground dark:text-foreground mb-2">{cat.title}</h3>
             <p className="text-sm text-muted dark:text-muted font-medium leading-relaxed">{cat.desc}</p>
           </div>
         ))}

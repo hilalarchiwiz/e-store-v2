@@ -40,7 +40,7 @@ const FaqAccordion: React.FC<FaqAccordionProps> = ({ faqs }) => {
             className="w-full text-left p-6 md:p-8 flex items-center justify-between gap-4"
           >
             <span className={`
-              text-lg md:text-xl font-black transition-colors duration-300
+              text-lg md:text-xl font-medium transition-colors duration-300
               ${activeIndex === index ? 'text-primary' : 'text-foreground dark:text-foreground'}
             `}>
               {faq.question}

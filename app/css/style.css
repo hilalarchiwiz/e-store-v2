@@ -21,6 +21,10 @@ button {
   font-optical-sizing: auto;
 }
 
+h1,h2{
+  letter-spacing: 2px;
+}
+
 /* Keep every About-page text block centered on phones and small devices. */
 @media (max-width: 767px) {
 

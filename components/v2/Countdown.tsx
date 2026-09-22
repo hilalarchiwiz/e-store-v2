@@ -39,7 +39,7 @@ const Countdown = ({ sale, initialRemaining }: { sale: FlashSaleSettings; initia
         <div className="grid items-center gap-6 lg:grid-cols-[minmax(310px,1fr)_auto_minmax(230px,.85fr)_auto] lg:gap-7">
           <div className="text-center lg:text-left">
             <p className="text-base font-semibold text-primary sm:text-xl">{sale.badge}</p>
-            <h2 className="mt-2 text-3xl font-black leading-none tracking-[-0.04em] sm:text-4xl">
+            <h2 className="mt-2 text-3xl font-medium leading-none tracking-[-0.04em] sm:text-4xl">
               {sale.title}
             </h2>
             <p className="mx-auto mt-4 max-w-md whitespace-pre-line text-sm leading-[1.25] text-white/75 sm:text-lg lg:mx-0">
@@ -53,7 +53,7 @@ const Countdown = ({ sale, initialRemaining }: { sale: FlashSaleSettings; initia
                 key={unit.label}
                 className="flex h-[84px] w-[58px] flex-col items-center justify-center rounded-md bg-white/10 shadow-inner backdrop-blur-sm sm:w-[66px]"
               >
-                <strong className="text-[28px] font-black leading-none sm:text-[34px]">
+                <strong className="text-[28px] font-medium leading-none sm:text-[34px]">
                   {String(unit.value).padStart(2, "0")}
                 </strong>
                 <span className="mt-2 text-[11px] font-medium leading-none text-white/65 sm:text-sm">

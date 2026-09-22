@@ -76,7 +76,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
   return (
     <section className="py-8 sm:py-10">
       <div className="mb-6 flex items-center justify-between gap-4">
-        <h2 className="text-xl font-black tracking-[-0.025em] text-foreground sm:text-[26px]">
+        <h2 className="text-xl font-medium tracking-[-0.025em] text-foreground sm:text-[26px]">
           What Our Customers Say
         </h2>
       </div>

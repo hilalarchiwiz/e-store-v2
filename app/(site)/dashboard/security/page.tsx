@@ -69,7 +69,7 @@ export default function SecurityPage() {
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-right-4 duration-500">
       <div>
-        <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-2">
+        <h1 className="text-3xl font-medium text-foreground dark:text-foreground mb-2">
           Security Settings
         </h1>
         <p className="text-muted dark:text-muted">
@@ -83,7 +83,7 @@ export default function SecurityPage() {
             <div className="size-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center">
               <SiteIcon >key</SiteIcon>
             </div>
-            <h2 className="text-xl font-black text-foreground dark:text-foreground">
+            <h2 className="text-xl font-medium text-foreground dark:text-foreground">
               Change Password
             </h2>
           </div>

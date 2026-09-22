@@ -188,7 +188,7 @@ export function MobileFilterModal({
             <p className="text-xs font-semibold text-primary">Refine your search</p>
             <h2
               id="mobile-filter-title"
-              className="mt-0.5 text-xl font-black text-foreground dark:text-foreground"
+              className="mt-0.5 text-xl font-medium text-foreground dark:text-foreground"
             >
               Filters
             </h2>
@@ -298,7 +298,7 @@ export function MobileFilterModal({
           </FilterCard>
 
           <div className="rounded-2xl border border-outline bg-surface p-4 shadow-sm dark:border-white/10 dark:bg-surface">
-            <h3 className="text-base font-black text-foreground dark:text-foreground">
+            <h3 className="text-base font-medium text-foreground dark:text-foreground">
               Price Range
             </h3>
             <input
@@ -387,7 +387,7 @@ function FilterCard({
 }) {
   return (
     <div className="rounded-2xl border border-outline bg-surface p-4 shadow-sm dark:border-white/10 dark:bg-surface">
-      <h3 className="mb-3 text-base font-black text-foreground dark:text-foreground">
+      <h3 className="mb-3 text-base font-medium text-foreground dark:text-foreground">
         {title}
       </h3>
       <div className="flex flex-wrap gap-2">{children}</div>
@@ -449,7 +449,7 @@ export function MobileSortModal({ onClose }: MobileSortModalProps) {
         <div className="flex items-center justify-between px-2 pb-2 pt-1">
           <h2
             id="mobile-sort-title"
-            className="text-lg font-black text-foreground dark:text-foreground"
+            className="text-lg font-medium text-foreground dark:text-foreground"
           >
             Sort Products
           </h2>

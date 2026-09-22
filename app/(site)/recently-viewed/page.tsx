@@ -56,7 +56,7 @@ const RecentlyViewedPage = () => {
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <h1 className="text-4xl md:text-5xl font-black text-foreground dark:text-foreground mb-4">Recently Viewed</h1>
+            <h1 className="text-4xl md:text-5xl font-medium text-foreground dark:text-foreground mb-4">Recently Viewed</h1>
             <p className="text-muted dark:text-muted">
               {isLoading
                 ? "Loading your recently viewed items..."

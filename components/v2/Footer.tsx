@@ -73,7 +73,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                   <SiteIcon className="text-3xl font-bold">
                     Qaam
                   </SiteIcon>
-                  <h2 className="text-foreground dark:text-foreground text-2xl font-black">
+                  <h2 className="text-foreground dark:text-foreground text-2xl font-medium">
                     .PK
                   </h2>
                 </>

@@ -162,7 +162,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                   <SiteIcon className="text-3xl font-bold">
                     eco
                   </SiteIcon>
-                  <h2 className="text-foreground dark:text-foreground text-2xl font-black leading-tight tracking-[-0.015em]">
+                  <h2 className="text-foreground dark:text-foreground text-2xl font-medium leading-tight tracking-[-0.015em]">
                     Qaam.pk
                   </h2>
                 </>
@@ -187,7 +187,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                     aria-current={isActive ? "page" : undefined}
                   >
                     {link.href === "/deals" && highestDealDiscount && (
-                      <span className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-red-500 px-1.5 py-0.5 text-[8px] font-black uppercase leading-none tracking-wide text-white shadow-sm">
+                      <span className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-red-500 px-1.5 py-0.5 text-[8px] font-medium uppercase leading-none tracking-wide text-white shadow-sm">
                         Up to {highestDealDiscount}% off
                       </span>
                     )}
@@ -343,7 +343,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                     className="size-full object-cover"
                   />
                 ) : accountInitials ? (
-                  <span className="text-sm font-black tracking-wide">
+                  <span className="text-sm font-medium tracking-wide">
                     {accountInitials}
                   </span>
                 ) : (
@@ -399,7 +399,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
             ) : (
               <>
                 <SiteIcon className="text-2xl">eco</SiteIcon>
-                <span className="text-foreground dark:text-foreground text-xl font-black">Qaam.pk</span>
+                <span className="text-foreground dark:text-foreground text-xl font-medium">Qaam.pk</span>
               </>
             )}
           </Link>
@@ -430,7 +430,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
 
         {/* Nav links */}
         <nav className="flex-1 overflow-y-auto px-4 py-6 flex flex-col gap-1">
-          <p className="text-[10px] font-black text-muted uppercase tracking-[0.2em] px-3 mb-2">
+          <p className="text-[10px] font-medium text-muted uppercase tracking-[0.2em] px-3 mb-2">
             Navigation
           </p>
 
@@ -458,7 +458,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                 {link.label}
                 {link.href === "/deals" && highestDealDiscount && (
                   <span
-                    className={`ml-auto rounded-full px-2 py-1 text-[9px] font-black uppercase tracking-wide ${
+                    className={`ml-auto rounded-full px-2 py-1 text-[9px] font-medium uppercase tracking-wide ${
                       isActive
                         ? "bg-white/20 text-white"
                         : "bg-red-500 text-white"
@@ -477,7 +477,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
           })}
 
           <div className="h-px bg-surface dark:bg-surface my-4" />
-          <p className="text-[10px] font-black text-muted uppercase tracking-[0.2em] px-3 mb-2">
+          <p className="text-[10px] font-medium text-muted uppercase tracking-[0.2em] px-3 mb-2">
             Account
           </p>
 

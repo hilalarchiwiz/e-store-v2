@@ -23,7 +23,7 @@ const ReturnsExchangesPage = () => {
       />
 
       <div className="max-w-4xl">
-        <h1 className="text-4xl md:text-5xl font-black text-foreground dark:text-foreground mb-6">
+        <h1 className="text-4xl md:text-5xl font-medium text-foreground dark:text-foreground mb-6">
           Returns & Exchanges
         </h1>
         <p className="text-muted dark:text-muted mb-10 text-lg leading-relaxed">

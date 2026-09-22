@@ -341,7 +341,7 @@ export default function QuickViewModal({
             <div>
               <p className="text-xs text-muted font-medium mb-1">Price</p>
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-black text-foreground dark:text-foreground">
+                <span className="text-2xl font-medium text-foreground dark:text-foreground">
                   PKR{" "}
                   {Number(
                     product.discountedPrice ?? product.price,

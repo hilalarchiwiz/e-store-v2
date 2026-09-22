@@ -110,7 +110,7 @@ const RegisterForm = () => {
             person_add
           </SiteIcon>
         </div>
-        <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-3">
+        <h1 className="text-3xl font-medium text-foreground dark:text-foreground mb-3">
           Create Account
         </h1>
         <p className="text-muted dark:text-muted text-sm">

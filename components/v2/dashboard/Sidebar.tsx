@@ -55,14 +55,14 @@ const DashboardSidebar = () => {
                 />
               ) : (
                 <div className="w-full h-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-primary font-black text-lg">
+                  <span className="text-primary font-medium text-lg">
                     {initials}
                   </span>
                 </div>
               )}
             </div>
             <div className="min-w-0">
-              <h3 className="font-black text-foreground dark:text-foreground truncate">
+              <h3 className="font-medium text-foreground dark:text-foreground truncate">
                 {name}
               </h3>
               <p className="text-xs text-muted font-medium truncate">

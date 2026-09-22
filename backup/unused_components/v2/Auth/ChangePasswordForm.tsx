@@ -78,7 +78,7 @@ const ChangePasswordForm = () => {
   return (
     <div className="bg-white dark:bg-[#1a251d] rounded-3xl border border-primary/5 shadow-xl p-8 md:p-10">
       <div className="mb-8">
-        <h2 className="text-2xl font-black text-[#121714] dark:text-white mb-2 font-display">
+        <h2 className="text-2xl font-medium text-[#121714] dark:text-white mb-2 font-display">
           Change Password
         </h2>
         <p className="text-gray-500 dark:text-gray-400 text-sm">

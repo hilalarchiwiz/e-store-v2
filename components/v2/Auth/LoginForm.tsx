@@ -93,7 +93,7 @@ const LoginForm = () => {
         <div className="inline-flex items-center justify-center size-16 bg-primary/10 rounded-2xl text-primary mb-6">
           <SiteIcon className="!text-4xl">login</SiteIcon>
         </div>
-        <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-3">
+        <h1 className="text-3xl font-medium text-foreground dark:text-foreground mb-3">
           Welcome Back
         </h1>
         <p className="text-muted dark:text-muted text-sm">

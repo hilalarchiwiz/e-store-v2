@@ -60,7 +60,7 @@ const Banners: React.FC<BannersProps> = ({ banners = [] }) => {
               <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4 w-fit">
                 Limited Edition
               </span>
-              <h2 className="text-4xl font-black mb-4 leading-tight">
+              <h2 className="text-4xl font-medium mb-4 leading-tight">
                 {banner2.title}
               </h2>
               {banner2.description && (
@@ -68,7 +68,7 @@ const Banners: React.FC<BannersProps> = ({ banners = [] }) => {
               )}
               <a
                 href={banner2.link}
-                className="bg-white text-primary-dark px-8 py-4 rounded-xl font-black uppercase text-xs tracking-widest hover:bg-primary hover:text-white transition-all w-fit shadow-xl"
+                className="bg-white text-primary-dark px-8 py-4 rounded-xl font-medium uppercase text-xs tracking-widest hover:bg-primary hover:text-white transition-all w-fit shadow-xl"
               >
                 {banner2.buttonText || "Shop Collection"}
               </a>

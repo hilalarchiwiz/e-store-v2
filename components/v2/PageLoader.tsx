@@ -35,7 +35,7 @@ export default function PageLoader({
         <p className="text-xs font-extrabold uppercase tracking-[0.35em] text-primary">
           Qaam.pk
         </p>
-        <h1 className="mt-3 text-2xl font-black tracking-tight sm:text-3xl">
+        <h1 className="mt-3 text-2xl font-medium tracking-tight sm:text-3xl">
           Loading your experience
         </h1>
         <p className="mt-2 max-w-sm text-sm leading-6 text-muted dark:text-muted">

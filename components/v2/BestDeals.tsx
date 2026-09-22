@@ -19,7 +19,7 @@ export default function BestDeals({ products, categories }: {
     <section className="py-8 sm:py-10">
       <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-center gap-3">
-          <h2 className="text-2xl font-black tracking-[-0.04em] sm:text-3xl">Best deals</h2>
+          <h2 className="text-2xl font-medium tracking-[-0.04em] sm:text-3xl">Best deals</h2>
           <span className="rounded-md bg-primary px-3 py-1 text-sm font-bold text-white">Featured</span>
         </div>
         <div className="no-scrollbar flex items-center gap-6 overflow-x-auto pb-1 text-sm sm:text-base">

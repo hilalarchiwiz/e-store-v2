@@ -312,7 +312,7 @@ const ShopContent: React.FC<ShopContentProps> = ({
             </SiteIcon>
           </div>
           <div>
-            <h3 className="text-2xl font-black text-foreground dark:text-foreground mb-2">
+            <h3 className="text-2xl font-medium text-foreground dark:text-foreground mb-2">
               No Products Found
             </h3>
             <p className="text-muted text-sm">

@@ -28,7 +28,7 @@ export default async function DealsPage({ searchParams }: { searchParams: Promis
       <div className="mb-8 mt-7 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-sm font-bold uppercase tracking-widest text-primary">Limited-time savings</p>
-          <h1 className="mt-2 text-3xl font-black tracking-tight sm:text-5xl">Best deals</h1>
+          <h1 className="mt-2 text-3xl font-medium tracking-tight sm:text-5xl">Best deals</h1>
         </div>
         <nav className="no-scrollbar flex gap-5 overflow-x-auto pb-1" aria-label="Deal categories">
           <Link href="/deals" className={`shrink-0 border-b-2 pb-1 ${!selectedCategory ? "border-primary text-primary" : "border-transparent text-muted"}`}>All</Link>

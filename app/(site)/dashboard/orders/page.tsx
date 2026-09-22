@@ -53,18 +53,18 @@ export default function OrdersPage() {
     return (
       <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
         <div>
-          <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-2">My Orders</h1>
+          <h1 className="text-3xl font-medium text-foreground dark:text-foreground mb-2">My Orders</h1>
           <p className="text-muted dark:text-muted">Manage your past and current orders effortlessly.</p>
         </div>
         <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-16 text-center">
           <div className="size-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <SiteIcon className="text-4xl text-primary">receipt_long</SiteIcon>
           </div>
-          <h3 className="text-xl font-black text-foreground dark:text-foreground mb-2">No orders yet</h3>
+          <h3 className="text-xl font-medium text-foreground dark:text-foreground mb-2">No orders yet</h3>
           <p className="text-muted text-sm mb-8">Start shopping to see your orders here.</p>
           <Link
             href="/shop"
-            className="inline-flex items-center gap-2 bg-primary text-white font-black px-8 py-3 rounded-2xl hover:bg-primary/90 transition-all"
+            className="inline-flex items-center gap-2 bg-primary text-white font-medium px-8 py-3 rounded-2xl hover:bg-primary/90 transition-all"
           >
             <SiteIcon className="text-xl">storefront</SiteIcon>
             Browse Shop
@@ -77,7 +77,7 @@ export default function OrdersPage() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
       <div>
-        <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-2">My Orders</h1>
+        <h1 className="text-3xl font-medium text-foreground dark:text-foreground mb-2">My Orders</h1>
         <p className="text-muted dark:text-muted">
           {orders.length} order{orders.length !== 1 ? "s" : ""} found
         </p>
@@ -87,7 +87,7 @@ export default function OrdersPage() {
         <div className="overflow-x-auto no-scrollbar">
           <table className="w-full text-left min-w-[650px] sm:min-w-0">
             <thead>
-              <tr className="bg-surface dark:bg-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-muted">
+              <tr className="bg-surface dark:bg-white/5 text-[10px] font-medium uppercase tracking-[0.2em] text-muted">
                 <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Order ID</th>
                 <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Date</th>
                 <th className="px-4 sm:px-8 py-3.5 sm:py-4 whitespace-nowrap">Items</th>
@@ -104,7 +104,7 @@ export default function OrdersPage() {
                 const totalItems = order.orderItems.reduce((n: number, i: any) => n + i.quantity, 0);
                 return (
                   <tr key={order.id} className="hover:bg-primary/5 transition-colors group">
-                    <td className="px-4 sm:px-8 py-4 sm:py-6 text-foreground dark:text-foreground font-black whitespace-nowrap">
+                    <td className="px-4 sm:px-8 py-4 sm:py-6 text-foreground dark:text-foreground font-medium whitespace-nowrap">
                       {order.orderNumber}
                     </td>
                     <td className="px-4 sm:px-8 py-4 sm:py-6 text-muted font-medium whitespace-nowrap">{date}</td>
@@ -112,15 +112,15 @@ export default function OrdersPage() {
                       {totalItems} item{totalItems !== 1 ? "s" : ""}
                     </td>
                     <td className="px-4 sm:px-8 py-4 sm:py-6 whitespace-nowrap">
-                      <span className={`inline-block px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-black whitespace-nowrap ${STATUS_COLORS[order.status] ?? STATUS_COLORS.PENDING}`}>
+                      <span className={`inline-block px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-medium whitespace-nowrap ${STATUS_COLORS[order.status] ?? STATUS_COLORS.PENDING}`}>
                         {order.status}
                       </span>
                     </td>
-                    <td className="px-4 sm:px-8 py-4 sm:py-6 text-primary font-black whitespace-nowrap">Rs. {Number(order.total).toLocaleString()}</td>
+                    <td className="px-4 sm:px-8 py-4 sm:py-6 text-primary font-medium whitespace-nowrap">Rs. {Number(order.total).toLocaleString()}</td>
                     <td className="px-4 sm:px-8 py-4 sm:py-6 text-right whitespace-nowrap">
                       <Link
                         href={`/dashboard/orders/${order.orderNumber}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-black text-muted hover:text-primary transition-colors bg-surface dark:bg-white/5 hover:bg-primary/10 px-3 py-2 rounded-xl"
+                        className="inline-flex items-center gap-1.5 text-xs font-medium text-muted hover:text-primary transition-colors bg-surface dark:bg-white/5 hover:bg-primary/10 px-3 py-2 rounded-xl"
                       >
                         <SiteIcon className="text-base">visibility</SiteIcon>
                         View

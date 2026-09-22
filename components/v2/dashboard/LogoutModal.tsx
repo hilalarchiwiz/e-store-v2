@@ -59,7 +59,7 @@ const LogoutModal: React.FC<LogoutModalProps> = ({
                 </div>
 
                 {/* Content */}
-                <h2 className="text-2xl font-black text-foreground dark:text-foreground mb-3">
+                <h2 className="text-2xl font-medium text-foreground dark:text-foreground mb-3">
                   Wait! Going so soon?
                 </h2>
                 <p className="text-muted dark:text-muted font-medium leading-relaxed mb-8">

@@ -48,15 +48,15 @@ export default async function OrderConfirmationPage({
         <div className="size-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-primary/30">
           <SiteIcon className="text-white text-4xl">check_circle</SiteIcon>
         </div>
-        <h1 className="text-3xl md:text-4xl font-black text-foreground dark:text-foreground mb-3">
+        <h1 className="text-3xl md:text-4xl font-medium text-foreground dark:text-foreground mb-3">
           Order Confirmed!
         </h1>
         <p className="text-muted dark:text-muted mb-4 font-medium">
           Thank you for your purchase. Your order has been received.
         </p>
         <div className="inline-flex items-center gap-2 bg-surface dark:bg-surface border border-primary/20 px-6 py-3 rounded-2xl">
-          <span className="text-xs font-black uppercase tracking-widest text-muted">Order Number</span>
-          <span className="text-primary font-black text-lg">{order.orderNumber}</span>
+          <span className="text-xs font-medium uppercase tracking-widest text-muted">Order Number</span>
+          <span className="text-primary font-medium text-lg">{order.orderNumber}</span>
         </div>
       </div>
 
@@ -66,10 +66,10 @@ export default async function OrderConfirmationPage({
           {/* Order Items */}
           <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
             <div className="p-8 border-b border-outline dark:border-white/5 flex items-center justify-between">
-              <h2 className="text-xl font-black text-foreground dark:text-foreground">
+              <h2 className="text-xl font-medium text-foreground dark:text-foreground">
                 Order Items ({order.orderItems.length})
               </h2>
-              <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${STATUS_COLORS[order.status] ?? STATUS_COLORS.PENDING}`}>
+              <span className={`px-3 py-1 rounded-full text-[10px] font-medium uppercase tracking-widest ${STATUS_COLORS[order.status] ?? STATUS_COLORS.PENDING}`}>
                 {order.status}
               </span>
             </div>
@@ -86,14 +86,14 @@ export default async function OrderConfirmationPage({
                   <div className="flex-1 min-w-0">
                     <Link
                       href={`/product/${item.product.id}`}
-                      className="font-black text-sm text-foreground dark:text-foreground hover:text-primary transition-colors line-clamp-2"
+                      className="font-medium text-sm text-foreground dark:text-foreground hover:text-primary transition-colors line-clamp-2"
                     >
                       {item.product.title}
                     </Link>
                     <p className="text-xs text-muted mt-1">Qty: {item.quantity}</p>
                     <p className="text-xs text-muted">Unit price: Rs.{Number(item.price).toLocaleString()}</p>
                   </div>
-                  <p className="font-black text-foreground dark:text-foreground">
+                  <p className="font-medium text-foreground dark:text-foreground">
                     Rs.{Number(item.subtotal).toLocaleString()}
                   </p>
                 </div>
@@ -103,12 +103,12 @@ export default async function OrderConfirmationPage({
 
           {/* Delivery Address */}
           <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-8">
-            <h2 className="text-xl font-black text-foreground dark:text-foreground mb-6 flex items-center gap-2">
+            <h2 className="text-xl font-medium text-foreground dark:text-foreground mb-6 flex items-center gap-2">
               <SiteIcon className="text-primary">location_on</SiteIcon>
               Delivery Address
             </h2>
             <div className="text-sm font-medium text-muted dark:text-muted space-y-1">
-              <p className="font-black text-foreground dark:text-foreground">{addr.firstName} {addr.lastName}</p>
+              <p className="font-medium text-foreground dark:text-foreground">{addr.firstName} {addr.lastName}</p>
               {addr.company && <p>{addr.company}</p>}
               <p>{addr.streetAddress}{addr.apartment ? `, ${addr.apartment}` : ""}</p>
               <p>{addr.city}{addr.state ? `, ${addr.state}` : ""}</p>
@@ -123,20 +123,20 @@ export default async function OrderConfirmationPage({
         <div className="lg:col-span-4 space-y-6">
           {/* Order Info */}
           <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-6 space-y-5">
-            <h2 className="text-xl font-black text-foreground dark:text-foreground">Order Details</h2>
+            <h2 className="text-xl font-medium text-foreground dark:text-foreground">Order Details</h2>
 
             <div className="space-y-4 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted font-medium">Order Date</span>
-                <span className="font-black text-foreground dark:text-foreground">{createdAt}</span>
+                <span className="font-medium text-foreground dark:text-foreground">{createdAt}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted font-medium">Payment</span>
-                <span className="font-black text-foreground dark:text-foreground">{PAYMENT_LABELS[order.paymentMethod] ?? order.paymentMethod}</span>
+                <span className="font-medium text-foreground dark:text-foreground">{PAYMENT_LABELS[order.paymentMethod] ?? order.paymentMethod}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted font-medium">Shipping</span>
-                <span className="font-black text-foreground dark:text-foreground">{SHIPPING_LABELS[order.shippingMethod] ?? order.shippingMethod}</span>
+                <span className="font-medium text-foreground dark:text-foreground">{SHIPPING_LABELS[order.shippingMethod] ?? order.shippingMethod}</span>
               </div>
               {order.notes && (
                 <div>
@@ -149,7 +149,7 @@ export default async function OrderConfirmationPage({
 
           {/* Cost Summary */}
           <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl p-6">
-            <h2 className="text-xl font-black text-foreground dark:text-foreground mb-5">Cost Summary</h2>
+            <h2 className="text-xl font-medium text-foreground dark:text-foreground mb-5">Cost Summary</h2>
             <div className="space-y-3 text-sm font-bold">
               <div className="flex justify-between">
                 <span className="text-muted">Subtotal</span>
@@ -168,8 +168,8 @@ export default async function OrderConfirmationPage({
                 </div>
               )}
               <div className="pt-4 border-t border-outline dark:border-white/5 flex justify-between items-center">
-                <span className="text-lg font-black text-foreground dark:text-foreground">Total</span>
-                <span className="text-2xl font-black text-primary">Rs.{Number(order.total).toLocaleString()}</span>
+                <span className="text-lg font-medium text-foreground dark:text-foreground">Total</span>
+                <span className="text-2xl font-medium text-primary">Rs.{Number(order.total).toLocaleString()}</span>
               </div>
             </div>
           </div>
@@ -179,7 +179,7 @@ export default async function OrderConfirmationPage({
             {order.userId && (
               <Link
                 href="/dashboard/orders"
-                className="w-full bg-primary text-white font-black py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-lg"
+                className="w-full bg-primary text-white font-medium py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-lg"
               >
                 <SiteIcon className="text-xl">receipt_long</SiteIcon>
                 View My Orders
@@ -187,7 +187,7 @@ export default async function OrderConfirmationPage({
             )}
             <Link
               href="/shop"
-              className="w-full bg-surface dark:bg-surface text-foreground dark:text-foreground font-black py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-surface dark:hover:bg-white/5 transition-all border border-outline dark:border-white/10"
+              className="w-full bg-surface dark:bg-surface text-foreground dark:text-foreground font-medium py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-surface dark:hover:bg-white/5 transition-all border border-outline dark:border-white/10"
             >
               <SiteIcon className="text-xl">storefront</SiteIcon>
               Continue Shopping

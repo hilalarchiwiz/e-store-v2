@@ -18,7 +18,7 @@ export default async function PendingOrdersAlert() {
           </div>
           <div className="ml-3">
             <p className="text-sm text-amber-700">
-              You have <span className="font-bold text-amber-900 font-black">{res.count}</span> pending orders waiting for processing.
+              You have <span className="font-bold text-amber-900 font-medium">{res.count}</span> pending orders waiting for processing.
             </p>
           </div>
         </div>

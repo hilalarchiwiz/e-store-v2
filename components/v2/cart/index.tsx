@@ -124,7 +124,7 @@ export default function Cart() {
             <p className="text-primary text-xs font-bold uppercase tracking-widest mb-0.5">
               Your Basket
             </p>
-            <h1 className="text-3xl md:text-4xl font-black text-foreground dark:text-foreground leading-tight">
+            <h1 className="text-3xl md:text-4xl font-medium text-foreground dark:text-foreground leading-tight">
               Shopping Cart
             </h1>
           </div>
@@ -172,7 +172,7 @@ export default function Cart() {
           <div className="lg:col-span-8 flex flex-col gap-6">
             <div className="bg-surface dark:bg-surface rounded-3xl border border-primary/5 shadow-xl overflow-hidden">
               {/* Table header */}
-              <div className="hidden md:grid grid-cols-12 gap-4 px-8 py-4 bg-surface dark:bg-white/5 border-b border-outline dark:border-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-muted">
+              <div className="hidden md:grid grid-cols-12 gap-4 px-8 py-4 bg-surface dark:bg-white/5 border-b border-outline dark:border-white/5 text-[10px] font-medium uppercase tracking-[0.2em] text-muted">
                 <div className="col-span-6">Product</div>
                 <div className="col-span-2 text-center">Price</div>
                 <div className="col-span-2 text-center">Qty</div>
@@ -211,7 +211,7 @@ export default function Cart() {
                         <div className="flex flex-col items-start">
                           <Link
                             href={`/product/${item.product.id}`}
-                            className="text-base font-black text-foreground dark:text-foreground hover:text-primary transition-colors leading-snug line-clamp-2"
+                            className="text-base font-medium text-foreground dark:text-foreground hover:text-primary transition-colors leading-snug line-clamp-2"
                           >
                             {item.product.title}
                           </Link>
@@ -266,7 +266,7 @@ export default function Cart() {
                                 remove
                               </SiteIcon>
                             </button>
-                            <span className="w-10 text-center font-black text-foreground dark:text-foreground text-sm">
+                            <span className="w-10 text-center font-medium text-foreground dark:text-foreground text-sm">
                               {item.quantity}
                             </span>
                             <button
@@ -292,7 +292,7 @@ export default function Cart() {
                         <span className="md:hidden text-xs font-bold text-muted block mb-1">
                           Total
                         </span>
-                        <p className="text-xl font-black text-primary">
+                        <p className="text-xl font-medium text-primary">
                           PKR {(price * item.quantity).toLocaleString()}
                         </p>
                       </div>
@@ -337,7 +337,7 @@ export default function Cart() {
                   <span className="text-base font-bold text-foreground dark:text-foreground whitespace-nowrap">
                     Total Amount
                   </span>
-                  <span className="text-xl sm:text-2xl font-black text-primary whitespace-nowrap">
+                  <span className="text-xl sm:text-2xl font-medium text-primary whitespace-nowrap">
                     PKR {total.toLocaleString()}
                   </span>
                 </div>

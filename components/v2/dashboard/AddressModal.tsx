@@ -110,7 +110,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose, address, o
                       </SiteIcon>
                     </div>
                     <div>
-                      <h2 className="text-2xl font-black text-foreground dark:text-foreground">
+                      <h2 className="text-2xl font-medium text-foreground dark:text-foreground">
                         {isEdit ? "Edit Address" : "Add New Address"}
                       </h2>
                       <p className="text-xs text-muted font-bold uppercase tracking-widest">

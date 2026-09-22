@@ -57,7 +57,7 @@ const ForgotPasswordPage = () => {
                     lock_reset
                   </SiteIcon>
                 </div>
-                <h1 className="text-3xl font-black text-foreground dark:text-foreground mb-3">
+                <h1 className="text-3xl font-medium text-foreground dark:text-foreground mb-3">
                   Reset Password
                 </h1>
                 <p className="text-muted dark:text-muted text-sm">
@@ -95,7 +95,7 @@ const ForgotPasswordPage = () => {
                   mark_email_read
                 </SiteIcon>
               </div>
-              <h2 className="text-2xl font-black text-foreground dark:text-foreground mb-3">
+              <h2 className="text-2xl font-medium text-foreground dark:text-foreground mb-3">
                 Check Your Email
               </h2>
               <p className="text-muted dark:text-muted text-sm mb-8 leading-relaxed">

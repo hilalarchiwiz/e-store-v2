@@ -58,7 +58,7 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
     <div className="flex flex-col items-stretch gap-3 rounded-2xl border border-outline bg-surface p-3 shadow-sm transition-colors dark:border-outline dark:bg-surface sm:p-4 lg:flex-row lg:items-center">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between lg:hidden">
         <div className="flex items-baseline gap-2 whitespace-nowrap px-0.5">
-          <span className="text-2xl font-black leading-none text-foreground dark:text-foreground">
+          <span className="text-2xl font-medium leading-none text-foreground dark:text-foreground">
             {totalProducts}
           </span>
           <span className="text-sm font-medium text-muted">
@@ -124,7 +124,7 @@ const ShopHeader: React.FC<ShopHeaderProps> = ({
       {/* Right: count + view toggle */}
       <div className="hidden items-center gap-4 shrink-0 lg:flex">
         <div className="flex items-center gap-1.5 pl-1">
-          <span className="text-foreground dark:text-foreground text-base font-black">
+          <span className="text-foreground dark:text-foreground text-base font-medium">
             {totalProducts}
           </span>
           <span className="text-muted text-sm font-medium">

@@ -239,7 +239,7 @@ export default async function AboutPage() {
       <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-9 px-3 pb-12 pt-5 sm:gap-14 sm:px-6 sm:pt-0 md:gap-20 lg:px-10 lg:pb-24">
         <section className="grid items-center gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:gap-14 lg:py-10">
           <div className="mx-auto max-w-2xl text-center sm:mx-0 sm:text-left">
-            <h1 className="whitespace-pre-line text-[32px] font-black leading-[1.02] tracking-[-0.04em] sm:text-5xl lg:text-7xl">
+            <h1 className="whitespace-pre-line text-[32px] font-medium leading-[1.02] tracking-[-0.04em] sm:text-5xl lg:text-7xl">
               {hero.title}
             </h1>
             <p className="mx-auto mt-3 max-w-lg text-[11px] font-extrabold leading-snug text-primary sm:mx-0 sm:mt-4 sm:text-xl">{hero.subtitle}</p>
@@ -288,7 +288,7 @@ export default async function AboutPage() {
                   <DynamicIcon name={benefit.icon} fallback="ShieldCheck" size={38} />
                 </span>
                 <div className="min-w-0">
-                  <h2 className="text-sm font-black leading-tight sm:text-base">{benefit.title}</h2>
+                  <h2 className="text-sm font-medium leading-tight sm:text-base">{benefit.title}</h2>
                   <p className="mt-1 text-sm leading-[1.25] text-muted dark:text-white/65 sm:text-base">
                     {benefit.description}
                   </p>
@@ -302,7 +302,7 @@ export default async function AboutPage() {
           <div className="grid items-center gap-5 sm:gap-8 lg:grid-cols-[.78fr_1.22fr] lg:gap-12">
             <div className="text-center sm:text-left">
               <SectionLabel>{whoWeAre.eyebrow || 'Who we are'}</SectionLabel>
-              <h2 className="mt-2 whitespace-pre-line text-xl font-black leading-tight tracking-tight sm:mt-3 sm:text-4xl">
+              <h2 className="mt-2 whitespace-pre-line text-xl font-medium leading-tight tracking-tight sm:mt-3 sm:text-4xl">
                 {whoWeAre.title || 'Trusted Refurbished Tech.\nBuilt for Pakistan.'}
               </h2>
               <div className="mx-auto my-3 h-0.5 w-10 rounded-full bg-primary sm:mx-0 sm:my-5 sm:h-1 sm:w-14" />
@@ -326,7 +326,7 @@ export default async function AboutPage() {
 
         <section className="text-center sm:text-left">
           <SectionLabel>{whatWeDoSetting.eyebrow || 'What we do'}</SectionLabel>
-          <h2 className="mx-auto mt-2 max-w-3xl whitespace-pre-line text-xl font-black leading-tight tracking-tight sm:mx-0 sm:mt-3 sm:text-4xl">
+          <h2 className="mx-auto mt-2 max-w-3xl whitespace-pre-line text-xl font-medium leading-tight tracking-tight sm:mx-0 sm:mt-3 sm:text-4xl">
             {whatWeDoSetting.title || 'Quality Tech, Smart Choices.\nEverything You Need, All in One Place.'}
           </h2>
           {whatWeDoSetting.description && (
@@ -339,7 +339,7 @@ export default async function AboutPage() {
                   <img src={service.image} alt={service.title} className="h-full w-full object-contain transition duration-500 group-hover:scale-105" />
                 </div>
                 <div className="px-0.5 pb-1 pt-2.5 sm:px-1 sm:pb-2 sm:pt-4">
-                  <h3 className="text-[12px] font-black leading-tight sm:text-lg">{service.title}</h3>
+                  <h3 className="text-[12px] font-medium leading-tight sm:text-lg">{service.title}</h3>
                   <p className="mt-1 text-[9px] leading-[1.35] text-muted dark:text-muted sm:mt-2 sm:text-sm sm:leading-6">{service.description}</p>
                 </div>
               </article>
@@ -352,7 +352,7 @@ export default async function AboutPage() {
             <article key={`${card.title}-${index}`} className="grid overflow-hidden rounded-lg bg-surface dark:bg-surface sm:grid-cols-[.88fr_1.12fr] sm:rounded-xl">
               <img src={card.image} alt={card.title} className="h-64 w-full object-cover sm:h-full sm:min-h-[300px]" />
               <div className="flex flex-col justify-center p-4 text-center sm:p-9 sm:text-left">
-                <h3 className="text-xl font-black sm:text-3xl">{card.title}</h3>
+                <h3 className="text-xl font-medium sm:text-3xl">{card.title}</h3>
                 <div className="mx-auto my-3 h-0.5 w-10 rounded-full bg-primary sm:mx-0 sm:my-4 sm:h-1 sm:w-14" />
                 <p className="text-[11px] leading-[1.55] text-muted dark:text-white/65 sm:text-sm sm:leading-7">{card.description}</p>
               </div>
@@ -363,7 +363,7 @@ export default async function AboutPage() {
         <section className="grid items-center gap-5 py-1 sm:gap-9 sm:py-3 xl:grid-cols-2">
           <div className="text-center sm:text-left">
             <SectionLabel>{whyChooseSetting.eyebrow || 'Why choose QAAM?'}</SectionLabel>
-            <h2 className="mt-2 whitespace-pre-line text-xl font-black leading-tight tracking-tight sm:mt-3 sm:text-4xl">
+            <h2 className="mt-2 whitespace-pre-line text-xl font-medium leading-tight tracking-tight sm:mt-3 sm:text-4xl">
               {whyChooseSetting.title || 'Technology You Can Trust.\nService You Can Count On.'}
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-[10px] leading-[1.5] text-muted dark:text-white/65 sm:mx-0 sm:mt-5 sm:text-base sm:leading-7">
@@ -386,7 +386,7 @@ export default async function AboutPage() {
                   <DynamicIcon name={benefit.icon} fallback="BadgeCheck" size={23} />
                 </span>
                 <div>
-                  <h3 className="font-black">{benefit.title}</h3>
+                  <h3 className="font-medium">{benefit.title}</h3>
                   <p className="mt-1 text-sm leading-6 text-muted dark:text-muted">{benefit.description}</p>
                 </div>
               </div>
@@ -407,7 +407,7 @@ export default async function AboutPage() {
             <div className="grid gap-5 sm:gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-start">
               <div className="text-center sm:text-left">
                 <SectionLabel>{teamSetting.eyebrow || 'Our team'}</SectionLabel>
-                <h2 className="mt-2 whitespace-pre-line text-xl font-black leading-tight tracking-tight sm:mt-3 sm:text-4xl">
+                <h2 className="mt-2 whitespace-pre-line text-xl font-medium leading-tight tracking-tight sm:mt-3 sm:text-4xl">
                   {teamSetting.title || 'The People Behind QAAM\nWorking for You.'}
                 </h2>
                 {teamSetting.description && <p className="mt-3 text-[11px] leading-[1.55] text-muted dark:text-white/65 sm:mt-4 sm:text-sm sm:leading-7">{teamSetting.description}</p>}
@@ -417,7 +417,7 @@ export default async function AboutPage() {
                   <article key={member.id} className="w-[44%] shrink-0 snap-start overflow-hidden rounded-lg bg-surface text-center shadow-[0_3px_14px_rgba(0,0,0,.13)] dark:bg-surface sm:w-auto sm:rounded-xl">
                     <img src={member.image} alt={member.name} className="h-32 w-full object-cover object-top sm:h-44" />
                     <div className="p-2.5 sm:p-4">
-                      <h3 className="text-[11px] font-black sm:text-base">{member.name}</h3>
+                      <h3 className="text-[11px] font-medium sm:text-base">{member.name}</h3>
                       <p className="mt-0.5 text-[9px] text-muted dark:text-muted sm:mt-1 sm:text-sm">{member.designation}</p>
                     </div>
                   </article>

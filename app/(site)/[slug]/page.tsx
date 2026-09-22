@@ -55,7 +55,7 @@ const DynamicPage = async ({ params }: PageProps) => {
 
       <article className="animate-in fade-in slide-in-from-bottom-4 duration-700 w-full overflow-hidden break-words">
         <header className="mb-12 border-b border-outline dark:border-white/5 pb-10">
-          <h1 className="text-4xl md:text-6xl font-black text-foreground dark:text-foreground leading-tight mb-4">
+          <h1 className="text-4xl md:text-6xl font-medium text-foreground dark:text-foreground leading-tight mb-4">
             {page.title}
           </h1>
           <div className="flex items-center gap-4 text-sm text-muted font-bold uppercase tracking-widest">
@@ -74,7 +74,7 @@ const DynamicPage = async ({ params }: PageProps) => {
         <div className="overflow-x-auto no-scrollbar">
           <div
             className="prose prose-lg dark:prose-invert max-w-none 
-                prose-headings:font-black prose-headings:text-foreground dark:prose-headings:text-white
+                prose-headings:font-medium prose-headings:text-foreground dark:prose-headings:text-white
                 prose-p:text-muted dark:prose-p:text-muted prose-p:leading-relaxed
                 prose-strong:text-foreground dark:prose-strong:text-white
                 prose-img:rounded-[2rem] prose-img:shadow-2xl prose-img:max-w-full prose-img:h-auto
