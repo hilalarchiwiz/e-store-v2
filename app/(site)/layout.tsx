@@ -23,15 +23,15 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description:
       "Upgrade your workspace with high-performance laptops, tablets, and PC gear. Discover the latest tech, new arrivals, and exclusive deals at Qaam.pk.",
-    metadataBase: new URL("https://qaam.pk"),
-    authors: [{ name: "Qaam.pk", url: "https://qaam.pk" }],
+    metadataBase: new URL("https://www.qaam.pk"),
+    authors: [{ name: "Qaam.pk", url: "https://www.qaam.pk" }],
     creator: "Qaam.pk",
     publisher: "Qaam.pk",
     formatDetection: { email: false, address: false, telephone: false },
     openGraph: {
       type: "website",
       locale: "en_PK",
-      url: "https://qaam.pk",
+      url: "https://www.qaam.pk",
       siteName: "Qaam.pk",
       title: "Laptops in Pakistan | Qaam.pk",
       description:

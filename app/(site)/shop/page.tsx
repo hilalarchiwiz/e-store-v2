@@ -7,6 +7,7 @@ import { getShopProducts } from "@/lib/shop-products";
 import { Metadata } from "next";
 import Script from "next/script";
 import { absoluteUrl, createPublicMetadata } from "@/lib/seo";
+import SeoContent from "@/components/v2/SeoContent";
 
 export const dynamic = "force-dynamic";
 
@@ -230,6 +231,24 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
         />
       </div>
 
+      {!Object.values(resolvedSearchParams).some(Boolean) && (
+        <SeoContent
+          eyebrow="Qaam.pk product catalogue"
+          title="Find the right computer for your needs"
+          paragraphs={[
+            "Use the Qaam.pk shop to compare laptops, desktop computers, tablets, projectors, replacement batteries, chargers and other computing accessories available in Pakistan. The filters help narrow a large catalogue by product category, manufacturer, laptop generation and price range. Each listing leads to a dedicated product page with pricing, availability and technical information, giving you a clearer basis for comparison than a product name or promotional image alone.",
+            "Choosing a laptop starts with the work you expect it to handle. Students and office users can prioritise battery life, portability and comfortable everyday performance, while designers, engineers and gamers may require additional memory, faster storage or dedicated graphics. Business laptops are often a strong choice for durability and upgrade options. Check the processor, RAM, storage capacity, display and condition on each page, and ask our team when a specification or compatible accessory needs clarification.",
+            "Qaam.pk stocks both new technology and value-focused refurbished equipment. Refurbished devices can extend the useful life of reliable business hardware and provide better specifications within a limited budget. Product availability and prices can change as stock arrives, so saved filters and current listings are the best guide to what can be ordered. Delivery is available across Pakistan, and our support team can help with product selection before you complete an order.",
+          ]}
+          links={[
+            { href: "/deals", label: "Shop discounted products" },
+            { href: "/faq", label: "Read common questions" },
+            { href: "/returns-exchanges", label: "Returns and exchanges" },
+            { href: "/contact", label: "Contact product support" },
+          ]}
+        />
+      )}
+
       {/* Structured Data for CollectionPage */}
       <Script
         id="shop-collection-schema"
@@ -240,7 +259,7 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
             "@type": "CollectionPage",
             "name": search ? `Search results for "${search}"` : "Premium Tech Catalog",
             "description": "Browse our complete catalog of high-performance laptops, tablets, and PC accessories.",
-            "url": `https://qaam.pk/shop${search ? `?search=${search}` : ""}`,
+            "url": `https://www.qaam.pk/shop${search ? `?search=${search}` : ""}`,
             "mainEntity": {
               "@type": "ItemList",
               "numberOfItems": products.length,

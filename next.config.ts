@@ -14,6 +14,16 @@ function getDeploymentId(): string | undefined {
 const nextConfig: NextConfig = {
   reactStrictMode: false,
   deploymentId: getDeploymentId(),
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "qaam.pk" }],
+        destination: "https://www.qaam.pk/:path*",
+        permanent: true,
+      },
+    ];
+  },
   experimental: {
     authInterrupts: true,
     serverActions: {

@@ -6,7 +6,13 @@ import ProductDetails from "@/components/v2/ProductDetails";
 import Breadcrumbs from "@/components/v2/Breadcrumbs";
 import { Metadata } from "next";
 import Script from "next/script";
-import { absoluteUrl, createPublicMetadata, metaDescription } from "@/lib/seo";
+import SeoContent from "@/components/v2/SeoContent";
+import {
+  absoluteUrl,
+  createPublicMetadata,
+  metaDescription,
+  productMetaTitle,
+} from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{
@@ -33,7 +39,7 @@ export async function generateMetadata({
 
   if (!product) return {};
 
-  const title = `${product.title} — Price in Pakistan`;
+  const title = productMetaTitle(product.title);
   const description = metaDescription(
     product.description,
     `Buy ${product.title} at Qaam.pk with nationwide delivery in Pakistan.`,
@@ -125,6 +131,24 @@ export default async function ProductPage({ params }: PageProps) {
           relatedProducts={relatedProducts}
         />
       </div>
+
+      <SeoContent
+        eyebrow="Product buying guide"
+        title={`About this ${product.category?.title || "product"}`}
+        paragraphs={[
+          `${product.title} is listed in our ${product.category?.title || "technology"} range${product.brand?.title ? ` from ${product.brand.title}` : ""}. Review the price, stock status, images and specifications above before ordering. Product names can cover several features or compatible model numbers, so the detailed information on this page should be used to confirm that the item suits your intended system and everyday requirements.`,
+          `When comparing this item with similar products, consider the features that affect practical use rather than price alone. For computers, those details commonly include processor generation, installed memory, storage, display and graphics capability. For batteries, chargers and replacement parts, match the listed model or compatibility information with your existing device. If a required detail is not shown clearly, contact Qaam.pk before purchase so our team can help verify it.`,
+          `${product.quantity > 0 ? "This product is currently shown as available" : "This product is currently shown as out of stock"}, and availability may change as orders are processed. Qaam.pk supplies new and refurbished computing equipment to customers across Pakistan. Refurbished items may show a condition or grading description, while each listing provides the information available for that individual item. Check the order details carefully and read our returns information before completing your purchase.`,
+        ]}
+        links={[
+          { href: "/shop", label: "Browse all products" },
+          ...(categorySlugOrId
+            ? [{ href: `/shop?category=${categorySlugOrId}`, label: `More ${product.category?.title || "products"}` }]
+            : []),
+          { href: "/returns-exchanges", label: "Returns and exchanges" },
+          { href: "/contact", label: "Ask about this product" },
+        ]}
+      />
 
       {/* Product Structured Data */}
       <Script

@@ -162,9 +162,9 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                   <SiteIcon className="text-3xl font-bold">
                     eco
                   </SiteIcon>
-                  <h2 className="text-foreground dark:text-foreground text-2xl font-medium leading-tight tracking-[-0.015em]">
+                  <span className="text-foreground dark:text-foreground text-2xl font-medium leading-tight tracking-[-0.015em]">
                     Qaam.pk
-                  </h2>
+                  </span>
                 </>
               )}
             </Link>

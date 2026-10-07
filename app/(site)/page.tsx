@@ -17,6 +17,7 @@ import { Metadata } from "next";
 import ShopBenefits from "@/components/v2/ShopBenefits";
 import DynamicIcon from "@/components/v2/DynamicIcon";
 import { getDealCategories, getDealProducts } from "@/lib/deals";
+import SeoContent from "@/components/v2/SeoContent";
 
 export const metadata: Metadata = {
   title: {
@@ -51,7 +52,7 @@ export const metadata: Metadata = {
     title: "Laptops in Pakistan | New & Used Laptops | Qaam.pk",
     description:
       "Shop tested laptops, tablets, desktops and PC accessories at competitive prices with nationwide delivery across Pakistan.",
-    url: "https://qaam.pk/",
+    url: "https://www.qaam.pk/",
     siteName: "Qaam.pk",
     images: [
       {
@@ -271,32 +272,32 @@ export default async function V2HomePage() {
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://qaam.pk/#website",
+        "@id": "https://www.qaam.pk/#website",
         name: "Qaam.pk",
-        url: "https://qaam.pk/",
+        url: "https://www.qaam.pk/",
         inLanguage: "en-PK",
-        publisher: { "@id": "https://qaam.pk/#organization" },
+        publisher: { "@id": "https://www.qaam.pk/#organization" },
         potentialAction: {
           "@type": "SearchAction",
           target: {
             "@type": "EntryPoint",
-            urlTemplate: "https://qaam.pk/shop?search={search_term_string}",
+            urlTemplate: "https://www.qaam.pk/shop?search={search_term_string}",
           },
           "query-input": "required name=search_term_string",
         },
       },
       {
         "@type": ["Organization", "OnlineStore"],
-        "@id": "https://qaam.pk/#organization",
+        "@id": "https://www.qaam.pk/#organization",
         name: "Qaam.pk",
-        url: "https://qaam.pk/",
+        url: "https://www.qaam.pk/",
         logo: {
           "@type": "ImageObject",
-          url: "https://qaam.pk/images/logo/logo.png",
+          url: "https://www.qaam.pk/images/logo/logo.png",
           width: 637,
           height: 254,
         },
-        image: "https://qaam.pk/images/hero/hero-bg.png",
+        image: "https://www.qaam.pk/images/hero/hero-bg.png",
         description:
           "Online store for new and used laptops, tablets, desktop computers and PC accessories in Pakistan.",
         areaServed: {
@@ -340,6 +341,21 @@ export default async function V2HomePage() {
       <HomepageFlashSale />
       <StoreBenefits />
       <Feedback reviews={latestReviews} />
+      <SeoContent
+        eyebrow="Technology for work, study and home"
+        title="Buy laptops and computing gear in Pakistan"
+        paragraphs={[
+          "Qaam.pk brings new and professionally checked laptops, desktop computers, tablets and essential accessories together in one practical online store. Whether you need a dependable business notebook, a portable system for university or a powerful machine for creative work, you can compare current options without visiting multiple markets. Product pages include useful specifications, condition details and clear pricing so that you can choose equipment suited to your workload and budget.",
+          "Our laptop range covers everyday productivity, business mobility, gaming and demanding professional tasks. Shoppers can explore popular manufacturers, compare processor generations, memory, storage, screen sizes and graphics options, then review compatible chargers, batteries and computer parts. Refurbished products are checked before sale to give buyers a more affordable way to upgrade, while new arrivals provide access to recent hardware and features. Availability changes regularly as products are tested and added to the catalogue.",
+          "Customers across Pakistan can order online and contact our team when they need help understanding a specification or selecting between models. We focus on straightforward product information, competitive prices and nationwide delivery. Current promotions are collected on the deals page, while the complete shop can be filtered by category, brand, generation and price. Before ordering, review the product description and listed condition, and contact Qaam.pk if you need confirmation about compatibility or a particular use case.",
+        ]}
+        links={[
+          { href: "/shop", label: "Browse all products" },
+          { href: "/deals", label: "View current deals" },
+          { href: "/about", label: "Learn about Qaam.pk" },
+          { href: "/contact", label: "Ask for buying advice" },
+        ]}
+      />
       <Subscribe />
     </main>
   );

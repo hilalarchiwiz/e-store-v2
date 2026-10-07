@@ -2,7 +2,6 @@
 import SiteIcon from '@/components/v2/SiteIcon';
 import Link from "next/link";
 import { getPages } from "@/lib/action/home.action";
-import generateSession from "@/lib/generate-session";
 
 interface FooterProps {
   logo?: { logo?: string; dark_logo?: string; favicon?: string };
@@ -29,11 +28,7 @@ const SOCIAL_ICONS: Record<string, string> = {
 };
 
 const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
-  const [{ pages = [] }, session] = await Promise.all([
-    getPages(),
-    generateSession(),
-  ]);
-  const isLoggedIn = !!session?.user;
+  const { pages = [] } = await getPages();
 
   const socialLinks = socialInfo
     ? Object.entries(socialInfo).filter(([, url]) => !!url)
@@ -73,15 +68,15 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                   <SiteIcon className="text-3xl font-bold">
                     Qaam
                   </SiteIcon>
-                  <h2 className="text-foreground dark:text-foreground text-2xl font-medium">
+                  <span className="text-foreground dark:text-foreground text-2xl font-medium">
                     .PK
-                  </h2>
+                  </span>
                 </>
               )}
             </Link>
-            <p className="mb-4 max-w-xs text-xs leading-relaxed text-muted dark:text-muted sm:mb-6 sm:text-sm">
+            <div className="mb-4 max-w-xs text-xs leading-relaxed text-muted dark:text-muted sm:mb-6 sm:text-sm">
               We provide high-quality refurbished laptops, gadgets, and accessories that deliver premium performance without the premium price tag.
-            </p>
+            </div>
             {/* Social links */}
             {socialLinks.length > 0 ? (
               <div className="flex flex-wrap justify-center gap-3 md:justify-start">
@@ -263,20 +258,15 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
           <div>
             <h4 className="mb-4 text-base font-bold sm:mb-6 sm:text-lg">My Account</h4>
             <ul className="flex flex-col gap-3 text-xs text-muted dark:text-muted sm:gap-4 sm:text-sm">
-              {!isLoggedIn && (
-                <li>
-                  <Link
-                    className="hover:text-primary transition-colors"
-                    href="/login"
-                  >
-                    Login / Register
-                  </Link>
-                </li>
-              )}
+              <li>
+                <Link className="hover:text-primary transition-colors" href="/login">
+                  Login / Register
+                </Link>
+              </li>
               <li>
                 <Link
                   className="hover:text-primary transition-colors"
-                  href={isLoggedIn ? "/dashboard/profile" : "/login"}
+                  href="/dashboard/profile"
                 >
                   My Profile
                 </Link>
@@ -284,7 +274,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
               <li>
                 <Link
                   className="hover:text-primary transition-colors"
-                  href={isLoggedIn ? "/dashboard/orders" : "/login"}
+                  href="/dashboard/orders"
                 >
                   Order History
                 </Link>

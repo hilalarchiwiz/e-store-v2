@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const SITE_NAME = "Qaam.pk";
-export const SITE_URL = "https://qaam.pk";
+export const SITE_URL = "https://www.qaam.pk";
 export const DEFAULT_OG_IMAGE = "/og";
 
 export function absoluteUrl(path = "/") {
@@ -22,6 +22,48 @@ export function plainText(value: string) {
 export function metaDescription(value: string, fallback: string) {
   const text = plainText(value) || fallback;
   return text.length <= 160 ? text : `${text.slice(0, 157).trimEnd()}…`;
+}
+
+const PRODUCT_TITLE_LIMIT = 48;
+const PRODUCT_PRICE_SUFFIX = " – Price in Pakistan";
+
+function truncateAtWord(value: string, limit: number) {
+  if (value.length <= limit) return value;
+
+  const candidate = value.slice(0, limit + 1);
+  const lastSpace = candidate.lastIndexOf(" ");
+
+  return (lastSpace >= Math.floor(limit * 0.6)
+    ? candidate.slice(0, lastSpace)
+    : value.slice(0, limit)
+  ).trimEnd();
+}
+
+/**
+ * Keeps product page titles concise enough for search results. Product names are
+ * imported from several suppliers and can contain repeated model numbers or an
+ * entire compatibility list, neither of which belongs in the document title.
+ * The root layout adds " | Qaam.pk" after this value.
+ */
+export function productMetaTitle(value: string) {
+  const seen = new Set<string>();
+  const productName = plainText(value)
+    .split(" ")
+    .filter((word) => {
+      const normalized = word.toLocaleLowerCase("en-US").replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, "");
+      if (!normalized || !seen.has(normalized)) {
+        if (normalized) seen.add(normalized);
+        return true;
+      }
+      return false;
+    })
+    .join(" ");
+
+  if (productName.length + PRODUCT_PRICE_SUFFIX.length <= PRODUCT_TITLE_LIMIT) {
+    return `${productName}${PRODUCT_PRICE_SUFFIX}`;
+  }
+
+  return truncateAtWord(productName, PRODUCT_TITLE_LIMIT);
 }
 
 type PublicMetadataOptions = {

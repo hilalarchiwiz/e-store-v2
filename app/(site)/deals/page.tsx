@@ -4,6 +4,7 @@ import ProductCard from "@/components/v2/ProductCard";
 import { getDealCategories, getDealProducts } from "@/lib/deals";
 import type { Metadata } from "next";
 import { createPublicMetadata } from "@/lib/seo";
+import SeoContent from "@/components/v2/SeoContent";
 
 export const dynamic = "force-dynamic";
 
@@ -45,6 +46,23 @@ export default async function DealsPage({ searchParams }: { searchParams: Promis
         </div>
       ) : (
         <div className="rounded-xl border border-outline py-24 text-center text-muted">No discounted products found in this category.</div>
+      )}
+      {!selectedCategory && (
+        <SeoContent
+          eyebrow="Current Qaam.pk offers"
+          title="Save on laptops, computers and accessories"
+          paragraphs={[
+            "The Qaam.pk deals collection brings together products that currently have a reduced price, making it easier to compare available savings in one place. Offers may include laptops, desktop computers, projectors, tablets, batteries, chargers and other accessories. Stock is limited and the selection changes as promotions begin or products sell out, so the price and availability shown on each individual product page should be treated as the latest information.",
+            "A useful deal is one that matches your requirements, not simply the largest percentage reduction. Compare the processor generation, memory, storage, display, graphics capability and physical condition before choosing a computer. For accessories and replacement parts, check the model numbers and compatibility details carefully. The category links above can narrow the promotion list, while the full shop provides additional filters when you want to compare discounted products with the wider catalogue.",
+            "New and refurbished equipment can both offer strong value depending on your priorities. A tested refurbished business laptop may provide durable construction and practical performance at a lower cost, while a newer system may offer longer battery life or recent connectivity features. Qaam.pk delivers orders across Pakistan and can answer product questions before purchase. If you are uncertain about a specification, condition grade or compatible part, contact the team before placing your order.",
+          ]}
+          links={[
+            { href: "/shop", label: "Compare the full catalogue" },
+            { href: "/faq", label: "Read shopping FAQs" },
+            { href: "/returns-exchanges", label: "Review return information" },
+            { href: "/contact", label: "Ask about a deal" },
+          ]}
+        />
       )}
     </main>
   );

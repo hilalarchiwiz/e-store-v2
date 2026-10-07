@@ -49,5 +49,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.6,
     }));
 
-    return [...staticRoutes, ...productRoutes, ...blogRoutes, ...pageRoutes];
+    const routes = [...staticRoutes, ...productRoutes, ...blogRoutes, ...pageRoutes];
+
+    // Supplier imports can contain duplicate product slugs. A sitemap must
+    // expose each canonical URL only once even when the underlying records are
+    // duplicated.
+    return Array.from(new Map(routes.map((route) => [route.url, route])).values());
 }

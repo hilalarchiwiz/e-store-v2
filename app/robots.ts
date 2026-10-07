@@ -1,8 +1,7 @@
 import { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/seo';
 
 export default function robots(): MetadataRoute.Robots {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://qaam.pk";
-
     return {
         rules: {
             userAgent: '*',
@@ -14,6 +13,7 @@ export default function robots(): MetadataRoute.Robots {
                 '/dashboard/',
             ],
         },
-        sitemap: `${baseUrl}/sitemap.xml`,
+        host: SITE_URL,
+        sitemap: `${SITE_URL}/sitemap.xml`,
     };
 }
