@@ -427,6 +427,10 @@ export default async function AboutPage() {
           </section>
         )}
 
+        <p className="mx-auto max-w-4xl text-center text-sm leading-7 text-muted dark:text-muted">
+          From product selection to after-sales assistance, Qaam.pk aims to make buying technology in Pakistan clearer and more dependable. Customers can compare current stock in the online shop, review detailed product information and contact our team whenever a specification, condition grade or compatible accessory needs clarification.
+        </p>
+
         <Subscribe
           variant="compact"
           title={banner.newsletterTitle || 'Stay Updated with QAAM'}

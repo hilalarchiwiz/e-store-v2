@@ -13,6 +13,8 @@ function getDeploymentId(): string | undefined {
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
+  poweredByHeader: false,
+  compress: true,
   deploymentId: getDeploymentId(),
   async redirects() {
     return [

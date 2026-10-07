@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { createPublicMetadata } from "@/lib/seo";
+import SeoContent from "@/components/v2/SeoContent";
 
 export const dynamic = "force-dynamic";
 
@@ -154,6 +155,22 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
             </Link>
           ))}
         </div>
+      )}
+      {!search && !tag && currentPage === 1 && (
+        <SeoContent
+          eyebrow="Practical technology advice"
+          title="Laptop guides and computing insights"
+          paragraphs={[
+            "The Qaam.pk blog explains computer specifications and buying decisions in straightforward language. Our articles are designed to help readers understand how processors, memory, storage, displays, graphics and battery life affect everyday use. Whether you are choosing a laptop for university, office work, creative software or gaming, a clear understanding of these components makes it easier to compare models and avoid paying for features you do not need.",
+            "We also cover refurbished technology, maintenance, upgrades and accessories. A well-selected refurbished business laptop can offer strong value, while additional memory or faster storage may extend the useful life of an existing computer. Advice about chargers, batteries and replacement components focuses on compatibility because similar-looking parts are not always interchangeable. Always compare the exact model details on the relevant product page before placing an order.",
+            "New articles and product insights are added as technology and customer questions change. Use the article search to find a particular subject, explore the complete shop when you are ready to compare available products, or contact Qaam.pk for help with a specific requirement. We also publish answers inspired by recurring questions from shoppers across Pakistan, helping readers make more confident and informed technology decisions. Guides provide general information, while the current price, stock status, warranty and condition shown on each product listing apply to the item being offered.",
+          ]}
+          links={[
+            { href: "/shop", label: "Compare available products" },
+            { href: "/deals", label: "See current offers" },
+            { href: "/contact", label: "Ask a product question" },
+          ]}
+        />
       )}
     </main>
   );

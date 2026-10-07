@@ -46,6 +46,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
               href="/"
               className="mb-4 flex items-center justify-center gap-2 text-primary sm:mb-6 md:justify-start"
             >
+              <span className="sr-only">Qaam.pk home</span>
               {logo?.logo || logo?.dark_logo ? (
                 <>
                   {logo.logo && (
@@ -89,6 +90,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                     className="size-10 bg-icon-surface dark:bg-icon-surface rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                     title={key.replace("_url", "")}
                   >
+                    <span className="sr-only">Visit Qaam.pk on {key.replace("_url", "")}</span>
                     {key === "facebook_url" ? (
                       <svg className="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8.99984 0.666504C7.48706 0.666504 6.09165 1.04648 4.81361 1.80644C3.53557 2.54019 2.51836 3.5491 1.76197 4.83317C1.03166 6.11724 0.666504 7.51923 0.666504 9.03915C0.666504 10.428 0.966452 11.7252 1.56635 12.9307C2.19233 14.1099 3.04 15.0926 4.10938 15.8788C5.17876 16.6649 6.37855 17.1497 7.70876 17.3332V11.4763H5.59608V9.03915H7.70876V7.19166C7.70876 6.16965 7.98262 5.37038 8.53035 4.79386C9.10417 4.21734 9.8736 3.92908 10.8386 3.92908C11.4646 3.92908 12.0906 3.98149 12.7166 4.08632V6.16965H11.6602C11.1908 6.16965 10.8386 6.30068 10.6039 6.56273C10.3952 6.79858 10.2909 7.09994 10.2909 7.46682V9.03915H12.6383L12.2471 11.4763H10.2909V17.3332C11.6472 17.1235 12.86 16.6256 13.9294 15.8395C14.9988 15.0533 15.8334 14.0706 16.4333 12.8913C17.0332 11.6859 17.3332 10.4018 17.3332 9.03915C17.3332 7.51923 16.955 6.11724 16.1986 4.83317C15.4683 3.5491 14.4641 2.54019 13.1861 1.80644C11.908 1.04648 10.5126 0.666504 8.99984 0.666504Z" fill="currentColor" />
@@ -115,39 +117,12 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                   </a>
                 ))}
               </div>
-            ) : (
-              <div className="flex justify-center gap-3 md:justify-start">
-                <a
-                  className="size-10 bg-icon-surface dark:bg-icon-surface rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
-                  href="#"
-                >
-                  <SiteIcon className="text-lg">
-                    public
-                  </SiteIcon>
-                </a>
-                <a
-                  className="size-10 bg-icon-surface dark:bg-icon-surface rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
-                  href="#"
-                >
-                  <SiteIcon className="text-lg">
-                    play_arrow
-                  </SiteIcon>
-                </a>
-                <a
-                  className="size-10 bg-icon-surface dark:bg-icon-surface rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
-                  href="#"
-                >
-                  <SiteIcon className="text-lg">
-                    camera
-                  </SiteIcon>
-                </a>
-              </div>
-            )}
+            ) : null}
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="mb-4 text-base font-bold sm:mb-6 sm:text-lg">Quick Links</h4>
+            <div className="mb-4 text-base font-bold sm:mb-6 sm:text-lg">Quick Links</div>
             <ul className="flex flex-col gap-3 text-xs text-muted dark:text-muted sm:gap-4 sm:text-sm">
               <li>
                 <Link
@@ -189,7 +164,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
 
           {/* Support */}
           <div>
-            <h4 className="mb-4 text-base font-bold sm:mb-6 sm:text-lg">Support</h4>
+            <div className="mb-4 text-base font-bold sm:mb-6 sm:text-lg">Support</div>
             <ul className="flex flex-col gap-3 text-xs text-muted dark:text-muted sm:gap-4 sm:text-sm">
               {/* <li>
                 <Link
@@ -256,7 +231,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
 
           {/* My Account */}
           <div>
-            <h4 className="mb-4 text-base font-bold sm:mb-6 sm:text-lg">My Account</h4>
+            <div className="mb-4 text-base font-bold sm:mb-6 sm:text-lg">My Account</div>
             <ul className="flex flex-col gap-3 text-xs text-muted dark:text-muted sm:gap-4 sm:text-sm">
               <li>
                 <Link className="hover:text-primary transition-colors" href="/login">

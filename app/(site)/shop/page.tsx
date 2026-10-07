@@ -207,6 +207,15 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
         ]}
       />
 
+      <header>
+        <h1 className="text-3xl font-medium tracking-tight text-foreground sm:text-4xl">
+          {search ? `Search results for “${search}”` : "Shop laptops, computers and accessories"}
+        </h1>
+        <p className="mt-2 max-w-3xl text-sm leading-6 text-muted sm:text-base">
+          Compare available technology, filter products by the features you need and view complete product details before ordering across Pakistan.
+        </p>
+      </header>
+
       <div className="flex w-full min-w-0 max-w-full flex-col gap-8 lg:flex-row">
         <FilterSidebar
           categories={categories}

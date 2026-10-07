@@ -140,6 +140,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
           <div className="flex min-w-0 items-center gap-4 sm:gap-10">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 text-primary">
+              <span className="sr-only">Qaam.pk home</span>
               {logo?.logo || logo?.dark_logo ? (
                 <>
                   {logo.logo && (
@@ -306,6 +307,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                 href="/wishlist"
                 className="relative flex size-9 items-center justify-center rounded-lg bg-icon-surface text-foreground transition-colors hover:bg-primary/20 dark:bg-icon-surface dark:text-foreground sm:size-10"
               >
+                <span className="sr-only">Wishlist</span>
                 <SiteIcon className="text-xl">favorite</SiteIcon>
                 {wishlistCount > 0 && (
                   <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full bg-primary text-white text-[10px] font-bold leading-none">
@@ -319,6 +321,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                 href="/cart"
                 className="relative flex size-9 items-center justify-center rounded-lg bg-icon-surface text-foreground transition-colors hover:bg-primary/20 dark:bg-icon-surface dark:text-foreground sm:size-10"
               >
+                <span className="sr-only">Shopping cart</span>
                 <SiteIcon className="text-xl">shopping_cart</SiteIcon>
                 {cartCount > 0 && (
                   <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full bg-primary text-white text-[10px] font-bold leading-none">
@@ -336,6 +339,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                 title={accountName || "My Account"}
                 className="hidden size-10 items-center justify-center overflow-hidden rounded-lg bg-primary text-white transition-colors hover:bg-primary-dark sm:flex"
               >
+                <span className="sr-only">My account</span>
                 {accountImage ? (
                   <img
                     src={accountImage}
@@ -387,6 +391,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
         {/* Drawer top bar */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-outline dark:border-outline">
           <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 text-primary">
+            <span className="sr-only">Qaam.pk home</span>
             {logo?.logo || logo?.dark_logo ? (
               <>
                 {logo.logo && (

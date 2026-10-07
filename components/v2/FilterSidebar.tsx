@@ -255,9 +255,9 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
       )}
       {/* Active Filters Summary */}
       <div className="bg-surface dark:bg-surface px-5 py-4 rounded-xl border border-outline dark:border-outline shadow-[0_2px_4px_rgba(0,0,0,0.02)] flex justify-between items-center transition-colors">
-        <h3 className="text-foreground dark:text-foreground text-base font-bold">
+        <h2 className="text-foreground dark:text-foreground text-base font-bold">
           Filters
-        </h3>
+        </h2>
         <button
           onClick={handleCleanAll}
           className="text-muted hover:text-primary text-sm font-medium transition-colors underline decoration-dotted underline-offset-4"
@@ -460,9 +460,9 @@ const FilterSidebarContent: React.FC<FilterSidebarProps> = ({
           <span className="inline-block w-fit bg-white/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-sm">
             Green Weekend
           </span>
-          <h4 className="text-2xl font-medium leading-tight">
+          <div className="text-2xl font-medium leading-tight">
             Power Up Your Setup
-          </h4>
+          </div>
           <p className="text-xs text-white/80 leading-relaxed font-medium">
             Save upto 20% on laptops and pc components
           </p>

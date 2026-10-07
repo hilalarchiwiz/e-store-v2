@@ -62,6 +62,7 @@ export default function ShopIntro({
             className="group block w-full overflow-hidden rounded-xl border border-outline bg-[#f2f3f2] shadow-sm dark:border-outline dark:bg-surface"
             style={{ backgroundColor: banner.bgColor || undefined }}
           >
+            <span className="sr-only">{banner.title}</span>
             {/* Keep the uploaded banner's natural aspect ratio. This supports
                 wide, square, or tall admin uploads without cropping them. */}
             <img

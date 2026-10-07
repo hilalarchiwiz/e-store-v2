@@ -10,6 +10,7 @@ import { getFaqs } from '@/lib/action/home.action';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { createPublicMetadata } from '@/lib/seo';
+import SeoContent from '@/components/v2/SeoContent';
 
 export const metadata: Metadata = createPublicMetadata({
   title: 'Frequently Asked Questions',
@@ -103,6 +104,20 @@ const FAQPage = async () => {
           </div>
         ))}
       </div>
+      <SeoContent
+        eyebrow="Shopping help"
+        title="Before you place an order"
+        paragraphs={[
+          "Start by opening the individual product page and checking the listed specifications, condition, price and stock status. Laptop buyers should compare the processor generation, memory, storage, display and graphics capability with the software they intend to use. Customers buying batteries, chargers or replacement parts should match the model and compatibility information carefully. Contact support before ordering if an important detail is unclear or missing.",
+          "Qaam.pk carries both new and refurbished technology. Refurbished equipment can provide practical performance at a lower price, but buyers should review the condition information supplied for the specific item. Product photographs and descriptions help explain what is included, while availability may change as stock is sold or updated. Keep your order confirmation available because it contains information the support team may need when assisting with delivery or an after-sales request.",
+          "Orders can be delivered across Pakistan according to the shipping options available during checkout. If an item arrives damaged, incorrect or develops an eligible issue, contact support promptly and provide the order number with clear evidence. Do not return an item without receiving instructions first. The returns and exchanges page contains the current process and eligibility conditions, while the contact page lists the available ways to reach the Qaam.pk team.",
+        ]}
+        links={[
+          { href: "/shop", label: "Explore the shop" },
+          { href: "/returns-exchanges", label: "Review return information" },
+          { href: "/contact", label: "Contact support" },
+        ]}
+      />
     </main>
 
   );

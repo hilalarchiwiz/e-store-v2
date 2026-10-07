@@ -40,26 +40,17 @@ const Subscribe = ({ variant = 'default', title, description }: SubscribeProps) 
       <section className="rounded-xl bg-surface p-4 dark:bg-surface sm:rounded-2xl sm:p-7">
         <div className="grid items-center gap-5 lg:grid-cols-[1fr_1.2fr]">
           <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:items-start sm:gap-4 sm:text-left">
-            <svg
-              viewBox="0 0 150 82"
-              className="h-16 w-28 shrink-0 overflow-visible sm:mt-0.5 sm:h-20 sm:w-36"
+            <div
+              className="relative flex size-14 shrink-0 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 text-primary shadow-[0_8px_24px_rgba(22,163,74,0.14)] sm:size-16"
               aria-hidden="true"
             >
-              <path
-                d="M4 65 C22 25 48 72 68 55 C82 43 65 19 82 12 C100 5 100 42 91 53 C107 50 119 41 130 31"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeDasharray="1 7"
-                className="text-muted/50"
-              />
-              <g transform="translate(111 5) rotate(-8 18 18)">
-                <path d="M1 14.5 38 1 29 39 20 24 1 14.5Z" fill="#405DE6" />
-                <path d="m20 24 18-23-25 18 7 5Z" fill="#2843C7" />
-                <path d="m20 24 9 15-2-19-7 4Z" fill="#2339A8" />
-              </g>
-            </svg>
+              <span className="absolute -right-1 -top-1 size-3 rounded-full border-2 border-surface bg-primary" />
+              <svg viewBox="0 0 32 32" className="size-7 sm:size-8" fill="none">
+                <rect x="4.5" y="7" width="23" height="18" rx="4" stroke="currentColor" strokeWidth="2" />
+                <path d="m6.5 10 8.05 6.2a2.4 2.4 0 0 0 2.9 0L25.5 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="m6.5 22 6.7-5.4M25.5 22l-6.7-5.4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" opacity=".55" />
+              </svg>
+            </div>
             <div>
               <h2 className="text-base font-medium text-foreground dark:text-foreground sm:text-2xl">
                 {title || 'Stay Updated with QAAM'}

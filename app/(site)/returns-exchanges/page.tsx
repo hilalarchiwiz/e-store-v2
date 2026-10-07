@@ -5,6 +5,7 @@ import Breadcrumbs from '@/components/v2/Breadcrumbs';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { createPublicMetadata } from '@/lib/seo';
+import SeoContent from '@/components/v2/SeoContent';
 
 export const metadata: Metadata = createPublicMetadata({
   title: 'Returns, Exchanges & Refunds',
@@ -101,6 +102,20 @@ const ReturnsExchangesPage = () => {
           </Link>
         </div>
       </div>
+      <SeoContent
+        eyebrow="Preparing your request"
+        title="Information needed for returns and exchanges"
+        paragraphs={[
+          "Keep the product, included accessories and packaging together while your request is reviewed. Take clear photographs of the item and packaging if an order arrives damaged, incomplete or different from the product ordered. Your message should include the order number, delivery date and a concise explanation of the issue. This information helps the support team identify the purchase and determine whether a return, exchange or troubleshooting step is appropriate.",
+          "Do not send a product back before receiving return instructions and an approved destination from Qaam.pk. Unauthorised shipments can be delayed or may not contain enough information to match them with an order. Back up personal data and remove accounts from computers or mobile devices when instructed to return them. Customers remain responsible for packing approved returns securely so that the equipment and its accessories are protected during transport.",
+          "Eligibility depends on the product condition, timing and circumstances described in the policy above. After an approved return is received, the item must be inspected before an exchange or refund can be completed. Processing times may also depend on the original payment method and delivery service. Contact customer support if you need clarification before starting a request, and retain shipping records until the case has been resolved.",
+        ]}
+        links={[
+          { href: "/contact", label: "Contact customer support" },
+          { href: "/faq", label: "Read frequently asked questions" },
+          { href: "/shop", label: "Return to the shop" },
+        ]}
+      />
     </main>
   );
 };
