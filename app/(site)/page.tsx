@@ -113,6 +113,7 @@ export default async function V2HomePage() {
     .sort((a, b) => (a.order_number ?? Infinity) - (b.order_number ?? Infinity))
     .map((cat) => ({
       name: cat.title,
+      slug: cat.slug || String(cat.id),
       order_number: cat.order_number,
       count: cat._count.products,
       image: cat.img || "/images/categories/categories-01.png",

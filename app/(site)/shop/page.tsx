@@ -6,8 +6,9 @@ import prisma from "@/lib/prisma";
 import { getShopProducts } from "@/lib/shop-products";
 import { Metadata } from "next";
 import Script from "next/script";
-import { absoluteUrl, createPublicMetadata } from "@/lib/seo";
+import { absoluteUrl, createPublicMetadata, plainText } from "@/lib/seo";
 import SeoContent from "@/components/v2/SeoContent";
+import { getIndexableShopFilter } from "@/lib/shop-seo";
 
 export const dynamic = "force-dynamic";
 
@@ -29,6 +30,9 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
   const search = params.search?.trim() || "";
   const categoryParam = params.category;
   const brandParam = params.brand;
+  const indexableFilter = getIndexableShopFilter(params);
+  let canonicalPath = "/shop";
+  let isIndexableLanding = !Object.values(params).some(Boolean);
 
   let title = "Shop Laptops, Computers & Accessories in Pakistan";
   let description = "Browse tested laptops, tablets, desktop computers and PC accessories at Qaam.pk, with competitive prices and nationwide delivery in Pakistan.";
@@ -41,12 +45,23 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
     const firstPart = parts[0];
     let categoryName = firstPart;
 
-    if (!isNaN(Number(firstPart))) {
-      const category = await prisma.category.findUnique({
-        where: { id: Number(firstPart) },
-        select: { title: true }
-      });
-      if (category) categoryName = category.title;
+    const category = await prisma.category.findFirst({
+      where: {
+        status: "active",
+        OR: [
+          ...(!isNaN(Number(firstPart)) ? [{ id: Number(firstPart) }] : []),
+          { slug: { equals: firstPart, mode: "insensitive" } },
+          { title: { equals: firstPart, mode: "insensitive" } },
+        ],
+      },
+      select: { id: true, slug: true, title: true },
+    });
+    if (category) {
+      categoryName = category.title;
+      if (indexableFilter?.type === "category") {
+        canonicalPath = `/shop?category=${encodeURIComponent(category.slug || String(category.id))}`;
+        isIndexableLanding = true;
+      }
     }
 
     title = `${categoryName} in Pakistan`;
@@ -56,12 +71,22 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
     const firstPart = parts[0];
     let brandName = firstPart;
 
-    if (!isNaN(Number(firstPart))) {
-      const brand = await prisma.brand.findUnique({
-        where: { id: Number(firstPart) },
-        select: { title: true }
-      });
-      if (brand) brandName = brand.title;
+    const brand = await prisma.brand.findFirst({
+      where: {
+        status: "active",
+        OR: [
+          ...(!isNaN(Number(firstPart)) ? [{ id: Number(firstPart) }] : []),
+          { title: { equals: firstPart, mode: "insensitive" } },
+        ],
+      },
+      select: { id: true, title: true },
+    });
+    if (brand) {
+      brandName = brand.title;
+      if (indexableFilter?.type === "brand") {
+        canonicalPath = `/shop?brand=${brand.id}`;
+        isIndexableLanding = true;
+      }
     }
 
     title = `${brandName} Laptops & Technology in Pakistan`;
@@ -71,8 +96,8 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
   return createPublicMetadata({
     title,
     description,
-    path: "/shop",
-    noIndex: Object.values(params).some(Boolean),
+    path: canonicalPath,
+    noIndex: !isIndexableLanding,
   });
 }
 
@@ -195,6 +220,27 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
     count: b._count.products,
   }));
 
+  const landingFilter = getIndexableShopFilter(resolvedSearchParams);
+  const filterValue = landingFilter?.value.toLowerCase();
+  const landingCategory = landingFilter?.type === "category"
+    ? categoriesData.find((category) =>
+        String(category.id) === landingFilter.value ||
+        category.slug?.toLowerCase() === filterValue ||
+        category.title.toLowerCase() === filterValue)
+    : undefined;
+  const landingBrand = landingFilter?.type === "brand"
+    ? brandsData.find((brand) =>
+        String(brand.id) === landingFilter.value ||
+        brand.title.toLowerCase() === filterValue)
+    : undefined;
+  const landingName = landingCategory?.title || landingBrand?.title;
+  const landingType = landingCategory ? "category" : landingBrand ? "brand" : null;
+  const canonicalShopPath = landingCategory
+    ? `/shop?category=${encodeURIComponent(landingCategory.slug || String(landingCategory.id))}`
+    : landingBrand
+      ? `/shop?brand=${landingBrand.id}`
+      : "/shop";
+
   const dbMaxPrice = Math.ceil(priceStats._max.price || 1000);
 
   return (
@@ -203,13 +249,17 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
         items={[
           { label: "Home", href: "/" },
           { label: "Shop", href: "/shop" },
-          { label: search ? `Search: "${search}"` : "All Products" },
+          { label: search ? `Search: "${search}"` : landingName || "All Products" },
         ]}
       />
 
       <header>
         <h1 className="text-3xl font-medium tracking-tight text-foreground sm:text-4xl">
-          {search ? `Search results for “${search}”` : "Shop laptops, computers and accessories"}
+          {search
+            ? `Search results for “${search}”`
+            : landingName
+              ? `${landingName} in Pakistan`
+              : "Shop laptops, computers and accessories"}
         </h1>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-muted sm:text-base">
           Compare available technology, filter products by the features you need and view complete product details before ordering across Pakistan.
@@ -258,6 +308,24 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
         />
       )}
 
+      {landingName && landingType && (
+        <SeoContent
+          eyebrow={`${landingName} buying guide`}
+          title={`Shop ${landingName} at Qaam.pk`}
+          paragraphs={[
+            plainText(landingCategory?.description || landingBrand?.description || "") || `Explore currently available ${landingName} products at Qaam.pk. Compare prices, specifications, condition information and stock status before choosing an item. Each listing links to a detailed product page so you can review the information that matters for your requirements and budget.`,
+            `This ${landingType} page is designed to help customers compare ${landingName} products without mixing unrelated search results or temporary filters. Availability changes as stock is added or sold, and the displayed product page remains the source for current pricing, included features and order status. Review model numbers carefully when selecting accessories or replacement components.`,
+            `Qaam.pk supplies new and refurbished computing equipment across Pakistan. Consider performance, compatibility, condition and after-sales requirements as well as price when comparing options. If you need help confirming whether a ${landingName} product is suitable for your device or workload, contact our support team before placing your order.`,
+          ]}
+          links={[
+            { href: "/shop", label: "Browse all products" },
+            { href: "/deals", label: "View current deals" },
+            { href: "/faq", label: "Read shopping FAQs" },
+            { href: "/contact", label: "Ask for product advice" },
+          ]}
+        />
+      )}
+
       {/* Structured Data for CollectionPage */}
       <Script
         id="shop-collection-schema"
@@ -266,9 +334,9 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "CollectionPage",
-            "name": search ? `Search results for "${search}"` : "Premium Tech Catalog",
+            "name": landingName || (search ? `Search results for "${search}"` : "Premium Tech Catalog"),
             "description": "Browse our complete catalog of high-performance laptops, tablets, and PC accessories.",
-            "url": `https://www.qaam.pk/shop${search ? `?search=${search}` : ""}`,
+            "url": absoluteUrl(canonicalShopPath),
             "mainEntity": {
               "@type": "ItemList",
               "numberOfItems": products.length,

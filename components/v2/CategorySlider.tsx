@@ -8,6 +8,7 @@ import Link from "next/link";
 
 interface Category {
   name: string;
+  slug: string;
   count: number;
   image: string;
 }
@@ -21,7 +22,7 @@ function CategoryCard({ cat }: { cat: Category }) {
 
   return (
     <Link
-      href={`/shop?category=${encodeURIComponent(cat.name)}`}
+      href={`/shop?category=${encodeURIComponent(cat.slug)}`}
       className="group relative flex h-27 w-34 sm:h-30 sm:w-40 lg:h-36 lg:w-48 shrink-0 snap-start flex-col items-center justify-between overflow-hidden rounded-lg border border-outline bg-surface px-3 pb-2.5 pt-3 shadow-[0_2px_7px_rgba(15,23,42,0.10)] transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md dark:border-outline dark:bg-surface"
     >
       <div className="relative min-h-0 w-full flex-1">

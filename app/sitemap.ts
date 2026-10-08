@@ -4,6 +4,7 @@ import { MetadataRoute } from 'next';
 import { absoluteUrl } from '@/lib/seo';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+    const visibility = await getStorefrontProductFilter();
     const staticRoutes: MetadataRoute.Sitemap = [
         '/',
         '/about',
@@ -19,13 +20,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: route === '/' ? 1 : route === '/shop' || route === '/deals' ? 0.9 : 0.7,
     }));
 
-    const [products, blogs, pages] = await Promise.all([
+    const [products, blogs, pages, categories, brands] = await Promise.all([
       prisma.product.findMany({
-          where: await getStorefrontProductFilter(),
+          where: visibility,
           select: { id: true, slug: true, updatedAt: true },
       }),
       prisma.blog.findMany({ select: { slug: true, updatedAt: true } }),
       prisma.page.findMany({ select: { slug: true, updatedAt: true } }),
+      prisma.category.findMany({
+          where: { status: 'active', products: { some: visibility } },
+          select: { id: true, slug: true, updatedAt: true },
+      }),
+      prisma.brand.findMany({
+          where: { status: 'active', products: { some: visibility } },
+          select: { id: true, updatedAt: true },
+      }),
     ]);
 
     const productRoutes = products.map((product) => ({
@@ -49,7 +58,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.6,
     }));
 
-    const routes = [...staticRoutes, ...productRoutes, ...blogRoutes, ...pageRoutes];
+    const categoryRoutes = categories.map((category) => ({
+        url: absoluteUrl(`/shop?category=${encodeURIComponent(category.slug || String(category.id))}`),
+        lastModified: category.updatedAt,
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+    }));
+
+    const brandRoutes = brands.map((brand) => ({
+        url: absoluteUrl(`/shop?brand=${brand.id}`),
+        lastModified: brand.updatedAt,
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+    }));
+
+    const routes = [
+      ...staticRoutes,
+      ...categoryRoutes,
+      ...brandRoutes,
+      ...productRoutes,
+      ...blogRoutes,
+      ...pageRoutes,
+    ];
 
     // Supplier imports can contain duplicate product slugs. A sitemap must
     // expose each canonical URL only once even when the underlying records are
