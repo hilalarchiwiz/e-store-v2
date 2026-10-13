@@ -10,9 +10,11 @@ import { AppDispatch } from "@/redux/store";
 import { addItemToCart } from "@/redux/features/cart-slice";
 import { addToCart, getProductStock } from "@/lib/action/cart.action";
 import { toast } from "react-hot-toast";
+import { productPath } from "@/lib/product-url";
 
 export interface QuickViewProduct {
   id: number;
+  slug?: string;
   name: string;
   price: number;
   discountedPrice?: number | null;
@@ -462,7 +464,7 @@ export default function QuickViewModal({
 
           {/* View full details link */}
           <Link
-            href={`/product/${product.id}`}
+            href={productPath(product)}
             onClick={onClose}
             className="text-center text-sm text-primary font-semibold hover:underline mt-1"
           >

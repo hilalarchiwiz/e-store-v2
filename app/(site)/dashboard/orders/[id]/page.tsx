@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getOrderByNumber } from "@/lib/action/v2-order.action";
+import { productPath } from "@/lib/product-url";
 
 const STATUS_STEPS: Record<string, number> = {
   PENDING: 1,
@@ -218,7 +219,7 @@ export default function OrderDetailsPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <Link
-                          href={`/product/${item.product.id}`}
+                          href={productPath(item.product)}
                           className="text-sm sm:text-base font-bold text-foreground dark:text-foreground hover:text-primary transition-colors leading-snug block"
                         >
                           {item.product.title}

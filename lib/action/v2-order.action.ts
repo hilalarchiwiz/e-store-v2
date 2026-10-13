@@ -244,7 +244,7 @@ export async function getOrders() {
       where: { userId: session.user.id },
       include: {
         orderItems: {
-          include: { product: { select: { id: true, title: true, images: true } } },
+          include: { product: { select: { id: true, slug: true, title: true, images: true } } },
         },
         billingAddress: true,
       },
@@ -278,7 +278,7 @@ export async function getOrderByNumber(orderNumber: string) {
       },
       include: {
         orderItems: {
-          include: { product: { select: { id: true, title: true, images: true, price: true,discountedPrice:true } } },
+          include: { product: { select: { id: true, slug: true, title: true, images: true, price: true,discountedPrice:true } } },
         },
         billingAddress: true,
         shippingAddress: true,

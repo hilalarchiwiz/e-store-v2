@@ -6,6 +6,7 @@ import { bulkOutOfStockVisibilityUpdate } from '@/lib/product-visibility';
 import { PAGE_SIZE } from '@/lib/constant';
 import prisma from '@/lib/prisma';
 import { revalidatePath, updateTag } from 'next/cache';
+import { productPath } from '@/lib/product-url';
 
 type ProductListParam = string | string[] | undefined;
 
@@ -317,13 +318,14 @@ export async function updateProductTitleAndQuantity(
             },
             select: {
                 id: true,
+                slug: true,
                 title: true,
                 quantity: true,
             },
         });
 
         revalidatePath('/admin/products');
-        revalidatePath(`/product/${productId}`);
+        revalidatePath(productPath(product));
         updateTag('products');
 
         return {

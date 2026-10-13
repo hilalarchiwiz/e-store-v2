@@ -16,6 +16,7 @@ import { addItemToCart } from "@/redux/features/cart-slice";
 import { addToCart } from "@/lib/action/cart.action";
 import { toast } from "react-hot-toast";
 import { discountPrice } from "@/lib/helper";
+import { productPath } from "@/lib/product-url";
 
 type WishlistItem = Awaited<ReturnType<typeof getWishlist>>[number];
 
@@ -152,7 +153,7 @@ const WishlistPage = () => {
               >
                 {/* Image */}
                 <Link
-                  href={`/product/${product.id}`}
+                  href={productPath(product)}
                   className="size-24 sm:size-32 rounded-xl sm:rounded-2xl overflow-hidden flex-shrink-0 bg-icon-surface dark:bg-icon-surface relative"
                 >
                   <Image
@@ -172,7 +173,7 @@ const WishlistPage = () => {
                 <div className="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 w-full">
                   <div className="flex flex-col gap-1.5 sm:gap-2 max-w-xl">
                     <Link
-                      href={`/product/${product.id}`}
+                      href={productPath(product)}
                       className="text-base sm:text-lg md:text-xl font-bold text-foreground dark:text-foreground hover:text-primary transition-colors leading-tight line-clamp-2"
                     >
                       {product.title}

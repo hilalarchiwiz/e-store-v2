@@ -96,6 +96,7 @@ const RecentlyViewedPage = () => {
               <ProductCard 
                 key={product.id || idx} 
                 id={product.id}
+                slug={product.slug ?? undefined}
                 name={product.title}
                 price={product.discountedPrice || product.price}
                 oldPrice={product.discountedPrice ? product.price : undefined}

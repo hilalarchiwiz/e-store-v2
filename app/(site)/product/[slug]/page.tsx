@@ -1,7 +1,7 @@
 import { getStorefrontProductFilter } from "@/lib/storefront-products";
 import React from "react";
 import prisma from "@/lib/prisma";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import ProductDetails from "@/components/v2/ProductDetails";
 import Breadcrumbs from "@/components/v2/Breadcrumbs";
 import { Metadata } from "next";
@@ -13,6 +13,7 @@ import {
   metaDescription,
   productMetaTitle,
 } from "@/lib/seo";
+import { productPath } from "@/lib/product-url";
 
 interface PageProps {
   params: Promise<{
@@ -44,12 +45,10 @@ export async function generateMetadata({
     product.description,
     `Buy ${product.title} at Qaam.pk with nationwide delivery in Pakistan.`,
   );
-  const canonicalSlug = product.slug || product.id.toString();
-
   return createPublicMetadata({
     title,
     description,
-    path: `/product/${canonicalSlug}`,
+    path: productPath(product),
     image: product.images[0],
   });
 }
@@ -78,6 +77,10 @@ export default async function ProductPage({ params }: PageProps) {
     return notFound();
   }
 
+  if (numericId && product.slug) {
+    permanentRedirect(productPath(product));
+  }
+
   // Fetch related products from the same category
   const relatedProducts = await prisma.product.findMany({
     where: {
@@ -98,7 +101,7 @@ export default async function ProductPage({ params }: PageProps) {
       ? product.discountedPrice
       : 0;
   const salePrice = product.price - (product.price * discountPercent) / 100;
-  const canonicalProductUrl = absoluteUrl(`/product/${product.slug || product.id}`);
+  const canonicalProductUrl = absoluteUrl(productPath(product));
 
   return (
     <main className="max-w-400 mx-auto w-full px-6 py-6 md:py-10 md:px-10 flex flex-col gap-8">

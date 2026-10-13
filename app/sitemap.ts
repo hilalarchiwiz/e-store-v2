@@ -2,6 +2,7 @@ import { getStorefrontProductFilter } from "@/lib/storefront-products";
 import prisma from '@/lib/prisma';
 import { MetadataRoute } from 'next';
 import { absoluteUrl } from '@/lib/seo';
+import { productPath } from '@/lib/product-url';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const visibility = await getStorefrontProductFilter();
@@ -38,7 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ]);
 
     const productRoutes = products.map((product) => ({
-        url: absoluteUrl(`/product/${product.slug || product.id}`),
+        url: absoluteUrl(productPath(product)),
         lastModified: product.updatedAt,
         changeFrequency: 'weekly' as const,
         priority: 0.8,

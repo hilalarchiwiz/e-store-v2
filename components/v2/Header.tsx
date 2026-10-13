@@ -10,6 +10,7 @@ import { useAppSelector } from "@/redux/store";
 import { useDebounce } from "use-debounce";
 import { useSession } from "@/lib/auth-client";
 import { useHydrated } from "@/hooks/useHydrated";
+import { productPath } from "@/lib/product-url";
 
 interface HeaderProps {
   logo?: { logo?: string; dark_logo?: string; favicon?: string };
@@ -18,6 +19,7 @@ interface HeaderProps {
 
 interface ProductResult {
   id: number;
+  slug: string | null;
   title: string;
   images: string[];
   price: number;
@@ -243,7 +245,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                       {searchResults.map((product) => (
                         <Link
                           key={product.id}
-                          href={`/product/${product.id}`}
+                          href={productPath(product)}
                           onClick={() => {
                             setShowDropdown(false);
                             setSearchQuery("");

@@ -8,6 +8,7 @@ import { getOrCreateAnonymousId } from "../session"
 import { ContactSchema } from "../validation/contact.validation"
 import { SubscribeSchema } from "../validation/subscribe.validation"
 import { ReviewSchema } from "../validations/review"
+import { productPath } from "../product-url"
 interface BillingAddressInput {
     firstName: string;
     lastName: string;
@@ -914,7 +915,7 @@ export async function submitReview(prevState: any, formData: FormData) {
 
     const { rating, comment, name, email, productId } = validatedFields.data;
     try {
-        await prisma.review.create({
+        const review = await prisma.review.create({
             data: {
                 rating,
                 comment,
@@ -924,9 +925,10 @@ export async function submitReview(prevState: any, formData: FormData) {
                 name,
                 email,
             },
+            include: { product: { select: { id: true, slug: true } } },
         });
 
-        revalidatePath(`/product/${productId}`);
+        revalidatePath(productPath(review.product));
         return { success: true, message: "Review add successfully" };
     } catch (error) {
         const err = error as Error;

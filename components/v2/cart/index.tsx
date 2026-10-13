@@ -20,6 +20,7 @@ import {
 import Breadcrumbs from "@/components/v2/Breadcrumbs";
 import Button from "@/components/v2/Button";
 import { toast } from "react-hot-toast";
+import { productPath } from "@/lib/product-url";
 
 type CartItemType = Awaited<ReturnType<typeof getCart>>[number];
 
@@ -210,7 +211,7 @@ export default function Cart() {
                         </div>
                         <div className="flex flex-col items-start">
                           <Link
-                            href={`/product/${item.product.id}`}
+                            href={productPath(item.product)}
                             className="text-base font-medium text-foreground dark:text-foreground hover:text-primary transition-colors leading-snug line-clamp-2"
                           >
                             {item.product.title}

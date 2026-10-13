@@ -5,6 +5,7 @@ import { withPermission } from '@/lib/action-utils';
 import { PAGE_SIZE } from '@/lib/constant';
 import prisma from '@/lib/prisma';
 import { replaceManagedProductImage } from '@/lib/azure-product-images';
+import { productPath } from '@/lib/product-url';
 
 type GalleryParam = string | string[] | undefined;
 
@@ -79,7 +80,7 @@ export async function replaceGalleryImageBackground(formData: FormData) {
 
         const product = await prisma.product.findUnique({
             where: { id: productId },
-            select: { id: true, images: true },
+            select: { id: true, slug: true, images: true },
         });
 
         if (!product || !product.images.includes(imageUrl)) {
@@ -93,7 +94,7 @@ export async function replaceGalleryImageBackground(formData: FormData) {
         revalidatePath('/admin/galleries');
         revalidatePath('/admin/products');
         revalidatePath('/shop');
-        revalidatePath(`/product/${productId}`);
+        revalidatePath(productPath(product));
         updateTag('products');
 
         return {

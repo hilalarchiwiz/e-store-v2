@@ -9,6 +9,7 @@ import Script from "next/script";
 import { absoluteUrl, createPublicMetadata, plainText } from "@/lib/seo";
 import SeoContent from "@/components/v2/SeoContent";
 import { getIndexableShopFilter, isIndexableShopListing } from "@/lib/shop-seo";
+import { productPath } from "@/lib/product-url";
 
 export const dynamic = "force-dynamic";
 
@@ -352,7 +353,7 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
               "itemListElement": products.map((p, index) => ({
                 "@type": "ListItem",
                 "position": index + 1,
-                "url": absoluteUrl(`/product/${p.slug || p.id}`),
+                "url": absoluteUrl(productPath(p)),
                 "name": p.name,
                 "image": absoluteUrl(p.image)
               }))

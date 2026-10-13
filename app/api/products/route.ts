@@ -20,6 +20,7 @@ export async function GET(req: NextRequest) {
         },
         select: {
             id: true,
+            slug: true,
             title: true,
             images: true,
             price: true,

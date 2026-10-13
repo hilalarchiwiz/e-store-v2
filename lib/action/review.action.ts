@@ -3,6 +3,7 @@
 import prisma from '@/lib/prisma';
 import { getStorefrontProductFilter } from '@/lib/storefront-products';
 import { revalidatePath } from 'next/cache';
+import { productPath } from '@/lib/product-url';
 
 export interface CreateReviewData {
   productId: number;
@@ -23,10 +24,11 @@ export async function createReview(data: CreateReviewData) {
         email: data.email,
         // For now, we are allowing anonymous reviews or reviews without login
         // If logged in, we should pass userId. But based on the schema, name/email are explicit fields
-      }
+      },
+      include: { product: { select: { id: true, slug: true } } },
     });
 
-    revalidatePath(`/product/${data.productId}`);
+    revalidatePath(productPath(review.product));
     return { success: true, review };
   } catch (error) {
     console.error("Error creating review:", error);

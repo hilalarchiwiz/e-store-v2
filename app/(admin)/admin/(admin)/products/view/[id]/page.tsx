@@ -21,6 +21,7 @@ import Card from "@/components/Admin/Common/Card";
 import Title from "@/components/Admin/Typography/Title";
 import DeleteButton from "@/components/Admin/Buttons/DeleteButton";
 import { RoleGuard } from "@/components/Admin/Common/RoleGuard";
+import { productPath } from "@/lib/product-url";
 
 const AdminProductDetails = async ({ params }) => {
   const { id } = await params;
@@ -81,7 +82,7 @@ const AdminProductDetails = async ({ params }) => {
             </div>
             <div className="flex items-center gap-3">
               <Link
-                href={`/product/${product.id}`}
+                href={productPath(product)}
                 target="__blank"
                 className="p-2 bg-blue-50 text-blue-600 rounded"
               >

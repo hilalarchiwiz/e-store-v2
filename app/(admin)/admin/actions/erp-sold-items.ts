@@ -5,6 +5,7 @@ import { revalidatePath, updateTag } from "next/cache";
 import prisma from "@/lib/prisma";
 import { withPermission } from "@/lib/action-utils";
 import { userContext } from "@/lib/user-context";
+import { productPath } from "@/lib/product-url";
 import type {
   ErpSoldReviewInput,
   PendingErpSoldItem,
@@ -176,7 +177,7 @@ export async function getPendingErpSoldItems() {
     const products = await prisma.product.findMany({
       where: { status: "active", quantity: { gt: 0 } },
       orderBy: { id: "asc" },
-      select: { id: true, title: true, quantity: true },
+      select: { id: true, slug: true, title: true, quantity: true },
     });
 
     const groupedProducts = new Map<string, ProductGroup>();
@@ -384,7 +385,7 @@ export async function reviewErpSoldItem(input: ErpSoldReviewInput) {
 
     revalidatePath("/admin");
     revalidatePath("/admin/products");
-    revalidatePath(`/product/${product.id}`);
+    revalidatePath(productPath(product));
     updateTag("products");
 
     if (result.alreadyReviewed) {

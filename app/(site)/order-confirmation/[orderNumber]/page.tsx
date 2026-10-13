@@ -3,6 +3,7 @@ import SiteIcon from '@/components/v2/SiteIcon';
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getOrderByNumber } from "@/lib/action/v2-order.action";
+import { productPath } from "@/lib/product-url";
 
 const STATUS_COLORS: Record<string, string> = {
   PENDING: "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400",
@@ -85,7 +86,7 @@ export default async function OrderConfirmationPage({
                   </div>
                   <div className="flex-1 min-w-0">
                     <Link
-                      href={`/product/${item.product.id}`}
+                      href={productPath(item.product)}
                       className="font-medium text-sm text-foreground dark:text-foreground hover:text-primary transition-colors line-clamp-2"
                     >
                       {item.product.title}
