@@ -22,6 +22,12 @@ export async function generateMetadata({ searchParams }: BlogPageProps): Promise
   const params = await searchParams;
   const search = params.search?.trim() || "";
   const tag = params.tag;
+  const page = Number(params.page);
+  const hasValidPage = !params.page || (Number.isSafeInteger(page) && page > 0);
+  const isIndexableListing = !search && !tag && hasValidPage;
+  const canonicalPath = isIndexableListing && page > 1
+    ? `/blog?page=${page}`
+    : "/blog";
 
   let title = "Laptop Buying Guides & Technology Blog";
   const description = "Read practical laptop buying guides, computer advice, product insights and technology updates from the Qaam.pk team in Pakistan.";
@@ -35,8 +41,8 @@ export async function generateMetadata({ searchParams }: BlogPageProps): Promise
   return createPublicMetadata({
     title,
     description,
-    path: "/blog",
-    noIndex: Boolean(search || tag || params.page),
+    path: canonicalPath,
+    noIndex: !isIndexableListing,
   });
 }
 

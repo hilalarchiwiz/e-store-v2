@@ -8,7 +8,7 @@ import { Metadata } from "next";
 import Script from "next/script";
 import { absoluteUrl, createPublicMetadata, plainText } from "@/lib/seo";
 import SeoContent from "@/components/v2/SeoContent";
-import { getIndexableShopFilter } from "@/lib/shop-seo";
+import { getIndexableShopFilter, isIndexableShopListing } from "@/lib/shop-seo";
 
 export const dynamic = "force-dynamic";
 
@@ -32,7 +32,7 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
   const brandParam = params.brand;
   const indexableFilter = getIndexableShopFilter(params);
   let canonicalPath = "/shop";
-  let isIndexableLanding = !Object.values(params).some(Boolean);
+  let isIndexableLanding = isIndexableShopListing(params);
 
   let title = "Shop Laptops, Computers & Accessories in Pakistan";
   let description = "Browse tested laptops, tablets, desktop computers and PC accessories at Qaam.pk, with competitive prices and nationwide delivery in Pakistan.";
@@ -62,6 +62,8 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
         canonicalPath = `/shop?category=${encodeURIComponent(category.slug || String(category.id))}`;
         isIndexableLanding = true;
       }
+    } else {
+      isIndexableLanding = false;
     }
 
     title = `${categoryName} in Pakistan`;
@@ -87,10 +89,17 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
         canonicalPath = `/shop?brand=${brand.id}`;
         isIndexableLanding = true;
       }
+    } else {
+      isIndexableLanding = false;
     }
 
     title = `${brandName} Laptops & Technology in Pakistan`;
     description = `Browse ${brandName} technology at Qaam.pk. Compare tested products, prices and specifications with nationwide delivery.`;
+  }
+
+  const page = Number(params.page);
+  if (isIndexableLanding && Number.isSafeInteger(page) && page > 1) {
+    canonicalPath += `${canonicalPath.includes("?") ? "&" : "?"}page=${page}`;
   }
 
   return createPublicMetadata({

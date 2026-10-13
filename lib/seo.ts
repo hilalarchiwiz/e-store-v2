@@ -90,7 +90,9 @@ export function createPublicMetadata({
     title,
     description,
     alternates: { canonical },
-    robots: noIndex ? { index: false, follow: false } : { index: true, follow: true },
+    // Utility listings should not compete in search, but their product/article
+    // links remain useful crawl paths.
+    robots: noIndex ? { index: false, follow: true } : { index: true, follow: true },
     openGraph: {
       title,
       description,
