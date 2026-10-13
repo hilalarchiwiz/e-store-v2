@@ -2,6 +2,7 @@
 
 
 import SiteIcon from '@/components/v2/SiteIcon';
+import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
@@ -146,7 +147,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
               {logo?.logo || logo?.dark_logo ? (
                 <>
                   {logo.logo && (
-                    <img
+                    <Image
                       src={logo.logo}
                       alt="Logo (White)"
                       width={160}
@@ -155,7 +156,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                     />
                   )}
                   {logo.dark_logo && (
-                    <img
+                    <Image
                       src={logo.dark_logo}
                       alt="Logo (Black)"
                       width={160}
@@ -191,6 +192,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                         : "text-foreground dark:text-foreground"
                     }`}
                     href={link.href}
+                    prefetch={false}
                     aria-current={isActive ? "page" : undefined}
                   >
                     {link.href === "/deals" && highestDealDiscount && (
@@ -401,10 +403,10 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
             {logo?.logo || logo?.dark_logo ? (
               <>
                 {logo.logo && (
-                  <img src={logo.logo} alt="Logo" className={`h-8 w-auto object-contain ${logo.dark_logo ? "hidden dark:block" : ""}`} />
+                  <Image src={logo.logo} alt="Logo" width={160} height={48} sizes="160px" className={`h-8 w-auto object-contain ${logo.dark_logo ? "hidden dark:block" : ""}`} />
                 )}
                 {logo.dark_logo && (
-                  <img src={logo.dark_logo} alt="Logo" className={`h-8 w-auto object-contain ${logo.logo ? "dark:hidden block" : ""}`} />
+                  <Image src={logo.dark_logo} alt="Logo" width={160} height={48} sizes="160px" className={`h-8 w-auto object-contain ${logo.logo ? "dark:hidden block" : ""}`} />
                 )}
               </>
             ) : (
@@ -451,6 +453,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
               <Link
                 key={link.href}
                 href={link.href}
+                prefetch={false}
                 onClick={() => setMobileOpen(false)}
                 style={{ transitionDelay: mobileOpen ? `${idx * 50 + 80}ms` : "0ms" }}
                 className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl font-semibold text-sm transition-all duration-200 group ${

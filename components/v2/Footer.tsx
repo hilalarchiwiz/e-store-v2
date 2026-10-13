@@ -1,5 +1,6 @@
 
 import SiteIcon from '@/components/v2/SiteIcon';
+import Image from "next/image";
 import Link from "next/link";
 import { getPages } from "@/lib/action/home.action";
 
@@ -50,7 +51,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
               {logo?.logo || logo?.dark_logo ? (
                 <>
                   {logo.logo && (
-                    <img
+                    <Image
                       src={logo.logo}
                       alt="Logo (White)"
                       width={160}
@@ -59,7 +60,7 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                     />
                   )}
                   {logo.dark_logo && (
-                    <img
+                    <Image
                       src={logo.dark_logo}
                       alt="Logo (Black)"
                       width={160}

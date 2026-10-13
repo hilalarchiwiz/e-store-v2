@@ -1,6 +1,7 @@
 
 import SiteIcon from '@/components/v2/SiteIcon';
 import React from "react";
+import Image from "next/image";
 
 interface Banner {
   id: number;
@@ -26,10 +27,7 @@ const Banners: React.FC<BannersProps> = ({ banners = [] }) => {
         {/* Banner 1 - Left */}
         {banner1 && (
           <div className="lg:col-span-1 h-[400px] relative rounded-3xl overflow-hidden shadow-lg group">
-            <div
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-              style={{ backgroundImage: `url("${banner1.imageUrl}")` }}
-            ></div>
+            <Image src={banner1.imageUrl} alt="" fill sizes="(max-width: 1024px) 100vw, 25vw" className="object-cover transition-transform duration-700 group-hover:scale-110" />
             <div className="absolute inset-0 bg-black/40"></div>
             <div className="absolute inset-0 p-8 flex flex-col justify-end text-white">
               <h3 className="text-2xl font-bold mb-2 leading-tight">
@@ -51,10 +49,7 @@ const Banners: React.FC<BannersProps> = ({ banners = [] }) => {
         {/* Banner 2 - Center (Large) */}
         {banner2 && (
           <div className="lg:col-span-2 h-[400px] relative rounded-3xl overflow-hidden shadow-2xl group border-4 border-primary/20">
-            <div
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-              style={{ backgroundImage: `url("${banner2.imageUrl}")` }}
-            ></div>
+            <Image src={banner2.imageUrl} alt="" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-110" />
             <div className="absolute inset-0 bg-gradient-to-r from-primary-dark/80 to-transparent"></div>
             <div className="absolute inset-0 p-12 flex flex-col justify-center max-w-md text-white">
               <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4 w-fit">
@@ -79,10 +74,7 @@ const Banners: React.FC<BannersProps> = ({ banners = [] }) => {
         {/* Banner 3 - Right */}
         {banner3 && (
           <div className="lg:col-span-1 h-[400px] relative rounded-3xl overflow-hidden shadow-lg group">
-            <div
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-              style={{ backgroundImage: `url("${banner3.imageUrl}")` }}
-            ></div>
+            <Image src={banner3.imageUrl} alt="" fill sizes="(max-width: 1024px) 100vw, 25vw" className="object-cover transition-transform duration-700 group-hover:scale-110" />
             <div className="absolute inset-0 bg-black/40"></div>
             <div className="absolute inset-0 p-8 flex flex-col justify-end text-white text-right">
               <h3 className="text-2xl font-bold mb-2 leading-tight">

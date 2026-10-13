@@ -31,8 +31,7 @@ function CategoryCard({ cat }: { cat: Category }) {
             src={cat.image}
             alt={cat.name}
             fill
-            unoptimized
-            sizes="160px"
+            sizes="(max-width: 639px) 136px, (max-width: 1023px) 160px, 192px"
             className="object-contain transition-transform duration-300 group-hover:scale-105"
             onError={() => setImgError(true)}
           />

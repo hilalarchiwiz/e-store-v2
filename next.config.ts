@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   poweredByHeader: false,
   compress: true,
+  productionBrowserSourceMaps: true,
   deploymentId: getDeploymentId(),
   async redirects() {
     return [
@@ -33,6 +34,7 @@ const nextConfig: NextConfig = {
     }
   },
   images: {
+    minimumCacheTTL: 2678400,
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [

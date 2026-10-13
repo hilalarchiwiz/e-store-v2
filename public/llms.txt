@@ -1,0 +1,20 @@
+# Qaam.pk
+
+Qaam.pk is an online store for laptops, computers, tablets, projectors, parts, and accessories in Pakistan.
+
+## Main pages
+
+- [Home](https://www.qaam.pk/)
+- [Shop](https://www.qaam.pk/shop)
+- [Deals](https://www.qaam.pk/deals)
+- [Buying guides](https://www.qaam.pk/blog)
+- [About Qaam.pk](https://www.qaam.pk/about)
+- [Contact](https://www.qaam.pk/contact)
+- [Frequently asked questions](https://www.qaam.pk/faq)
+
+## Machine-readable resources
+
+- [Sitemap](https://www.qaam.pk/sitemap.xml)
+- [Robots policy](https://www.qaam.pk/robots.txt)
+
+Product availability and prices can change. Treat each canonical product page as the current source for its product.

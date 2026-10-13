@@ -21,6 +21,7 @@ import { toast } from "react-hot-toast";
 import QuickViewModal from "@/components/v2/QuickViewModal";
 import { useHydrated } from "@/hooks/useHydrated";
 import { productPath } from "@/lib/product-url";
+import Image from "next/image";
 
 interface ProductCardProps {
   id: number;
@@ -213,14 +214,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 <span className="text-[10px] font-medium">Image unavailable</span>
               </div>
             ) : (
-              <img
+              <Image
                 className="h-full w-full object-contain  transition-transform duration-500 group-hover:scale-105"
                 src={image}
                 alt={name}
-                width={480}
-                height={360}
-                loading="lazy"
-                decoding="async"
+                fill
+                sizes="(max-width: 640px) 160px, 240px"
                 onError={() => setImageError(true)}
               />
             )}
@@ -344,14 +343,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </span>
             </div>
           ) : (
-            <img
+            <Image
               className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.045]"
               src={image}
               alt={name}
-              width={480}
-              height={360}
-              loading="lazy"
-              decoding="async"
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               onError={() => setImageError(true)}
             />
           )}

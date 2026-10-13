@@ -74,6 +74,10 @@ export default async function V2Layout({
 
   return (
     <html lang="en" suppressHydrationWarning={true}>
+      <head>
+        <link rel="preconnect" href="https://staticportal.blob.core.windows.net" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+      </head>
       <body className={`${inter.variable} font-display bg-page text-foreground`}>
         <NavigationProgress />
         <ToasterProvider />

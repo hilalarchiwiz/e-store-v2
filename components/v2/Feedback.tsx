@@ -107,12 +107,11 @@ const Feedback: React.FC<FeedbackProps> = ({ reviews = [] }) => {
                   <div
                     aria-hidden="true"
                     className="flex size-16 shrink-0 items-center justify-center rounded-full bg-[#f1f1f1] text-lg font-bold uppercase text-[#555] dark:bg-white/10 dark:text-white"
-                    aria-label={`${review.name || "Anonymous"} avatar`}
                   >
                     {review.name?.trim().slice(0, 2).toUpperCase() || "AN"}
                   </div>
                   <div className="min-w-0 pt-0.5">
-                    <div className="mb-2 flex gap-2 text-[#f2bb00]" aria-label={`${review.rating} out of 5 stars`}>
+                    <div className="mb-2 flex gap-2 text-[#f2bb00]" role="img" aria-label={`${review.rating} out of 5 stars`}>
                       {Array.from({ length: 5 }, (_, index) => (
                         <FontAwesomeIcon
                           key={index}

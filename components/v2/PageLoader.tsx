@@ -3,18 +3,20 @@ import SiteIcon from '@/components/v2/SiteIcon';
 interface PageLoaderProps {
   progress?: number;
   message?: string;
+  overlay?: boolean;
 }
 
 export default function PageLoader({
   progress,
   message = "Preparing products and the latest updates for you.",
+  overlay = true,
 }: PageLoaderProps) {
   const hasProgress = typeof progress === "number";
   const safeProgress = hasProgress ? Math.min(100, Math.max(0, progress)) : 0;
 
   return (
     <div
-      className="fixed inset-0 z-[100000] flex min-h-screen items-center justify-center overflow-hidden bg-surface px-6 text-foreground dark:bg-page dark:text-foreground"
+      className={`${overlay ? "fixed inset-0 z-[100000]" : "relative min-h-[calc(100vh-5rem)] w-full"} flex items-center justify-center overflow-hidden bg-surface px-6 text-foreground dark:bg-page dark:text-foreground`}
       role="status"
       aria-live="polite"
       aria-label="Page is loading"

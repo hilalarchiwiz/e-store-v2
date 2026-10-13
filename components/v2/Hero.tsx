@@ -2,7 +2,8 @@
 
 
 import SiteIcon from '@/components/v2/SiteIcon';
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useCallback } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import type { HeroSlide } from "@/app/(site)/page";
 
@@ -17,14 +18,11 @@ const FALLBACK_SLIDES: HeroSlide[] = [
   },
 ];
 
-const AUTO_PLAY_INTERVAL = 5000;
-
 export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
   const data = slides.length > 0 ? slides : FALLBACK_SLIDES;
   const [current, setCurrent] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [direction, setDirection] = useState<"left" | "right">("right");
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const goTo = useCallback(
     (index: number, dir: "left" | "right" = "right") => {
@@ -39,41 +37,17 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
     [isAnimating],
   );
 
-  const next = useCallback(() => {
-    goTo((current + 1) % data.length, "right");
-  }, [current, data.length, goTo]);
-
-  const prev = useCallback(() => {
-    goTo((current - 1 + data.length) % data.length, "left");
-  }, [current, data.length, goTo]);
-
-  const resetTimer = useCallback(() => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    timerRef.current = setInterval(next, AUTO_PLAY_INTERVAL);
-  }, [next]);
-
-  useEffect(() => {
-    if (data.length <= 1) return;
-    timerRef.current = setInterval(next, AUTO_PLAY_INTERVAL);
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [next, data.length]);
-
   const handlePrev = () => {
-    prev();
-    resetTimer();
+    goTo((current - 1 + data.length) % data.length, "left");
   };
 
   const handleNext = () => {
-    next();
-    resetTimer();
+    goTo((current + 1) % data.length, "right");
   };
 
   const handleDot = (i: number) => {
     if (i === current) return;
     goTo(i, i > current ? "right" : "left");
-    resetTimer();
   };
 
   const slide = data[current];
@@ -130,14 +104,14 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
         {/* A larger product presentation stays contained within the image column. */}
         <div className={`relative min-w-0 transition-all duration-400 ease-out motion-reduce:transition-none ${translateClass}`}>
           <div className="relative flex h-60 items-center justify-end sm:h-72 md:h-80">
-            <img
+            <Image
               key={slide.img}
               src={slide.img}
               alt={slide.title}
               width={800}
               height={600}
-              fetchPriority={current === 0 ? "high" : "auto"}
-              decoding="async"
+              priority={current === 0}
+              sizes="(max-width: 767px) 100vw, 55vw"
               className="h-full w-full object-contain object-right mix-blend-multiply dark:mix-blend-normal"
             />
           </div>
