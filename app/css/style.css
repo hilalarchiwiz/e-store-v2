@@ -373,8 +373,11 @@ h1,h2{
   --shadow-input: inset 0 0 0 2px #182c1f;
 
   /* V2 Theme Additions - Dark mode configured via @variant dark above */
-  --color-primary: #1B974B;
-  --color-primary-dark: #1a7339;
+  /* --color-primary: #1B974B;
+  --color-primary-dark: #1a7339; */
+
+  --color-primary: #0f6b31;
+  --color-primary-dark: #0b5527;
   --color-background-light: #FFFFFF;
   --color-background-dark: #262E36;
   --radius-default: 0.25rem;
