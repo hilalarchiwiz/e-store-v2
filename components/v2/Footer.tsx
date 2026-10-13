@@ -53,6 +53,8 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                     <img
                       src={logo.logo}
                       alt="Logo (White)"
+                      width={160}
+                      height={48}
                       className={`h-9 w-auto object-contain ${logo.dark_logo ? "hidden dark:block" : ""}`}
                     />
                   )}
@@ -60,6 +62,8 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                     <img
                       src={logo.dark_logo}
                       alt="Logo (Black)"
+                      width={160}
+                      height={48}
                       className={`h-9 w-auto object-contain ${logo.logo ? "dark:hidden block" : ""}`}
                     />
                   )}

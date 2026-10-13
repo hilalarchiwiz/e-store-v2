@@ -206,11 +206,11 @@ const RegisterForm = () => {
         <div className="space-y-4">
           <p className="text-[10px] text-muted text-center leading-relaxed">
             By creating an account, you agree to our
-            <Link href="#" className="underline hover:text-primary mx-1">
+            <Link href="/terms-and-conditions" className="underline hover:text-primary mx-1">
               Terms of Service
             </Link>
             and
-            <Link href="#" className="underline hover:text-primary mx-1">
+            <Link href="/privacy-policy" className="underline hover:text-primary mx-1">
               Privacy Policy
             </Link>
             .

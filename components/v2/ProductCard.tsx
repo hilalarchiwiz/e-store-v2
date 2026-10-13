@@ -217,6 +217,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 className="h-full w-full object-contain  transition-transform duration-500 group-hover:scale-105"
                 src={image}
                 alt={name}
+                width={480}
+                height={360}
+                loading="lazy"
+                decoding="async"
                 onError={() => setImageError(true)}
               />
             )}
@@ -238,7 +242,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   ({reviews})
                 </span>
               </div>
-              <h3 className="font-bold text-base text-foreground dark:text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug">
+              <h3 className="line-clamp-2 text-base font-bold leading-[1.3] tracking-[0.01em] text-foreground transition-colors group-hover:text-primary dark:text-foreground">
                 {name}
               </h3>
               <p className="text-muted text-xs font-medium">{category}</p>
@@ -344,6 +348,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
               className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.045]"
               src={image}
               alt={name}
+              width={480}
+              height={360}
+              loading="lazy"
+              decoding="async"
               onError={() => setImageError(true)}
             />
           )}
@@ -396,7 +404,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </span>
             </div>
 
-            <h3 className="line-clamp-2 min-h-8 font-['Inter'] text-sm font-semibold leading-[1.25] text-black transition-colors group-hover:text-primary dark:text-white sm:min-h-9 sm:text-[15px]">
+            <h3 className="line-clamp-2 min-h-8 font-['Inter'] text-sm font-semibold leading-[1.3] tracking-[0.01em] text-black transition-colors group-hover:text-primary dark:text-white sm:min-h-9 sm:text-[15px]">
               {name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()}
             </h3>
             <p className="truncate text-xs font-medium text-muted">

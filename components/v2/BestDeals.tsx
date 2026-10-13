@@ -7,11 +7,11 @@ import type { DealProduct } from "@/lib/deals";
 
 export default function BestDeals({ products, categories }: {
   products: DealProduct[];
-  categories: { id: number; title: string }[];
+  categories: { id: number; slug: string; title: string }[];
 }) {
-  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [categorySlug, setCategorySlug] = useState<string | null>(null);
   const visibleProducts = products
-    .filter((product) => categoryId === null || product.categoryId === categoryId)
+    .filter((product) => categorySlug === null || product.categorySlug === categorySlug)
     .slice(0, 5);
   if (!products.length) return null;
 
@@ -23,13 +23,13 @@ export default function BestDeals({ products, categories }: {
           <span className="rounded-md bg-primary px-3 py-1 text-sm font-bold text-white">Featured</span>
         </div>
         <div className="no-scrollbar flex items-center gap-6 overflow-x-auto pb-1 text-sm sm:text-base">
-          <button type="button" onClick={() => setCategoryId(null)} className={`shrink-0 border-b-2 pb-1 ${categoryId === null ? "border-primary text-primary" : "border-transparent text-muted"}`}>All</button>
+          <button type="button" onClick={() => setCategorySlug(null)} className={`shrink-0 border-b-2 pb-1 ${categorySlug === null ? "border-primary text-primary" : "border-transparent text-muted"}`}>All</button>
           {categories.map((category) => (
-            <button key={category.id} type="button" onClick={() => setCategoryId(category.id)} className={`shrink-0 border-b-2 pb-1 ${categoryId === category.id ? "border-primary text-primary" : "border-transparent text-muted"}`}>
+            <button key={category.slug} type="button" onClick={() => setCategorySlug(category.slug)} className={`shrink-0 border-b-2 pb-1 ${categorySlug === category.slug ? "border-primary text-primary" : "border-transparent text-muted"}`}>
               {category.title}
             </button>
           ))}
-          <Link href={categoryId ? `/deals?category=${categoryId}` : "/deals"} className="shrink-0 font-medium text-primary">View all deals <span aria-hidden="true">→</span></Link>
+          <Link href={categorySlug ? `/deals?category=${encodeURIComponent(categorySlug)}` : "/deals"} className="shrink-0 font-medium text-primary">View all deals <span aria-hidden="true">→</span></Link>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5 xl:gap-6">

@@ -5,6 +5,7 @@ import { getDealCategories, getDealProducts } from "@/lib/deals";
 import type { Metadata } from "next";
 import { createPublicMetadata } from "@/lib/seo";
 import SeoContent from "@/components/v2/SeoContent";
+import { permanentRedirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -16,11 +17,24 @@ export const metadata: Metadata = createPublicMetadata({
 
 export default async function DealsPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
   const params = await searchParams;
-  const selectedCategory = Number(params.category) || undefined;
   const allDeals = await getDealProducts();
   const categories = getDealCategories(allDeals);
+  const requestedCategory = params.category?.trim();
+  const selectedCategory = requestedCategory
+    ? categories.find((category) =>
+        category.slug.toLowerCase() === requestedCategory.toLowerCase() ||
+        String(category.id) === requestedCategory)
+    : undefined;
+
+  if (requestedCategory && selectedCategory && requestedCategory !== selectedCategory.slug) {
+    permanentRedirect(`/deals?category=${encodeURIComponent(selectedCategory.slug)}`);
+  }
+  if (requestedCategory && !selectedCategory) {
+    permanentRedirect("/deals");
+  }
+
   const products = selectedCategory
-    ? allDeals.filter((product) => product.categoryId === selectedCategory)
+    ? allDeals.filter((product) => product.categorySlug === selectedCategory.slug)
     : allDeals;
 
   return (
@@ -34,7 +48,7 @@ export default async function DealsPage({ searchParams }: { searchParams: Promis
         <nav className="no-scrollbar flex gap-5 overflow-x-auto pb-1" aria-label="Deal categories">
           <Link href="/deals" className={`shrink-0 border-b-2 pb-1 ${!selectedCategory ? "border-primary text-primary" : "border-transparent text-muted"}`}>All</Link>
           {categories.map((category) => (
-            <Link key={category.id} href={`/deals?category=${category.id}`} className={`shrink-0 border-b-2 pb-1 ${selectedCategory === category.id ? "border-primary text-primary" : "border-transparent text-muted"}`}>
+            <Link key={category.slug} href={`/deals?category=${encodeURIComponent(category.slug)}`} className={`shrink-0 border-b-2 pb-1 ${selectedCategory?.slug === category.slug ? "border-primary text-primary" : "border-transparent text-muted"}`}>
               {category.title}
             </Link>
           ))}

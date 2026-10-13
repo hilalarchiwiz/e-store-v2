@@ -67,6 +67,10 @@ const Countdown = ({ sale, initialRemaining }: { sale: FlashSaleSettings; initia
             <img
               src={sale.image}
               alt="Products included in the limited-time sale"
+              width={330}
+              height={144}
+              loading="lazy"
+              decoding="async"
               className="h-full w-full object-contain drop-shadow-2xl"
             />
           </div>
@@ -83,6 +87,10 @@ const Countdown = ({ sale, initialRemaining }: { sale: FlashSaleSettings; initia
           src={sale.image}
           alt=""
           aria-hidden="true"
+          width={330}
+          height={128}
+          loading="lazy"
+          decoding="async"
           className="pointer-events-none mx-auto mt-5 h-32 w-full object-contain opacity-90 lg:hidden"
         />
       </div>

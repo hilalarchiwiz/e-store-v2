@@ -1,5 +1,3 @@
-import { getHeroImageBounds } from "@/lib/hero-image-bounds";
-import type { HeroImageBounds } from "@/lib/hero-image-layout";
 import { getStorefrontProductFilter } from "@/lib/storefront-products";
 import Hero from "@/components/v2/Hero";
 import CategorySlider from "@/components/v2/CategorySlider";
@@ -76,7 +74,6 @@ export const metadata: Metadata = {
 };
 
 export type HeroSlide = {
-  imageBounds?: HeroImageBounds | null;
   id: number;
   title: string;
   description: string;
@@ -86,6 +83,40 @@ export type HeroSlide = {
 
 export default async function V2HomePage() {
   const visibility = await getStorefrontProductFilter();
+  // Start independent homepage reads together so a cache miss does not make
+  // the visitor wait for each database round trip in sequence.
+  const newArrivalsDataPromise = prisma.product.findMany({
+    where: {
+      ...visibility,
+      category: { title: { equals: "Laptops", mode: "insensitive" } },
+    },
+    orderBy: { createdAt: "desc" },
+    take: 8,
+    include: { reviews: { select: { rating: true } } },
+  });
+  const bannersPromise = prisma.banner.findMany({
+    where: { isActive: true },
+    orderBy: { order: "asc" },
+    take: 3,
+  });
+  const bestSellersDataPromise = prisma.product.findMany({
+    where: {
+      ...visibility,
+      category: { title: { equals: "Laptops", mode: "insensitive" } },
+    },
+    orderBy: { orderItems: { _count: "desc" } },
+    take: 12,
+    include: {
+      reviews: { select: { rating: true } },
+      _count: { select: { orderItems: true } },
+    },
+  });
+  const latestReviewsPromise = getLatestReviews(8);
+  const dealProductsPromise = getDealProducts();
+  const slidersDataPromise = prisma.slider.findMany({
+    where: { status: "active" },
+    orderBy: { createdAt: "asc" },
+  });
   const categoriesData = await prisma.category.findMany({
     where: {
       status: "active",
@@ -118,24 +149,7 @@ export default async function V2HomePage() {
       count: cat._count.products,
       image: cat.img || "/images/categories/categories-01.png",
     }));
-  const newArrivalsData = await prisma.product.findMany({
-    where: {
-      ...visibility,
-      category: {
-        title: {
-          equals: "Laptops",
-          mode: "insensitive",
-        },
-      },
-    },
-    orderBy: { createdAt: "desc" },
-    take: 8,
-    include: {
-      reviews: {
-        select: { rating: true }
-      }
-    }
-  });
+  const newArrivalsData = await newArrivalsDataPromise;
 
   const newArrivals = newArrivalsData.map((product) => {
     const discountPercent =
@@ -173,33 +187,9 @@ export default async function V2HomePage() {
     };
   });
 
-  const banners = await prisma.banner.findMany({
-    where: { isActive: true },
-    orderBy: { order: "asc" },
-    take: 3,
-  });
+  const banners = await bannersPromise;
 
-  const bestSellersData = await prisma.product.findMany({
-    where: {
-      ...visibility,
-      category: {
-        title: {
-          equals: "Laptops",
-          mode: "insensitive",
-        },
-      },
-    },
-    orderBy: { orderItems: { _count: "desc" } },
-    take: 12,
-    include: {
-      reviews: {
-        select: { rating: true }
-      },
-      _count: {
-        select: { orderItems: true }
-      }
-    }
-  });
+  const bestSellersData = await bestSellersDataPromise;
 
   const bestSellers = bestSellersData.map((product) => {
     const discountPercent =
@@ -238,23 +228,19 @@ export default async function V2HomePage() {
     };
   });
 
-  const latestReviews = await getLatestReviews(8);
-  const dealProducts = await getDealProducts();
+  const latestReviews = await latestReviewsPromise;
+  const dealProducts = await dealProductsPromise;
   const dealCategories = getDealCategories(dealProducts);
 
-  const slidersData = await prisma.slider.findMany({
-    where: { status: "active" },
-    orderBy: { createdAt: "asc" },
-  });
+  const slidersData = await slidersDataPromise;
 
-  const slides: HeroSlide[] = await Promise.all(slidersData.map(async (s) => ({
-    imageBounds: await getHeroImageBounds(s.img, s.updatedAt.toISOString()),
+  const slides: HeroSlide[] = slidersData.map((s) => ({
     id: s.id,
     title: s.title,
     description: s.description,
     img: s.img,
     link: s.link ?? null,
-  })));
+  }));
   const DEFAULT_STATS = [
   { value: '10,000+', label: 'Products Sold', detail: 'Across Pakistan', icon: 'ShoppingBag' },
   { value: '5,000+', label: 'Happy Customers', detail: 'And growing', icon: 'UsersRound' },

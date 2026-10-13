@@ -77,7 +77,6 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
   };
 
   const slide = data[current];
-  const bounds = slide.imageBounds;
 
   const translateClass = isAnimating
     ? direction === "right"
@@ -131,28 +130,16 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
         {/* A larger product presentation stays contained within the image column. */}
         <div className={`relative min-w-0 transition-all duration-400 ease-out motion-reduce:transition-none ${translateClass}`}>
           <div className="relative flex h-60 items-center justify-end sm:h-72 md:h-80">
-            {bounds ? (
-              <svg
-                key={slide.img}
-                role="img"
-                aria-label={slide.title}
-                viewBox={`${bounds.x} ${bounds.y} ${bounds.width} ${bounds.height}`}
-                preserveAspectRatio="xMaxYMid meet"
-                className="h-full w-full"
-              >
-                <image href={slide.img} width={bounds.sourceWidth} height={bounds.sourceHeight} />
-              </svg>
-            ) : (
-              <img
-                key={slide.img}
-                src={slide.img}
-                alt={slide.title}
-                width={800}
-                height={600}
-                fetchPriority={current === 0 ? "high" : "auto"}
-                className="h-full w-full object-contain object-right mix-blend-multiply dark:mix-blend-normal"
-              />
-            )}
+            <img
+              key={slide.img}
+              src={slide.img}
+              alt={slide.title}
+              width={800}
+              height={600}
+              fetchPriority={current === 0 ? "high" : "auto"}
+              decoding="async"
+              className="h-full w-full object-contain object-right mix-blend-multiply dark:mix-blend-normal"
+            />
           </div>
         </div>
       </div>

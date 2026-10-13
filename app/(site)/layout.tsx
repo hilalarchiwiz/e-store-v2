@@ -11,6 +11,13 @@ import { getSetting } from "../(admin)/admin/(admin)/setting/actions/setting.act
 import { getHighestDealDiscount } from "@/lib/deals";
 
 import ToasterProvider from "@/components/v2/ToasterProvider";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   const { setting } = await getSetting("logo");
@@ -67,13 +74,7 @@ export default async function V2Layout({
 
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
-        />
-      </head>
-      <body className="font-display bg-page text-foreground">
+      <body className={`${inter.variable} font-display bg-page text-foreground`}>
         <NavigationProgress />
         <ToasterProvider />
         <ReduxProvider>

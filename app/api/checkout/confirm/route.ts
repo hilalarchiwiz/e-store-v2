@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import prisma from "@/lib/prisma";
+import { absoluteUrl } from "@/lib/seo";
 
 export async function GET(req: Request) {
     try {
@@ -14,7 +15,7 @@ export async function GET(req: Request) {
 
         if (!order_id || !tracker || !reference || !sig) {
             console.error("Missing Safepay params");
-            return NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/checkout/failed`);
+            return NextResponse.redirect(absoluteUrl("/checkout/failed"));
         }
 
         // verify signature
@@ -32,7 +33,7 @@ export async function GET(req: Request) {
                 data: { paymentStatus: "FAILED", notes: "Signature mismatch" }
             });
 
-            return NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/checkout/failed`);
+            return NextResponse.redirect(absoluteUrl("/checkout/failed"));
         }
 
         // Mark order paid (but don't block redirect)
@@ -47,11 +48,11 @@ export async function GET(req: Request) {
 
         // Respond IMMEDIATELY
         return NextResponse.redirect(
-            `${process.env.NEXT_PUBLIC_SITE_URL}/order-confirmation/${order_id}`
+            absoluteUrl(`/order-confirmation/${encodeURIComponent(order_id)}`)
         );
 
     } catch (err) {
         console.error("Confirm route crashed:", err);
-        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/checkout/failed`);
+        return NextResponse.redirect(absoluteUrl("/checkout/failed"));
     }
 }

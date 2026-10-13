@@ -149,6 +149,8 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                     <img
                       src={logo.logo}
                       alt="Logo (White)"
+                      width={160}
+                      height={48}
                       className={`h-7 max-w-[112px] w-auto object-contain sm:h-9 sm:max-w-none ${logo.dark_logo ? "hidden dark:block" : ""}`}
                     />
                   )}
@@ -156,6 +158,8 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                     <img
                       src={logo.dark_logo}
                       alt="Logo (Black)"
+                      width={160}
+                      height={48}
                       className={`h-7 max-w-[112px] w-auto object-contain sm:h-9 sm:max-w-none ${logo.logo ? "dark:hidden block" : ""}`}
                     />
                   )}
