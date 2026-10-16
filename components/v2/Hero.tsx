@@ -64,10 +64,6 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
       aria-roledescription="carousel"
       className="relative mx-auto mt-4 mb-2 w-full overflow-hidden rounded-3xl border border-black/5 bg-surface dark:border-white/10 dark:bg-surface"
     >
-      {/* Soft neutral lighting and geometric detail frame the product. */}
-      <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-40 size-[600px] rounded-full border border-black/5 dark:border-white/5" />
-      <div aria-hidden="true" className="pointer-events-none absolute -right-4 -top-20 size-[440px] rounded-full border border-black/5 dark:border-white/5" />
-
       <div className="relative grid items-center gap-5 px-6 py-7 sm:px-10 sm:py-8 md:grid-cols-[0.9fr_1.1fr] md:gap-3 lg:gap-4 lg:px-12">
         <div className={`min-w-0 transition-all duration-400 ease-out motion-reduce:transition-none ${translateClass}`}>
           <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-primary sm:text-xs">
@@ -75,9 +71,7 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
             Premium Computing Gear
           </div>
           <h1 className="max-w-xl text-3xl font-medium leading-[1.08] tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem] xl:text-5xl dark:text-foreground [overflow-wrap:anywhere]">
-            <span className="block text-base font-bold uppercase tracking-wider text-primary sm:text-lg">
-              Laptops in Pakistan
-            </span>
+
             <span className="mt-2 block">{slide.title}</span>
           </h1>
           <div aria-hidden="true" className="my-4 h-1 w-10 rounded-full bg-primary" />
@@ -102,8 +96,11 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
         </div>
 
         {/* A larger product presentation stays contained within the image column. */}
-        <div className={`relative min-w-0 transition-all duration-400 ease-out motion-reduce:transition-none ${translateClass}`}>
-          <div className="relative flex h-60 items-center justify-end sm:h-72 md:h-80">
+        <div className="relative min-w-0">
+          {/* Both rings share the product image's center at every breakpoint. */}
+          <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/2 size-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-black/5 dark:border-white/5" />
+          <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/2 size-[440px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-black/5 dark:border-white/5" />
+          <div className={`relative flex h-60 items-center justify-center transition-all duration-400 ease-out motion-reduce:transition-none sm:h-72 md:h-80 ${translateClass}`}>
             <Image
               key={slide.img}
               src={slide.img}
@@ -112,7 +109,7 @@ export default function Hero({ slides = [] }: { slides: HeroSlide[] }) {
               height={600}
               priority={current === 0}
               sizes="(max-width: 767px) 100vw, 55vw"
-              className="h-full w-full object-contain object-right mix-blend-multiply dark:mix-blend-normal"
+              className="h-full w-full object-contain object-center mix-blend-multiply dark:mix-blend-normal"
             />
           </div>
         </div>

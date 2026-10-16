@@ -84,11 +84,15 @@ export default function SiteIcon({ name, children, className = '', ...props }: S
   return (
     <span
       {...props}
-      className={className}
+      className={`inline-flex shrink-0 items-center justify-center align-middle leading-none ${className}`}
       aria-hidden={props['aria-hidden'] ?? true}
     >
       {regularIcon ? (
-        <FontAwesomeIcon icon={regularIcon} />
+        <FontAwesomeIcon
+          icon={regularIcon}
+          // Reserve the SVG's dimensions before Font Awesome injects its CSS.
+          style={{ display: 'block', width: '1em', height: '1em', flexShrink: 0 }}
+        />
       ) : (
         <OutlineIcon className={shouldSpin ? 'animate-spin' : ''} size="1em" strokeWidth={2.1} />
       )}

@@ -21,6 +21,7 @@ const WHATSAPP_NUMBER = (
 ).replace(/\D/g, "");
 
 interface Product {
+  additionalInfo: any;
   id: number;
   title: string;
   description: string;
@@ -642,7 +643,11 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
         <div className="py-6 animate-in fade-in duration-500">
           {activeTab === "description" && (
             <div className="prose prose-lg dark:prose-invert max-w-none text-muted dark:text-muted">
-              {product.description}
+              {product.additionalInfo ? (
+                <div dangerouslySetInnerHTML={{ __html: product.additionalInfo }} />
+              ) : (
+                <p>No additional description available for this product.</p>
+              )}
             </div>
           )}
           {activeTab === "specifications" && (

@@ -22,6 +22,7 @@ import QuickViewModal from "@/components/v2/QuickViewModal";
 import { useHydrated } from "@/hooks/useHydrated";
 import { productPath } from "@/lib/product-url";
 import Image from "next/image";
+import { svgPathData as starPath } from "@fortawesome/free-regular-svg-icons/faStar";
 
 interface ProductCardProps {
   id: number;
@@ -55,16 +56,24 @@ const StarRating = ({
   rating: number;
   size?: "sm" | "xs";
 }) => (
-  <div className="flex items-center gap-0 text-[#f5a400]">
+  <svg
+    role="img"
+    aria-label={`${rating} out of 5 stars`}
+    className={`block shrink-0 text-[#f5a400] ${size === "xs" ? "text-xs!" : "text-[16px]!"}`}
+    width="5em"
+    height="1em"
+    viewBox="0 0 2880 576"
+    fill="currentColor"
+  >
+    {/* Match five square icon boxes, including the original vertical padding. */}
     {[...Array(5)].map((_, i) => (
-      <SiteIcon
+      <path
         key={i}
-        className={`${size === "xs" ? "text-xs!" : "text-[16px]!"} ${i < Math.floor(rating) ? "fill-1" : ""}`}
-      >
-        {i < Math.floor(rating) ? "star" : "star_border"}
-      </SiteIcon>
+        d={starPath}
+        transform={`translate(${i * 576} 32)`}
+      />
     ))}
-  </div>
+  </svg>
 );
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -241,7 +250,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   ({reviews})
                 </span>
               </div>
-              <h3 className="line-clamp-2 text-base font-bold leading-[1.3] tracking-[0.01em] text-foreground transition-colors group-hover:text-primary dark:text-foreground">
+              <h3 className="font-bold text-base text-foreground dark:text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug">
                 {name}
               </h3>
               <p className="text-muted text-xs font-medium">{category}</p>
@@ -401,7 +410,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </span>
             </div>
 
-            <h3 className="line-clamp-2 min-h-8 font-['Inter'] text-sm font-semibold leading-[1.3] tracking-[0.01em] text-black transition-colors group-hover:text-primary dark:text-white sm:min-h-9 sm:text-[15px]">
+            <h3 className="line-clamp-2 min-h-8 font-['Inter'] text-sm font-semibold leading-[1.25] text-black transition-colors group-hover:text-primary dark:text-white sm:min-h-9 sm:text-[15px]">
               {name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()}
             </h3>
             <p className="truncate text-xs font-medium text-muted">

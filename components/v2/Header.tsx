@@ -142,7 +142,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
         <div className="max-w-400 mx-auto flex items-center justify-between gap-2 sm:gap-8">
           <div className="flex min-w-0 items-center gap-4 sm:gap-10">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 text-primary">
+            <Link href="/" className="flex shrink-0 items-center gap-2 text-primary">
               <span className="sr-only">Qaam.pk home</span>
               {logo?.logo || logo?.dark_logo ? (
                 <>
@@ -152,7 +152,8 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                       alt="Logo (White)"
                       width={160}
                       height={48}
-                      className={`h-7 max-w-[112px] w-auto object-contain sm:h-9 sm:max-w-none ${logo.dark_logo ? "hidden dark:block" : ""}`}
+                      sizes="(min-width: 640px) 120px, 112px"
+                      className={`h-7 w-28 object-contain sm:h-9 sm:w-30 ${logo.dark_logo ? "hidden dark:block" : ""}`}
                     />
                   )}
                   {logo.dark_logo && (
@@ -161,7 +162,8 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                       alt="Logo (Black)"
                       width={160}
                       height={48}
-                      className={`h-7 max-w-[112px] w-auto object-contain sm:h-9 sm:max-w-none ${logo.logo ? "dark:hidden block" : ""}`}
+                      sizes="(min-width: 640px) 120px, 112px"
+                      className={`h-7 w-28 object-contain sm:h-9 sm:w-30 ${logo.logo ? "dark:hidden block" : ""}`}
                     />
                   )}
                 </>
@@ -207,14 +209,14 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
             </nav>
           </div>
 
-          <div className="flex flex-1 justify-end items-center gap-1 sm:gap-4">
+          <div className="flex min-w-0 flex-1 justify-end items-center gap-1 sm:gap-4">
             {/* Desktop Search */}
             <div className="hidden md:block flex-1 max-w-md relative" ref={searchRef}>
               <form
                 onSubmit={handleSearch}
                 className="flex items-stretch rounded-lg h-10 bg-surface dark:bg-surface border border-transparent focus-within:border-primary transition-all"
               >
-                <div className="flex items-center justify-center pl-4 text-muted">
+                <div className="flex w-10 shrink-0 items-center justify-center pl-4 text-muted">
                   {isSearching ? (
                     <div className="size-4 border-2 border-primary border-t-transparent animate-spin rounded-full" />
                   ) : (
@@ -222,7 +224,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                   )}
                 </div>
                 <input
-                  className="w-full border-none bg-transparent focus:ring-0 text-sm placeholder:text-muted px-4"
+                  className="min-w-0 w-full border-none bg-transparent focus:ring-0 text-sm placeholder:text-muted px-4"
                   placeholder="Search products..."
                   value={searchQuery}
                   onChange={(e) => {
@@ -307,7 +309,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
               )}
             </div>
 
-            <div className="flex gap-1 sm:gap-2">
+            <div className="flex shrink-0 gap-1 sm:gap-2 [&>*]:shrink-0">
               <ThemeToggle />
 
               {/* Wishlist */}
@@ -352,6 +354,8 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                   <img
                     src={accountImage}
                     alt={`${accountName || "User"} profile`}
+                    width={40}
+                    height={40}
                     className="size-full object-cover"
                   />
                 ) : accountInitials ? (
@@ -403,10 +407,10 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
             {logo?.logo || logo?.dark_logo ? (
               <>
                 {logo.logo && (
-                  <Image src={logo.logo} alt="Logo" width={160} height={48} sizes="160px" className={`h-8 w-auto object-contain ${logo.dark_logo ? "hidden dark:block" : ""}`} />
+                  <Image src={logo.logo} alt="Logo" width={160} height={48} sizes="107px" className={`h-8 w-[107px] object-contain ${logo.dark_logo ? "hidden dark:block" : ""}`} />
                 )}
                 {logo.dark_logo && (
-                  <Image src={logo.dark_logo} alt="Logo" width={160} height={48} sizes="160px" className={`h-8 w-auto object-contain ${logo.logo ? "dark:hidden block" : ""}`} />
+                  <Image src={logo.dark_logo} alt="Logo" width={160} height={48} sizes="107px" className={`h-8 w-[107px] object-contain ${logo.logo ? "dark:hidden block" : ""}`} />
                 )}
               </>
             ) : (

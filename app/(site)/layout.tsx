@@ -11,13 +11,6 @@ import { getSetting } from "../(admin)/admin/(admin)/setting/actions/setting.act
 import { getHighestDealDiscount } from "@/lib/deals";
 
 import ToasterProvider from "@/components/v2/ToasterProvider";
-import { Inter } from "next/font/google";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
 
 export async function generateMetadata(): Promise<Metadata> {
   const { setting } = await getSetting("logo");
@@ -78,7 +71,7 @@ export default async function V2Layout({
         <link rel="preconnect" href="https://staticportal.blob.core.windows.net" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
       </head>
-      <body className={`${inter.variable} font-display bg-page text-foreground`}>
+      <body className="font-display bg-page text-foreground">
         <NavigationProgress />
         <ToasterProvider />
         <ReduxProvider>
