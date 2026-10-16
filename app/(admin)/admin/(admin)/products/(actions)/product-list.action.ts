@@ -7,6 +7,7 @@ import { PAGE_SIZE } from '@/lib/constant';
 import prisma from '@/lib/prisma';
 import { revalidatePath, updateTag } from 'next/cache';
 import { productPath } from '@/lib/product-url';
+import { ProductContentSchema, type ProductContentInput } from '../validations/product-content';
 
 type ProductListParam = string | string[] | undefined;
 
@@ -333,6 +334,37 @@ export async function updateProductTitleAndQuantity(
             message: 'Product title and quantity updated successfully.',
             product,
         };
+    });
+}
+
+export async function updateProductContent(productId: number, input: ProductContentInput) {
+    return withPermission('product_update', async () => {
+        if (!Number.isInteger(productId) || productId <= 0) {
+            throw new Error('A valid product is required.');
+        }
+
+        const parsed = ProductContentSchema.safeParse(input);
+        if (!parsed.success) {
+            return { success: false, message: parsed.error.issues[0].message };
+        }
+
+        const product = await prisma.product.update({
+            where: { id: productId },
+            data: parsed.data,
+            select: { id: true, slug: true },
+        });
+
+        updateTag('products');
+        revalidatePath('/admin/products');
+        revalidatePath(`/admin/products/edit/${product.id}`);
+        revalidatePath(`/admin/products/view/${product.id}`);
+        revalidatePath(productPath(product));
+        revalidatePath('/');
+        revalidatePath('/shop');
+        revalidatePath('/deals');
+        revalidatePath('/sitemap.xml');
+
+        return { success: true, message: 'Product content updated successfully.' };
     });
 }
 

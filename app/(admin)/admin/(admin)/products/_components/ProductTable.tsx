@@ -15,6 +15,7 @@ import {
   ZoomIn,
   Award,
   PenLine,
+  FilePenLine,
 } from "lucide-react";
 import DataTable from "@/components/Admin/Common/DataTable";
 import DeleteButton from "@/components/Admin/Buttons/DeleteButton";
@@ -23,6 +24,7 @@ import toast from "react-hot-toast";
 import ProductQuickEditModal, {
   type QuickEditProduct,
 } from "./ProductQuickEditModal";
+import ProductContentEditModal, { type ContentEditProduct } from "./ProductContentEditModal";
 
 interface ProductTableProps {
   products: any[];
@@ -51,6 +53,8 @@ export default function ProductTable({
     useState<any>(null);
   const [selectedProductForQuickEdit, setSelectedProductForQuickEdit] =
     useState<QuickEditProduct | null>(null);
+  const [selectedProductForContentEdit, setSelectedProductForContentEdit] =
+    useState<ContentEditProduct | null>(null);
 
   const router = useRouter();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -136,7 +140,7 @@ export default function ProductTable({
         {
           header: "Action",
           accessor: (product: any) => (
-            <div className="flex flex-wrap gap-2">
+            <div className="grid w-max grid-cols-3 items-center gap-2">
               {canView && (
                 <Link
                   href={`/admin/products/view/${product.id}`}
@@ -148,6 +152,15 @@ export default function ProductTable({
               )}
               {canEdit && (
                 <>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedProductForContentEdit(product)}
+                    className="inline-flex items-center justify-center rounded bg-blue-50 p-2 text-blue-700 transition-colors hover:bg-blue-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                    title="Edit product content — title, description, and additional information"
+                    aria-label={`Edit product content for ${product.title}`}
+                  >
+                    <FilePenLine size={14} aria-hidden="true" />
+                  </button>
                   <button
                     type="button"
                     onClick={() => setSelectedProductForQuickEdit(product)}
@@ -211,6 +224,14 @@ export default function ProductTable({
         </div>
       )}
       <DataTable data={products} columns={productColumns} />
+
+      {selectedProductForContentEdit && (
+        <ProductContentEditModal
+          key={selectedProductForContentEdit.id}
+          product={selectedProductForContentEdit}
+          onClose={() => setSelectedProductForContentEdit(null)}
+        />
+      )}
 
       {selectedProductForQuickEdit && (
         <ProductQuickEditModal
