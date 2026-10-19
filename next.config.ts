@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import { execFileSync } from "node:child_process";
+import { PRODUCT_SLUG_REDIRECTS } from "./lib/product-redirects";
 
 function getDeploymentId(): string | undefined {
   const configured = process.env.NEXT_DEPLOYMENT_ID || process.env.BUILD_BUILDID || process.env.GITHUB_RUN_ID;
@@ -25,6 +26,11 @@ const nextConfig: NextConfig = {
         destination: "https://www.qaam.pk/:path*",
         permanent: true,
       },
+      ...Object.entries(PRODUCT_SLUG_REDIRECTS).map(([source, destination]) => ({
+        source: `/product/${source}`,
+        destination: `/product/${destination}`,
+        permanent: true,
+      })),
     ];
   },
   experimental: {

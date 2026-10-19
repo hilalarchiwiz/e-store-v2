@@ -14,6 +14,7 @@ import {
   productMetaTitle,
 } from "@/lib/seo";
 import { productPath } from "@/lib/product-url";
+import { getStorefrontProduct } from "@/lib/storefront-product";
 
 interface PageProps {
   params: Promise<{
@@ -25,20 +26,11 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const numericId = !isNaN(Number(slug)) ? Number(slug) : undefined;
-
-  const product = await prisma.product.findFirst({
-    where: {
-      ...await getStorefrontProductFilter(),
-      OR: [
-        { slug: slug },
-        ...(numericId ? [{ id: numericId }] : []),
-      ],
-    },
-    include: { brand: true, category: true, grading: true },
-  });
-
-  if (!product) return {};
+  const product = await getStorefrontProduct(slug);
+  if (!product) notFound();
+  if (productPath(product) !== `/product/${encodeURIComponent(slug)}`) {
+    permanentRedirect(productPath(product));
+  }
 
   const title = productMetaTitle(product.title);
   const description = metaDescription(
@@ -55,29 +47,13 @@ export async function generateMetadata({
 
 export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
-  const numericId = !isNaN(Number(slug)) ? Number(slug) : undefined;
-
-  const product = await prisma.product.findFirst({
-    where: {
-      ...await getStorefrontProductFilter(),
-      OR: [
-        { slug: slug },
-        ...(numericId ? [{ id: numericId }] : []),
-      ],
-    },
-    include: {
-      category: true,
-      brand: true,
-      reviews: true,
-      grading: true,
-    },
-  });
+  const product = await getStorefrontProduct(slug);
 
   if (!product) {
     return notFound();
   }
 
-  if (numericId && product.slug) {
+  if (productPath(product) !== `/product/${encodeURIComponent(slug)}`) {
     permanentRedirect(productPath(product));
   }
 

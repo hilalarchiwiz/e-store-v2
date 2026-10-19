@@ -650,9 +650,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               )}
             </div>
           )}
-          {activeTab === "specifications" && (
+          <div hidden={activeTab !== "specifications"}>
             <ProductSpecifications specifications={product.specifications} />
-          )}
+          </div>
           {activeTab === "reviews" && (
             <div className="flex flex-col gap-8">
               {!showReviewForm ? (

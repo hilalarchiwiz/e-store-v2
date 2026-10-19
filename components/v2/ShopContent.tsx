@@ -8,6 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import ShopHeader from "./ShopHeader";
 import ProductCard from "./ProductCard";
 import type { ShopFilters } from "@/lib/shop-products";
+import { listingPage, SHOP_PAGE_SIZE, visibleListingPage } from "@/lib/listing-pagination";
 import ShopIntro from "./ShopIntro";
 import ShopBenefits from "./ShopBenefits";
 import {
@@ -209,13 +210,18 @@ const ShopContent: React.FC<ShopContentProps> = ({
   const [mobileSortOpen, setMobileSortOpen] = useState(false);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
 
-  const [products, setProducts] = useState(initialProducts);
-  const [hasMore, setHasMore] = useState(initialProducts.length < totalProducts);
+  const initialPage = listingPage(filters.page);
+  const [products, setProducts] = useState(() =>
+    initialProducts.map((product) => ({ ...product, loadedPage: initialPage })),
+  );
+  const initialOffset = (listingPage(filters.page) - 1) * SHOP_PAGE_SIZE + initialProducts.length;
+  const [hasMore, setHasMore] = useState(initialOffset < totalProducts);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const sentinel = useRef<HTMLDivElement>(null);
-  const offset = useRef(initialProducts.length);
-  const currentPage = useRef(Math.max(1, Number(filters.page) || 1));
+  const offset = useRef(initialOffset);
+  const currentPage = useRef(listingPage(filters.page));
+  const productList = useRef<HTMLDivElement>(null);
   const activeRequest = useRef<AbortController | null>(null);
 
   useEffect(() => () => activeRequest.current?.abort(), []);
@@ -226,6 +232,41 @@ const ShopContent: React.FC<ShopContentProps> = ({
     window.addEventListener("scroll", updateScrollButton, { passive: true });
     return () => window.removeEventListener("scroll", updateScrollButton);
   }, []);
+
+  useEffect(() => {
+    const list = productList.current;
+    if (!list) return;
+    let frame: number | null = null;
+    const updatePage = () => {
+      frame = null;
+      const boundaries = Array.from(list.querySelectorAll<HTMLElement>("[data-listing-page]"))
+        .map((element) => ({
+          page: Number(element.dataset.listingPage),
+          top: element.getBoundingClientRect().top,
+        }));
+      const page = visibleListingPage(boundaries, window.innerHeight * 0.4, initialPage);
+      if (page === currentPage.current) return;
+      currentPage.current = page;
+      const url = new URL(window.location.href);
+      url.searchParams.set("page", String(page));
+      // Preserve appended products and scroll position; do not navigate.
+      window.history.replaceState(window.history.state, "", url);
+    };
+    const scheduleUpdate = () => {
+      if (frame === null) frame = window.requestAnimationFrame(updatePage);
+    };
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    const observer = new ResizeObserver(scheduleUpdate);
+    observer.observe(list);
+    scheduleUpdate();
+    return () => {
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      observer.disconnect();
+      if (frame !== null) window.cancelAnimationFrame(frame);
+    };
+  }, [initialPage, products, viewMode]);
 
   const loadMore = useCallback(async () => {
     if (activeRequest.current || !hasMore) return;
@@ -245,17 +286,14 @@ const ShopContent: React.FC<ShopContentProps> = ({
       if (!response.ok) throw new Error("Unable to load products");
       const data: { products: Product[]; totalProducts: number } = await response.json();
       if (controller.signal.aborted) return;
+      const loadedPage = Math.floor(offset.current / SHOP_PAGE_SIZE) + 1;
       offset.current += data.products.length;
       setProducts((previous) => {
         const ids = new Set(previous.map((product) => product.id));
-        return [...previous, ...data.products.filter((product) => !ids.has(product.id))];
+        return [...previous, ...data.products
+          .filter((product) => !ids.has(product.id))
+          .map((product) => ({ ...product, loadedPage }))];
       });
-      if (data.products.length > 0) {
-        currentPage.current += 1;
-        const url = new URL(window.location.href);
-        url.searchParams.set("page", String(currentPage.current));
-        window.history.replaceState(window.history.state, "", url);
-      }
       setHasMore(data.products.length > 0 && offset.current < data.totalProducts);
     } catch {
       if (!controller.signal.aborted) setError(true);
@@ -330,15 +368,26 @@ const ShopContent: React.FC<ShopContentProps> = ({
           </Link>
         </div>
       ) : viewMode === "grid" ? (
-        <div className="grid w-full min-w-0 grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
-          {products.map((product) => (
-            <ProductCard key={product.id} {...product} />
+        <div ref={productList} className="grid w-full min-w-0 grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
+          {products.map((product, index) => (
+            <ProductCard
+              key={product.id}
+              {...product}
+              listingPage={index === 0 || products[index - 1].loadedPage !== product.loadedPage
+                ? product.loadedPage : undefined}
+            />
           ))}
         </div>
       ) : (
-        <div className="flex flex-col gap-4">
-          {products.map((product) => (
-            <ProductCard key={product.id} {...product} layout="list" />
+        <div ref={productList} className="flex flex-col gap-4">
+          {products.map((product, index) => (
+            <ProductCard
+              key={product.id}
+              {...product}
+              layout="list"
+              listingPage={index === 0 || products[index - 1].loadedPage !== product.loadedPage
+                ? product.loadedPage : undefined}
+            />
           ))}
         </div>
       )}

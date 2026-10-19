@@ -10,6 +10,9 @@ import { absoluteUrl, createPublicMetadata, plainText } from "@/lib/seo";
 import SeoContent from "@/components/v2/SeoContent";
 import { getIndexableShopFilter, isIndexableShopListing } from "@/lib/shop-seo";
 import { productPath } from "@/lib/product-url";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { listingPage, listingPagePath, SHOP_PAGE_SIZE } from "@/lib/listing-pagination";
 
 export const dynamic = "force-dynamic";
 
@@ -113,19 +116,19 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
 
 const ShopPage = async ({ searchParams }: ShopPageProps) => {
   const resolvedSearchParams = await searchParams;
-  const requestedPage = Number(resolvedSearchParams.page);
-  const currentPage =
-    Number.isSafeInteger(requestedPage) && requestedPage > 0
-      ? requestedPage
-      : 1;
-  const productsPerPage = 20;
+  const currentPage = listingPage(resolvedSearchParams.page);
+  const productsPerPage = SHOP_PAGE_SIZE;
   const visibility = await getStorefrontProductFilter();
   const { products, totalProducts, categoryIds, laptopGenerations, search } =
     await getShopProducts(
       resolvedSearchParams,
-      0,
-      currentPage * productsPerPage,
+      (currentPage - 1) * productsPerPage,
+      productsPerPage,
     );
+
+  if (currentPage > 1 && (currentPage - 1) * productsPerPage >= totalProducts) {
+    notFound();
+  }
 
   const [
     categoriesData,
@@ -245,11 +248,14 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
     : undefined;
   const landingName = landingCategory?.title || landingBrand?.title;
   const landingType = landingCategory ? "category" : landingBrand ? "brand" : null;
-  const canonicalShopPath = landingCategory
+  const canonicalShopBase = landingCategory
     ? `/shop?category=${encodeURIComponent(landingCategory.slug || String(landingCategory.id))}`
     : landingBrand
       ? `/shop?brand=${landingBrand.id}`
       : "/shop";
+  const canonicalShopPath = currentPage > 1
+    ? `${canonicalShopBase}${canonicalShopBase.includes("?") ? "&" : "?"}page=${currentPage}`
+    : canonicalShopBase;
 
   const dbMaxPrice = Math.ceil(priceStats._max.price || 1000);
 
@@ -299,6 +305,19 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
           maxPrice={dbMaxPrice}
         />
       </div>
+
+      <nav aria-label="Product pages" className="flex justify-center gap-6">
+        {currentPage > 1 && (
+          <Link href={listingPagePath("/shop", resolvedSearchParams, currentPage - 1)} className="text-primary underline">
+            Previous page
+          </Link>
+        )}
+        {currentPage * productsPerPage < totalProducts && (
+          <Link href={listingPagePath("/shop", resolvedSearchParams, currentPage + 1)} className="text-primary underline">
+            Next page
+          </Link>
+        )}
+      </nav>
 
       {!Object.values(resolvedSearchParams).some(Boolean) && (
         <SeoContent
@@ -352,7 +371,7 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
               "numberOfItems": products.length,
               "itemListElement": products.map((p, index) => ({
                 "@type": "ListItem",
-                "position": index + 1,
+                "position": (currentPage - 1) * productsPerPage + index + 1,
                 "url": absoluteUrl(productPath(p)),
                 "name": p.name,
                 "image": absoluteUrl(p.image)

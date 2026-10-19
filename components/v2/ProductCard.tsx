@@ -43,6 +43,7 @@ interface ProductCardProps {
     variant: "primary" | "secondary";
   };
   layout?: "grid" | "list";
+  listingPage?: number;
 }
 
 const formatPrice = (price: number) => {
@@ -92,6 +93,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   quantity,
   badge,
   layout = "grid",
+  listingPage,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
   const wishlistIds = useAppSelector((state) => state.wishlistReducer.ids);
@@ -211,6 +213,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <>
         <Link
           href={productPath({ slug, id })}
+          data-listing-page={listingPage}
           className="group bg-surface dark:bg-surface rounded-2xl border border-outline dark:border-outline overflow-hidden flex flex-row shadow-sm hover:shadow-xl transition-all duration-300"
         >
           {/* Image */}
@@ -339,6 +342,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     <>
       <Link
         href={productPath({ slug, id })}
+        data-listing-page={listingPage}
         className="group flex h-full flex-col overflow-hidden rounded-2xl border border-outline bg-surface shadow-[0_2px_7px_rgba(18,23,20,0.10)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_12px_30px_rgba(18,23,20,0.14)] dark:border-outline dark:bg-surface"
       >
         <div className="relative aspect-[12/9] w-full overflow-hidden bg-surface dark:bg-surface">

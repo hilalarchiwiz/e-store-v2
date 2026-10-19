@@ -4,6 +4,9 @@ import { MetadataRoute } from 'next';
 import { absoluteUrl } from '@/lib/seo';
 import { productPath } from '@/lib/product-url';
 
+// Keep newly published products discoverable between deployments.
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const visibility = await getStorefrontProductFilter();
     const staticRoutes: MetadataRoute.Sitemap = [

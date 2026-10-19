@@ -256,6 +256,8 @@ export async function updateProduct(productId: number | undefined, prevData: any
             where: { id: productId },
             data: {
                 ...data,
+                // Keep published URLs stable when the product title changes.
+                slug: oldProduct?.slug || data.slug,
                 status: 'active'
             }
         });
