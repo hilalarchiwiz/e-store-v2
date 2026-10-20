@@ -15,6 +15,7 @@ import {
 } from "@/lib/seo";
 import { productPath } from "@/lib/product-url";
 import { getStorefrontProduct } from "@/lib/storefront-product";
+import { productReviewSchema } from "@/lib/product-review-schema";
 
 interface PageProps {
   params: Promise<{
@@ -161,17 +162,7 @@ export default async function ProductPage({ params }: PageProps) {
                     ? "https://schema.org/UsedCondition"
                     : "https://schema.org/NewCondition",
                 },
-                ...(product.reviews.length > 0
-                  ? {
-                    aggregateRating: {
-                      "@type": "AggregateRating",
-                      ratingValue:
-                        product.reviews.reduce((acc, r) => acc + r.rating, 0) /
-                        product.reviews.length,
-                      reviewCount: product.reviews.length,
-                    },
-                  }
-                  : {}),
+                ...productReviewSchema(product.reviews),
               },
               {
                 "@type": "BreadcrumbList",
