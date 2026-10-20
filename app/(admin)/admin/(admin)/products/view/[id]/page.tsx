@@ -114,7 +114,7 @@ const AdminProductDetails = async ({ params }) => {
             </div>
 
             {/* Right Column - Product Details */}
-            <div className="lg:col-span-2">
+            <div className="min-w-0 lg:col-span-2">
               {/* Product Header */}
               <div className="bg-white  p-6 mb-6">
                 <div className="flex items-start justify-between mb-4">

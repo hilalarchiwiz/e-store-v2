@@ -258,7 +258,7 @@ const Header = ({ logo, highestDealDiscount }: HeaderProps) => {
                             setShowDropdown(false);
                             setSearchQuery("");
                           }}
-                          className="flex items-center gap-4 px-4 py-3 hover:bg-surface dark:hover:bg-surface transition-colors group"
+                          className="flex items-center gap-4 px-4 py-3 hover:bg-surface dark:hover:bg-surface tracking-[1.5px] transition-colors group"
                         >
                           <div className="size-12 rounded-lg overflow-hidden bg-icon-surface dark:bg-icon-surface flex-shrink-0">
                             {product.images?.[0] ? (

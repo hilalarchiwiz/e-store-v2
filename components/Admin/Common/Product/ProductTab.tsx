@@ -16,13 +16,13 @@ const ProductTab = ({ tabs, product }) => {
     return (
         <div className="bg-white overflow-hidden">
             <div className="border-b border-gray-200">
-                <div className="flex">
+                <div className="flex overflow-x-auto">
                     {
                         tabs.map(tab => (
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`px-6 py-4 font-medium transition relative ${activeTab === tab.id
+                                className={`shrink-0 px-6 py-4 font-medium transition relative ${activeTab === tab.id
                                     ? 'text-emerald-600 bg-emerald-50'
                                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                                     }`}
@@ -42,9 +42,21 @@ const ProductTab = ({ tabs, product }) => {
                     <div className="space-y-6">
                         <div>
                             <h3 className="text-lg font-semibold text-gray-900 mb-3">Description</h3>
-                            <p className="text-gray-600 leading-relaxed whitespace-pre-line">
+                            <p className="text-gray-600 leading-relaxed whitespace-pre-line [overflow-wrap:anywhere]">
                                 {product.description}
                             </p>
+                        </div>
+
+                        <div>
+                            <h3 className="text-lg font-semibold text-gray-900 mb-3">Additional Information</h3>
+                            {product.additionalInfo ? (
+                                <div
+                                    className="product-rich-text prose max-w-none text-gray-600"
+                                    dangerouslySetInnerHTML={{ __html: product.additionalInfo }}
+                                />
+                            ) : (
+                                <p className="text-gray-500">No additional information available for this product.</p>
+                            )}
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">

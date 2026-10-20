@@ -42,6 +42,38 @@ h1,h2{
   }
 }
 
+/* Keep saved product rich text within storefront and admin layouts. */
+.product-rich-text {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.product-rich-text,
+.product-rich-text :where(*) {
+  /* Pasted content can carry inline white-space: nowrap/pre styles. */
+  white-space: normal !important;
+}
+
+.product-rich-text pre,
+.product-rich-text pre * {
+  white-space: pre-wrap !important;
+}
+
+.product-rich-text :where(img, video, iframe) {
+  max-width: 100%;
+}
+
+.product-rich-text :where(img, video) {
+  height: auto;
+}
+
+.product-rich-text table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 /* Add this to your globals.css */
 .prose .resizable-image {
   display: inline-block;

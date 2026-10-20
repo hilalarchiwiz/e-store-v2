@@ -627,7 +627,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
       </div>
 
       {/* Tabs Section */}
-      <div className="flex flex-col gap-6 sm:gap-8">
+      <div className="min-w-0 flex flex-col gap-6 sm:gap-8">
         <div className="flex border-b border-outline dark:border-white/10 overflow-x-auto no-scrollbar">
           {["description", "specifications", "reviews"].map((tab) => (
             <button
@@ -640,9 +640,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           ))}
         </div>
 
-        <div className="py-6 animate-in fade-in duration-500">
+        <div className="min-w-0 py-6 animate-in fade-in duration-500">
           {activeTab === "description" && (
-            <div className="prose prose-lg dark:prose-invert max-w-none text-muted dark:text-muted">
+            <div className="product-rich-text prose prose-lg dark:prose-invert max-w-none text-muted dark:text-muted">
               {product.additionalInfo ? (
                 <div dangerouslySetInnerHTML={{ __html: product.additionalInfo }} />
               ) : (
