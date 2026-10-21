@@ -31,7 +31,7 @@ export default function ProductSpecifications({ specifications }: ProductSpecifi
       <div className="flex items-center gap-3 border-b border-outline px-4 py-4 sm:px-6 dark:border-white/10">
         <SiteIcon aria-hidden="true" className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">tune</SiteIcon>
         <div>
-          <h3 className="text-base font-bold text-foreground dark:text-foreground">Technical specifications</h3>
+          <h3 className="text-base font-bold text-foreground dark:text-foreground tracking-[1.5px]">Technical specifications</h3>
           <p className="mt-0.5 text-xs text-muted dark:text-muted">Product features and details</p>
         </div>
       </div>

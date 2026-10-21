@@ -336,7 +336,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             </span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-medium text-foreground dark:text-foreground leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-3xl font-medium text-foreground dark:text-foreground leading-tight">
             {product.title}
           </h1>
 
@@ -360,7 +360,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           </div>
 
           <p className="text-sm sm:text-base text-muted dark:text-muted leading-relaxed font-medium">
-            {product.description.substring(0, 200)}...
+            {product.description.substring(0, 200)}
           </p>
 
           {/* Warranty */}
@@ -565,7 +565,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 <SiteIcon >request_quote</SiteIcon>
               </div>
               <div>
-                <h2 className="text-sm sm:text-base font-medium text-foreground dark:text-foreground">
+                <h2 className="text-sm sm:text-base font-medium text-foreground dark:text-foreground !tracking-[1.5px]">
                   Make a Custom Offer
                 </h2>
                 <p className="mt-0.5 text-xs sm:text-sm text-muted dark:text-muted">
@@ -658,7 +658,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               {!showReviewForm ? (
                 <>
                   <div className="flex justify-between items-center">
-                    <h3 className="text-xl font-bold">
+                    <h3 className="text-xl font-bold tracking-[1.5px]">
                       {reviewsList.length} Reviews
                     </h3>
                     <Button onClick={() => setShowReviewForm(true)}>
@@ -707,7 +707,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                           rate_review
                         </SiteIcon>
                       </div>
-                      <h3 className="text-xl font-bold">No Reviews Yet</h3>
+                      <h3 className="text-xl font-bold tracking-[1.5px]">No Reviews Yet</h3>
                       <p className="text-muted">
                         Be the first to review this product!
                       </p>

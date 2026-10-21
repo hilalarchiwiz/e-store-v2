@@ -52,8 +52,8 @@ const Subscribe = ({ variant = 'default', title, description }: SubscribeProps) 
               </svg>
             </div>
             <div>
-              <h2 className="text-base font-medium text-foreground dark:text-foreground sm:text-2xl">
-                {title || 'Stay Updated with QAAM'}
+              <h2 className="text-base font-medium text-foreground dark:text-foreground sm:text-2xl !tracking-[1px]">
+                {title || 'Stay Updated with QAAM'}x
               </h2>
               <p className="mt-1 text-[10px] leading-[1.5] text-muted dark:text-muted sm:text-sm sm:leading-6">
                 {description || 'Subscribe for the latest deals, new arrivals and exclusive offers.'}
@@ -80,7 +80,7 @@ const Subscribe = ({ variant = 'default', title, description }: SubscribeProps) 
                 disabled={loading}
               />
               <button
-                className="h-10 shrink-0 rounded-r-md bg-primary px-4 text-[10px] font-extrabold text-white transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60 sm:h-12 sm:rounded-r-lg sm:px-8 sm:text-sm"
+                className="h-10 shrink-0 !tracking-[1px] rounded-r-md bg-primary px-4 text-[10px] font-extrabold text-white transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60 sm:h-12 sm:rounded-r-lg sm:px-8 sm:text-sm"
                 type="submit"
                 disabled={loading}
               >

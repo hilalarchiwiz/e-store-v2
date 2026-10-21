@@ -16,9 +16,9 @@ export default function SeoContent({
   return (
     <section
       aria-labelledby="seo-content-heading"
-      className="my-10 rounded-2xl border border-outline bg-surface px-5 py-7 sm:px-8 sm:py-9"
+      // className="my-10 rounded-2xl border border-outline bg-surface px-5 py-7 sm:px-8 sm:py-9"
     >
-      <p className="text-xs font-bold uppercase tracking-widest text-primary">{eyebrow}</p>
+      {/* <p className="text-xs font-bold uppercase tracking-widest text-primary">{eyebrow}</p>
       <h2 id="seo-content-heading" className="mt-2 text-2xl font-medium tracking-tight sm:text-3xl">
         {title}
       </h2>
@@ -29,7 +29,7 @@ export default function SeoContent({
         <nav aria-label={`${title} links`} className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold text-primary">
           {links.map((link) => <Link key={link.href} href={link.href}>{link.label}</Link>)}
         </nav>
-      )}
+      )} */}
     </section>
   );
 }

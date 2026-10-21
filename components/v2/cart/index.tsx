@@ -156,7 +156,7 @@ export default function Cart() {
               shopping_basket
             </SiteIcon>
           </div>
-          <h2 className="text-2xl font-bold text-foreground dark:text-foreground mb-2">
+          <h2 className="text-2xl font-bold !tracking-[1px] text-foreground dark:text-foreground mb-2">
             Your basket is empty
           </h2>
           <p className="text-muted dark:text-muted max-w-sm mb-10 leading-relaxed px-6">

@@ -248,7 +248,7 @@ export default async function AboutPage() {
             </p>
             <Link
               href={hero.link}
-              className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-primary px-3.5 py-2 text-[10px] font-extrabold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg sm:mt-7 sm:gap-2 sm:rounded-lg sm:px-5 sm:py-3 sm:text-sm"
+              className="mt-4 inline-flex !tracking-[1px] items-center gap-1.5 rounded-md bg-primary px-3.5 py-2 text-[10px] font-extrabold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg sm:mt-7 sm:gap-2 sm:rounded-lg sm:px-5 sm:py-3 sm:text-sm"
             >
               {hero.buttonText}
               <DynamicIcon name="ArrowRight" size={15} />
@@ -288,7 +288,7 @@ export default async function AboutPage() {
                   <DynamicIcon name={benefit.icon} fallback="ShieldCheck" size={38} />
                 </span>
                 <div className="min-w-0">
-                  <h2 className="text-sm font-medium leading-tight sm:text-base">{benefit.title}</h2>
+                  <h2 className="text-sm font-medium leading-tight !tracking-[1.5px] sm:text-base">{benefit.title}</h2>
                   <p className="mt-1 text-sm leading-[1.25] text-muted dark:text-white/65 sm:text-base">
                     {benefit.description}
                   </p>
@@ -352,7 +352,7 @@ export default async function AboutPage() {
             <article key={`${card.title}-${index}`} className="grid overflow-hidden rounded-lg bg-surface dark:bg-surface sm:grid-cols-[.88fr_1.12fr] sm:rounded-xl">
               <img src={card.image} alt={card.title} className="h-64 w-full object-cover sm:h-full sm:min-h-[300px]" />
               <div className="flex flex-col justify-center p-4 text-center sm:p-9 sm:text-left">
-                <h3 className="text-xl font-medium sm:text-3xl">{card.title}</h3>
+                <h3 className="text-xl font-medium !tracking-[1.5px] sm:text-3xl">{card.title}</h3>
                 <div className="mx-auto my-3 h-0.5 w-10 rounded-full bg-primary sm:mx-0 sm:my-4 sm:h-1 sm:w-14" />
                 <p className="text-[11px] leading-[1.55] text-muted dark:text-white/65 sm:text-sm sm:leading-7">{card.description}</p>
               </div>
@@ -372,7 +372,7 @@ export default async function AboutPage() {
             </p>
             <Link
               href={whyChooseSetting.link || '/shop'}
-              className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-primary px-3.5 py-2 text-[10px] font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-primary/90 sm:mt-6 sm:gap-2 sm:rounded-lg sm:px-5 sm:py-3 sm:text-sm"
+              className="mt-4 inline-flex items-center gap-1.5 !tracking-[1px] rounded-md bg-primary px-3.5 py-2 text-[10px] font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-primary/90 sm:mt-6 sm:gap-2 sm:rounded-lg sm:px-5 sm:py-3 sm:text-sm"
             >
               {whyChooseSetting.buttonText || 'Shop With Confidence'}
               <DynamicIcon name="ArrowRight" size={15} />
