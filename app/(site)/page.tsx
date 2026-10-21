@@ -15,6 +15,7 @@ import { Metadata } from "next";
 import ShopBenefits from "@/components/v2/ShopBenefits";
 import DynamicIcon from "@/components/v2/DynamicIcon";
 import { getDealCategories, getDealProducts } from "@/lib/deals";
+import { LAPTOP_SEO_KEYWORDS } from "@/lib/seo";
 import SeoContent from "@/components/v2/SeoContent";
 
 export const metadata: Metadata = {
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
   description:
     "Shop new and used laptops, tablets, desktops and PC accessories in Pakistan. Explore tested tech, competitive prices and nationwide delivery at Qaam.pk.",
   keywords: [
-    "laptops in Pakistan",
+    ...LAPTOP_SEO_KEYWORDS,
     "buy laptops online Pakistan",
     "used laptops Pakistan",
     "gaming laptops Pakistan",

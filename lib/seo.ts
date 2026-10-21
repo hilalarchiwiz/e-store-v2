@@ -4,6 +4,19 @@ export const SITE_NAME = "Qaam.pk";
 export const SITE_URL = "https://www.qaam.pk";
 export const DEFAULT_OG_IMAGE = "/og";
 
+export const LAPTOP_SEO_KEYWORDS = [
+  "laptop price in pakistan",
+  "laptops in pakistan",
+  "buy laptop online pakistan",
+  "laptop online shopping pakistan",
+  "refurbished laptops in pakistan",
+  "used laptops in pakistan",
+  "second hand laptops in pakistan",
+  "affordable laptops in pakistan",
+  "laptop shopping in pakistan",
+  "laptop deals in pakistan",
+];
+
 export function absoluteUrl(path = "/") {
   return new URL(path, SITE_URL).toString();
 }
@@ -71,6 +84,7 @@ type PublicMetadataOptions = {
   description: string;
   path: string;
   image?: string | null;
+  keywords?: string | string[] | null;
   type?: "website" | "article";
   noIndex?: boolean;
 };
@@ -80,6 +94,7 @@ export function createPublicMetadata({
   description,
   path,
   image,
+  keywords,
   type = "website",
   noIndex = false,
 }: PublicMetadataOptions): Metadata {
@@ -89,6 +104,7 @@ export function createPublicMetadata({
   return {
     title,
     description,
+    keywords,
     alternates: { canonical },
     // Utility listings should not compete in search, but their product/article
     // links remain useful crawl paths.

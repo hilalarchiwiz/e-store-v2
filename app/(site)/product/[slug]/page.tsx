@@ -34,13 +34,14 @@ export async function generateMetadata({
   }
 
   const title = productMetaTitle(product.title);
-  const description = metaDescription(
+  const description = product.metaDescription?.trim() || metaDescription(
     product.description,
     `Buy ${product.title} at Qaam.pk with nationwide delivery in Pakistan.`,
   );
   return createPublicMetadata({
     title,
     description,
+    keywords: product.metaKeywords?.trim() || null,
     path: productPath(product),
     image: product.images[0],
   });

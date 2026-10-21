@@ -68,6 +68,8 @@ model Product {
   slug            String?
   titleFont       String?       @default("Inter")
   description     String        @db.Text
+  metaDescription String?       @db.Text
+  metaKeywords    String?       @db.Text
   warranty        String
   price           Float
   quantity        Int           @default(1)

@@ -16,6 +16,8 @@ interface ProductUpdateData {
     slug: string;
     titleFont: string;
     description: string;
+    metaDescription: string | null;
+    metaKeywords: string | null;
     warranty: string;
     price: number;
     discountedPrice?: number;
@@ -65,6 +67,8 @@ function extractAndValidateProductData(formData: FormData): ProductUpdateData {
         title,
         slug: slugify(title),
         description,
+        metaDescription: String(formData.get("metaDescription") || "").trim() || null,
+        metaKeywords: String(formData.get("metaKeywords") || "").trim() || null,
         warranty,
         price: Number(priceString),
         discountedPrice: discountedPriceString ? Number(discountedPriceString) : undefined,
@@ -350,6 +354,8 @@ export async function saveProductDraft(productId: number | null, formData: FormD
             title,
             titleFont,
             description,
+            metaDescription: String(formData.get("metaDescription") || "").trim() || null,
+            metaKeywords: String(formData.get("metaKeywords") || "").trim() || null,
             warranty,
             price: priceString ? Number(priceString) : 0,
             discountedPrice: discountedPriceString ? Number(discountedPriceString) : 0,
@@ -387,6 +393,8 @@ export async function saveProductDraft(productId: number | null, formData: FormD
                     title,
                     titleFont,
                     description,
+                    metaDescription: String(formData.get("metaDescription") || "").trim() || null,
+                    metaKeywords: String(formData.get("metaKeywords") || "").trim() || null,
                     warranty,
                     price: priceString ? Number(priceString) : 0,
                     discountedPrice: discountedPriceString ? Number(discountedPriceString) : 0,

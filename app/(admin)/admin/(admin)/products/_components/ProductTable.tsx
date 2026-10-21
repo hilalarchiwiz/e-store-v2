@@ -6,16 +6,11 @@ import { bulkSetOutOfStockVisibility } from "../(actions)/product-list.action";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Pencil,
   Eye,
-  DollarSign,
   X,
   ChevronLeft,
   ChevronRight,
   ZoomIn,
-  Award,
-  PenLine,
-  FilePenLine,
 } from "lucide-react";
 import DataTable from "@/components/Admin/Common/DataTable";
 import DeleteButton from "@/components/Admin/Buttons/DeleteButton";
@@ -24,6 +19,8 @@ import toast from "react-hot-toast";
 import ProductQuickEditModal, {
   type QuickEditProduct,
 } from "./ProductQuickEditModal";
+import ProductEditDropdown from "./ProductEditDropdown";
+import ProductSeoEditModal, { type SeoEditProduct } from "./ProductSeoEditModal";
 import ProductContentEditModal, { type ContentEditProduct } from "./ProductContentEditModal";
 
 interface ProductTableProps {
@@ -55,6 +52,9 @@ export default function ProductTable({
     useState<QuickEditProduct | null>(null);
   const [selectedProductForContentEdit, setSelectedProductForContentEdit] =
     useState<ContentEditProduct | null>(null);
+
+  const [selectedProductForSeoEdit, setSelectedProductForSeoEdit] =
+    useState<SeoEditProduct | null>(null);
 
   const router = useRouter();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -140,7 +140,7 @@ export default function ProductTable({
         {
           header: "Action",
           accessor: (product: any) => (
-            <div className="grid w-max grid-cols-3 items-center gap-2">
+            <div className="flex w-max items-center gap-2">
               {canView && (
                 <Link
                   href={`/admin/products/view/${product.id}`}
@@ -151,47 +151,15 @@ export default function ProductTable({
                 </Link>
               )}
               {canEdit && (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedProductForContentEdit(product)}
-                    className="inline-flex items-center justify-center rounded bg-blue-50 p-2 text-blue-700 transition-colors hover:bg-blue-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                    title="Edit product content — title, description, and additional information"
-                    aria-label={`Edit product content for ${product.title}`}
-                  >
-                    <FilePenLine size={14} aria-hidden="true" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedProductForQuickEdit(product)}
-                    className="rounded bg-amber-50 p-2 text-amber-700 transition-colors hover:bg-amber-100"
-                    title="Quick edit title and quantity"
-                    aria-label={`Quick edit ${product.title}`}
-                  >
-                    <PenLine size={14} />
-                  </button>
-                  <button
-                    onClick={() => setSelectedProductForGrading(product)}
-                    className="p-2 bg-purple-50 text-purple-600 rounded hover:bg-purple-100 transition-colors"
-                    title="Assign Grading"
-                  >
-                    <Award size={14} />
-                  </button>
-                  <button
-                    onClick={() => setSelectedProductForPrice(product)}
-                    className="p-2 bg-emerald-50 text-emerald-600 rounded hover:bg-emerald-100 transition-colors"
-                    title="Update Price"
-                  >
-                    <DollarSign size={14} />
-                  </button>
-                  <Link
-                    href={`/admin/products/edit/${product.id}`}
-                    className="p-2 bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors"
-                    title="Edit Product"
-                  >
-                    <Pencil size={14} />
-                  </Link>
-                </>
+                <ProductEditDropdown
+                  productId={product.id}
+                  productTitle={product.title}
+                  onSeo={() => setSelectedProductForSeoEdit(product)}
+                  onContent={() => setSelectedProductForContentEdit(product)}
+                  onQuickEdit={() => setSelectedProductForQuickEdit(product)}
+                  onGrading={() => setSelectedProductForGrading(product)}
+                  onPrice={() => setSelectedProductForPrice(product)}
+                />
               )}
               {canDelete && (
                 <DeleteButton id={product.id} action={deleteProduct} />
@@ -224,6 +192,14 @@ export default function ProductTable({
         </div>
       )}
       <DataTable data={products} columns={productColumns} />
+
+      {selectedProductForSeoEdit && (
+        <ProductSeoEditModal
+          key={selectedProductForSeoEdit.id}
+          product={selectedProductForSeoEdit}
+          onClose={() => setSelectedProductForSeoEdit(null)}
+        />
+      )}
 
       {selectedProductForContentEdit && (
         <ProductContentEditModal

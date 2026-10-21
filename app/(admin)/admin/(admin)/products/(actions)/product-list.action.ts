@@ -7,6 +7,7 @@ import { PAGE_SIZE } from '@/lib/constant';
 import prisma from '@/lib/prisma';
 import { revalidatePath, updateTag } from 'next/cache';
 import { productPath } from '@/lib/product-url';
+import { ProductSeoSchema, type ProductSeoInput } from '../validations/product-seo';
 import { ProductContentSchema, type ProductContentInput } from '../validations/product-content';
 
 type ProductListParam = string | string[] | undefined;
@@ -380,5 +381,31 @@ export async function bulkSetOutOfStockVisibility(productIds: number[], visible:
             success: true,
             message: `${result.count} product(s) ${visible ? 'set to active' : 'hidden'}. Products already in that status, drafts, or restocked products were skipped.`,
         };
+    });
+}
+
+
+export async function updateProductSeo(productId: number, input: ProductSeoInput) {
+    return withPermission('product_update', async () => {
+        if (!Number.isSafeInteger(productId) || productId <= 0) {
+            throw new Error('A valid product is required.');
+        }
+        const parsed = ProductSeoSchema.safeParse(input);
+        if (!parsed.success) {
+            return { success: false, message: 'Enter a valid meta description and keywords.' };
+        }
+        const product = await prisma.product.update({
+            where: { id: productId },
+            data: {
+                metaDescription: parsed.data.metaDescription || null,
+                metaKeywords: parsed.data.metaKeywords || null,
+            },
+            select: { id: true, slug: true },
+        });
+        updateTag('products');
+        revalidatePath('/admin/products');
+        revalidatePath(`/admin/products/edit/${product.id}`);
+        revalidatePath(productPath(product));
+        return { success: true, message: 'SEO metadata updated successfully.' };
     });
 }

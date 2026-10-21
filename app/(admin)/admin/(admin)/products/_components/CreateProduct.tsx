@@ -1,4 +1,5 @@
 'use client'
+import ProductSeoFields from './ProductSeoFields'
 import AdditionalInfo from '@/components/Admin/AdditionalInfo'
 import OptimizedGetAllBrands from '@/components/Admin/Brand'
 import OptimizedGetAllCategory from '@/components/Admin/Category'
@@ -22,6 +23,8 @@ const CreateProduct = () => {
     const [formData, setFormData] = useState({
         title: '',
         description: '',
+        metaDescription: '',
+        metaKeywords: '',
         warranty: '',
         quantity: '',
         price: '',
@@ -194,6 +197,8 @@ const CreateProduct = () => {
                     />
                 </div>
             </div>
+
+            <ProductSeoFields onChange={updateField} />
 
             {/* Pricing */}
             <div>

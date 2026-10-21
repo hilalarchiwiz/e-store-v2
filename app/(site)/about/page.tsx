@@ -5,12 +5,13 @@ import { getSetting } from '@/app/(admin)/admin/(admin)/setting/actions/setting.
 import prisma from '@/lib/prisma';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { createPublicMetadata } from '@/lib/seo';
+import { createPublicMetadata, LAPTOP_SEO_KEYWORDS } from '@/lib/seo';
 
 export const metadata: Metadata = createPublicMetadata({
   title: 'About Us — Tested Technology in Pakistan',
   description: 'Learn how Qaam.pk makes tested, dependable and affordable laptops, computers and accessories accessible across Pakistan.',
   path: '/about',
+  keywords: LAPTOP_SEO_KEYWORDS,
   image: '/images/about/qaam-showroom.png',
 });
 

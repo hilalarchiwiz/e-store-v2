@@ -7,6 +7,8 @@ export const ProductSchema = z.object({
     description: z.string().nonempty({
         message: "Description is required",
     }).min(10, "Description will be at least 10 character"),
+    metaDescription: z.string().trim().optional(),
+    metaKeywords: z.string().trim().optional(),
     warranty: z.string().nonempty({
         message: "Warranty is required",
     }),

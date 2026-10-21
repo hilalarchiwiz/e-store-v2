@@ -6,7 +6,7 @@ import prisma from "@/lib/prisma";
 import { getShopProducts } from "@/lib/shop-products";
 import { Metadata } from "next";
 import Script from "next/script";
-import { absoluteUrl, createPublicMetadata, plainText } from "@/lib/seo";
+import { absoluteUrl, createPublicMetadata, LAPTOP_SEO_KEYWORDS, plainText } from "@/lib/seo";
 import SeoContent from "@/components/v2/SeoContent";
 import { getIndexableShopFilter, isIndexableShopListing } from "@/lib/shop-seo";
 import { productPath } from "@/lib/product-url";
@@ -110,6 +110,7 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
     title,
     description,
     path: canonicalPath,
+    keywords: LAPTOP_SEO_KEYWORDS,
     noIndex: !isIndexableLanding,
   });
 }

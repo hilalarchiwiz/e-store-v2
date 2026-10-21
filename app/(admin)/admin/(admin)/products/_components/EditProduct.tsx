@@ -1,5 +1,6 @@
 "use client";
 
+import ProductSeoFields from "./ProductSeoFields";
 import OptimizedGetAllBrands from "@/components/Admin/Brand";
 import OptimizedGetAllCategory from "@/components/Admin/Category";
 import SubCategorySelect from "@/components/Admin/SubCategorySelect";
@@ -123,6 +124,8 @@ const EditProduct = ({ product }: EditProductProps) => {
           </div>
         </div>
       </div>
+
+      <ProductSeoFields metaDescription={product?.metaDescription} metaKeywords={product?.metaKeywords} />
 
       <UploadMultipleFiles defaultImages={product?.images} />
 
