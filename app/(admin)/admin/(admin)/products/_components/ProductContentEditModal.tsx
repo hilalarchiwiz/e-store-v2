@@ -101,9 +101,9 @@ export default function ProductContentEditModal({ product, onClose }: {
             <input id="content-product-title" name="title" required minLength={5} maxLength={200} value={title} onChange={(event) => setTitle(event.target.value)} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
             <p className="mt-1 text-xs text-gray-500">{title.length}/200 characters. The product URL stays the same.</p>
           </div>
-          <div>
-            <label htmlFor="content-product-description" className="mb-1.5 block text-sm font-medium">Description</label>
-            <textarea id="content-product-description" name="description" required minLength={10} rows={5} value={description} onChange={(event) => setDescription(event.target.value)} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+          <div role="group" aria-labelledby="content-product-description-label">
+            <p id="content-product-description-label" className="mb-1.5 text-sm font-medium">Description</p>
+            <RichTextEditor name="description" defaultValue={product.description} onChange={setDescription} placeholder="Product description" />
           </div>
           <div role="group" aria-labelledby="content-additional-info-label">
             <p id="content-additional-info-label" className="mb-1.5 text-sm font-medium">Additional information</p>

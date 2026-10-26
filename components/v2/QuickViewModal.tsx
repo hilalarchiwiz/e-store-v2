@@ -11,6 +11,7 @@ import { addItemToCart } from "@/redux/features/cart-slice";
 import { addToCart, getProductStock } from "@/lib/action/cart.action";
 import { toast } from "react-hot-toast";
 import { productPath } from "@/lib/product-url";
+import { plainText } from "@/lib/seo";
 
 export interface QuickViewProduct {
   id: number;
@@ -394,7 +395,7 @@ export default function QuickViewModal({
           {/* Description */}
           {product.description && (
             <p className="text-sm leading-relaxed text-muted dark:text-muted line-clamp-3">
-              {product.description}
+              {plainText(product.description)}
             </p>
           )}
 

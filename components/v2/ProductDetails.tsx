@@ -359,9 +359,10 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             )}
           </div>
 
-          <p className="text-sm sm:text-base text-muted dark:text-muted leading-relaxed font-medium">
-            {product.description.substring(0, 200)}
-          </p>
+          <div
+            className="product-rich-text prose max-w-none text-sm sm:text-base text-muted dark:text-muted leading-relaxed font-medium whitespace-pre-line"
+            dangerouslySetInnerHTML={{ __html: product.description }}
+          />
 
           {/* Warranty */}
           {product.warranty && (
