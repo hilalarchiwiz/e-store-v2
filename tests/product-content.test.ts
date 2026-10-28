@@ -33,3 +33,11 @@ test("additional information preserves HTML and can be cleared explicitly", () =
   const { additionalInfo: _, ...missingInfo } = content;
   assert.equal(ProductContentSchema.safeParse(missingInfo).success, false);
 });
+
+test("description preserves rich text and validates visible text length", () => {
+  const description = "<h1>Laptop details</h1><p><strong>Excellent condition</strong></p>";
+  assert.equal(ProductContentSchema.parse({ ...content, description }).description, description);
+  for (const description of ["<p></p>", "<h1>Short</h1>", "<p>&nbsp; &nbsp;</p>"]) {
+    assert.equal(ProductContentSchema.safeParse({ ...content, description }).success, false);
+  }
+});

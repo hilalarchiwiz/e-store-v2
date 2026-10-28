@@ -22,7 +22,7 @@ import {
     List, ListOrdered, CheckSquare, AlignLeft,
     AlignCenter, AlignRight, Eraser, FileText,
     PlusSquare, Trash2, Plus, Columns, Rows,
-    Settings, Eye, Save, Palette, Grid3X3, Upload,
+    Settings, Eye, Save, Palette, Grid3X3, Upload, Link as LinkIcon, Unlink,
 } from 'lucide-react'
 import { Video } from '@/lib/tiptap-video'
 import ImageCropModal from '@/components/Admin/ImageCropModal'
@@ -122,7 +122,12 @@ const PageEditor = ({ initialContent = "", name = "content", uploadToAzure }) =>
             StarterKit.configure({
                 heading: {
                     levels: [1, 2, 3, 4, 5, 6]
-                }
+                },
+                link: {
+                    openOnClick: false,
+                    autolink: true,
+                    defaultProtocol: 'https',
+                },
             }),
             Underline,
             Video,
@@ -179,6 +184,18 @@ const PageEditor = ({ initialContent = "", name = "content", uploadToAzure }) =>
             },
         },
     })
+
+    const setLink = () => {
+        if (!editor) return
+        const currentUrl = editor.getAttributes('link').href as string | undefined
+        const url = window.prompt('Enter a link URL (leave empty to remove)', currentUrl ?? 'https://')
+        if (url === null) return
+        if (!url.trim()) {
+            editor.chain().focus().extendMarkRange('link').unsetLink().run()
+            return
+        }
+        editor.chain().focus().extendMarkRange('link').setLink({ href: url.trim() }).run()
+    }
 
     const handleImageSelection = (e) => {
         const file = e.target.files?.[0]
@@ -396,6 +413,22 @@ const PageEditor = ({ initialContent = "", name = "content", uploadToAzure }) =>
                                         title="Strike"
                                     >
                                         <Strikethrough size={16} />
+                                    </ToolbarButton>
+                                </ToolbarGroup>
+
+                                <ToolbarGroup>
+                                    <ToolbarButton
+                                        onClick={setLink}
+                                        active={editor.isActive('link')}
+                                        title="Add or edit link"
+                                    >
+                                        <LinkIcon size={16} />
+                                    </ToolbarButton>
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().extendMarkRange('link').unsetLink().run()}
+                                        title="Remove link"
+                                    >
+                                        <Unlink size={16} />
                                     </ToolbarButton>
                                 </ToolbarGroup>
 
@@ -653,6 +686,8 @@ const ToolbarButton = ({ onClick, active, children, title }: { onClick?: any; ac
         type="button"
         onClick={onClick}
         title={title}
+        aria-label={title}
+        aria-pressed={active}
         className={`p-2 rounded transition-all ${active
             ? 'bg-emerald-500 text-white shadow-sm'
             : 'text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700'

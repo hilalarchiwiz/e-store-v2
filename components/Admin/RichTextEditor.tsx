@@ -74,6 +74,7 @@ const RichTextEditor = ({ name, placeholder, defaultValue, onChange }: RichTextE
             <div className="flex flex-wrap gap-2 rounded-t-lg border border-b-0 border-gray-300 bg-gray-50 p-2">
                 {toolbarButton('H1', editor?.isActive('heading', { level: 1 }) ?? false, () => editor?.chain().focus().toggleHeading({ level: 1 }).run())}
                 {toolbarButton('H2', editor?.isActive('heading', { level: 2 }) ?? false, () => editor?.chain().focus().toggleHeading({ level: 2 }).run())}
+                {toolbarButton('H3', editor?.isActive('heading', { level: 3 }) ?? false, () => editor?.chain().focus().toggleHeading({ level: 3 }).run())}
                 {toolbarButton('Bold', editor?.isActive('bold') ?? false, () => editor?.chain().focus().toggleBold().run())}
                 {toolbarButton('Italic', editor?.isActive('italic') ?? false, () => editor?.chain().focus().toggleItalic().run())}
                 {toolbarButton('Underline', editor?.isActive('underline') ?? false, () => editor?.chain().focus().toggleUnderline().run())}
