@@ -32,6 +32,9 @@ export async function generateMetadata({ params }: BlogDetailsPageProps): Promis
     description,
     path: `/blog/${slug}`,
     image: blog.image,
+    keywords: blog.tag
+      ? blog.tag.split(",").map((keyword: string) => keyword.trim()).filter(Boolean)
+      : undefined,
     type: "article",
   });
 }
@@ -87,6 +90,11 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
           <h1 className="text-3xl md:text-5xl font-medium text-foreground dark:text-foreground leading-tight mb-6">
             {blog.title}
           </h1>
+          {blog.description && (
+            <p className="text-lg text-muted dark:text-muted leading-relaxed mb-6">
+              {blog.description}
+            </p>
+          )}
           <div className="flex flex-wrap items-center gap-6 text-sm text-muted dark:text-muted font-bold uppercase tracking-widest">
             <div className="flex items-center gap-2">
               <SiteIcon className="text-primary text-xl">event_note</SiteIcon>
@@ -96,12 +104,6 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
                 year: "numeric",
               })}
             </div>
-            {blog.tag && (
-              <div className="flex items-center gap-2">
-                <SiteIcon className="text-primary text-xl">sell</SiteIcon>
-                {blog.tag}
-              </div>
-            )}
             <div className="flex items-center gap-2">
               <SiteIcon className="text-primary text-xl">visibility</SiteIcon>
               {blog.views + 1} Views

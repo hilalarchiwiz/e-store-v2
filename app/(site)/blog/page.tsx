@@ -108,11 +108,6 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  {blog.tag && (
-                    <span className="absolute top-4 left-4 bg-primary text-white text-xs font-bold uppercase px-3 py-1 rounded-full">
-                      {blog.tag}
-                    </span>
-                  )}
                 </div>
                 <div className="p-5 flex-1 flex flex-col">
                   <div className="flex items-center gap-2 text-sm text-muted dark:text-muted mb-2">
