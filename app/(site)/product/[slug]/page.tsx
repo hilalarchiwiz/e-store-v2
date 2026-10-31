@@ -17,6 +17,7 @@ import { productPath } from "@/lib/product-url";
 import { getStorefrontProduct } from "@/lib/storefront-product";
 import { productReviewSchema } from "@/lib/product-review-schema";
 import { productShippingDetails } from "@/lib/product-shipping-schema";
+import { productReturnPolicy } from "@/lib/product-return-policy-schema";
 
 interface PageProps {
   params: Promise<{
@@ -164,6 +165,7 @@ export default async function ProductPage({ params }: PageProps) {
                     ? "https://schema.org/UsedCondition"
                     : "https://schema.org/NewCondition",
                   shippingDetails: productShippingDetails,
+                  hasMerchantReturnPolicy: productReturnPolicy,
                 },
                 ...productReviewSchema(product.reviews),
               },
