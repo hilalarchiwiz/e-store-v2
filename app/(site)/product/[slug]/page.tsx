@@ -16,6 +16,7 @@ import {
 import { productPath } from "@/lib/product-url";
 import { getStorefrontProduct } from "@/lib/storefront-product";
 import { productReviewSchema } from "@/lib/product-review-schema";
+import { productShippingDetails } from "@/lib/product-shipping-schema";
 
 interface PageProps {
   params: Promise<{
@@ -162,6 +163,7 @@ export default async function ProductPage({ params }: PageProps) {
                   itemCondition: product.grading
                     ? "https://schema.org/UsedCondition"
                     : "https://schema.org/NewCondition",
+                  shippingDetails: productShippingDetails,
                 },
                 ...productReviewSchema(product.reviews),
               },

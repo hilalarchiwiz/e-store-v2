@@ -236,5 +236,5 @@ export async function getShopProducts(resolvedSearchParams: ShopFilters, skip = 
     };
   });
 
-  return { products, totalProducts, categoryIds, laptopGenerations, search };
+  return { products, totalProducts, categoryIds, brandIds, laptopGenerations, search };
 }

@@ -120,12 +120,20 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
   const currentPage = listingPage(resolvedSearchParams.page);
   const productsPerPage = SHOP_PAGE_SIZE;
   const visibility = await getStorefrontProductFilter();
-  const { products, totalProducts, categoryIds, laptopGenerations, search } =
+  const { products, totalProducts, categoryIds, brandIds, laptopGenerations, search } =
     await getShopProducts(
       resolvedSearchParams,
       (currentPage - 1) * productsPerPage,
       productsPerPage,
     );
+
+  // Unknown category/brand values would otherwise render the whole catalogue as an endless crawlable set of pages.
+  if (
+    (resolvedSearchParams.category?.trim() && categoryIds.length === 0) ||
+    (resolvedSearchParams.brand?.trim() && brandIds.length === 0)
+  ) {
+    notFound();
+  }
 
   if (currentPage > 1 && (currentPage - 1) * productsPerPage >= totalProducts) {
     notFound();
