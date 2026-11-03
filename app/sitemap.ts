@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma';
 import { MetadataRoute } from 'next';
 import { absoluteUrl } from '@/lib/seo';
 import { productPath } from '@/lib/product-url';
+import { hasEnoughProductsToIndexBrand } from '@/lib/shop-seo';
 
 // Keep newly published products discoverable between deployments.
 export const revalidate = 3600;
@@ -24,7 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: route === '/' ? 1 : route === '/shop' || route === '/deals' ? 0.9 : 0.7,
     }));
 
-    const [products, blogs, pages, categories, brands] = await Promise.all([
+    const [products, blogs, pages, categories, brands, brandProductCounts] = await Promise.all([
       prisma.product.findMany({
           where: visibility,
           select: { id: true, slug: true, updatedAt: true },
@@ -39,7 +40,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           where: { status: 'active', products: { some: visibility } },
           select: { id: true, updatedAt: true },
       }),
+      prisma.product.groupBy({
+          by: ['brandId'],
+          where: visibility,
+          _count: { _all: true },
+      }),
     ]);
+
+    // Thin brand pages are noindex (see generateMetadata in shop/page.tsx), so
+    // they must not be advertised in the sitemap either.
+    const indexableBrandIds = new Set(
+      brandProductCounts
+        .filter((row) => row.brandId !== null && hasEnoughProductsToIndexBrand(row._count._all))
+        .map((row) => row.brandId),
+    );
 
     const productRoutes = products.map((product) => ({
         url: absoluteUrl(productPath(product)),
@@ -69,7 +83,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.8,
     }));
 
-    const brandRoutes = brands.map((brand) => ({
+    const brandRoutes = brands.filter((brand) => indexableBrandIds.has(brand.id)).map((brand) => ({
         url: absoluteUrl(`/shop?brand=${brand.id}`),
         lastModified: brand.updatedAt,
         changeFrequency: 'weekly' as const,

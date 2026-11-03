@@ -30,6 +30,7 @@ interface ProductResult {
 const NAV_LINKS = [
   { href: "/shop", label: "Shop", icon: "storefront" },
   { href: "/deals", label: "Deals", icon: "local_offer" },
+  { href: "/blog", label: "Blog", icon: "article" },
   { href: "/about", label: "About", icon: "info" },
   { href: "/contact", label: "Contact", icon: "mail" },
 ];

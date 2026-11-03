@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   getIndexableShopFilter,
+  hasEnoughProductsToIndexBrand,
   isIndexableShopListing,
 } from "../lib/shop-seo";
 
@@ -38,4 +39,10 @@ test("invalid pagination and paginated utility filters remain excluded", () => {
   assert.equal(isIndexableShopListing({ page: "0" }), false);
   assert.equal(isIndexableShopListing({ search: "thinkpad", page: "2" }), false);
   assert.equal(isIndexableShopListing({ category: "laptops", sort: "price_asc", page: "2" }), false);
+});
+
+test("thin brand pages are not eligible for indexing", () => {
+  assert.equal(hasEnoughProductsToIndexBrand(1), false);
+  assert.equal(hasEnoughProductsToIndexBrand(7), false);
+  assert.equal(hasEnoughProductsToIndexBrand(8), true);
 });

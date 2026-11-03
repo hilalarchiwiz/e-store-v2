@@ -53,3 +53,14 @@ export function getIndexableShopFilter(
 
   return { type, value };
 }
+
+/**
+ * Brands with only a handful of products are thin landing pages that duplicate
+ * their product pages. They stay reachable but are kept out of the index and
+ * the sitemap.
+ */
+export const MIN_INDEXABLE_BRAND_PRODUCTS = 8;
+
+export function hasEnoughProductsToIndexBrand(productCount: number) {
+  return productCount >= MIN_INDEXABLE_BRAND_PRODUCTS;
+}

@@ -31,3 +31,23 @@ export function listingPagePath(
   const query = params.toString();
   return query ? `${pathname}?${query}` : pathname;
 }
+
+/**
+ * Page numbers for crawlable pagination links: first, last and a window around
+ * the current page, with `null` marking a gap. Keeps every listing page within
+ * a few clicks of the first page.
+ */
+export function paginationItems(current: number, total: number, window = 2): (number | null)[] {
+  if (total <= 1) return [];
+  const pages = new Set<number>([1, total]);
+  for (let page = current - window; page <= current + window; page++) {
+    if (page >= 1 && page <= total) pages.add(page);
+  }
+  const sorted = [...pages].sort((a, b) => a - b);
+  const items: (number | null)[] = [];
+  sorted.forEach((page, index) => {
+    if (index > 0 && page - sorted[index - 1] > 1) items.push(null);
+    items.push(page);
+  });
+  return items;
+}

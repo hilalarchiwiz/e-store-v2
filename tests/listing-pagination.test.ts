@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { listingPage, listingPagePath, SHOP_PAGE_SIZE, visibleListingPage } from "../lib/listing-pagination";
+import { listingPage, listingPagePath, paginationItems, SHOP_PAGE_SIZE, visibleListingPage } from "../lib/listing-pagination";
 
 test("visible page increases and decreases with the product boundaries in view", () => {
   const pageAt = (scroll: number) => visibleListingPage(
@@ -29,4 +29,12 @@ test("pagination links preserve filters, encode values, and omit page one", () =
     listingPagePath("/shop", { category: "parts & chargers", page: "7", sort: "price_asc" }, 2),
     "/shop?category=parts+%26+chargers&sort=price_asc&page=2",
   );
+});
+
+test("pagination items keep first, last and a window around the current page", () => {
+  assert.deepEqual(paginationItems(1, 1), []);
+  assert.deepEqual(paginationItems(1, 3), [1, 2, 3]);
+  assert.deepEqual(paginationItems(1, 23), [1, 2, 3, null, 23]);
+  assert.deepEqual(paginationItems(12, 23), [1, null, 10, 11, 12, 13, 14, null, 23]);
+  assert.deepEqual(paginationItems(23, 23), [1, null, 21, 22, 23]);
 });

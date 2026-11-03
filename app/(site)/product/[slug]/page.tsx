@@ -5,7 +5,6 @@ import { notFound, permanentRedirect } from "next/navigation";
 import ProductDetails from "@/components/v2/ProductDetails";
 import Breadcrumbs from "@/components/v2/Breadcrumbs";
 import { Metadata } from "next";
-import Script from "next/script";
 import SeoContent from "@/components/v2/SeoContent";
 import {
   absoluteUrl,
@@ -134,7 +133,7 @@ export default async function ProductPage({ params }: PageProps) {
       />
 
       {/* Product Structured Data */}
-      <Script
+      <script
         id="product-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
