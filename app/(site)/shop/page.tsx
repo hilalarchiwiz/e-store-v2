@@ -5,14 +5,13 @@ import ShopContent from "@/components/v2/ShopContent";
 import prisma from "@/lib/prisma";
 import { getShopProducts } from "@/lib/shop-products";
 import { Metadata } from "next";
-import Script from "next/script";
 import { absoluteUrl, createPublicMetadata, LAPTOP_SEO_KEYWORDS, plainText } from "@/lib/seo";
 import SeoContent from "@/components/v2/SeoContent";
-import { getIndexableShopFilter, isIndexableShopListing } from "@/lib/shop-seo";
+import { getIndexableShopFilter, hasEnoughProductsToIndexBrand, isIndexableShopListing } from "@/lib/shop-seo";
 import { productPath } from "@/lib/product-url";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { listingPage, listingPagePath, SHOP_PAGE_SIZE } from "@/lib/listing-pagination";
+import { listingPage, listingPagePath, paginationItems, SHOP_PAGE_SIZE } from "@/lib/listing-pagination";
 
 export const dynamic = "force-dynamic";
 
@@ -89,9 +88,15 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
     });
     if (brand) {
       brandName = brand.title;
-      if (indexableFilter?.type === "brand") {
+      const brandProductCount = await prisma.product.count({
+        where: { brandId: brand.id, ...(await getStorefrontProductFilter()) },
+      });
+      if (indexableFilter?.type === "brand" && hasEnoughProductsToIndexBrand(brandProductCount)) {
         canonicalPath = `/shop?brand=${brand.id}`;
         isIndexableLanding = true;
+      } else {
+        // Thin brand pages stay reachable but are not offered to the index.
+        isIndexableLanding = false;
       }
     } else {
       isIndexableLanding = false;
@@ -104,6 +109,11 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
   const page = Number(params.page);
   if (isIndexableLanding && Number.isSafeInteger(page) && page > 1) {
     canonicalPath += `${canonicalPath.includes("?") ? "&" : "?"}page=${page}`;
+  }
+  if (!isIndexableLanding) {
+    // A noindex page must not canonicalise to a different URL; that sends
+    // contradictory signals. Keep it self-referencing.
+    canonicalPath = listingPagePath("/shop", params, listingPage(params.page));
   }
 
   return createPublicMetadata({
@@ -266,6 +276,9 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
     ? `${canonicalShopBase}${canonicalShopBase.includes("?") ? "&" : "?"}page=${currentPage}`
     : canonicalShopBase;
 
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  const linkableBrands = brands.filter((brand) => hasEnoughProductsToIndexBrand(brand.count));
+
   const dbMaxPrice = Math.ceil(priceStats._max.price || 1000);
 
   return (
@@ -315,18 +328,54 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
         />
       </div>
 
-      <nav aria-label="Product pages" className="flex justify-center gap-6">
-        {currentPage > 1 && (
-          <Link href={listingPagePath("/shop", resolvedSearchParams, currentPage - 1)} className="text-primary underline">
-            Previous page
-          </Link>
-        )}
-        {currentPage * productsPerPage < totalProducts && (
-          <Link href={listingPagePath("/shop", resolvedSearchParams, currentPage + 1)} className="text-primary underline">
-            Next page
-          </Link>
-        )}
-      </nav>
+      {totalPages > 1 && (
+        <nav aria-label="Product pages" className="flex flex-wrap items-center justify-center gap-2 text-sm">
+          {currentPage > 1 && (
+            <Link href={listingPagePath("/shop", resolvedSearchParams, currentPage - 1)} rel="prev" className="px-3 py-2 text-primary underline">
+              Previous
+            </Link>
+          )}
+          {paginationItems(currentPage, totalPages).map((item, index) =>
+            item === null ? (
+              <span key={`gap-${index}`} aria-hidden="true" className="px-1 text-muted">…</span>
+            ) : item === currentPage ? (
+              <span key={item} aria-current="page" className="rounded-lg bg-primary px-3 py-2 font-bold text-white">{item}</span>
+            ) : (
+              <Link key={item} href={listingPagePath("/shop", resolvedSearchParams, item)} className="rounded-lg px-3 py-2 text-primary hover:underline">
+                {item}
+              </Link>
+            ),
+          )}
+          {currentPage < totalPages && (
+            <Link href={listingPagePath("/shop", resolvedSearchParams, currentPage + 1)} rel="next" className="px-3 py-2 text-primary underline">
+              Next
+            </Link>
+          )}
+        </nav>
+      )}
+
+      {!search && (
+        <nav aria-label="Browse by category and brand" className="flex flex-col gap-3 text-sm">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <span className="font-bold text-foreground">Categories:</span>
+            {categories.map((category) => (
+              <Link key={category.id} href={`/shop?category=${encodeURIComponent(category.slug || String(category.id))}`} className="text-primary hover:underline">
+                {category.title}
+              </Link>
+            ))}
+          </div>
+          {linkableBrands.length > 0 && (
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <span className="font-bold text-foreground">Brands:</span>
+              {linkableBrands.map((brand) => (
+                <Link key={brand.id} href={`/shop?brand=${brand.id}`} className="text-primary hover:underline">
+                  {brand.title}
+                </Link>
+              ))}
+            </div>
+          )}
+        </nav>
+      )}
 
       {!Object.values(resolvedSearchParams).some(Boolean) && (
         <SeoContent
@@ -365,7 +414,7 @@ const ShopPage = async ({ searchParams }: ShopPageProps) => {
       )}
 
       {/* Structured Data for CollectionPage */}
-      <Script
+      <script
         id="shop-collection-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{

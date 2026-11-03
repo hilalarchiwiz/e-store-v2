@@ -145,6 +145,14 @@ const Footer = async ({ logo, generalSetting, socialInfo }: FooterProps) => {
                   About Us
                 </Link>
               </li>
+              <li>
+                <Link
+                  className="hover:text-primary transition-colors"
+                  href="/blog"
+                >
+                  Blog
+                </Link>
+              </li>
               {/* <li>
                 <Link
                   className="hover:text-primary transition-colors"
