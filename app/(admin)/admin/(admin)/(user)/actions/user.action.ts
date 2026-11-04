@@ -3,7 +3,7 @@
 import { PAGE_SIZE } from "@/lib/constant"
 import prisma from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
-import { signUp } from "@/lib/auth-client";
+import { auth } from "@/lib/auth";
 import { withPermission } from "@/lib/action-utils";
 import { CreateUserSchema, UpdateUserSchema } from "../validations/user";
 
@@ -155,15 +155,18 @@ export async function createUser(prevData: any, formData: FormData) {
                 message: 'Role not found'
             }
         }
-        const signUpResponse = await signUp.email({ name, email, password });
+        // Use the server API: the client SDK sends no Origin header from a server action.
+        const signUpResponse = await auth.api.signUpEmail({
+            body: { name, email, password, roleName },
+        });
 
-        if (!signUpResponse.data?.user?.id) {
-            throw new Error(signUpResponse?.error?.message || "Failed to create user account.");
+        if (!signUpResponse?.user?.id) {
+            throw new Error("Failed to create user account.");
         }
 
         // Update the role after creation
         await prisma.user.update({
-            where: { id: signUpResponse.data.user.id },
+            where: { id: signUpResponse.user.id },
             data: { roleName }
         });
 
