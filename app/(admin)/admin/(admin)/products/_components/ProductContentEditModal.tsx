@@ -15,9 +15,10 @@ export interface ContentEditProduct {
   additionalInfo: string | null;
 }
 
-export default function ProductContentEditModal({ product, onClose }: {
+export default function ProductContentEditModal({ product, onClose, canTitle = true }: {
   product: ContentEditProduct;
   onClose: () => void;
+  canTitle?: boolean;
 }) {
   const router = useRouter();
   const dialog = useRef<HTMLDialogElement>(null);
@@ -98,7 +99,7 @@ export default function ProductContentEditModal({ product, onClose }: {
         <fieldset disabled={isSaving} inert={isSaving} className="min-w-0 space-y-5 border-0 p-6">
           <div>
             <label htmlFor="content-product-title" className="mb-1.5 block text-sm font-medium">Product title</label>
-            <input id="content-product-title" name="title" required minLength={5} maxLength={200} value={title} onChange={(event) => setTitle(event.target.value)} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+            <input id="content-product-title" name="title" required disabled={!canTitle} minLength={5} maxLength={200} value={title} onChange={(event) => setTitle(event.target.value)} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
             <p className="mt-1 text-xs text-gray-500">{title.length}/200 characters. The product URL stays the same.</p>
           </div>
           <div role="group" aria-labelledby="content-product-description-label">

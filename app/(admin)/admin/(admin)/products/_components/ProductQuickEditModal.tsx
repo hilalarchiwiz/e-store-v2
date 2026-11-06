@@ -40,6 +40,8 @@ interface ProductTitleMatch {
 interface ProductQuickEditModalProps {
   product: QuickEditProduct;
   onClose: () => void;
+  canTitle?: boolean;
+  canQuantity?: boolean;
 }
 
 const getWordCount = (value: string) =>
@@ -48,6 +50,8 @@ const getWordCount = (value: string) =>
 export default function ProductQuickEditModal({
   product,
   onClose,
+  canTitle = true,
+  canQuantity = true,
 }: ProductQuickEditModalProps) {
   const router = useRouter();
   const [title, setTitle] = useState(product.title);
@@ -272,7 +276,7 @@ export default function ProductQuickEditModal({
                   maxLength={200}
                   autoFocus
                   required
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !canTitle}
                   aria-describedby="erp-title-search-help"
                   className="w-full rounded-lg border border-gray-300 px-3 py-2.5 pr-12 text-sm text-gray-800 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 disabled:bg-gray-100"
                 />
@@ -429,7 +433,7 @@ export default function ProductQuickEditModal({
                 step="1"
                 inputMode="numeric"
                 required
-                disabled={isSubmitting}
+                disabled={isSubmitting || !canQuantity}
                 className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-800 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 disabled:bg-gray-100"
               />
               <p className="mt-1.5 text-xs text-gray-500">

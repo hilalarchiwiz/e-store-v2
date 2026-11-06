@@ -2,6 +2,7 @@
 
 import { useId, useRef, useState } from "react";
 import Link from "next/link";
+import type { ProductFieldAccess } from "@/lib/product-permissions";
 import { Award, ChevronDown, DollarSign, FilePenLine, PenLine, Pencil, Search } from "lucide-react";
 
 type ProductEditDropdownProps = {
@@ -12,9 +13,11 @@ type ProductEditDropdownProps = {
   onQuickEdit: () => void;
   onGrading: () => void;
   onPrice: () => void;
+  access: ProductFieldAccess;
+  canFullEdit: boolean;
 };
 
-export default function ProductEditDropdown({ productId, productTitle, onSeo, onContent, onQuickEdit, onGrading, onPrice }: ProductEditDropdownProps) {
+export default function ProductEditDropdown({ productId, productTitle, onSeo, onContent, onQuickEdit, onGrading, onPrice, access, canFullEdit }: ProductEditDropdownProps) {
   const id = useId();
   const panel = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
@@ -55,13 +58,15 @@ export default function ProductEditDropdown({ productId, productTitle, onSeo, on
         className="fixed m-0 max-h-[calc(100vh-1rem)] w-60 overflow-y-auto rounded-xl border border-gray-200 bg-white p-1.5 shadow-xl"
       >
         <p className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-gray-400">Product editing</p>
-        <button type="button" className={itemClass} onClick={() => select(onSeo)}><Search size={16} aria-hidden="true" />Edit SEO metadata</button>
-        <button type="button" className={itemClass} onClick={() => select(onContent)}><FilePenLine size={16} aria-hidden="true" />Edit product content</button>
-        <button type="button" className={itemClass} onClick={() => select(onQuickEdit)}><PenLine size={16} aria-hidden="true" />Edit title & quantity</button>
-        <button type="button" className={itemClass} onClick={() => select(onPrice)}><DollarSign size={16} aria-hidden="true" />Update price</button>
-        <button type="button" className={itemClass} onClick={() => select(onGrading)}><Award size={16} aria-hidden="true" />Assign grading</button>
+        {access.seo && <button type="button" className={itemClass} onClick={() => select(onSeo)}><Search size={16} aria-hidden="true" />Edit SEO metadata</button>}
+        {access.description && <button type="button" className={itemClass} onClick={() => select(onContent)}><FilePenLine size={16} aria-hidden="true" />Edit product content</button>}
+        {(access.title || access.quantity) && <button type="button" className={itemClass} onClick={() => select(onQuickEdit)}><PenLine size={16} aria-hidden="true" />{access.title && access.quantity ? "Edit title & quantity" : access.title ? "Edit title" : "Edit quantity"}</button>}
+        {(access.price || access.discount) && <button type="button" className={itemClass} onClick={() => select(onPrice)}><DollarSign size={16} aria-hidden="true" />{access.price && access.discount ? "Update price & discount" : access.price ? "Update price" : "Update discount"}</button>}
+        {access.grading && <button type="button" className={itemClass} onClick={() => select(onGrading)}><Award size={16} aria-hidden="true" />Assign grading</button>}
+        {canFullEdit && <>
         <div className="my-1 border-t border-gray-100" />
         <Link href={`/admin/products/edit/${productId}`} className={itemClass} onClick={() => panel.current?.hidePopover()}><Pencil size={16} aria-hidden="true" />Edit all product details</Link>
+        </>}
       </div>
     </>
   );

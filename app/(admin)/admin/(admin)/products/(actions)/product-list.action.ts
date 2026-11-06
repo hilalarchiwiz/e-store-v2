@@ -2,6 +2,8 @@
 
 import { Prisma, ProductStatus } from '@prisma/client';
 import { withPermission } from '@/lib/action-utils';
+import { getUserPermissions } from '@/lib/auth-utils';
+import { getProductFieldAccess, permissionsFor } from '@/lib/product-permissions';
 import { bulkOutOfStockVisibilityUpdate } from '@/lib/product-visibility';
 import { PAGE_SIZE } from '@/lib/constant';
 import prisma from '@/lib/prisma';
@@ -208,7 +210,7 @@ export async function getProductFilterOptions() {
 }
 
 export async function searchErpProductsByTitle(title: string) {
-    return withPermission('product_update', async () => {
+    return withPermission(permissionsFor('title', 'quantity'), async () => {
         const normalizedTitle = title.trim();
         const wordCount = normalizedTitle.match(/[\p{L}\p{N}]+/gu)?.length ?? 0;
 
@@ -294,29 +296,31 @@ export async function updateProductTitleAndQuantity(
     title: string,
     quantity: number,
 ) {
-    return withPermission('product_update', async () => {
+    return withPermission(permissionsFor('title', 'quantity'), async () => {
+        const access = getProductFieldAccess(await getUserPermissions());
         if (!Number.isInteger(productId) || productId <= 0) {
             throw new Error('A valid product is required.');
         }
 
         const normalizedTitle = title.trim();
-        if (normalizedTitle.length < 5) {
+        if (access.title && normalizedTitle.length < 5) {
             throw new Error('Title must contain at least 5 characters.');
         }
 
-        if (normalizedTitle.length > 200) {
+        if (access.title && normalizedTitle.length > 200) {
             throw new Error('Title cannot exceed 200 characters.');
         }
 
-        if (!Number.isInteger(quantity) || quantity < 0) {
+        if (access.quantity && (!Number.isInteger(quantity) || quantity < 0)) {
             throw new Error('Quantity must be a whole number greater than or equal to zero.');
         }
 
         const product = await prisma.product.update({
             where: { id: productId },
+            // Only write the fields this user is allowed to change.
             data: {
-                title: normalizedTitle,
-                quantity,
+                ...(access.title ? { title: normalizedTitle } : {}),
+                ...(access.quantity ? { quantity } : {}),
             },
             select: {
                 id: true,
@@ -339,7 +343,8 @@ export async function updateProductTitleAndQuantity(
 }
 
 export async function updateProductContent(productId: number, input: ProductContentInput) {
-    return withPermission('product_update', async () => {
+    return withPermission(permissionsFor('title', 'description'), async () => {
+        const access = getProductFieldAccess(await getUserPermissions());
         if (!Number.isInteger(productId) || productId <= 0) {
             throw new Error('A valid product is required.');
         }
@@ -351,7 +356,13 @@ export async function updateProductContent(productId: number, input: ProductCont
 
         const product = await prisma.product.update({
             where: { id: productId },
-            data: parsed.data,
+            // Title and description/additional info are gated separately.
+            data: {
+                ...(access.title ? { title: parsed.data.title } : {}),
+                ...(access.description
+                    ? { description: parsed.data.description, additionalInfo: parsed.data.additionalInfo }
+                    : {}),
+            },
             select: { id: true, slug: true },
         });
 
@@ -386,7 +397,7 @@ export async function bulkSetOutOfStockVisibility(productIds: number[], visible:
 
 
 export async function updateProductSeo(productId: number, input: ProductSeoInput) {
-    return withPermission('product_update', async () => {
+    return withPermission(permissionsFor('seo'), async () => {
         if (!Number.isSafeInteger(productId) || productId <= 0) {
             throw new Error('A valid product is required.');
         }
