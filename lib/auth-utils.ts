@@ -19,3 +19,13 @@ export async function hasPermission(
 
     return requiredPermissions.some(p => userPermissions.includes(p));
 }
+
+export async function getUserPermissions(): Promise<string[]> {
+    const session = await generateSession();
+    if (!session?.user) return [];
+    const user = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { role: { select: { permissions: true } } },
+    });
+    return user?.role?.permissions ?? [];
+}

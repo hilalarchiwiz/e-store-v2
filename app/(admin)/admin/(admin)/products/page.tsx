@@ -10,7 +10,8 @@ import Title from '@/components/Admin/Typography/Title';
 import RecordNotFound from '@/components/Admin/Common/RecordNotFound';
 import TableControls from '@/components/Admin/Common/TableControls';
 import AddButton from '@/components/Admin/Buttons/AddButton';
-import { hasPermission } from '@/lib/auth-utils';
+import { hasPermission, getUserPermissions } from '@/lib/auth-utils';
+import { getProductFieldAccess, anyProductFieldAccess } from '@/lib/product-permissions';
 import { RoleGuard } from '@/components/Admin/Common/RoleGuard';
 import ProductTable from './_components/ProductTable';
 import ProductFilters from './_components/ProductFilters';
@@ -27,15 +28,19 @@ export default async function ProductsPage({
     searchParams: Promise<ProductListSearchParams>;
 }) {
     const params = await searchParams;
-    const [productData, filterData, canEdit, canDelete, canCreate, canView, visibilitySetting] = await Promise.all([
+    const [productData, filterData, userPermissions, canFullEdit, canDelete, canCreate, canView, visibilitySetting] = await Promise.all([
         getAllProducts(params),
         getProductFilterOptions(),
+        getUserPermissions(),
         hasPermission('product_update'),
         hasPermission('product_delete'),
         hasPermission('product_create'),
         hasPermission('product_view'),
         prisma.setting.findUnique({ where: { key: PRODUCT_VISIBILITY_KEY } }),
     ]);
+
+    const fieldAccess = getProductFieldAccess(userPermissions);
+    const canEdit = anyProductFieldAccess(fieldAccess);
 
     const {
         products = [],
@@ -98,7 +103,9 @@ export default async function ProductsPage({
                                 products={products} 
                                 currentPage={currentPage} 
                                 limit={limit} 
-                                canEdit={canEdit} 
+                                canEdit={canEdit}
+                                canFullEdit={canFullEdit}
+                                fieldAccess={fieldAccess}
                                 canDelete={canDelete} 
                                 canView={canView} 
                             />

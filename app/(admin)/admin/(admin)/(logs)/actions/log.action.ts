@@ -5,7 +5,8 @@ import prisma from "@/lib/prisma";
 export async function getAuditLogs(searchParams: {
     search?: string;
     page?: string;
-    limit?: string
+    limit?: string;
+    action?: string;
 }) {
     // 1. Permission Check (using your super_admin check)
     return await withPermission('audit_view', async () => {
@@ -15,13 +16,19 @@ export async function getAuditLogs(searchParams: {
         const skip = (currentPage - 1) * itemsPerPage;
 
         // 2. Define the WHERE clause for search
-        const whereClause = query ? {
-            OR: [
-                { entityName: { contains: query, mode: 'insensitive' as const } },
-                { action: { contains: query, mode: 'insensitive' as const } },
-                { entityId: { contains: query } }
-            ]
-        } : {};
+        const actionFilter = ['CREATE', 'UPDATE', 'DELETE'].includes(searchParams.action || '')
+            ? { action: searchParams.action }
+            : {};
+        const whereClause = {
+            ...actionFilter,
+            ...(query ? {
+                OR: [
+                    { entityName: { contains: query, mode: 'insensitive' as const } },
+                    { action: { contains: query, mode: 'insensitive' as const } },
+                    { entityId: { contains: query } }
+                ]
+            } : {}),
+        };
 
         // 3. Fetch logs and total count
         const [logs, totalCount] = await Promise.all([
@@ -50,8 +57,35 @@ export async function getAuditLogs(searchParams: {
             }
         }));
 
+        // 6. Resolve brand/category/sub-category/grading IDs to readable names
+        const collect = (field: string) => {
+            const ids = new Set<number>();
+            for (const log of logs) {
+                for (const d of [log.oldData, log.newData] as any[]) {
+                    const v = d?.[field];
+                    if (typeof v === 'number') ids.add(v);
+                }
+            }
+            return [...ids];
+        };
+        const toMap = (rows: { id: number; title: string }[]) =>
+            Object.fromEntries(rows.map(r => [String(r.id), r.title]));
+        const [brands, categories, subCategories, gradings] = await Promise.all([
+            prisma.brand.findMany({ where: { id: { in: collect('brandId') } }, select: { id: true, title: true } }),
+            prisma.category.findMany({ where: { id: { in: collect('categoryId') } }, select: { id: true, title: true } }),
+            prisma.subCategory.findMany({ where: { id: { in: collect('subCategoryId') } }, select: { id: true, title: true } }),
+            prisma.grading.findMany({ where: { id: { in: collect('gradingId') } }, select: { id: true, title: true } }),
+        ]);
+        const refs = {
+            brand: toMap(brands),
+            category: toMap(categories),
+            subCategory: toMap(subCategories),
+            grading: toMap(gradings),
+        };
+
         return {
             success: true,
+            refs,
             logs: logsWithUsers,
             totalPages: Math.ceil(totalCount / itemsPerPage),
             totalCount: totalCount ?? 0

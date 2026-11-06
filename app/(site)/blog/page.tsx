@@ -56,18 +56,47 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
 
   if (!response.success) {
     return (
-      <div className="flex-1 max-w-300 mx-auto w-full py-6 md:py-10 flex flex-col gap-8 px-4">
-        <div className="text-center py-10">
-          <p className="text-red-500">Error loading blogs.</p>
+      <main className="flex-1 max-w-400 mx-auto w-full px-6 md:px-10 py-10 md:py-20">
+        <div className="text-center py-20 bg-surface dark:bg-surface rounded-2xl border border-outline dark:border-outline">
+          <SiteIcon className="text-5xl text-primary mb-4">error</SiteIcon>
+          <p className="text-foreground dark:text-foreground font-medium">We couldn&apos;t load the blog right now.</p>
+          <p className="text-muted text-sm mt-1">Please try again in a moment.</p>
         </div>
-      </div>
+      </main>
     );
   }
 
   const { blogs, totalPages } = response;
+  const showFeatured = !search && !tag && currentPage === 1 && !!blogs && blogs.length > 1;
+  const featured = showFeatured ? blogs![0] : null;
+  const gridBlogs = featured ? blogs!.slice(1) : blogs;
+
+  const pageHref = (p: number) => {
+    const query = new URLSearchParams();
+    if (p > 1) query.set("page", String(p));
+    if (tag) query.set("tag", tag);
+    if (search) query.set("search", search);
+    const qs = query.toString();
+    return qs ? `/blog?${qs}` : "/blog";
+  };
+
+  const pageNumbers = (): (number | "...")[] => {
+    const total = totalPages || 1;
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+    const pages: (number | "...")[] = [1];
+    if (currentPage > 3) pages.push("...");
+    for (let i = Math.max(2, currentPage - 1); i <= Math.min(total - 1, currentPage + 1); i++) pages.push(i);
+    if (currentPage < total - 2) pages.push("...");
+    pages.push(total);
+    return pages;
+  };
+
+  const btnBase = "size-10 rounded-xl flex items-center justify-center font-bold transition-all active:scale-95";
+  const formatDate = (date: Date | string) =>
+    new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
 
   return (
-    <main className="flex-1 max-w-300 mx-auto w-full py-6 md:py-10 flex flex-col gap-8 px-4">
+    <main className="flex-1 max-w-400 mx-auto w-full px-6 md:px-10 py-10 md:py-20 flex flex-col gap-10">
       <Breadcrumbs
         items={[
           { label: "Home", href: "/" },
@@ -76,87 +105,168 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
         ]}
       />
 
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-        <div>
-          <h1 className="text-3xl font-medium text-foreground dark:text-foreground">Blog</h1>
-          <p className="text-sm text-muted dark:text-muted mt-1">Read our latest news and updates.</p>
-        </div>
-        
-        <form action="/blog" className="flex w-full md:w-auto gap-2">
-          <input
-            type="text"
-            name="search"
-            defaultValue={search || ""}
-            placeholder="Search blogs..."
-            className="flex-1 md:w-64 border-outline dark:border-outline dark:bg-surface text-foreground dark:text-foreground rounded-lg focus:ring-primary focus:border-primary outline-none px-4 py-2"
-          />
-          <button type="submit" className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
-            Search
-          </button>
-        </form>
+      {/* Intro */}
+      <div className="text-center max-w-300 mx-auto">
+        <h1 className="text-4xl md:text-6xl font-medium text-foreground dark:text-foreground mb-6">
+          {search ? "Search Results" : tag ? `${tag} Articles` : "Guides & Insights"}
+        </h1>
+        <p className="text-lg text-muted dark:text-muted font-medium leading-relaxed">
+          {search
+            ? `Showing articles matching “${search}”.`
+            : "Laptop buying guides, tech advice and product insights from the Qaam.pk team."}
+        </p>
       </div>
 
-      {blogs && blogs.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogs.map((blog: any) => (
+      {/* Search */}
+      <form
+        action="/blog"
+        role="search"
+        className="mx-auto flex w-full max-w-2xl items-center gap-2 rounded-2xl border border-outline bg-surface p-2 shadow-sm dark:border-outline dark:bg-surface"
+      >
+        <SiteIcon className="ml-2 text-xl text-muted">search</SiteIcon>
+        <input
+          type="text"
+          name="search"
+          defaultValue={search || ""}
+          placeholder="Search articles..."
+          aria-label="Search articles"
+          className="h-11 min-w-0 flex-1 border-none bg-transparent text-sm text-foreground outline-none placeholder:text-muted focus:ring-0 dark:text-foreground"
+        />
+        {search && (
+          <Link href="/blog" className="flex h-11 items-center rounded-xl px-3 text-sm font-medium text-muted transition-colors hover:text-primary">
+            Clear
+          </Link>
+        )}
+        <button
+          type="submit"
+          className="h-11 rounded-xl bg-primary px-5 text-sm font-bold text-white shadow-sm transition-all hover:bg-primary/90 active:scale-95"
+        >
+          Search
+        </button>
+      </form>
+
+      {/* Featured post */}
+      {featured && (
+        <Link
+          href={`/blog/${featured.slug}`}
+          className="group grid overflow-hidden rounded-2xl border border-outline bg-surface shadow-sm transition-all duration-300 hover:shadow-xl dark:border-outline dark:bg-surface lg:grid-cols-2"
+        >
+          <div className="relative aspect-16/10 w-full overflow-hidden lg:aspect-auto lg:min-h-96">
+            <Image
+              src={featured.image || "/images/placeholder-product.jpg"}
+              alt={featured.title}
+              fill
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <span className="absolute left-4 top-4 rounded bg-primary px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
+              Latest
+            </span>
+          </div>
+          <div className="flex flex-col justify-center gap-4 p-6 md:p-10">
+            <div className="flex items-center gap-2 text-xs font-semibold text-muted">
+              <SiteIcon className="text-base text-primary">event</SiteIcon>
+              {formatDate(featured.createdAt)}
+            </div>
+            <h2 className="text-2xl font-medium leading-snug text-foreground transition-colors group-hover:text-primary dark:text-foreground md:text-4xl">
+              {featured.title}
+            </h2>
+            <p className="line-clamp-4 text-base font-medium leading-relaxed text-muted">{featured.description}</p>
+            <span className="mt-2 flex items-center gap-1 text-sm font-bold uppercase tracking-widest text-primary transition-all group-hover:gap-2">
+              Read Article <SiteIcon className="text-base">arrow_forward</SiteIcon>
+            </span>
+          </div>
+        </Link>
+      )}
+
+      {/* Grid */}
+      {gridBlogs && gridBlogs.length > 0 ? (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          {gridBlogs.map((blog: any) => (
             <Link href={`/blog/${blog.slug}`} key={blog.id} className="group">
-              <div className="bg-surface dark:bg-surface rounded-xl border border-outline dark:border-outline overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col">
-                <div className="relative h-48 w-full bg-surface dark:bg-surface">
+              <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-outline bg-surface shadow-sm transition-all duration-300 hover:shadow-xl dark:border-outline dark:bg-surface">
+                <div className="relative aspect-16/10 w-full overflow-hidden bg-surface">
                   <Image
                     src={blog.image || "/images/placeholder-product.jpg"}
                     alt={blog.title}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-                <div className="p-5 flex-1 flex flex-col">
-                  <div className="flex items-center gap-2 text-sm text-muted dark:text-muted mb-2">
-                    <SiteIcon className="text-primary text-sm">event</SiteIcon>
-                    {new Date(blog.createdAt).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
+                <div className="flex flex-1 flex-col gap-2 p-5">
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-muted">
+                    <SiteIcon className="text-base text-primary">event</SiteIcon>
+                    {formatDate(blog.createdAt)}
                   </div>
-                  <h2 className="text-xl font-bold text-foreground dark:text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                  <h2 className="line-clamp-2 text-lg font-bold leading-snug text-foreground transition-colors group-hover:text-primary dark:text-foreground">
                     {blog.title}
                   </h2>
-                  <p className="text-muted dark:text-muted text-sm line-clamp-3 mb-4 flex-1">
-                    {blog.description}
-                  </p>
-                  <div className="text-primary text-sm font-bold uppercase tracking-widest flex items-center gap-1 group-hover:gap-2 transition-all">
-                    Read More <SiteIcon className="text-sm">arrow_forward</SiteIcon>
-                  </div>
+                  <p className="mb-2 line-clamp-3 flex-1 text-sm font-medium text-muted">{blog.description}</p>
+                  <span className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-primary transition-all group-hover:gap-2">
+                    Read More <SiteIcon className="text-base">arrow_forward</SiteIcon>
+                  </span>
                 </div>
-              </div>
+              </article>
             </Link>
           ))}
         </div>
-      ) : (
-        <div className="text-center py-20 bg-surface dark:bg-surface rounded-xl border border-outline dark:border-outline">
-          <SiteIcon className="text-6xl text-gray-300 dark:text-foreground mb-4">
-            search_off
-          </SiteIcon>
-          <p className="text-muted dark:text-muted text-lg">No blogs found matching your criteria.</p>
-          <Link href="/blog" className="text-primary hover:underline mt-2 inline-block">
+      ) : !featured ? (
+        <div className="text-center py-20 bg-surface dark:bg-surface rounded-2xl border border-outline dark:border-outline">
+          <SiteIcon className="text-6xl text-muted mb-4">search_off</SiteIcon>
+          <p className="text-foreground dark:text-foreground text-lg font-medium">No articles found.</p>
+          <p className="text-muted text-sm mt-1">Try a different search term.</p>
+          <Link href="/blog" className="mt-5 inline-flex h-11 items-center rounded-xl bg-primary px-5 text-sm font-bold text-white transition-all hover:bg-primary/90">
             Clear filters
           </Link>
         </div>
+      ) : null}
+
+      {/* Pagination */}
+      {totalPages && totalPages > 1 && (
+        <nav aria-label="Blog pagination" className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+          <p className="text-sm font-medium tracking-wide text-muted whitespace-nowrap">
+            Page <span className="font-bold text-foreground dark:text-foreground">{currentPage}</span> of{" "}
+            <span className="font-bold text-foreground dark:text-foreground">{totalPages}</span> pages
+          </p>
+          <div className="flex items-center gap-2">
+            {currentPage > 1 ? (
+              <Link href={pageHref(currentPage - 1)} aria-label="Previous page" className={`${btnBase} border border-outline text-muted hover:border-primary hover:bg-primary hover:text-white dark:border-outline`}>
+                <SiteIcon>chevron_left</SiteIcon>
+              </Link>
+            ) : (
+              <span aria-hidden="true" className={`${btnBase} border border-outline text-muted opacity-40 dark:border-outline`}>
+                <SiteIcon>chevron_left</SiteIcon>
+              </span>
+            )}
+            {pageNumbers().map((p, i) =>
+              p === "..." ? (
+                <span key={`gap-${i}`} className="px-1 text-muted">…</span>
+              ) : (
+                <Link
+                  key={p}
+                  href={pageHref(p)}
+                  aria-current={p === currentPage ? "page" : undefined}
+                  className={`${btnBase} ${p === currentPage ? "bg-primary text-white shadow-lg shadow-primary/30" : "border border-outline text-foreground hover:border-primary hover:text-primary dark:border-outline dark:text-foreground"}`}
+                >
+                  {p}
+                </Link>
+              ),
+            )}
+            {currentPage < totalPages ? (
+              <Link href={pageHref(currentPage + 1)} aria-label="Next page" className={`${btnBase} border border-outline text-muted hover:border-primary hover:bg-primary hover:text-white dark:border-outline`}>
+                <SiteIcon>chevron_right</SiteIcon>
+              </Link>
+            ) : (
+              <span aria-hidden="true" className={`${btnBase} border border-outline text-muted opacity-40 dark:border-outline`}>
+                <SiteIcon>chevron_right</SiteIcon>
+              </span>
+            )}
+          </div>
+        </nav>
       )}
 
-      {totalPages && totalPages > 1 && (
-        <div className="flex justify-center gap-2 mt-8">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-            <Link
-              key={p}
-              href={`/blog?page=${p}${tag ? `&tag=${tag}` : ""}${search ? `&search=${search}` : ""}`}
-              className={`px-4 py-2 rounded-lg ${p === currentPage ? "bg-primary text-white font-bold" : "bg-surface dark:bg-surface text-foreground dark:text-foreground border border-outline dark:border-outline hover:bg-surface dark:hover:bg-white/5 transition-colors"}`}
-            >
-              {p}
-            </Link>
-          ))}
-        </div>
-      )}
       {!search && !tag && currentPage === 1 && (
         <SeoContent
           eyebrow="Practical technology advice"
@@ -173,6 +283,27 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
           ]}
         />
       )}
+
+      {/* Help banner */}
+      <div className="p-10 md:p-16 bg-[#121714] rounded-[3rem] text-center text-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 size-80 bg-primary/20 blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+        <div className="absolute bottom-0 left-0 size-80 bg-primary/10 blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
+        <div className="relative z-10 max-w-lg mx-auto space-y-6">
+          <div className="size-20 bg-primary rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-primary/30">
+            <SiteIcon className="text-4xl">laptop_mac</SiteIcon>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-medium italic">Ready to find your laptop?</h2>
+          <p className="text-white/60 font-medium">Browse available laptops and parts, or ask our team to help you choose.</p>
+          <div className="flex flex-wrap justify-center gap-3 pt-2">
+            <Link href="/shop" className="inline-flex h-12 items-center gap-2 rounded-xl bg-primary px-6 text-sm font-bold text-white transition-all hover:bg-primary/90 active:scale-95">
+              Shop Now <SiteIcon className="text-base">arrow_forward</SiteIcon>
+            </Link>
+            <Link href="/contact" className="inline-flex h-12 items-center gap-2 rounded-xl border border-white/20 px-6 text-sm font-bold text-white transition-all hover:bg-white/10 active:scale-95">
+              Contact Us
+            </Link>
+          </div>
+        </div>
+      </div>
     </main>
   );
 };

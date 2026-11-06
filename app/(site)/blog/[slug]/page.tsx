@@ -69,8 +69,14 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
   // Increment views
   await incrementBlogViews(blog.id);
 
+  const formattedDate = new Date(blog.createdAt).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
   return (
-    <main className="flex-1 max-w-[1000px] mx-auto w-full px-4 py-10 md:py-20 flex flex-col gap-10">
+    <main className="flex-1 max-w-400 mx-auto w-full px-6 md:px-10 py-10 md:py-20 flex flex-col gap-10">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -85,38 +91,35 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
         ]}
       />
 
-      <article className="animate-in fade-in slide-in-from-bottom-4 duration-700 w-full overflow-hidden break-words">
-        <header className="mb-12 border-b border-outline dark:border-white/5 pb-10">
+      <article className="animate-in fade-in slide-in-from-bottom-8 duration-1000 w-full break-words">
+        <header className="mb-10 mx-auto max-w-300 text-center">
           <h1 className="text-3xl md:text-5xl font-medium text-foreground dark:text-foreground leading-tight mb-6">
             {blog.title}
           </h1>
           {blog.description && (
-            <p className="text-lg text-muted dark:text-muted leading-relaxed mb-6">
+            <p className="text-lg text-muted dark:text-muted font-medium leading-relaxed mb-6">
               {blog.description}
             </p>
           )}
-          <div className="flex flex-wrap items-center gap-6 text-sm text-muted dark:text-muted font-bold uppercase tracking-widest">
-            <div className="flex items-center gap-2">
-              <SiteIcon className="text-primary text-xl">event_note</SiteIcon>
-              {new Date(blog.createdAt).toLocaleDateString("en-US", {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </div>
-            <div className="flex items-center gap-2">
-              <SiteIcon className="text-primary text-xl">visibility</SiteIcon>
+          <div className="flex flex-wrap items-center justify-center gap-3 text-xs font-semibold text-muted">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-outline bg-surface px-3 py-1.5 dark:border-outline dark:bg-surface">
+              <SiteIcon className="text-base text-primary">event_note</SiteIcon>
+              {formattedDate}
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-outline bg-surface px-3 py-1.5 dark:border-outline dark:bg-surface">
+              <SiteIcon className="text-base text-primary">visibility</SiteIcon>
               {blog.views + 1} Views
-            </div>
+            </span>
           </div>
         </header>
 
         {blog.image && (
-          <div className="relative h-[300px] md:h-[500px] w-full rounded-2xl overflow-hidden mb-12 shadow-lg">
+          <div className="relative aspect-video md:aspect-21/9 w-full overflow-hidden rounded-3xl border border-outline dark:border-outline shadow-sm mb-12">
             <Image
               src={blog.image}
               alt={blog.title}
               fill
+              sizes="100vw"
               className="object-cover"
               priority
             />
@@ -125,41 +128,42 @@ const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
 
         <div className="overflow-x-auto no-scrollbar">
           <div
-            className="prose prose-lg dark:prose-invert max-w-none 
+            className="prose prose-lg dark:prose-invert max-w-none
                 prose-headings:font-medium prose-headings:text-foreground dark:prose-headings:text-white
                 prose-p:text-muted dark:prose-p:text-muted prose-p:leading-relaxed
                 prose-strong:text-foreground dark:prose-strong:text-white
-                prose-img:rounded-xl prose-img:shadow-md prose-img:max-w-full prose-img:h-auto
+                prose-img:rounded-2xl prose-img:shadow-sm prose-img:max-w-full prose-img:h-auto
                 prose-a:text-primary prose-a:no-underline hover:prose-a:underline
                 prose-li:text-muted dark:prose-li:text-muted
-                prose-pre:overflow-x-auto prose-pre:max-w-full"
+                prose-blockquote:border-primary prose-blockquote:text-foreground
+                prose-pre:overflow-x-auto prose-pre:max-w-full
+                prose-table:overflow-x-auto prose-table:block prose-table:w-full"
             dangerouslySetInnerHTML={{ __html: blog.content }}
           />
         </div>
       </article>
 
-      {/* Return to Blog Section */}
-      <div className="mt-10 p-6 md:p-10 bg-primary/5 dark:bg-white/5 rounded-2xl border border-primary/10 flex flex-col md:flex-row items-center justify-between gap-8">
-        <div className="flex items-center gap-6">
-          <div className="size-14 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
-            <SiteIcon className="text-3xl">newspaper</SiteIcon>
+      {/* Back / shop banner */}
+      <div className="mt-10 p-10 md:p-16 bg-[#121714] rounded-[3rem] text-center text-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 size-80 bg-primary/20 blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+        <div className="absolute bottom-0 left-0 size-80 bg-primary/10 blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
+        <div className="relative z-10 max-w-lg mx-auto space-y-6">
+          <div className="size-20 bg-primary rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-primary/30">
+            <SiteIcon className="text-4xl">newspaper</SiteIcon>
           </div>
-          <div>
-            <h3 className="text-xl font-medium text-foreground dark:text-foreground">
-              Stay Updated
-            </h3>
-            <p className="text-sm text-muted font-medium">
-              Read more articles on technology and trends.
-            </p>
+          <h2 className="text-3xl md:text-4xl font-medium italic">Keep reading</h2>
+          <p className="text-white/60 font-medium">
+            Explore more guides on laptops, technology and smart buying.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3 pt-2">
+            <Link href="/blog" className="inline-flex h-12 items-center gap-2 rounded-xl bg-primary px-6 text-sm font-bold text-white transition-all hover:bg-primary/90 active:scale-95">
+              <SiteIcon className="text-base">arrow_back</SiteIcon> Back to Blog
+            </Link>
+            <Link href="/shop" className="inline-flex h-12 items-center gap-2 rounded-xl border border-white/20 px-6 text-sm font-bold text-white transition-all hover:bg-white/10 active:scale-95">
+              Shop Now
+            </Link>
           </div>
         </div>
-        <Link
-          href="/blog"
-          className="text-sm font-medium uppercase tracking-widest text-foreground dark:text-foreground hover:text-primary transition-colors flex items-center gap-2"
-        >
-          Back to Blog{" "}
-          <SiteIcon >arrow_forward</SiteIcon>
-        </Link>
       </div>
     </main>
   );

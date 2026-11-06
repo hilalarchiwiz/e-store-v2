@@ -6,6 +6,8 @@ import prisma from "@/lib/prisma";
 import { slugify } from "@/lib/helper";
 import { revalidatePath, updateTag } from "next/cache";
 import { withPermission } from "@/lib/action-utils";
+import { getUserPermissions } from "@/lib/auth-utils";
+import { getProductFieldAccess, permissionsFor } from "@/lib/product-permissions";
 import { ProductSchema } from "../validations/product";
 import { ProductStatus } from "@prisma/client";
 
@@ -411,13 +413,16 @@ export async function saveProductDraft(productId: number | null, formData: FormD
 }
 
 export async function updateProductPrice(productId: number, price: number, discountedPrice: number | null) {
-    return await withPermission('product_update', async () => {
+    return await withPermission(permissionsFor('price', 'discount'), async () => {
+        const access = getProductFieldAccess(await getUserPermissions());
+        // Only write the fields this user is allowed to change.
+        const data: { price?: number; discountedPrice?: number | null } = {};
+        if (access.price) data.price = price;
+        if (access.discount) data.discountedPrice = discountedPrice;
+
         await prisma.product.update({
             where: { id: productId },
-            data: {
-                price,
-                discountedPrice,
-            }
+            data,
         });
 
         revalidatePath('/admin/products');
@@ -459,7 +464,7 @@ export async function getGradingsBySearch({
 }
 
 export async function updateProductGrading(productId: number, gradingId: number | null) {
-    return await withPermission('product_update', async () => {
+    return await withPermission(permissionsFor('grading'), async () => {
         await prisma.product.update({
             where: { id: productId },
             data: {
@@ -471,4 +476,4 @@ export async function updateProductGrading(productId: number, gradingId: number 
         updateTag('products');
         return { success: true, message: "Grading assigned successfully." };
     });
-}
+}

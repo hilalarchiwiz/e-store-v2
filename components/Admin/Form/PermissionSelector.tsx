@@ -7,6 +7,13 @@ interface Props {
     initialPermissions?: string[];
 }
 
+// product_update_price -> "Update: price"; category_view -> "View"
+function permissionLabel(perm: string) {
+    const [, action, ...rest] = perm.split('_');
+    if (!action) return perm;
+    return rest.length ? `${action}: ${rest.join(' ')}` : action;
+}
+
 export default function PermissionSelector({ initialPermissions = [] }: Props) {
     // Initialize state with the permissions passed from the server
     const [selected, setSelected] = useState<string[]>(initialPermissions);
@@ -88,7 +95,7 @@ export default function PermissionSelector({ initialPermissions = [] }: Props) {
                                             className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                                         />
                                         <span className="text-sm text-gray-600 group-hover:text-gray-900 capitalize">
-                                            {perm.split('_')[1] || perm}
+                                            {permissionLabel(perm)}
                                         </span>
                                     </label>
                                 ))}

@@ -79,7 +79,12 @@ export const permissionModules = [
     },
     {
         module: "Products",
-        permissions: ["product_view", "product_create", "product_update", "product_delete"],
+        permissions: [
+            "product_view", "product_create", "product_update", "product_delete",
+            // Field-level edit permissions (product_update = all of these + full edit form)
+            "product_update_title", "product_update_description", "product_update_price",
+            "product_update_discount", "product_update_quantity", "product_update_seo", "product_update_grading",
+        ],
     },
     {
         module: "Sliders",

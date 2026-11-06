@@ -5,7 +5,7 @@ import generateSession from "./generate-session";
 type ActionFunction<T> = (...args: any[]) => Promise<T>;
 
 export async function withPermission<T>(
-    permission: string,
+    permission: string | string[],
     action: ActionFunction<T>
 ): Promise<any> { // Returns a consistent response format
     try {

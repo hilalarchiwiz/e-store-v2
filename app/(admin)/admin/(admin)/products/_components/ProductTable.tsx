@@ -20,6 +20,7 @@ import ProductQuickEditModal, {
   type QuickEditProduct,
 } from "./ProductQuickEditModal";
 import ProductEditDropdown from "./ProductEditDropdown";
+import type { ProductFieldAccess } from "@/lib/product-permissions";
 import ProductSeoEditModal, { type SeoEditProduct } from "./ProductSeoEditModal";
 import ProductContentEditModal, { type ContentEditProduct } from "./ProductContentEditModal";
 
@@ -29,6 +30,8 @@ interface ProductTableProps {
   limit: number;
   showOutOfStock: boolean;
   canEdit: boolean;
+  canFullEdit: boolean;
+  fieldAccess: ProductFieldAccess;
   canDelete: boolean;
   canView: boolean;
 }
@@ -39,6 +42,8 @@ export default function ProductTable({
   limit,
   showOutOfStock,
   canEdit,
+  canFullEdit,
+  fieldAccess,
   canDelete,
   canView,
 }: ProductTableProps) {
@@ -81,7 +86,7 @@ export default function ProductTable({
   };
 
   const productColumns = [
-    ...(canEdit ? [{
+    ...(canFullEdit ? [{
       header: "Select",
       accessor: (product: any) => (
         <input type="checkbox" aria-label={`Select ${product.title}`}
@@ -154,6 +159,8 @@ export default function ProductTable({
                 <ProductEditDropdown
                   productId={product.id}
                   productTitle={product.title}
+                  access={fieldAccess}
+                  canFullEdit={canFullEdit}
                   onSeo={() => setSelectedProductForSeoEdit(product)}
                   onContent={() => setSelectedProductForContentEdit(product)}
                   onQuickEdit={() => setSelectedProductForQuickEdit(product)}
@@ -173,7 +180,7 @@ export default function ProductTable({
 
   return (
     <>
-      {canEdit && (
+      {canFullEdit && (
         <div className="space-y-3 border-b px-6 py-4">
           <p className="text-sm text-gray-600">Select out-of-stock products to hide (inactive) or show (active). Drafts cannot be selected. Hidden products remain inactive after restocking.</p>
           {!showOutOfStock && <p className="text-sm text-amber-700">The global visibility setting currently hides all out-of-stock products, including active ones. Enable “Show out-of-stock products” in Product Visibility settings to display active products.</p>}
@@ -204,6 +211,7 @@ export default function ProductTable({
       {selectedProductForContentEdit && (
         <ProductContentEditModal
           key={selectedProductForContentEdit.id}
+          canTitle={fieldAccess.title}
           product={selectedProductForContentEdit}
           onClose={() => setSelectedProductForContentEdit(null)}
         />
@@ -212,6 +220,8 @@ export default function ProductTable({
       {selectedProductForQuickEdit && (
         <ProductQuickEditModal
           product={selectedProductForQuickEdit}
+          canTitle={fieldAccess.title}
+          canQuantity={fieldAccess.quantity}
           onClose={() => setSelectedProductForQuickEdit(null)}
         />
       )}
@@ -219,6 +229,8 @@ export default function ProductTable({
       {selectedProductForPrice && (
         <PriceModal
           product={selectedProductForPrice}
+          canPrice={fieldAccess.price}
+          canDiscount={fieldAccess.discount}
           onClose={() => setSelectedProductForPrice(null)}
         />
       )}
@@ -242,9 +254,13 @@ export default function ProductTable({
 
 function PriceModal({
   product,
+  canPrice,
+  canDiscount,
   onClose,
 }: {
   product: any;
+  canPrice: boolean;
+  canDiscount: boolean;
   onClose: () => void;
 }) {
   const [price, setPrice] = useState(product.price);
@@ -309,6 +325,7 @@ function PriceModal({
             </label>
             <input
               id="price"
+              disabled={!canPrice}
               type="text"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
@@ -327,6 +344,7 @@ function PriceModal({
             </label>
             <input
               id="discount_price"
+              disabled={!canDiscount}
               type="text"
               value={discountedPrice}
               onChange={(e) => setDiscountedPrice(e.target.value)}
