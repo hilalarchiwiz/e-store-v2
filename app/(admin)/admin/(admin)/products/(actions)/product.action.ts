@@ -87,6 +87,49 @@ function extractAndValidateProductData(formData: FormData): ProductUpdateData {
     };
 }
 
+// Lenient version of extractAndValidateProductData for drafts: every field is optional.
+function extractDraftProductData(formData: FormData) {
+    const str = (key: string) => String(formData.get(key) ?? '').trim();
+    const num = (key: string) => {
+        const n = Number(str(key));
+        return str(key) && !isNaN(n) ? n : null;
+    };
+    const id = (key: string) => {
+        const n = parseInt(str(key));
+        return isNaN(n) ? null : n;
+    };
+
+    const title = str('title') || 'Untitled Draft';
+    const specifications: Record<string, string> = {};
+    for (const [key, value] of formData.entries()) {
+        if (key.startsWith('spec-key-') && value) {
+            const specValue = formData.get(`spec-value-${key.replace('spec-key-', '')}`);
+            if (specValue) specifications[value.toString()] = specValue.toString();
+        }
+    }
+
+    return {
+        title,
+        slug: slugify(title),
+        titleFont: str('titleFont') || 'Inter',
+        description: str('description'),
+        metaDescription: str('metaDescription') || null,
+        metaKeywords: str('metaKeywords') || null,
+        warranty: str('warranty'),
+        price: num('price') ?? 0,
+        discountedPrice: num('discount_price'),
+        quantity: num('quantity') ?? 0,
+        brandId: id('brand_id'),
+        categoryId: id('category_id'),
+        subCategoryId: id('subcategory_id'),
+        gradingId: id('grading_id'),
+        status: ProductStatus.draft,
+        images: formData.getAll('images') as string[],
+        specifications,
+        additionalInfo: str('additional_information'),
+    };
+}
+
 // Helper to parse dynamic specs from FormData before Zod validation
 function getRawData(formData: FormData) {
     const raw: any = Object.fromEntries(formData.entries());
@@ -197,8 +240,19 @@ export async function getAllProducts(searchParams: { search?: string; page?: str
 export async function createProduct(prevData: any, formData: FormData) {
     // Permission check inside the logic
     return await withPermission('product_create', async () => {
-        const validatedFields = ProductSchema.safeParse(getRawData(formData));
         const productId = formData.get('productId');
+
+        // "Save as Draft": no strict validation, keep the product hidden as a draft.
+        if (formData.get('intent') === 'draft') {
+            const data = extractDraftProductData(formData);
+            const product = productId
+                ? await prisma.product.update({ where: { id: Number(productId) }, data })
+                : await prisma.product.create({ data });
+            revalidatePath('/admin/products');
+            return { success: true, id: product.id, message: 'Product saved as draft' };
+        }
+
+        const validatedFields = ProductSchema.safeParse(getRawData(formData));
         if (!validatedFields.success) {
             const errors = validatedFields.error.flatten().fieldErrors;
             const firstErrorField = Object.keys(errors)[0] as keyof typeof errors;
