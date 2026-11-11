@@ -12,6 +12,8 @@ interface FormWrapperProps {
     buttonTitle: string;
     successMessage?: string;
     href: string;
+    /** Extra buttons rendered between Cancel and the primary submit button. */
+    extraActions?: React.ReactNode;
 }
 
 const FormWrapper = ({
@@ -19,7 +21,8 @@ const FormWrapper = ({
     action,
     buttonTitle,
     successMessage,
-    href
+    href,
+    extraActions
 }: FormWrapperProps) => {
     const router = useRouter();
     const [state, formAction, isPending] = useActionState(action, null);
@@ -45,6 +48,7 @@ const FormWrapper = ({
                     >
                         Cancel
                     </Link>
+                    {extraActions}
                     <SubmitButton
                         title={buttonTitle}
                     />

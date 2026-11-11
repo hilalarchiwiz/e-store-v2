@@ -12,6 +12,7 @@ import FormTextarea from '@/components/Admin/Form/Textarea';
 import FontPicker from '@/components/Common/FontPicker';
 import { RoleGuard } from '@/components/Admin/Common/RoleGuard';
 import CreateProduct from '../_components/CreateProduct';
+import { SaveDraftButton } from '@/components/Admin/SaveDraftButton';
 
 export async function generateMetadata() {
     return {
@@ -34,7 +35,8 @@ export default function CreateProductPage() {
                     buttonTitle="Create Product"
                     successMessage="Product created successfully!"
                     href="/admin/products"
-                    action={createProduct} >
+                    action={createProduct}
+                    extraActions={<SaveDraftButton />} >
 
                     <CreateProduct />
                 </FormWrapper>
