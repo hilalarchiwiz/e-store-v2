@@ -55,6 +55,20 @@ h1,h2{
   white-space: normal !important;
 }
 
+/* Pasted content (Word/Google Docs) often carries inline dark text colors
+   and white backgrounds that become unreadable in dark mode. */
+.dark .product-rich-text [style*="color"] {
+  color: inherit !important;
+}
+
+.dark .product-rich-text :where(h1, h2, h3, h4, h5, h6, strong, b, a)[style*="color"] {
+  color: var(--tw-prose-invert-headings, #fff) !important;
+}
+
+.dark .product-rich-text [style*="background"] {
+  background-color: transparent !important;
+}
+
 .product-rich-text pre,
 .product-rich-text pre * {
   white-space: pre-wrap !important;
