@@ -360,7 +360,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           </div>
 
           <div
-            className="product-rich-text prose max-w-none text-sm sm:text-base text-muted dark:text-muted leading-relaxed font-medium whitespace-pre-line"
+            className="product-rich-text prose dark:prose-invert max-w-none text-sm sm:text-base text-muted dark:text-muted leading-relaxed font-medium whitespace-pre-line"
             dangerouslySetInnerHTML={{ __html: product.description }}
           />
 
